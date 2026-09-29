@@ -58,6 +58,23 @@ The header's search icon opens a search modal served by EmDash's first-party `ai
 2. `pnpm deploy`, then open **Cloudflare AI Search** in the admin: select **Fix metadata** if it asks, keep Posts and Pages selected, and select **Sync Content**. After that, content is indexed when it's published and removed when it's unpublished or deleted.
 3. Result links follow `urlTemplates` in `astro.config.mjs` (posts live under `/blog`).
 
+Locally, search is off. AI Search bindings only exist remotely, and `astro.config.mjs` sets `remoteBindings: false`, so `pnpm dev` answers searches with "Search is temporarily unavailable". With remote bindings on, content saved in the local database would be indexed into the production instance.
+
+## Caching and photos
+
+- **Pages come from Cloudflare's edge cache** (Workers Cache, `cache` in `astro.config.mjs`), so most visits don't start the Worker.
+  - A page stays fresh for 5 minutes. After that it's served stale for up to a day while it refreshes in the background.
+  - EmDash purges a page as soon as its content, a menu or the site settings change.
+  - Search results and the 404 page are kept for a minute only, because publishing doesn't purge them.
+  - Each deployment starts with an empty cache.
+- **Signed in, you may see the cached public version of a page,** without the editing toolbar. Add a query string such as `?fresh=1` for a copy rendered for you.
+- **With the cache on, every request counts toward the Workers request allowance,** including static files, which are otherwise free. The Paid plan includes 10 million requests a month, and cache hits use no CPU time.
+- **Photos in `public/images` are resized at the edge** by Cloudflare Image Transformations.
+  - `srcset` in `src/lib/photos.ts` points at `/cdn-cgi/image/...`, which serves AVIF or WebP.
+  - Keep Transformations enabled for the zone. The bundled photos need about 70 of the free 5,000 unique transformations a month, and `onerror=redirect` falls back to the original file.
+  - Locally, `src/pages/cdn-cgi/image/[...path].ts` redirects those URLs to the original.
+- **Browser caching** (`public/_headers`): browsers keep photos and brand files for a week. Files under `/_astro/` are kept for a year, because their names change with their content.
+
 ## Editing pages
 
 | Block | Use |

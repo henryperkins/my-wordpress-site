@@ -26,11 +26,8 @@ interface Props {
 
 const { title, pageTitle, description, image, canonical, robots, type = "website", content } = Astro.props;
 
-const [settingsResult, { menus, hints }] = await Promise.all([getSiteSettingsWithCacheHint(), loadMenus()]);
-if (Astro.cache?.enabled) {
-	Astro.cache.set(settingsResult.cacheHint);
-	for (const hint of hints) Astro.cache.set(hint);
-}
+// Cache hints set here would arrive after the headers are sent; pages set them through lib/cache.ts instead.
+const [settingsResult, { menus }] = await Promise.all([getSiteSettingsWithCacheHint(), loadMenus()]);
 
 const settings = settingsResult.data;
 const siteTitle = settings?.title || "Lakefront Digital";
@@ -74,7 +71,7 @@ const columns = [
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<script is:inline>document.documentElement.classList.add("js");</script>
 		<Font cssVariable="--font-display" preload />
-		<Font cssVariable="--font-body" preload />
+		<Font cssVariable="--font-body" preload={[{ style: "normal" }]} />
 		<link rel="icon" href={settings?.favicon?.url || "/favicon.png"} />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<link rel="alternate" type="application/rss+xml" title={`${siteTitle} blog`} href="/rss.xml" />

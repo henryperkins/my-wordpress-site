@@ -9,11 +9,13 @@ import SearchForm from "../components/SearchForm.astro";
 import { linkAttrs } from "../lib/menus";
 import { postPath } from "../lib/posts";
 import { truncate } from "../lib/text";
+import { cachePage } from "../lib/cache";
 
 export const prerender = false;
 
 // Full-text search over published pages and blog posts. Blocks aren't indexed, so each page's Summary and
-// Search keywords fields carry what it should be found by.
+// Search keywords fields carry what it should be found by. Publishing doesn't purge result pages, so the edge
+// cache keeps them for a minute only.
 const query = (Astro.url.searchParams.get("q") ?? "").trim().slice(0, 200);
 const pathFor = (slug?: string | null) => (!slug || slug === "home" ? "/" : `/${slug}`);
 const resultPath = (collection: string, slug?: string | null) => (collection === "posts" ? postPath(slug) : pathFor(slug));
@@ -42,6 +44,8 @@ const browse = query
 				icon: ICONS[entry.id] ?? (entry.data.template === "legal" ? "file-text" : "panels-top-left"),
 			}))
 			.sort((a, b) => (a.href === "/" ? -1 : b.href === "/" ? 1 : a.title.localeCompare(b.title)));
+
+await cachePage(Astro, { maxAge: 60 });
 ---
 
 <Base title={query ? `Search: ${query}` : "Search"} description="Search the site." robots={query ? "noindex" : undefined}>

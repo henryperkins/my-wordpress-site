@@ -4,6 +4,7 @@ import Base from "../layouts/Base.astro";
 import Button from "../components/Button.astro";
 import PageBlocks from "../components/PageBlocks.astro";
 import PageIntro from "../components/PageIntro.astro";
+import { cachePage } from "../lib/cache";
 
 // The home page is the page with the slug "home" (sample content creates it).
 const { entry: page, cacheHint } = await getEmDashEntry("pages", "home");
@@ -20,6 +21,8 @@ const seo = page
 			defaultDescription: page.data.summary || settings?.tagline || undefined,
 		})
 	: null;
+
+await cachePage(Astro);
 ---
 
 {

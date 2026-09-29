@@ -25,3 +25,20 @@ export const PHOTOS: Record<string, BundledPhoto> = {
 
 export const photoFor = (key?: string | null, fallback = "shore"): BundledPhoto =>
 	PHOTOS[key ?? ""] ?? PHOTOS[fallback] ?? PHOTOS.shore;
+
+// Cloudflare Image Transformations resizes the originals at the edge and sends AVIF or WebP to browsers that take them.
+// pages/cdn-cgi/image/[...path].ts answers the same URLs locally, where there is no resizer.
+const WIDTHS = [480, 640, 800, 1000, 1200, 1600, 2000];
+const resized = (src: string, width: number) => `/cdn-cgi/image/width=${width},quality=75,format=auto,fit=scale-down,onerror=redirect${src}`;
+
+/** Resized copies at the standard widths below the photo's own, plus one at its own width. */
+export const srcsetFor = (photo: BundledPhoto): string =>
+	[...WIDTHS.filter((width) => width < photo.width), photo.width].map((width) => `${resized(photo.src, width)} ${width}w`).join(", ");
+
+/** How wide photos render, so the browser picks the smallest copy that stays sharp. Panels stack below 960px. */
+export const SIZES = {
+	panel: "(max-width: 960px) calc(100vw - 40px), 540px",
+	container: "(max-width: 1200px) calc(100vw - 40px), 1120px",
+	card: "(max-width: 700px) calc(100vw - 40px), (max-width: 1080px) calc(50vw - 40px), 380px",
+	viewport: "100vw",
+};

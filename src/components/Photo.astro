@@ -1,18 +1,20 @@
 ---
 import { Image } from "emdash/ui";
-import { photoFor } from "../lib/photos";
+import { SIZES, photoFor, srcsetFor } from "../lib/photos";
 import type { EmDashImage } from "../lib/types";
 
-// An uploaded image wins; otherwise the block's bundled photo (public/images) is used.
+// An uploaded image wins; otherwise the block's bundled photo (public/images) is used, resized at the edge.
 interface Props {
 	image?: EmDashImage | null;
 	photo?: string | null;
 	fallback?: string;
 	priority?: boolean;
 	class?: string;
+	/** How wide the bundled photo renders (lib/photos SIZES); defaults to a two-column panel. */
+	sizes?: string;
 }
 
-const { image, photo, fallback = "shore", priority = false, class: className } = Astro.props;
+const { image, photo, fallback = "shore", priority = false, class: className, sizes = SIZES.panel } = Astro.props;
 const bundled = photoFor(photo, fallback);
 ---
 
@@ -22,6 +24,8 @@ const bundled = photoFor(photo, fallback);
 	) : (
 		<img
 			src={bundled.src}
+			srcset={srcsetFor(bundled)}
+			sizes={sizes}
 			alt={bundled.alt}
 			width={bundled.width}
 			height={bundled.height}

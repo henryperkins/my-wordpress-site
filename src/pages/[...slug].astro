@@ -3,6 +3,7 @@ import { decodeSlug, getEmDashEntry, getSeoMeta, getSiteSettings } from "emdash"
 import Base from "../layouts/Base.astro";
 import LegalPage from "../components/LegalPage.astro";
 import PageBlocks from "../components/PageBlocks.astro";
+import { cachePage } from "../lib/cache";
 
 // Every page in the "pages" collection, at /{slug}. Layout "blocks" renders Lakefront blocks; "legal" the legal layout.
 const slug = decodeSlug(Astro.params.slug);
@@ -21,6 +22,8 @@ const seo = getSeoMeta(page, {
 	defaultDescription: page.data.summary || undefined,
 });
 const legal = page.data.template === "legal";
+
+await cachePage(Astro);
 ---
 
 <Base title={seo.title} pageTitle={seo.ogTitle} description={seo.description} canonical={seo.canonical} robots={seo.robots} type={legal ? "article" : "website"} content={{ collection: "pages", id: page.data.id, slug }}>

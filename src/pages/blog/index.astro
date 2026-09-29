@@ -5,6 +5,7 @@ import BlogList from "../../components/BlogList.astro";
 import PageBlocks from "../../components/PageBlocks.astro";
 import PageIntro from "../../components/PageIntro.astro";
 import { BLOG_PATH, PAGE_SIZE } from "../../lib/posts";
+import { cachePage } from "../../lib/cache";
 
 // The blog index. Its intro (eyebrow, title, summary) and any blocks below the posts come from the page with the slug "blog".
 const cursor = Astro.url.searchParams.get("cursor") || undefined;
@@ -34,6 +35,8 @@ const title = page?.data.title || "Blog";
 const seo = page
 	? getSeoMeta(page, { siteTitle, siteUrl: Astro.url.origin, path: BLOG_PATH, defaultDescription: page.data.summary || undefined })
 	: null;
+
+await cachePage(Astro);
 ---
 
 <Base

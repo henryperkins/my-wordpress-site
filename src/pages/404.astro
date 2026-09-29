@@ -4,7 +4,8 @@ import Base from "../layouts/Base.astro";
 import Eyebrow from "../components/Eyebrow.astro";
 import SearchForm from "../components/SearchForm.astro";
 import { linkAttrs } from "../lib/menus";
-import { photoFor } from "../lib/photos";
+import { SIZES, photoFor, srcsetFor } from "../lib/photos";
+import { cachePage } from "../lib/cache";
 
 Astro.response.status = 404;
 
@@ -13,11 +14,14 @@ const showMissing = missing !== "/404" && missing.length <= 120;
 const [primary, cta] = await Promise.all([getMenuWithCacheHint("primary"), getMenuWithCacheHint("header_cta")]);
 const links = [{ label: "Home", url: "/" }, ...(primary.data?.items ?? []), ...(cta.data?.items ?? []).slice(0, 1)];
 const photo = photoFor("alley-night");
+
+// A page published at this address later wouldn't purge a cached 404, so the edge keeps it for a minute only.
+await cachePage(Astro, { maxAge: 60 });
 ---
 
 <Base title="Page not found" robots="noindex">
 	<section class="lfw-404" data-theme="night">
-		<img class="lfw-404__img" src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} decoding="async" style={photo.position ? `object-position:${photo.position}` : undefined} />
+		<img class="lfw-404__img" src={photo.src} srcset={srcsetFor(photo)} sizes={SIZES.viewport} alt={photo.alt} width={photo.width} height={photo.height} fetchpriority="high" decoding="async" style={photo.position ? `object-position:${photo.position}` : undefined} />
 		<div class="lfw-404__shade"></div>
 		<div class="lfw-container lfw-404__in">
 			<Eyebrow rule="leading">Error 404</Eyebrow>

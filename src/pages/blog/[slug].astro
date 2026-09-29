@@ -8,9 +8,10 @@ import Icon from "../../components/Icon.astro";
 import Photo from "../../components/Photo.astro";
 import PostCard from "../../components/PostCard.astro";
 import { linkAttrs } from "../../lib/menus";
-import { photoFor } from "../../lib/photos";
+import { SIZES, photoFor } from "../../lib/photos";
 import { BLOG_PATH, categoryPath, initials, readingTime } from "../../lib/posts";
 import { formatDate } from "../../lib/text";
+import { cachePage } from "../../lib/cache";
 
 const slug = decodeSlug(Astro.params.slug);
 if (!slug) return Astro.rewrite("/404");
@@ -52,6 +53,8 @@ const seo = getSeoMeta(post, {
 	defaultDescription: post.data.excerpt || undefined,
 	defaultOgImage: ogImage,
 });
+
+await cachePage(Astro);
 ---
 
 <Base title={seo.title} pageTitle={seo.ogTitle} description={seo.description} image={seo.ogImage} canonical={seo.canonical} robots={seo.robots} type="article" content={{ collection: "posts", id: post.data.id, slug }}>
@@ -104,7 +107,7 @@ const seo = getSeoMeta(post, {
 		</header>
 		<div class="lfw-container">
 			<div class="lfw-article__hero" {...post.edit.featured_image}>
-				<Photo image={image} photo={post.data.photo} fallback="window" priority />
+				<Photo image={image} photo={post.data.photo} fallback="window" priority sizes={SIZES.container} />
 			</div>
 		</div>
 		<div class="lfw-section lfw-article__main">

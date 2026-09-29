@@ -4,6 +4,7 @@ import Base from "../../../layouts/Base.astro";
 import BlogList from "../../../components/BlogList.astro";
 import PageIntro from "../../../components/PageIntro.astro";
 import { categoryPath, PAGE_SIZE } from "../../../lib/posts";
+import { cachePage } from "../../../lib/cache";
 
 const slug = decodeSlug(Astro.params.slug);
 const termsResult = await getTaxonomyTermsWithCacheHint("category", { includeCounts: true });
@@ -20,6 +21,8 @@ if (Astro.cache?.enabled) {
 const termsFor = await getTermsForEntries("posts", list.entries.map((entry) => entry.data.id), "category");
 const categories = termsResult.data.map((item: any) => ({ slug: item.slug, label: item.label, count: item.count }));
 const description = term.description || `Posts in ${term.label}.`;
+
+await cachePage(Astro);
 ---
 
 <Base title={cursor ? `${term.label} (older posts)` : term.label} description={description} robots={cursor ? "noindex, follow" : undefined}>

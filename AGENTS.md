@@ -15,7 +15,10 @@ The admin UI is at `http://localhost:4321/_emdash/admin`.
 
 | File | Purpose |
 | --- | --- |
-| `astro.config.mjs` | Astro config: `emdash()` with D1 + R2 and the `aiSearch()` plugin, Manrope and Source Sans 3 fonts |
+| `astro.config.mjs` | Astro config: `emdash()` with D1 + R2 and the `aiSearch()` plugin, Manrope and Source Sans 3 fonts, the Workers Cache provider, and `remoteBindings: false` so `pnpm dev` never reaches the production AI Search index |
+| `src/lib/cache.ts` | `cachePage()`: lets the edge cache share a page, tagged for EmDash's purges |
+| `src/lib/photos.ts` | Bundled photos (`public/images`) and their `srcset` through Cloudflare Image Transformations; `src/pages/cdn-cgi/image/[...path].ts` answers those URLs locally |
+| `public/_headers` | Browser cache lifetime for `/images/*` and `/brand/*` |
 | `wrangler.jsonc` | D1, R2, the `AI_SEARCH` namespace binding, the `ENQUIRY_EMAIL` send_email binding and `ENQUIRY_FROM` / `ENQUIRY_TO` vars |
 | `seed/seed.json` | Block types, the `pages` collection, menus, and optional sample content |
 | `emdash-env.d.ts` | Generated types, including the `PageContentBlock` union |
@@ -43,7 +46,7 @@ The EmDash docs are available as an MCP server at `https://docs.emdashcms.com/mc
 - All content pages are server-rendered (`output: "server"`). No `getStaticPaths()` for CMS content.
 - Image fields are objects (`{ id, src, alt }`). Render them with `<Image>` from `"emdash/ui"` (see `Photo.astro`).
 - `entry.id` is the slug; `entry.data.id` is the database ULID.
-- Pass query `cacheHint`s to `Astro.cache.set()` when the route cache is enabled.
+- Pages are served from the edge cache. In page frontmatter, pass each query's `cacheHint` to `Astro.cache.set()`, then call `cachePage(Astro)` as the last statement. Hints set in layouts or components arrive after the headers are sent, and a page without `cachePage` gets no cache lifetime.
 - Every block type in `seed.json` needs a renderer in `PageBlocks.astro`; `defineBlockComponents` enforces it. Ship a renderer before activating a new block version.
 - Sanitize editor-supplied URLs with `sanitizeHref` (`cta()` and `href()` in `src/lib/text.ts` do this).
 
