@@ -1,8 +1,15 @@
+import { fileURLToPath } from "node:url";
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
 import { d1, r2, sandbox } from "@emdash-cms/cloudflare";
 import { defineConfig, fontProviders } from "astro/config";
 import emdash from "emdash/astro";
+
+// EmDash imports this from a virtual module, so a relative path will not resolve.
+// Preserve sandbox()'s check that the LOADER binding is configured.
+const sandboxRunner = sandbox()
+	? fileURLToPath(new URL("./src/lib/plugin-sandbox.ts", import.meta.url))
+	: undefined;
 
 export default defineConfig({
 	output: "server",
@@ -16,7 +23,7 @@ export default defineConfig({
 		emdash({
 			database: d1({ binding: "DB", session: "auto" }),
 			storage: r2({ binding: "MEDIA" }),
-			sandboxRunner: sandbox(),
+			sandboxRunner,
 		}),
 	],
 	// Lakefront Digital type pairing: Manrope (headings, nav, buttons) + Source Sans 3 (body, forms).
