@@ -17,54 +17,28 @@ the workaround's configuration changes.
 Wrangler observability is enabled with a sampling rate of 1 so invocation logs
 and plugin errors can be inspected after deployment.
 
-## The 100 budget is an experiment
+## The 100 budget is verified
 
 [Cloudflare documents a maximum of 32 Worker invocations per request](https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/#limits),
 with each service-binding call counting towards it. The first version of this
-workaround assumed that covers bridge calls and capped the budget at 30
-(host + plugin isolate = 2 invocations). That assumption was never tested.
+workaround assumed that covers bridge calls and capped the budget at 30.
 
-The budget is now 100 to test it. Two outcomes:
+It doesn't. On 2026-09-29 the budget was raised to 100 and tested in production.
+An admin action of about 51 bridge calls (the backfill start of the since-removed
+registry `ai-search` plugin) returned 200. Workers Logs showed no "Too many
+subrequests" or ROUTE_ERROR events.
 
-- If the ceiling applies per bridge call, the 31st call throws a platform
-  exception — the same ROUTE_ERROR surface as before, possibly with a new
-  message. Nothing gets worse; restore 30 and treat plugin-side batching as
-  the only fix.
-- If it doesn't apply, AI Search admin flows fit: settings render ~26 calls,
-  settings save ~39, backfill start/cancel ~39, reindex of this site's
-  largest collection ~48.
+## Which plugins this covers
 
-## Plugin call counts (ai-search 0.5.0, from the deployed bundle)
-
-- Settings page render: ~26 bridge calls (two 11-setting reads, backfill status)
-- Save settings: 9–13 writes, then a full re-render → ~35–39 total. Writes run
-  before the render, so a save persists even when the response fails — reload
-  and inspect before retrying.
-- Publish/save content hooks: ~15 calls — fit any budget ≥ 30.
-- Cron backfill batch: ~5–6 calls per document → ~4–5 documents per run at 30,
-  more at 100. Partial progress every minute; crash-safe and resumable.
-- Manual drain and whole-collection reindex scale with document count; keep
-  using cron backfill for those regardless of budget.
-
-Note: `selectedCollections: []` means "all collections" for publish hooks but
-an empty queue for backfill. Set e.g. `["posts","pages"]` for archive indexing.
+Only the sandboxed registry plugins: Cloudflare Email Sending and Webhook
+Notifier. Site search uses the first-party `aiSearch()` plugin in
+`astro.config.mjs`, which runs in the site Worker rather than the sandbox, so
+this budget doesn't apply to it.
 
 ## Verify after deployment
 
 1. Confirm the active deployment uses this build and has observability enabled.
-2. The decisive check for the 100 budget: save AI Search settings once.
-   - Success (toast "Settings saved", no 400): the 32-invocation ceiling does
-     not apply per bridge call; the higher budget stands.
-   - The same "Too many subrequests" ROUTE_ERROR: unexpected — inspect logs.
-   - A ROUTE_ERROR with a new platform message around the 31st call: the
-     ceiling is real; restore 30 (`lakefront-subrequests-30-v1`) and rely on
-     cron backfill + publish hooks until the plugin batches its calls.
-3. If saving errors, reload and verify the saved state before repeating the
-   operation — writes persist before the failing re-render.
-4. To index the existing archive, set Indexed collections to `["posts","pages"]`,
-   save, then Start backfill; the every-minute cron drains it in batches.
-   Verify indexing with a controlled item afterwards.
-5. Check delivery records before retrying an email test: a plugin route can
+2. Check delivery records before retrying an email test: a plugin route can
    complete its side effect and then fail while preparing the response.
 
 Local builds and mocked Loader checks do not reproduce Cloudflare's production

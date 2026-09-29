@@ -2,6 +2,7 @@ import { fileURLToPath } from "node:url";
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
 import { d1, r2, sandbox } from "@emdash-cms/cloudflare";
+import { aiSearch } from "@emdash-cms/cloudflare/plugins";
 import { defineConfig, fontProviders } from "astro/config";
 import emdash from "emdash/astro";
 
@@ -24,6 +25,14 @@ export default defineConfig({
 			database: d1({ binding: "DB", session: "auto" }),
 			storage: r2({ binding: "MEDIA" }),
 			sandboxRunner,
+			// Site search: Cloudflare AI Search through the AI_SEARCH namespace binding in wrangler.jsonc.
+			// Posts live under /blog, so their result links need their own template.
+			plugins: [
+				aiSearch({
+					instanceName: "emdash-ai-search",
+					urlTemplates: { posts: "/blog/{slug}", pages: "/{slug}" },
+				}),
+			],
 		}),
 	],
 	// Lakefront Digital type pairing: Manrope (headings, nav, buttons) + Source Sans 3 (body, forms).

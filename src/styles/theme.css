@@ -18,3 +18,12 @@
 
 :root {
 }
+
+/* AI search modal (Cloudflare's search-modal-snippet, rendered by Header.astro): brand type, the link colour
+   for its focus and URL accents (coral stays reserved for primary actions), and a layer above the header. */
+search-modal-snippet {
+  --search-snippet-font-family: var(--font-body);
+  --search-snippet-text-color: var(--text-body);
+  --search-snippet-primary-color: var(--text-link);
+  --search-snippet-z-modal: var(--z-overlay);
+}

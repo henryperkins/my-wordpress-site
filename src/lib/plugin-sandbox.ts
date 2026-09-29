@@ -3,10 +3,9 @@ import type { SandboxRunnerFactory } from "emdash";
 
 // Temporary EmDash 1.0.1 workaround: the integration never supplies runner limits.
 // Remove after https://github.com/emdash-cms/emdash/pull/3383 is released and verified.
-// Budget 100 probes whether Cloudflare's 32-Worker-invocations-per-request ceiling
-// really applies per bridge call (service-bindings docs say so; untested here).
-// If it does, calls past ~30 fail with a platform exception just like at 30 —
-// no new failure mode. If it doesn't, AI Search admin flows (~26–48 calls) fit.
+// Budget 100: verified in production on 2026-09-29 (a ~51-call admin action succeeded), so
+// Cloudflare's 32-Worker-invocations-per-request ceiling doesn't apply per bridge call.
+// See docs/plugin-sandbox.md.
 export const createSandboxRunner: SandboxRunnerFactory = (options) =>
 	createCloudflareSandboxRunner({
 		...options,

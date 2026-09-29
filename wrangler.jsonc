@@ -22,6 +22,9 @@
 			"bucket_name": "my-dash-media","preview_bucket_name": "my-dash-media",
 		},
 	],
+	// Site search (the aiSearch() plugin in astro.config.mjs). The binding reaches every instance in the
+	// "emdash" AI Search namespace, which must exist before deploying; the plugin uses emdash-ai-search.
+	"ai_search_namespaces": [{ "binding": "AI_SEARCH", "namespace": "emdash" }],
 	// Enquiry forms (Contact, Consultation) are emailed with Cloudflare Email Sending.
 	// Onboard lakefrontdigital.io to Email Sending first. Don't enable Email Routing: it takes over the
 	// domain's MX records, and the domain's mail is on Google Workspace.

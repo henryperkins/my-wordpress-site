@@ -15,8 +15,8 @@ The admin UI is at `http://localhost:4321/_emdash/admin`.
 
 | File | Purpose |
 | --- | --- |
-| `astro.config.mjs` | Astro config: `emdash()` with D1 + R2, Manrope and Source Sans 3 fonts |
-| `wrangler.jsonc` | D1, R2, the `ENQUIRY_EMAIL` send_email binding and `ENQUIRY_FROM` / `ENQUIRY_TO` vars |
+| `astro.config.mjs` | Astro config: `emdash()` with D1 + R2 and the `aiSearch()` plugin, Manrope and Source Sans 3 fonts |
+| `wrangler.jsonc` | D1, R2, the `AI_SEARCH` namespace binding, the `ENQUIRY_EMAIL` send_email binding and `ENQUIRY_FROM` / `ENQUIRY_TO` vars |
 | `seed/seed.json` | Block types, the `pages` collection, menus, and optional sample content |
 | `emdash-env.d.ts` | Generated types, including the `PageContentBlock` union |
 | `src/layouts/Base.astro` | EmDash wiring (settings, menus, page contributions), header, footer |
@@ -26,6 +26,7 @@ The admin UI is at `http://localhost:4321/_emdash/admin`.
 | `src/pages/blog/` | Blog index, category archives and articles |
 | `src/pages/rss.xml.ts` | RSS feed of the newest posts |
 | `src/pages/api/enquiry.ts` | Enquiry endpoint; sends mail via `src/lib/enquiry.ts` |
+| `src/pages/api/ai-search/search.ts` | AI search endpoint for the header's search modal (`aiSearch()` plugin; instance `emdash-ai-search` in AI Search namespace `emdash`) |
 | `src/scripts/` | Header, tabs, enquiry and legal-page behaviour (progressive enhancement) |
 
 ## Skills
@@ -59,7 +60,7 @@ A marketing site for Lakefront Digital, a Chicago web design, WordPress, hosting
 | Category | `/blog/category/[slug]` | Posts in one category |
 | Article | `/blog/[slug]` | Breadcrumb, title, byline, hero photo, Portable Text body, help card, related posts |
 | RSS | `/rss.xml` | 20 newest posts |
-| Search | `/search` | Full-text search over pages, popular searches, browse cards |
+| Search | `/search` | Full-text search over pages, popular searches, browse cards. The header's search icon opens the AI search modal instead; this page is its no-JS fallback and "see more" target |
 | 404 | fallback | Night photo, search, quick links |
 
 ## Schema
@@ -69,7 +70,7 @@ A marketing site for Lakefront Digital, a Chicago web design, WordPress, hosting
 - Block types (`lf_` prefix): hero, page_intro, card_grid, split, steps, service_tabs, spec_tabs, offer, cta_band, product, enquiry.
 - Block text conventions: lists are one item per line; pairs are `label | value`; eyebrow items are separated with `·`.
 - Menus: `primary`, `header_cta` (first item is the header button), `footer_services`, `footer_hosting`, `footer_company` (column headings come from the menu label minus `Footer:`), `footer_contact`, `footer_legal`, `search_popular`.
-- Blocks aren't searchable, so `summary` and `keywords` carry each page's search terms.
+- Blocks aren't searchable (in full-text or AI search), so `summary` and `keywords` carry each page's search terms.
 
 ## Visual character
 

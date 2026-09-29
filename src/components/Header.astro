@@ -1,4 +1,5 @@
 ---
+import AISearchSnippet from "@emdash-cms/cloudflare/plugins/ai-search/astro";
 import Button from "./Button.astro";
 import Icon from "./Icon.astro";
 import Logo from "./Logo.astro";
@@ -8,6 +9,8 @@ import type { MenuItem, SiteLogo } from "../lib/types";
 // Primary nav comes from the "primary" menu; the button is the first item of "header_cta".
 // A menu item with children (Services › All services, SEO) opens a small panel; scripts/header.ts toggles it.
 // Same markup as the design system's SiteHeader (components/site/SiteHeader.jsx).
+// The search icon links to /search; with JavaScript it opens the AI search modal instead (also Cmd/Ctrl+K).
+// The modal sits after <header>: the header's backdrop-filter would confine its fixed overlay to the bar.
 interface Props {
 	siteTitle: string;
 	logo?: SiteLogo | null;
@@ -64,7 +67,7 @@ const subItems = (item: MenuItem) => kids(item).filter((child) => pathOf(child.u
 			)
 		}
 		<div class="lfw-tools">
-			<a class="lf-iconbtn" href="/search" aria-label="Search" aria-current={current("/search")}><Icon name="search" /></a>
+			<a class="lf-iconbtn" href="/search" aria-label="Search" aria-current={current("/search")} data-ai-search-open><Icon name="search" /></a>
 			{admin && <a class="lf-iconbtn" href="/_emdash/admin" aria-label="Admin"><Icon name="settings" /></a>}
 		</div>
 		{
@@ -107,6 +110,8 @@ const subItems = (item: MenuItem) => kids(item).filter((child) => pathOf(child.u
 		}
 	</nav>
 </header>
+
+<AISearchSnippet id="lfw-ai-search" placeholder="Search services, hosting, SEO…" theme="light" seeMore="/search?q=" />
 
 <script>
 	import "../scripts/header";

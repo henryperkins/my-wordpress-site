@@ -8,7 +8,7 @@ The Lakefront Digital marketing site as an [EmDash](https://docs.emdashcms.com/t
 - **Contact and Website Consultation** with an enquiry form, emailed to you through Cloudflare Email Sending (no checkout; commerce is out of scope for now)
 - **Terms and Conditions** and **Privacy Policy** on the legal layout: numbered sections, table of contents, print
 - **Blog** with the copy book's four SEO guides: index with a featured post and category chips, category archives, articles with a help card and related posts, and an RSS feed
-- **Search** (pages and posts) and a **404** page
+- **Search** (pages and posts): an AI search modal in the header (Cloudflare AI Search, Cmd/Ctrl+K) and full-text search at `/search`; and a **404** page
 - Header and footer from CMS menus; logo, title and tagline from Site Settings
 - Vector logo (SVG) in `public/brand/`, Manrope + Source Sans 3 (Astro fonts), Lucide icons, 13 bundled photos
 
@@ -23,6 +23,7 @@ The Lakefront Digital marketing site as an [EmDash](https://docs.emdashcms.com/t
 | RSS | `/rss.xml` | 20 newest posts |
 | Search | `/search?q=` | full-text search over published pages and posts |
 | Enquiry endpoint | `POST /api/enquiry` | `src/lib/enquiry.ts` |
+| AI search endpoint | `POST /api/ai-search/search` | `aiSearch()` plugin from `@emdash-cms/cloudflare/plugins` |
 | 404 | fallback | `src/pages/404.astro` |
 
 ## Replacing the blog template in this repository
@@ -49,6 +50,14 @@ Open http://localhost:4321/_emdash/admin and complete the setup wizard. Choose t
 
 Locally, Wrangler simulates the binding and logs where it wrote the message. If the binding or vars are missing, dev logs the enquiry instead of sending; production returns an error to the visitor. The form works without JavaScript; a honeypot field drops most bots. Add Cloudflare Turnstile if spam gets through.
 
+## AI search (Cloudflare AI Search)
+
+The header's search icon opens a search modal served by EmDash's first-party `aiSearch()` plugin through the `AI_SEARCH` namespace binding. No API token is involved.
+
+1. Create the namespace named in `wrangler.jsonc` before deploying: `pnpm wrangler ai-search namespace create emdash`. The plugin creates its instance (`instanceName` in `astro.config.mjs`) on first use if it doesn't exist.
+2. `pnpm deploy`, then open **Cloudflare AI Search** in the admin: select **Fix metadata** if it asks, keep Posts and Pages selected, and select **Sync Content**. After that, content is indexed when it's published and removed when it's unpublished or deleted.
+3. Result links follow `urlTemplates` in `astro.config.mjs` (posts live under `/blog`).
+
 ## Editing pages
 
 | Block | Use |
@@ -67,7 +76,7 @@ Locally, Wrangler simulates the binding and logs where it wrote the message. If 
 
 - Text fields that take lists use one item per line, and `label | value` where two parts are needed.
 - A photo you upload replaces the block's bundled photo.
-- Blocks aren't indexed for search, so fill in each page's **Summary** and **Search keywords**.
+- Blocks aren't indexed by either search, so fill in each page's **Summary** and **Search keywords**.
 - The block that comes first provides the page's `h1` (Hero, Page intro or Service summary).
 
 ## Blog

@@ -74,3 +74,18 @@ if (header && inner) {
 	measure();
 	syncScrolled();
 }
+
+// Search icon: open the AI search modal (Header.astro) instead of navigating. Modified clicks, and
+// visitors whose modal never loads, still get the /search page.
+type SearchModal = HTMLElement & { open?: () => void };
+const searchLink = header?.querySelector<HTMLAnchorElement>("[data-ai-search-open]");
+const searchModal = document.getElementById("lfw-ai-search") as SearchModal | null;
+if (searchLink && searchModal) {
+	customElements.whenDefined("search-modal-snippet").then(() => searchLink.setAttribute("aria-haspopup", "dialog"));
+	searchLink.addEventListener("click", (event) => {
+		if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+		if (typeof searchModal.open !== "function") return;
+		event.preventDefault();
+		searchModal.open();
+	});
+}
