@@ -4,6 +4,8 @@
 	"main": "./src/worker.ts",
 	"compatibility_date": "2026-02-24",
 	"compatibility_flags": ["nodejs_compat"],
+	// Keep variables set in the dashboard (e.g. EMDASH_SITE_URL) instead of deleting them on deploy
+	"keep_vars": true,
 	"d1_databases": [
 		{
 			"binding": "DB",
@@ -16,8 +18,8 @@
 			"bucket_name": "my-dash-media","preview_bucket_name": "my-dash-media",
 		},
 	],
-	// Sandboxed plugins require Worker Loader, available on Workers paid plans. Uncomment to enable:
-	// "worker_loaders": [{ "binding": "LOADER" }],
+	// Sandboxed plugins require Worker Loader, available on Workers paid plans.
+	"worker_loaders": [{ "binding": "LOADER" }],
 	// General maintenance cron trigger
 	"triggers": {
 		"crons": ["* * * * *"],
