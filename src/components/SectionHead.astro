@@ -1,0 +1,32 @@
+---
+import Button from "./Button.astro";
+import Eyebrow from "./Eyebrow.astro";
+import type { Cta } from "../lib/text";
+
+interface Props {
+	eyebrow?: string | null;
+	headline?: string | null;
+	lead?: string | null;
+	/** Optional button beside the heading (e.g. "Book a consultation"). */
+	action?: Cta;
+}
+
+const { eyebrow, headline, lead, action } = Astro.props;
+---
+
+{
+	(eyebrow || headline || lead || action) && (
+		<div class:list={["lfw-sechead", action && "lfw-sechead--row"]}>
+			<div class="lfw-sechead__text">
+				{eyebrow && <Eyebrow rule="leading">{eyebrow}</Eyebrow>}
+				{headline && <h2 class="lfw-h2">{headline}</h2>}
+				{lead && <p class="lfw-lead">{lead}</p>}
+			</div>
+			{action && (
+				<Button href={action.url} variant="secondary" iconRight="arrow-right">
+					{action.label}
+				</Button>
+			)}
+		</div>
+	)
+}

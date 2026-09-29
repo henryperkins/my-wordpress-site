@@ -1,0 +1,73 @@
+---
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+import Logo from "./Logo.astro";
+import { isCurrent, linkAttrs } from "../lib/menus";
+import type { MenuItem, SiteLogo } from "../lib/types";
+
+// Primary nav comes from the "primary" menu; the button is the first item of "header_cta".
+interface Props {
+	siteTitle: string;
+	logo?: SiteLogo | null;
+	items: MenuItem[];
+	cta?: MenuItem;
+	admin?: boolean;
+}
+
+const { siteTitle, logo, items, cta, admin = false } = Astro.props;
+const current = (url: string) => (isCurrent(url, Astro.url) ? "page" : undefined);
+---
+
+<header class:list={["lfw-header", items.length === 0 && "lfw-header--nonav"]} data-header>
+	<div class="lfw-container lfw-header__in">
+		<a href="/" class="lfw-logo-link" aria-label={`${siteTitle}, home`}>
+			<Logo height={40} logo={logo} alt={siteTitle} />
+		</a>
+		{
+			items.length > 0 && (
+				<nav class="lfw-nav" aria-label="Primary">
+					{items.map((item) => (
+						<a {...linkAttrs(item)} aria-current={current(item.url)}>
+							{item.label}
+						</a>
+					))}
+				</nav>
+			)
+		}
+		<div class="lfw-tools">
+			<a class="lf-iconbtn" href="/search" aria-label="Search" aria-current={current("/search")}><Icon name="search" /></a>
+			{admin && <a class="lf-iconbtn" href="/_emdash/admin" aria-label="Admin"><Icon name="settings" /></a>}
+		</div>
+		{
+			cta && (
+				<Button {...linkAttrs(cta)} class="lfw-header__cta" iconRight="arrow-right">
+					{cta.label}
+				</Button>
+			)
+		}
+		<button type="button" class="lf-iconbtn lf-iconbtn--outline lfw-menu" aria-expanded="false" aria-controls="lfw-mobile-nav" aria-label="Open menu" data-menu-toggle>
+			<Icon name="menu" class="lfw-menu__open" />
+			<Icon name="x" class="lfw-menu__close" />
+		</button>
+	</div>
+	<nav class="lfw-mobile" id="lfw-mobile-nav" aria-label="Menu" hidden data-mobile-nav>
+		{
+			items.map((item) => (
+				<a {...linkAttrs(item)} aria-current={current(item.url)}>
+					{item.label}
+				</a>
+			))
+		}
+		{
+			cta && (
+				<Button {...linkAttrs(cta)} block iconRight="arrow-right">
+					{cta.label}
+				</Button>
+			)
+		}
+	</nav>
+</header>
+
+<script>
+	import "../scripts/header";
+</script>

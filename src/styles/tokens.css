@@ -1,146 +1,324 @@
 /*
-  tokens.css -- the design tokens for this template. These are the
-  defaults; to customize the site, override any variable in
-  src/styles/theme.css rather than editing this file. Declarations in
-  theme.css are unlayered, so they always beat these @layer base
-  defaults -- no specificity tricks needed.
-
-  Colors use light-dark(): the first value applies in light mode, the
-  second in dark mode. Overriding a color with a plain value changes
-  both modes at once; use light-dark(<light>, <dark>) in an override to
-  keep them distinct.
-
-  --font-body is defined by the font pipeline in astro.config.mjs, not
-  here. To swap the loaded webfont, edit the fonts entry there. To use a
-  system font, or a different face for headings only, override
-  --font-body / --font-heading in theme.css.
+  Lakefront Digital design tokens, from the design system (tokens/*.css).
+  Everything here sits in @layer base, so theme.css (unlayered) always wins.
+  Manrope and Source Sans 3 are loaded by astro.config.mjs (fonts:), which
+  sets --font-display and --font-body; the values below are fallbacks.
 */
+@layer base;
 
 @layer base {
-	:root {
-		color-scheme: light dark;
+/* Lakefront Digital — color tokens
+   Core palette sourced from the visual research report (water-texture progression
+   #075459 → #278891 → #73AFBC → #C1DCE4, plus Lake Navy and Foam White).
+   Extended steps are derived to fill gaps; they sit on the same hue path. */
+:root{
+  /* ── Core palette ───────────────────────────── */
+  --lake-navy:#082A3A;
+  --deep-water:#075459;
+  --current-teal:#278891;
+  --foam-aqua:#73AFBC;
+  --lake-mist:#C1DCE4;
+  --foam-white:#F7FAF9;
+  --white:#FFFFFF;
 
-		/* Colors */
-		--color-bg: light-dark(#ffffff, #0d0d0d);
-		--color-bg-subtle: light-dark(#fafafa, #141414);
-		--color-text: light-dark(#1a1a1a, #ededed);
-		--color-text-secondary: light-dark(#525252, #a0a0a0);
-		--color-muted: light-dark(#8b8b8b, #6b6b6b);
-		--color-border: light-dark(#e5e5e5, #2a2a2a);
-		--color-border-subtle: light-dark(#f0f0f0, #1f1f1f);
-		--color-surface: light-dark(#f7f7f7, #181818);
-		--color-brand: light-dark(#0066cc, #4d9fff);
-		--color-brand-hover: light-dark(#0052a3, #6eb0ff);
-		--color-on-brand: white;
-		--color-brand-ring: color-mix(in srgb, var(--color-brand) 25%, transparent);
+  /* ── Accents ───────────────────────────────── */
+  --sunset-coral:#F26B5B;   /* recommended accent: action */
+  --harbor-gold:#D5A33A;    /* alternate accent: premium / warning */
+  --seafoam-green:#79B89C;  /* harmonious: success */
 
-		/* EmDash search theming */
-		--emdash-search-bg: var(--color-bg);
-		--emdash-search-text: var(--color-text);
-		--emdash-search-muted: var(--color-muted);
-		--emdash-search-border: var(--color-border);
-		--emdash-search-hover: var(--color-surface);
-		--emdash-search-highlight: var(--color-text);
+  /* ── Navy ramp (dark surfaces) ─────────────── */
+  --navy-950:#05202C;
+  --navy-900:#082A3A;
+  --navy-800:#0E394C;
+  --navy-700:#17495E;
 
-		/* Typography */
-		--font-heading: var(--font-body);
-		--font-weight-heading: 600; /* h2-h6, card and list titles */
-		--font-weight-display: 700; /* h1 and large page titles */
+  /* ── Teal ramp (brand + interaction) ───────── */
+  --teal-800:#075459;
+  --teal-700:#0F666C;
+  --teal-600:#1B7880;
+  --teal-500:#278891;
+  --teal-400:#4E9DA8;
+  --teal-300:#73AFBC;
+  --teal-200:#A3CAD4;
+  --teal-100:#C1DCE4;
+  --teal-50:#E6F1F4;
 
-		/* Type scale */
-		--font-size-xs: 0.8125rem;
-		--font-size-sm: 0.875rem;
-		--font-size-base: 1rem;
-		--font-size-lg: 1.125rem;
-		--font-size-xl: 1.25rem;
-		--font-size-2xl: 1.5rem;
-		--font-size-3xl: 2rem;
-		--font-size-4xl: 2.5rem;
-		--font-size-5xl: 3.5rem;
+  /* ── Accent ramps ──────────────────────────── */
+  --coral-700:#B8392B;
+  --coral-600:#EE5E4D;
+  --coral-500:#F26B5B;
+  --coral-300:#F7A196;
+  --coral-100:#FDE7E3;
+  --gold-700:#8A6414;
+  --gold-500:#D5A33A;
+  --gold-100:#F7EDD6;
+  --seafoam-700:#2B7355;
+  --seafoam-500:#79B89C;
+  --seafoam-100:#E2F1EA;
 
-		/* Line heights */
-		--leading-tight: 1.15;
-		--leading-snug: 1.3;
-		--leading-normal: 1.5;
-		--leading-relaxed: 1.7;
+  /* ── Ink neutrals (navy-tinted greys) ──────── */
+  --ink-900:#082A3A;
+  --ink-800:#1D3A48;
+  --ink-700:#34505D;
+  --ink-600:#4A6370;
+  --ink-500:#5B707A;
+  --ink-400:#7A8E98;
+  --ink-300:#A9B8BF;
+  --ink-200:#D3DEE2;
+  --ink-100:#E9EFF1;
+  --ink-50:#F7FAF9;
 
-		/* Letter spacing */
-		--tracking-tight: -0.03em; /* h1 and large titles */
-		--tracking-snug: -0.02em; /* h2-h6, site/card titles */
-		--tracking-wide: 0.06em; /* meta labels, TOC/widget titles */
-		--tracking-wider: 0.08em; /* footer headings, section labels */
+  /* ── Logo artwork reference (do not use for UI) ─ */
+  --logo-navy:#012A53;
+  --logo-teal:#178F96;
+  --logo-sun:#FEBE38;
 
-		/* Spacing */
-		--spacing-1: 0.25rem;
-		--spacing-2: 0.5rem;
-		--spacing-3: 0.75rem;
-		--spacing-4: 1rem;
-		--spacing-5: 1.25rem;
-		--spacing-6: 1.5rem;
-		--spacing-8: 2rem;
-		--spacing-10: 2.5rem;
-		--spacing-12: 3rem;
-		--spacing-16: 4rem;
-		--spacing-20: 5rem;
-		--spacing-24: 6rem;
+  /* ── Semantic: text ────────────────────────── */
+  --text-strong:var(--lake-navy);
+  --text-body:var(--lake-navy);
+  --text-muted:var(--ink-500);
+  --text-disabled:var(--ink-300);
+  --text-link:var(--deep-water);
+  --text-link-hover:var(--lake-navy);
+  --text-brand:var(--current-teal);      /* large type / graphics only (3.99:1 on foam) */
+  --text-on-accent:var(--lake-navy);     /* on coral, gold, seafoam */
+  --text-on-brand:var(--white);          /* on navy, deep water */
+  --text-inverse:var(--foam-white);
+  --text-inverse-muted:#A7C3CC;
+  --text-inverse-link:var(--foam-aqua);
+  --text-eyebrow:var(--deep-water);
+  --rule-brand:var(--current-teal);
 
-		/* Legacy spacing aliases */
-		--spacing-xs: var(--spacing-1);
-		--spacing-sm: var(--spacing-2);
-		--spacing-md: var(--spacing-4);
-		--spacing-lg: var(--spacing-6);
-		--spacing-xl: var(--spacing-8);
-		--spacing-2xl: var(--spacing-12);
-		--spacing-3xl: var(--spacing-16);
+  /* ── Semantic: surfaces ────────────────────── */
+  --surface-canvas:var(--foam-white);
+  --surface-card:var(--white);
+  --surface-sunken:var(--teal-50);
+  --surface-mist:var(--lake-mist);
+  --surface-inverse:var(--lake-navy);
+  --surface-inverse-raised:var(--navy-800);
+  --surface-deep:var(--deep-water);
+  --surface-field:var(--white);
 
-		/* Layout */
-		--content-width: 680px; /* article/page body column */
-		--wide-width: 1200px; /* max container (home, archives) */
-		--max-width: var(--content-width);
-		--gutter-width: 200px; /* right sidebar column (TOC) on article pages */
-		--meta-col-width: 180px; /* left meta column on article pages */
-		--nav-height: 64px; /* sticky header height */
-		--search-input-width: 180px; /* nav search box width */
+  /* ── Semantic: selection controls ──────────── */
+  --control-on:var(--deep-water);
+  --control-on-fg:var(--white);
+  --control-off-track:var(--ink-400);
 
-		/* Borders & radius */
-		--radius: 4px;
-		--radius-lg: 8px;
+  /* ── Semantic: borders ─────────────────────── */
+  --border-subtle:#DCE8EC;
+  --border-default:var(--lake-mist);
+  --border-strong:var(--ink-400);        /* inputs — 3.25:1 on foam */
+  --border-inverse:rgba(193,220,228,.16);
+  --border-inverse-strong:rgba(193,220,228,.32);
 
-		/* Transitions */
-		--transition-fast: 120ms ease;
-		--transition-base: 180ms ease;
+  /* ── Semantic: actions ─────────────────────── */
+  --action-primary-bg:var(--sunset-coral);
+  --action-primary-bg-hover:var(--coral-600);
+  --action-primary-fg:var(--lake-navy);
+  --action-secondary-bg:var(--lake-navy);
+  --action-secondary-bg-hover:var(--deep-water);
+  --action-secondary-fg:var(--foam-white);
+  --action-brand-bg:var(--deep-water);
+  --action-brand-bg-hover:var(--teal-700);
+  --action-ghost-bg-hover:rgba(39,136,145,.10);
+  --focus-ring-color:var(--current-teal);
 
-		/* Avatars */
-		--avatar-size-xs: 18px; /* card byline avatars */
-		--avatar-size-sm: 20px; /* post list byline avatars */
-		--avatar-size-md: 24px; /* featured post byline avatars */
-		--avatar-size-lg: 32px; /* single post byline avatars */
+  /* ── Semantic: status ──────────────────────── */
+  --status-success-fg:var(--seafoam-700);
+  --status-success-bg:var(--seafoam-100);
+  --status-success-solid:var(--seafoam-green);
+  --status-warning-fg:var(--gold-700);
+  --status-warning-bg:var(--gold-100);
+  --status-warning-solid:var(--harbor-gold);
+  --status-danger-fg:var(--coral-700);
+  --status-danger-bg:var(--coral-100);
+  --status-danger-solid:var(--coral-700);
+  --status-info-fg:var(--deep-water);
+  --status-info-bg:var(--teal-50);
+  --status-info-solid:var(--current-teal);
 
-		/* Shadows */
-		--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-		--shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+  /* ── Overlays & protection ─────────────────── */
+  --scrim:rgba(5,32,44,.56);
+  --protect-left:linear-gradient(90deg,rgba(8,42,58,.94) 0%,rgba(8,42,58,.78) 38%,rgba(8,42,58,0) 78%);
+  --protect-bottom:linear-gradient(0deg,rgba(8,42,58,.92) 0%,rgba(8,42,58,.55) 45%,rgba(8,42,58,0) 80%);
+  --protect-full:rgba(8,42,58,.72);
+}
 
-		/* Misc */
-		--tag-padding-y: 2px; /* vertical padding on tag pills */
-	}
+/* Night-water mode — navy canvas, off-white type, aqua diagrams, coral controls.
+   Apply to a section or page: <section data-theme="night"> */
+[data-theme="night"]{
+  --text-strong:var(--foam-white);
+  --text-body:#E3EEF1;
+  --text-muted:var(--text-inverse-muted);
+  --text-disabled:#5F7C88;
+  --text-link:var(--foam-aqua);
+  --text-link-hover:var(--foam-white);
+  --text-brand:var(--foam-aqua);
+  --text-eyebrow:var(--foam-aqua);
+  --surface-canvas:var(--lake-navy);
+  --surface-field:var(--navy-950);
+  --control-on:var(--foam-aqua);
+  --control-on-fg:var(--lake-navy);
+  --control-off-track:rgba(193,220,228,.34);
+  --ring-focus:0 0 0 2px var(--lake-navy),0 0 0 4px var(--foam-aqua);
+  --surface-card:var(--navy-800);
+  --surface-sunken:var(--navy-950);
+  --border-subtle:rgba(193,220,228,.10);
+  --border-default:rgba(193,220,228,.16);
+  --border-strong:rgba(193,220,228,.40);
+  --action-secondary-bg:var(--foam-white);
+  --action-secondary-bg-hover:var(--lake-mist);
+  --action-secondary-fg:var(--lake-navy);
+  --action-ghost-bg-hover:rgba(115,175,188,.14);
+  --focus-ring-color:var(--foam-aqua);
+  --status-success-fg:#9FD3BA;
+  --status-success-bg:rgba(121,184,156,.16);
+  --status-warning-fg:#E8C57A;
+  --status-warning-bg:rgba(213,163,58,.16);
+  --status-danger-fg:var(--coral-300);
+  --status-danger-bg:rgba(242,107,91,.16);
+  --status-info-fg:var(--foam-aqua);
+  --status-info-bg:rgba(115,175,188,.14);
+}
 
-	/*
-	 * Light-mode values for browsers without light-dark() (Safari < 17.5,
-	 * Chrome < 123). Must mirror the light values above.
-	 */
-	@supports not (color: light-dark(#000, #fff)) {
-		:root {
-			color-scheme: light;
-			--color-bg: #ffffff;
-			--color-bg-subtle: #fafafa;
-			--color-text: #1a1a1a;
-			--color-text-secondary: #525252;
-			--color-muted: #8b8b8b;
-			--color-border: #e5e5e5;
-			--color-border-subtle: #f0f0f0;
-			--color-surface: #f7f7f7;
-			--color-brand: #0066cc;
-			--color-brand-hover: #0052a3;
-		}
-	}
+/* Lakefront Digital — typography tokens
+   Manrope = engineered / contemporary (headings, nav, buttons, eyebrows)
+   Source Sans 3 = readable / service-oriented (body, forms, long-form) */
+:root{
+  --font-display:"Manrope",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-body:"Source Sans 3",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:ui-monospace,monospace; /* no brand mono — system stack */
+
+  --fw-light:300;
+  --fw-regular:400;
+  --fw-medium:500;
+  --fw-semibold:600;
+  --fw-bold:700;
+  --fw-extrabold:800;
+
+  /* Size scale (px) */
+  --fs-display-xl:72px;
+  --fs-display:56px;
+  --fs-h1:44px;
+  --fs-h2:34px;
+  --fs-h3:26px;
+  --fs-h4:20px;
+  --fs-h5:17px;
+  --fs-body-lg:20px;
+  --fs-body:17px;
+  --fs-body-sm:15px;
+  --fs-caption:13px;
+  --fs-eyebrow:13px;
+  --fs-micro:11px;
+  --fs-mono:14px;
+
+  --lh-display:1.02;
+  --lh-heading:1.12;
+  --lh-snug:1.3;
+  --lh-body:1.6;
+  --lh-compact:1.45;
+
+  --ls-display:-0.03em;
+  --ls-heading:-0.018em;
+  --ls-tight:-0.01em;
+  --ls-eyebrow:0.24em;   /* echoes the spaced D I G I T A L of the wordmark */
+  --ls-caps:0.08em;
+
+  /* Composite roles — use with `font: var(--type-h1)` */
+  --type-display-xl:800 72px/1.02 var(--font-display);
+  --type-display:800 56px/1.05 var(--font-display);
+  --type-h1:700 44px/1.1 var(--font-display);
+  --type-h2:700 34px/1.15 var(--font-display);
+  --type-h3:700 26px/1.2 var(--font-display);
+  --type-h4:700 20px/1.3 var(--font-display);
+  --type-h5:700 17px/1.35 var(--font-display);
+  --type-lead:400 20px/1.55 var(--font-body);
+  --type-body:400 17px/1.6 var(--font-body);
+  --type-body-sm:400 15px/1.5 var(--font-body);
+  --type-caption:400 13px/1.4 var(--font-body);
+  --type-label:600 15px/1.2 var(--font-display);
+  --type-button:700 15px/1 var(--font-display);
+  --type-eyebrow:700 13px/1.2 var(--font-display);
+  --type-mono:400 14px/1.5 var(--font-mono);
+}
+
+/* Lakefront Digital — spacing, layout, radii, elevation, motion, layering */
+:root{
+  /* Spacing — 4px base */
+  --space-0:0;
+  --space-1:4px;
+  --space-2:8px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:20px;
+  --space-6:24px;
+  --space-8:32px;
+  --space-10:40px;
+  --space-12:48px;
+  --space-16:64px;
+  --space-20:80px;
+  --space-24:96px;
+  --space-32:128px;
+
+  /* Layout */
+  --container-max:1200px;
+  --container-narrow:760px;
+  --container-pad:clamp(20px,4vw,40px);
+  --grid-gutter:24px;
+  --section-y:96px;
+  --section-y-sm:64px;
+  --header-h:76px;
+
+  /* Radii — structured, softly rounded */
+  --radius-xs:4px;
+  --radius-sm:6px;
+  --radius-md:8px;
+  --radius-lg:14px;
+  --radius-xl:20px;
+  --radius-2xl:28px;
+  --radius-full:999px;
+
+  /* Elevation — navy-tinted, soft, never grey */
+  --shadow-xs:0 1px 2px rgba(8,42,58,.06);
+  --shadow-sm:0 1px 2px rgba(8,42,58,.06),0 2px 8px rgba(8,42,58,.06);
+  --shadow-md:0 2px 4px rgba(8,42,58,.05),0 10px 24px rgba(8,42,58,.09);
+  --shadow-lg:0 4px 10px rgba(8,42,58,.06),0 24px 48px rgba(8,42,58,.14);
+  --shadow-xl:0 8px 16px rgba(8,42,58,.08),0 40px 80px rgba(8,42,58,.20);
+  --shadow-inset:inset 0 1px 2px rgba(8,42,58,.08);
+  --ring-focus:0 0 0 2px var(--surface-canvas,#F7FAF9),0 0 0 4px var(--focus-ring-color,#278891);
+
+  /* Motion — "water supplies the motion": smooth decel, no bounce */
+  --ease-current:cubic-bezier(.22,.61,.36,1);
+  --ease-tide:cubic-bezier(.65,0,.35,1);
+  --ease-exit:cubic-bezier(.4,0,1,1);
+  --dur-instant:80ms;
+  --dur-fast:140ms;
+  --dur-base:220ms;
+  --dur-slow:360ms;
+  --dur-tide:640ms;
+
+  /* Layering */
+  --z-header:100;
+  --z-dropdown:500;
+  --z-overlay:1000;
+  --z-toast:1100;
+  --z-tooltip:1200;
+}
+
+
+/* Element defaults */
+*,*::before,*::after{box-sizing:border-box}
+img{max-width:100%;height:auto}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;font:var(--type-body);color:var(--text-body);background:var(--surface-canvas);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+h1,h2,h3,h4,h5,h6{font-family:var(--font-display);color:var(--text-strong);letter-spacing:var(--ls-heading);text-wrap:balance}
+p{text-wrap:pretty}
+a{color:var(--text-link);text-decoration-line:underline;text-decoration-color:color-mix(in srgb,currentColor 35%,transparent);text-decoration-thickness:1px;text-underline-offset:.2em;transition:color var(--dur-fast) var(--ease-current),text-decoration-color var(--dur-fast) var(--ease-current)}
+a:hover{color:var(--text-link-hover);text-decoration-color:currentColor}
+code,kbd,pre,samp{font-family:var(--font-mono)}
+[data-theme]{background-color:var(--surface-canvas);color:var(--text-body)}
+::selection{background:var(--lake-mist);color:var(--lake-navy)}
+:focus-visible{outline:2px solid var(--focus-ring-color);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:1ms!important;transition-duration:1ms!important}}
 }

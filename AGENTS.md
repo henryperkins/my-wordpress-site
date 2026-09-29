@@ -1,107 +1,79 @@
-This is an EmDash site -- a CMS built on Astro with a full admin UI.
+This is an EmDash site -- a CMS built on Astro with a full admin UI. It runs the Lakefront Digital theme.
 
 ## Commands
 
 ```bash
 pnpm dev              # Start the Astro dev server
+pnpm deploy           # Build and deploy to Cloudflare Workers
 npx emdash types      # Regenerate TypeScript types from a running site
+pnpm wrangler types   # Regenerate worker-configuration.d.ts after changing bindings
 ```
 
 The admin UI is at `http://localhost:4321/_emdash/admin`.
 
 ## Key Files
 
-| File                     | Purpose                                                                            |
-| ------------------------ | ---------------------------------------------------------------------------------- |
-| `astro.config.mjs`       | Astro config with `emdash()` integration, database, and storage                    |
-| `src/live.config.ts`     | EmDash loader registration (boilerplate -- don't modify)                           |
-| `seed/seed.json`         | Schema definition + demo content (collections, fields, taxonomies, menus, widgets) |
-| `emdash-env.d.ts`        | Generated types for collections (auto-regenerated on dev server start)             |
-| `src/layouts/Base.astro` | Base layout with EmDash wiring (menus, search, page contributions)                 |
-| `src/pages/`             | Astro pages -- all server-rendered                                                 |
+| File | Purpose |
+| --- | --- |
+| `astro.config.mjs` | Astro config: `emdash()` with D1 + R2, Manrope and Source Sans 3 fonts |
+| `wrangler.jsonc` | D1, R2, the `ENQUIRY_EMAIL` send_email binding and `ENQUIRY_FROM` / `ENQUIRY_TO` vars |
+| `seed/seed.json` | Block types, the `pages` collection, menus, and optional sample content |
+| `emdash-env.d.ts` | Generated types, including the `PageContentBlock` union |
+| `src/layouts/Base.astro` | EmDash wiring (settings, menus, page contributions), header, footer |
+| `src/components/PageBlocks.astro` | Maps each block `_type` to its renderer in `src/components/blocks/` |
+| `src/components/LegalPage.astro` | Legal layout for pages whose Layout is `legal` |
+| `src/pages/api/enquiry.ts` | Enquiry endpoint; sends mail via `src/lib/enquiry.ts` |
+| `src/scripts/` | Header, tabs, enquiry and legal-page behaviour (progressive enhancement) |
 
 ## Skills
 
-Agent skills are in `.agents/skills/`. Load them when working on specific tasks:
-
-- **building-emdash-site** -- Querying content, rendering Portable Text, schema design, seed files, site features (menus, widgets, search, SEO, comments, bylines). Start here.
-- **creating-plugins** -- Building EmDash plugins with hooks, storage, admin UI, API routes, and Portable Text block types.
-- **emdash-cli** -- CLI commands for content management, seeding, type generation, and visual editing flow.
+Agent skills are in `.agents/skills/`: **building-emdash-site** (start here), **creating-plugins**, **emdash-cli**.
 
 ## Documentation
 
-The EmDash docs are available as an MCP server at `https://docs.emdashcms.com/mcp`. When you need to verify an API, hook, config option, field type, or pattern, call `search_docs` against the live documentation rather than relying on training-data recall. The docs reflect current behaviour; assumptions may not.
-
-This template ships with `.mcp.json`, `.cursor/mcp.json`, and `.vscode/mcp.json` so Claude Code, Cursor, and VS Code auto-discover the docs server. Other tools (OpenCode, Windsurf, etc.) need a manual one-time setup -- see [docs.emdashcms.com/docs-mcp](https://docs.emdashcms.com/docs-mcp).
+The EmDash docs are available as an MCP server at `https://docs.emdashcms.com/mcp`. Verify APIs, field types and seed rules against the live docs rather than training-data recall.
 
 ## Rules
 
-- All content pages must be server-rendered (`output: "server"`). No `getStaticPaths()` for CMS content.
-- Image fields are objects (`{ src, alt }`), not strings. Use `<Image image={...} />` from `"emdash/ui"`.
-- `entry.id` is the slug (for URLs). `entry.data.id` is the database ULID (for API calls like `getEntryTerms`).
-- When Astro's cache is enabled, pass content-query hints to `Astro.cache.set(cacheHint)`. Use the `WithCacheHint` variants for site settings, menus, taxonomies, and widget areas rendered by cached routes.
-- Taxonomy names in queries must match the seed's `"name"` field exactly (e.g., `"category"` not `"categories"`).
+- All content pages are server-rendered (`output: "server"`). No `getStaticPaths()` for CMS content.
+- Image fields are objects (`{ id, src, alt }`). Render them with `<Image>` from `"emdash/ui"` (see `Photo.astro`).
+- `entry.id` is the slug; `entry.data.id` is the database ULID.
+- Pass query `cacheHint`s to `Astro.cache.set()` when the route cache is enabled.
+- Every block type in `seed.json` needs a renderer in `PageBlocks.astro`; `defineBlockComponents` enforces it. Ship a renderer before activating a new block version.
+- Sanitize editor-supplied URLs with `sanitizeHref` (`cta()` and `href()` in `src/lib/text.ts` do this).
 
 ## This Template
 
-A blog with posts, pages, categories, tags, full-text search, and RSS. Designed for personal writing, technical writing, indie newsletters, and anything where the writing is the product. Editorial-tech aesthetic: confident sans-serif, restrained accent, real article structure with bylines and reading time.
+A marketing site for Lakefront Digital, a Chicago web design, WordPress, hosting and SEO agency. Pages are composed from Lakefront blocks; there is no blog.
 
 ## Pages
 
-| Page        | Path               | What it shows                                                                                          |
-| ----------- | ------------------ | ------------------------------------------------------------------------------------------------------ |
-| Home        | `/`                | Featured post hero (large image + excerpt), latest posts grid                                          |
-| All posts   | `/posts`           | Article count, full post list with excerpts and tag chips                                              |
-| Post detail | `/posts/[slug]`    | Featured image, title, body, left meta column (authors + date), right TOC + search + categories gutter |
-| Search      | `/search`          | Full-text search UI                                                                                    |
-| Page        | `/pages/[slug]`    | Static page content (Portable Text)                                                                    |
-| Category    | `/category/[slug]` | Posts filtered by category                                                                             |
-| Tag         | `/tag/[slug]`      | Posts filtered by tag                                                                                  |
-| RSS         | `/rss.xml`         | Generated feed                                                                                         |
+| Page | Path | What it shows |
+| --- | --- | --- |
+| Home | `/` | Page with slug `home`: hero, services grid, about, night hosting band, consultation steps, CTA band |
+| Page | `/[...slug]` | Any page: blocks layout, or legal layout (numbered sections, TOC, print) |
+| Search | `/search` | Full-text search over pages, popular searches, browse cards |
+| 404 | fallback | Night photo, search, quick links |
 
 ## Schema
 
-- `posts` collection: `title`, `featured_image`, `content` (Portable Text), `excerpt` (text).
-- `pages` collection: `title`, `content` (Portable Text). Used for `/about` etc.
-- Taxonomies: `category`, `tag`.
-- Single `primary` menu (Home, About, Posts by default).
-
-Site settings have `title` and `tagline` -- both render in the header / footer.
+- `pages` collection: `title`, `template` (`blocks` | `legal`), `summary`, `keywords`, `content` (blocks), `eyebrow`, `effective_date`, `body` (Portable Text). The legal fields are used only by the legal layout.
+- Block types (`lf_` prefix): hero, page_intro, card_grid, split, steps, service_tabs, spec_tabs, offer, cta_band, product, enquiry.
+- Block text conventions: lists are one item per line; pairs are `label | value`; eyebrow items are separated with `·`.
+- Menus: `primary`, `header_cta` (first item is the header button), `footer_services`, `footer_hosting`, `footer_company` (column headings come from the menu label minus `Footer:`), `footer_contact`, `footer_legal`, `search_popular`.
+- Blocks aren't searchable, so `summary` and `keywords` carry each page's search terms.
 
 ## Visual character
 
-Single typeface: **Inter** on `--font-body`, used for everything including headings (`--font-heading` defaults to the body face; tighter letter-spacing on h1/h2). **JetBrains Mono** on `--font-mono` for inline code and code blocks. Body and headings share the same family; weight and size carry the hierarchy (`--font-weight-heading` 600, `--font-weight-display` 700 for h1/page titles).
-
-The brand colour is `#0066cc` (`--color-brand`) -- used for links, the post-card title hover, and the search input focus ring. There's also a secondary text colour (`--color-text-secondary`) and a `--color-muted` for meta info. Don't add a second accent.
-
-The article layout is the standout feature: a three-column reading view with a left meta column (author bylines, date), centred 680px body column, and a right gutter for search, table of contents, and categories. Don't flatten that into one column on desktop -- the layout signals "this is something to read".
+From the Lakefront Digital design system: Manrope (`--font-display`) for headings, nav, buttons and eyebrows; Source Sans 3 (`--font-body`) for body and forms. Lake Navy, Deep Water and Current Teal carry the brand; Sunset Coral is the one action colour (primary buttons). Night sections (`data-theme="night"`) flip to a navy canvas. Photos are tall, softly rounded panels.
 
 ## Customisation
 
-Design tokens live in `src/styles/tokens.css` with their default values. To restyle the site, override tokens in `src/styles/theme.css` -- declarations there are unlayered, so they always beat the `@layer base` defaults. Don't edit `tokens.css` or `Base.astro` for visual changes.
-
-Colours are defined with `light-dark(<light>, <dark>)`, so each token carries both modes. Overriding with a plain colour changes light and dark at once; use `light-dark()` in the override to keep them distinct. There is no separate dark palette to maintain.
-
-Webfonts are configured in `astro.config.mjs` under `fonts:`. To swap the body face, change the `name:` for the entry bound to `cssVariable: "--font-body"`. Good alternatives: Geist, IBM Plex Sans, Söhne (if you have a licence), Public Sans. If you want a serif-bodied blog, swap to a humanist serif like Source Serif, Crimson Pro, or Lora -- but then also raise `--font-size-base` to `1.0625rem` for readability. To give headings their own face (or use a system font) without touching the font pipeline, override `--font-heading` or `--font-body` in `theme.css`.
-
-CSS variables worth knowing (see `tokens.css` for the full list):
-
-- `--color-brand`, `--color-brand-hover`, `--color-on-brand`, `--color-brand-ring`
-- `--color-bg`, `--color-bg-subtle`, `--color-surface`, `--color-text`, `--color-text-secondary`, `--color-muted`, `--color-border`, `--color-border-subtle`
-- `--font-body`, `--font-heading`, `--font-mono`
-- `--font-weight-heading` (600) / `--font-weight-display` (700) -- heading weights; lower them if you switch to a serif
-- `--tracking-tight` / `--tracking-snug` / `--tracking-wide` / `--tracking-wider` -- letter-spacing tokens used across headings and meta labels
-- `--content-width` (680px) -- article body column
-- `--wide-width` (1200px) -- max container
-- `--gutter-width` (200px) -- right sidebar (TOC) on article pages
-- `--meta-col-width` (180px) -- left meta column on article pages
-- `--avatar-size-{xs,sm,md,lg}` -- byline avatar sizes at different scales
+Tokens are in `src/styles/tokens.css` (`@layer base`). Override them in `src/styles/theme.css`, which is unlayered and always wins. Component styles (`lf-`) are in `components.css`; layout styles (`lfw-`) in `site.css`. Fonts are configured in `astro.config.mjs`.
 
 ## What not to do
 
-- Don't add a second accent colour or coloured section backgrounds. The page should be black, white, and one blue.
-- Don't replace Inter with a display sans (Bebas, Anton, etc.). Headings rely on weight contrast, not novelty faces.
-- Don't collapse the article gutter on desktop -- it's part of the reading experience.
-- Don't use stock blog copy ("Welcome to my blog", "Stay tuned for more"). Write a real tagline that says what this blog is about.
-- Don't seed the home page with three identical placeholder posts. If you only have one real post, show one real post.
-- Comments are enabled on posts and rendered on the post detail page. Configure moderation before publishing the site, or remove `commentsEnabled` and the comments UI together.
+- Don't hard-code content that belongs in the CMS: menus, site title, tagline and page copy come from EmDash.
+- Don't add a second action colour; coral is reserved for primary actions.
+- Don't make block fields required on a populated site without backfilling content first.
+- Don't remove the no-JavaScript paths: tabs stack, the enquiry form posts normally, the legal TOC links work.

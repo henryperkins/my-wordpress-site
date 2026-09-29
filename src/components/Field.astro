@@ -1,0 +1,30 @@
+---
+import Icon from "./Icon.astro";
+
+// Field shell from the design system (Input / Select): label, control, inline error.
+interface Props {
+	id: string;
+	label: string;
+	optional?: boolean;
+	/** Form field name whose validation message renders here. */
+	error?: string;
+}
+
+const { id, label, optional = false, error } = Astro.props;
+---
+
+<div class="lf-field">
+	<label class="lf-field__label" for={id}>
+		<span>{label}</span>
+		{optional && <span class="lf-field__optional">Optional</span>}
+	</label>
+	<slot />
+	{
+		error && (
+			<p class="lf-field__error" id={`${id}-error`} data-error-for={error} hidden>
+				<Icon name="circle-alert" size={16} />
+				<span />
+			</p>
+		)
+	}
+</div>

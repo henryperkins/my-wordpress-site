@@ -1,0 +1,98 @@
+---
+import { getMenuWithCacheHint, type EditProxy } from "emdash";
+import { PortableText } from "emdash/ui";
+import type { Page } from "../../emdash-env";
+import Badge from "./Badge.astro";
+import Button from "./Button.astro";
+import HeadingIds from "./HeadingIds.astro";
+import Icon from "./Icon.astro";
+import PageIntro from "./PageIntro.astro";
+import { linkAttrs } from "../lib/menus";
+import { formatDate, headings } from "../lib/text";
+
+// Legal layout: numbered h2 sections, a table of contents, print, and a contact card from the footer_contact menu.
+interface Props {
+	page: { data: Page; edit: EditProxy };
+}
+
+const { page } = Astro.props;
+const body = page.data.body ?? [];
+const toc = headings(body);
+const effective = formatDate(page.data.effective_date);
+
+const contactResult = await getMenuWithCacheHint("footer_contact");
+if (Astro.cache?.enabled) Astro.cache.set(contactResult.cacheHint);
+const contact = contactResult.data?.items ?? [];
+const iconFor = (url: string) => (url.startsWith("mailto:") ? "mail" : url.startsWith("tel:") ? "phone" : "arrow-right");
+---
+
+<PageIntro eyebrow={page.data.eyebrow || "Legal"} title={page.data.title} lead={page.data.summary} titleAttrs={page.edit.title}>
+	<div class="lfw-legal-meta">
+		{effective && <Badge tone="info" size="lg" icon="calendar">Effective {effective}</Badge>}
+		<Button variant="ghost" size="sm" iconLeft="printer" data-print>Print</Button>
+	</div>
+</PageIntro>
+
+<section class="lfw-section">
+	<div class:list={["lfw-container", "lfw-legal", toc.length < 2 && "lfw-legal--solo"]}>
+		{
+			toc.length > 1 && (
+				<nav class="lfw-toc" aria-label="Sections" data-toc>
+					<p class="lfw-toc__label">On this page</p>
+					<div class="lfw-toc__mobile">
+						<div class="lf-field">
+							<label class="lf-field__label" for="legal-jump">Jump to section</label>
+							<div class="lf-control">
+								<select class="lf-input" id="legal-jump" data-toc-select>
+									{toc.map((heading, i) => (
+										<option value={heading.id}>
+											{i + 1}. {heading.text}
+										</option>
+									))}
+								</select>
+								<Icon name="chevron-down" size={18} class="lf-control__chev" />
+							</div>
+						</div>
+					</div>
+					<ol>
+						{toc.map((heading, i) => (
+							<li>
+								<a href={`#${heading.id}`} data-toc-link={heading.id}>
+									<span>{i + 1}</span>
+									{heading.text}
+								</a>
+							</li>
+						))}
+					</ol>
+				</nav>
+			)
+		}
+		<div class="lfw-legal__col">
+			<article class="lfw-legal__body" {...page.edit.body}>
+				<HeadingIds ids={toc.map((heading) => heading.id)}>
+					<PortableText value={body} />
+				</HeadingIds>
+			</article>
+			{
+				contact.length > 0 && (
+					<div class="lf-card lf-card--sunken lf-card--pad-lg lfw-legal__help">
+						<div class="lf-card__body">
+							<h2 class="lfw-h4">Questions about the {page.data.title}?</h2>
+							<div class="lfw-hero__ctas">
+								{contact.map((item, i) => (
+									<Button {...linkAttrs(item)} variant={i === 0 ? "secondary" : "outline"} iconLeft={iconFor(item.url)}>
+										{item.label}
+									</Button>
+								))}
+							</div>
+						</div>
+					</div>
+				)
+			}
+		</div>
+	</div>
+</section>
+
+<script>
+	import "../scripts/legal";
+</script>

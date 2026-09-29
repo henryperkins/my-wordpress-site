@@ -1,0 +1,17 @@
+---
+// Gives the rendered h2 headings ids, in document order, so the table of contents can link to them
+// without JavaScript. Ids come from headings() in lib/text, which walks the same Portable Text.
+interface Props {
+	ids: string[];
+}
+
+const { ids } = Astro.props;
+let index = 0;
+const html = Astro.slots.has("default") ? await Astro.slots.render("default") : "";
+const withIds = html.replace(/<h2\b([^>]*)>/g, (tag: string, attrs: string) => {
+	const id = ids[index++];
+	return id && !/\sid\s*=/.test(attrs) ? `<h2 id="${id}"${attrs}>` : tag;
+});
+---
+
+<Fragment set:html={withIds} />

@@ -1,0 +1,84 @@
+---
+import type { BlockComponentProps } from "emdash/ui";
+import type { PageContentBlock } from "../../../emdash-env";
+import Ctas from "../Ctas.astro";
+import Eyebrow from "../Eyebrow.astro";
+import Icon from "../Icon.astro";
+import Photo from "../Photo.astro";
+import { cta, pad2, pairs, slugify } from "../../lib/text";
+
+// Each panel's id is its anchor, so /services#seo opens the SEO tab (scripts/tabs.ts).
+type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_service_tabs" }>>;
+
+const { value, blockKey } = Astro.props;
+const uid = `tabs-${slugify(blockKey || "services")}`;
+const seen = new Set<string>();
+const services = (value.services ?? []).map((service, i) => {
+	let id = slugify(service.slug || service.tab_label || `service-${i + 1}`);
+	if (seen.has(id)) id = `${id}-${i + 1}`;
+	seen.add(id);
+	return { ...service, id, features: pairs(service.features) };
+});
+const tabbed = services.length > 1;
+const total = pad2(services.length);
+---
+
+<section class="lfw-section" id={value.anchor_id || undefined} data-tabs>
+	<div class="lfw-container">
+		{
+			tabbed && (
+				<div class="lf-tabs" role="tablist" aria-label={value.label || "Services"}>
+					{services.map((service, i) => (
+						<button type="button" role="tab" class="lf-tab" id={`${uid}-${service.id}`} aria-controls={service.id} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>
+							<Icon name={service.icon} size={18} />
+							{service.tab_label}
+						</button>
+					))}
+					<span class="lf-tabs__ink" aria-hidden="true" />
+				</div>
+			)
+		}
+		{
+			services.map((service, i) => (
+				<div class:list={["lfw-panel", i === 0 && "is-active"]} id={service.id} role={tabbed ? "tabpanel" : undefined} aria-labelledby={tabbed ? `${uid}-${service.id}` : undefined} tabindex={tabbed ? 0 : undefined}>
+					<div class="lfw-panel__copy">
+						{tabbed && (
+							<Eyebrow size="sm" tone="muted">
+								Service {pad2(i + 1)} of {total}
+							</Eyebrow>
+						)}
+						<h2 class="lfw-h2">{service.name}</h2>
+						{service.description && <p class="lfw-p">{service.description}</p>}
+						{service.features.length > 0 && (
+							<ul class="lfw-features">
+								{service.features.map(([title, text]) => (
+									<li>
+										<Icon name="check" size={20} />
+										<div>
+											<b>{title}</b>
+											{text && <span>{text}</span>}
+										</div>
+									</li>
+								))}
+							</ul>
+						)}
+						{service.benefits && (
+							<div class="lfw-benefit">
+								<Eyebrow size="sm">Benefits</Eyebrow>
+								<p>{service.benefits}</p>
+							</div>
+						)}
+						<Ctas primary={cta(service.primary_cta_label, service.primary_cta_url)} secondary={cta(service.secondary_cta_label, service.secondary_cta_url)} />
+					</div>
+					<div class="lfw-panel__media">
+						<Photo image={service.image} photo={service.photo} fallback="glass" />
+					</div>
+				</div>
+			))
+		}
+	</div>
+</section>
+
+<script>
+	import "../../scripts/tabs";
+</script>

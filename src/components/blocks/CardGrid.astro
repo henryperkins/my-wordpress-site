@@ -1,0 +1,55 @@
+---
+import type { BlockComponentProps } from "emdash/ui";
+import type { PageContentBlock } from "../../../emdash-env";
+import Badge from "../Badge.astro";
+import Icon from "../Icon.astro";
+import SectionHead from "../SectionHead.astro";
+import { href } from "../../lib/text";
+
+type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_card_grid" }>>;
+
+const { value } = Astro.props;
+const cards = value.cards ?? [];
+const roomy = cards.length <= 2;
+const grid = cards.length === 2 || cards.length === 4 ? "lfw-grid2" : "lfw-grid3";
+---
+
+<section class="lfw-section" id={value.anchor_id || undefined}>
+	<div class="lfw-container">
+		<SectionHead eyebrow={value.eyebrow} headline={value.headline} lead={value.lead} />
+		<div class={grid}>
+			{
+				cards.map((card) => {
+					const url = href(card.link_url);
+					const Card = url ? "a" : "div";
+					return (
+						<Card href={url} class:list={["lf-card", roomy && "lf-card--pad-lg", url && "lf-card--interactive"]}>
+							<div class="lf-card__body">
+								<div class="lfw-spechead">
+									<span class="lfw-tile">
+										<Icon name={card.icon} size={24} />
+									</span>
+									{card.badge && <Badge>{card.badge}</Badge>}
+								</div>
+								<h3 class="lfw-card-title">{card.title}</h3>
+								{card.text && <p class="lfw-card-text">{card.text}</p>}
+								{card.benefit && (
+									<p class="lfw-card-benefit">
+										<b>Benefit</b>
+										{card.benefit}
+									</p>
+								)}
+								{url && card.link_label && (
+									<span class="lf-btn lf-btn--link lf-btn--sm">
+										<span class="lf-btn__label">{card.link_label}</span>
+										<Icon name="arrow-right" size={16} class="lf-btn__icon-r" />
+									</span>
+								)}
+							</div>
+						</Card>
+					);
+				})
+			}
+		</div>
+	</div>
+</section>

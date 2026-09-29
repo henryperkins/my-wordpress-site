@@ -1,0 +1,30 @@
+---
+import Button from "./Button.astro";
+import type { Cta } from "../lib/text";
+
+interface Props {
+	primary?: Cta;
+	secondary?: Cta;
+	size?: "md" | "lg";
+	secondaryVariant?: "outline" | "ghost" | "secondary";
+}
+
+const { primary, secondary, size = "md", secondaryVariant = "outline" } = Astro.props;
+---
+
+{
+	(primary || secondary) && (
+		<div class="lfw-hero__ctas">
+			{primary && (
+				<Button href={primary.url} size={size} iconRight="arrow-right">
+					{primary.label}
+				</Button>
+			)}
+			{secondary && (
+				<Button href={secondary.url} size={size} variant={secondaryVariant}>
+					{secondary.label}
+				</Button>
+			)}
+		</div>
+	)
+}

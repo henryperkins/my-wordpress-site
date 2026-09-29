@@ -1,0 +1,34 @@
+---
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+
+interface Props {
+	query?: string;
+	autofocus?: boolean;
+	id?: string;
+}
+
+const { query = "", autofocus = false, id = "site-search" } = Astro.props;
+---
+
+<form class="lfw-search__form" role="search" method="get" action="/search">
+	<div class="lf-field">
+		<label class="lfw-vh" for={id}>Search the site</label>
+		<div class="lf-control">
+			<Icon name="search" size={18} class="lf-control__icon" />
+			<input
+				class="lf-input lf-input--with-icon"
+				id={id}
+				type="search"
+				name="q"
+				value={query}
+				placeholder="Search services, hosting, SEO…"
+				autocomplete="off"
+				enterkeyhint="search"
+				maxlength="200"
+				autofocus={autofocus}
+			/>
+		</div>
+	</div>
+	<Button type="submit" size="lg">Search</Button>
+</form>

@@ -1,0 +1,55 @@
+---
+import Eyebrow from "./Eyebrow.astro";
+import Logo from "./Logo.astro";
+import { linkAttrs } from "../lib/menus";
+import type { MenuItem } from "../lib/types";
+
+// Night footer. Columns come from the footer_* menus; the reversed lockup lives in public/brand.
+interface Props {
+	siteTitle: string;
+	tagline?: string;
+	columns: { heading: string; items: MenuItem[] }[];
+	legal: MenuItem[];
+	contact: MenuItem[];
+}
+
+const { siteTitle, tagline, columns, legal, contact } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="lfw-footer" data-theme="night">
+	<div class="lfw-container">
+		<div class="lfw-footer__grid">
+			<div class="lfw-footer__brand">
+				<a href="/" class="lfw-logo-link" aria-label={`${siteTitle}, home`}>
+					<Logo height={44} tone="reversed" alt={siteTitle} />
+				</a>
+				{tagline && <p>{tagline}</p>}
+			</div>
+			{
+				columns
+					.filter((column) => column.items.length > 0)
+					.map((column) => (
+						<div>
+							<h2 class="lfw-footer__h">{column.heading}</h2>
+							<ul>
+								{column.items.map((item) => (
+									<li>
+										<a {...linkAttrs(item)}>{item.label}</a>
+									</li>
+								))}
+							</ul>
+						</div>
+					))
+			}
+		</div>
+		<div class="lfw-footer__base">
+			<span class="lfw-footer__row">
+				<span>© {year} {siteTitle}</span>
+				{legal.map((item) => <a {...linkAttrs(item)}>{item.label}</a>)}
+			</span>
+			{contact.length > 0 && <span class="lfw-footer__row">{contact.map((item) => <a {...linkAttrs(item)}>{item.label}</a>)}</span>}
+			<Eyebrow size="sm" as="span" items={["Websites", "Hosting", "Growth"]} />
+		</div>
+	</div>
+</footer>

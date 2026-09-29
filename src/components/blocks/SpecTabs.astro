@@ -1,0 +1,96 @@
+---
+import type { BlockComponentProps } from "emdash/ui";
+import type { PageContentBlock } from "../../../emdash-env";
+import Icon from "../Icon.astro";
+import SectionHead from "../SectionHead.astro";
+import Tag from "../Tag.astro";
+import { list, slugify } from "../../lib/text";
+
+// Specs are grouped into tabs by their Group value. Each group's id is its anchor: "E-commerce" → /hosting#e-commerce.
+type Block = Extract<PageContentBlock, { _type: "lf_spec_tabs" }>;
+type Props = BlockComponentProps<Block>;
+type Spec = Block["specs"][number];
+
+const { value, blockKey } = Astro.props;
+const uid = `specs-${slugify(blockKey || "specs")}`;
+const groups: { name: string; id: string; specs: Spec[] }[] = [];
+for (const spec of value.specs ?? []) {
+	const name = spec.group?.trim() || "Specifications";
+	let group = groups.find((item) => item.name === name);
+	if (!group) {
+		let id = slugify(name);
+		if (groups.some((item) => item.id === id)) id = `${id}-${groups.length + 1}`;
+		group = { name, id, specs: [] };
+		groups.push(group);
+	}
+	group.specs.push(spec);
+}
+const tabbed = groups.length > 1;
+---
+
+<section class="lfw-section" id={value.anchor_id || undefined} data-tabs>
+	<div class="lfw-container">
+		{
+			(value.eyebrow || value.headline || tabbed) && (
+				<div class="lfw-sectop">
+					<SectionHead eyebrow={value.eyebrow} headline={value.headline} />
+					{tabbed && (
+						<div class="lf-tabs lf-tabs--segmented" role="tablist" aria-label={value.headline || "Specification groups"}>
+							{groups.map((group, i) => (
+								<button type="button" role="tab" class="lf-tab" id={`${uid}-${group.id}`} aria-controls={group.id} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>
+									{group.name}
+								</button>
+							))}
+							<span class="lf-tabs__ink" aria-hidden="true" />
+						</div>
+					)}
+				</div>
+			)
+		}
+		{
+			groups.map((group, i) => (
+				<div class:list={["lfw-specs", i === 0 && "is-active"]} id={group.id} role={tabbed ? "tabpanel" : undefined} aria-labelledby={tabbed ? `${uid}-${group.id}` : undefined} tabindex={tabbed ? 0 : undefined}>
+					{tabbed && <h3 class="lfw-specs__group">{group.name}</h3>}
+					{group.specs.map((spec) => {
+						const tags = list(spec.tags);
+						return (
+							<div class="lf-card lf-card--pad-lg">
+								<div class="lf-card__body">
+									<div class="lfw-spechead">
+										<span class="lfw-tile">
+											<Icon name={spec.icon} size={22} />
+										</span>
+										{spec.tip_label && spec.tip_text && (
+											<details class="lfw-tip">
+												<summary aria-label={spec.tip_label} title={spec.tip_label}>
+													<Icon name="info" size={18} />
+												</summary>
+												<p class="lfw-tip__bubble">
+													<b>{spec.tip_label}</b>
+													{spec.tip_text}
+												</p>
+											</details>
+										)}
+									</div>
+									<h3 class="lfw-card-title">{spec.title}</h3>
+									{spec.text && <p class="lfw-card-text">{spec.text}</p>}
+									{tags.length > 0 && (
+										<div class="lfw-tags">
+											{tags.map((tag) => (
+												<Tag size="sm">{tag}</Tag>
+											))}
+										</div>
+									)}
+								</div>
+							</div>
+						);
+					})}
+				</div>
+			))
+		}
+	</div>
+</section>
+
+<script>
+	import "../../scripts/tabs";
+</script>

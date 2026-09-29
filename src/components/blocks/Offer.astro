@@ -1,0 +1,49 @@
+---
+import type { BlockComponentProps } from "emdash/ui";
+import type { PageContentBlock } from "../../../emdash-env";
+import Button from "../Button.astro";
+import Icon from "../Icon.astro";
+import { cta } from "../../lib/text";
+
+type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_offer" }>>;
+
+const { value } = Astro.props;
+const action = cta(value.cta_label, value.cta_url);
+---
+
+<section class="lfw-section" id={value.anchor_id || undefined}>
+	<div class="lfw-container">
+		<div class="lf-card lf-card--sunken lf-card--pad-lg">
+			<div class="lf-card__body">
+				<div class="lfw-offer">
+					{
+						value.icon && (
+							<span class="lfw-tile lfw-tile--lg lfw-tile--card">
+								<Icon name={value.icon} size={28} />
+							</span>
+						)
+					}
+					<div class="lfw-offer__copy">
+						<h2 class="lfw-h3">{value.headline}</h2>
+						{value.text && <p class="lfw-p">{value.text}</p>}
+						{
+							value.benefit && (
+								<p class="lfw-card-benefit">
+									<b>Benefit</b>
+									{value.benefit}
+								</p>
+							)
+						}
+					</div>
+					{
+						action && (
+							<Button href={action.url} size="lg" iconRight="arrow-right">
+								{action.label}
+							</Button>
+						)
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,26 @@
+---
+import type { BlockComponentProps } from "emdash/ui";
+import type { PageContentBlock } from "../../../emdash-env";
+import PageIntro from "../PageIntro.astro";
+import { pairs } from "../../lib/text";
+
+type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_page_intro" }>>;
+
+const { value, index } = Astro.props;
+const stats = pairs(value.stats);
+---
+
+<PageIntro eyebrow={value.eyebrow} title={value.headline} lead={value.lead} night={!!value.night} id={value.anchor_id || undefined} level={index === 0 ? 1 : 2}>
+	{
+		stats.length > 0 && (
+			<div class="lfw-stats" style={`--n:${Math.min(stats.length, 4)}`}>
+				{stats.map(([figure, label]) => (
+					<div class="lfw-stat">
+						<b>{figure}</b>
+						{label && <span>{label}</span>}
+					</div>
+				))}
+			</div>
+		)
+	}
+</PageIntro>

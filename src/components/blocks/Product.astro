@@ -1,0 +1,52 @@
+---
+import type { BlockComponentProps } from "emdash/ui";
+import type { PageContentBlock } from "../../../emdash-env";
+import Ctas from "../Ctas.astro";
+import Eyebrow from "../Eyebrow.astro";
+import Icon from "../Icon.astro";
+import Photo from "../Photo.astro";
+import { cta } from "../../lib/text";
+
+// The consultation "product" layout, with an enquiry instead of checkout (commerce is out of scope).
+type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_product" }>>;
+
+const { value, index } = Astro.props;
+const Heading = index === 0 ? "h1" : "h2";
+const items = value.items ?? [];
+---
+
+<section class="lfw-section lfw-product-sec" id={value.anchor_id || undefined}>
+	<div class="lfw-container">
+		<nav class="lfw-crumbs" aria-label="Breadcrumb">
+			<a href="/">Home</a>
+			<Icon name="chevron-right" size={14} />
+			<span aria-current="page">{value.eyebrow || value.headline}</span>
+		</nav>
+		<div class="lfw-product">
+			<div class="lfw-product__media">
+				<Photo image={value.image} photo={value.photo} fallback="window" priority={index === 0} />
+			</div>
+			<div class="lfw-product__summary">
+				{value.eyebrow && <Eyebrow rule="leading">{value.eyebrow}</Eyebrow>}
+				<Heading class="lfw-h1">{value.headline}</Heading>
+				{value.intro && <p class="lfw-product__intro">{value.intro}</p>}
+				{
+					items.length > 0 && (
+						<ul class="lfw-features">
+							{items.map((item) => (
+								<li>
+									<Icon name={item.icon} size={20} />
+									<div>
+										<b>{item.label}</b>
+									</div>
+								</li>
+							))}
+						</ul>
+					)
+				}
+				{value.note && <p class="lfw-p">{value.note}</p>}
+				<Ctas primary={cta(value.primary_cta_label, value.primary_cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} size="lg" />
+			</div>
+		</div>
+	</div>
+</section>

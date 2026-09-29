@@ -1,0 +1,31 @@
+---
+interface Props {
+	items?: string[];
+	rule?: "none" | "leading" | "flanked";
+	tone?: "brand" | "muted" | "strong" | "accent";
+	size?: "sm" | "md" | "lg";
+	as?: "p" | "span" | "div";
+	class?: string;
+}
+
+const { items, rule = "none", tone = "brand", size = "md", as: Tag = "p", class: className } = Astro.props;
+const list = Array.isArray(items) && items.length > 0 ? items : null;
+const leading = rule === "leading" || rule === "flanked";
+---
+
+<Tag class:list={["lf-eyebrow", tone !== "brand" && `lf-eyebrow--${tone}`, size !== "md" && `lf-eyebrow--${size}`, list && "lf-eyebrow--list", className]}>
+	{leading && <span class="lf-eyebrow__rule" aria-hidden="true" />}
+	<span class="lf-eyebrow__text">
+		{
+			list
+				? list.map((item, i) => (
+						<Fragment>
+							{i > 0 && <span class="lf-eyebrow__sep" aria-hidden="true" />}
+							<span>{item}</span>
+						</Fragment>
+					))
+				: <slot />
+		}
+	</span>
+	{rule === "flanked" && <span class="lf-eyebrow__rule" aria-hidden="true" />}
+</Tag>

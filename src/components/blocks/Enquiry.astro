@@ -1,0 +1,192 @@
+---
+import type { BlockComponentProps } from "emdash/ui";
+import type { PageContentBlock } from "../../../emdash-env";
+import Button from "../Button.astro";
+import Eyebrow from "../Eyebrow.astro";
+import Field from "../Field.astro";
+import Icon from "../Icon.astro";
+import Photo from "../Photo.astro";
+import SectionHead from "../SectionHead.astro";
+import { cells, fillTemplate, href, lines, slugify } from "../../lib/text";
+
+// Posts to /api/enquiry, which emails the request through Cloudflare Email Sending.
+// Works without JavaScript (the endpoint redirects back with ?enquiry=sent); scripts/enquiry.ts adds inline validation.
+type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_enquiry" }>>;
+
+const { value, blockKey } = Astro.props;
+
+const anchor = value.anchor_id || "enquiry";
+const uid = `enq-${slugify(blockKey || anchor)}`;
+const page = Astro.url.pathname;
+const status = Astro.url.searchParams.get("enquiry");
+const sent = status === "sent";
+const alert =
+	status === "failed"
+		? "We couldn't send your request. Please try again, or email us directly."
+		: status === "invalid"
+			? "Add your name and an email we can reply to, then send the form again."
+			: "";
+// /contact?service=seo#enquiry ticks the matching need.
+const preset = (Astro.url.searchParams.get("service") ?? "").toLowerCase();
+
+const needs = lines(value.needs)
+	.map((line) => {
+		const [key = "", label = "", description = ""] = cells(line);
+		return { key: slugify(key || label), label: label || key, description };
+	})
+	.filter((need) => need.label);
+const platforms = lines(value.platform_options);
+const timelines = lines(value.timeline_options);
+const columns = (n: number) => (n === 4 ? "lfw-choices--4" : n === 2 ? "lfw-choices--2" : undefined);
+const successTitle = value.success_title || "Thanks, {name}. We're on it.";
+const successText = value.success_text || "Our team will review your request and reply to {email}.";
+const asideItems = value.aside ? (value.aside_items ?? []) : [];
+---
+
+<section class="lfw-section" id={anchor} data-enquiry>
+	<div class="lfw-container">
+		<SectionHead eyebrow={value.eyebrow} headline={value.headline} lead={value.lead} />
+		<div class:list={["lfw-contact", !value.aside && "lfw-contact--solo"]}>
+			<div class="lf-card lf-card--pad-lg">
+				<div class="lf-card__body">
+					<div class="lfw-done" tabindex="-1" hidden={!sent} data-enquiry-done>
+						<span class="lfw-tile lfw-tile--ok"><Icon name="circle-check" size={24} /></span>
+						<h2 class="lfw-h3" data-template={successTitle}>{fillTemplate(successTitle)}</h2>
+						<p class="lfw-p" data-template={successText}>{fillTemplate(successText)}</p>
+						<Button href={`${page}#${anchor}`} variant="ghost" data-enquiry-again>Send another request</Button>
+					</div>
+
+					<form class="lfw-form" method="post" action="/api/enquiry" hidden={sent}>
+						<input type="hidden" name="subject" value={value.subject || "Website enquiry"} />
+						<input type="hidden" name="page" value={page} />
+						<input type="hidden" name="anchor" value={anchor} />
+						<div class="lfw-hp" aria-hidden="true">
+							<label for={`${uid}-company-site`}>Leave this field empty</label>
+							<input id={`${uid}-company-site`} type="text" name="company_site" tabindex="-1" autocomplete="off" />
+						</div>
+						<p class="lfw-formerror" role="alert" hidden={!alert} data-enquiry-alert>
+							<Icon name="circle-alert" size={18} />
+							<span>{alert}</span>
+						</p>
+
+						<div class="lfw-form__row">
+							<Field id={`${uid}-name`} label="Your name" error="name">
+								<div class="lf-control">
+									<input class="lf-input" id={`${uid}-name`} name="name" type="text" autocomplete="name" placeholder="Jordan Reyes" maxlength="120" required aria-describedby={`${uid}-name-error`} />
+								</div>
+							</Field>
+							<Field id={`${uid}-email`} label="Work email" error="email">
+								<div class="lf-control">
+									<input class="lf-input" id={`${uid}-email`} name="email" type="email" autocomplete="email" placeholder="you@company.com" maxlength="200" required aria-describedby={`${uid}-email-error`} />
+								</div>
+							</Field>
+						</div>
+
+						<div class="lfw-form__row">
+							<Field id={`${uid}-website`} label="Current website" optional>
+								<div class="lf-control">
+									<Icon name="globe" size={18} class="lf-control__icon" />
+									<input class="lf-input lf-input--with-icon" id={`${uid}-website`} name="website" type="text" inputmode="url" autocomplete="url" placeholder="yourbusiness.com" maxlength="200" />
+								</div>
+							</Field>
+							{
+								timelines.length > 0 && (
+									<Field id={`${uid}-timeline`} label="Timeline" optional>
+										<div class="lf-control">
+											<select class="lf-input is-placeholder" id={`${uid}-timeline`} name="timeline">
+												<option value="">When would you like to launch?</option>
+												{timelines.map((option) => (
+													<option value={option}>{option}</option>
+												))}
+											</select>
+											<Icon name="chevron-down" size={18} class="lf-control__chev" />
+										</div>
+									</Field>
+								)
+							}
+						</div>
+
+						{
+							needs.length > 0 && (
+								<fieldset class="lfw-fieldset">
+									<legend>{value.needs_label || "What do you need?"}</legend>
+									<div class="lfw-choices">
+										{needs.map((need) => (
+											<label class="lf-choice lf-choice--card">
+												<input type="checkbox" name="needs" value={need.label} checked={need.key === preset} />
+												<span class="lf-choice__box" aria-hidden="true" />
+												<span class="lf-choice__text">
+													<span class="lf-choice__label">{need.label}</span>
+													{need.description && <span class="lf-choice__desc">{need.description}</span>}
+												</span>
+											</label>
+										))}
+									</div>
+								</fieldset>
+							)
+						}
+
+						{
+							platforms.length > 0 && (
+								<fieldset class="lfw-fieldset">
+									<legend>{value.platform_label || "Platform"}</legend>
+									<div class:list={["lfw-choices", columns(platforms.length)]}>
+										{platforms.map((option) => (
+											<label class="lf-choice lf-choice--radio lf-choice--card">
+												<input type="radio" name="platform" value={option} />
+												<span class="lf-choice__box" aria-hidden="true" />
+												<span class="lf-choice__text">
+													<span class="lf-choice__label">{option}</span>
+												</span>
+											</label>
+										))}
+									</div>
+								</fieldset>
+							)
+						}
+
+						<Field id={`${uid}-notes`} label={value.notes_label || "Project notes"} optional>
+							<textarea class="lf-input" id={`${uid}-notes`} name="notes" rows="4" maxlength="5000" placeholder={value.notes_placeholder || undefined}></textarea>
+						</Field>
+
+						<div class="lfw-form__foot">
+							{value.footnote && <span>{value.footnote}</span>}
+							<Button type="submit" size="lg" iconRight="send">{value.submit_label || "Send request"}</Button>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			{
+				value.aside && (
+					<aside class="lfw-aside" aria-label={value.aside_eyebrow || "Other ways to start"}>
+						<div class="lfw-aside__img">
+							<Photo image={value.image} photo={value.photo} fallback="dock" />
+						</div>
+						{value.aside_eyebrow && <Eyebrow rule="leading">{value.aside_eyebrow}</Eyebrow>}
+						{asideItems.length > 0 && (
+							<ul class="lfw-contact-list">
+								{asideItems.map((item) => {
+									const url = href(item.url);
+									return (
+										<li>
+											<Icon name={item.icon} size={18} />
+											<div>
+												{url ? <a href={url}>{item.title}</a> : item.title}
+												{item.note && <small>{item.note}</small>}
+											</div>
+										</li>
+									);
+								})}
+							</ul>
+						)}
+					</aside>
+				)
+			}
+		</div>
+	</div>
+</section>
+
+<script>
+	import "../../scripts/enquiry";
+</script>

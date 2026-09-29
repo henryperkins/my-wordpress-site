@@ -18,6 +18,20 @@
 			"bucket_name": "my-dash-media","preview_bucket_name": "my-dash-media",
 		},
 	],
+	// Enquiry forms (Contact, Consultation) are emailed with Cloudflare Email Sending.
+	// Onboard lakefrontdigital.io to Email Sending first. Don't enable Email Routing: it takes over the
+	// domain's MX records, and the domain's mail is on Google Workspace.
+	// ENQUIRY_FROM must be an address on that domain; ENQUIRY_TO must match destination_address.
+	"send_email": [
+		{
+			"name": "ENQUIRY_EMAIL",
+			"destination_address": "hello@lakefrontdigital.io",
+		},
+	],
+	"vars": {
+		"ENQUIRY_FROM": "website@lakefrontdigital.io",
+		"ENQUIRY_TO": "hello@lakefrontdigital.io",
+	},
 	// Sandboxed plugins require Worker Loader, available on Workers paid plans.
 	"worker_loaders": [{ "binding": "LOADER" }],
 	// General maintenance cron trigger

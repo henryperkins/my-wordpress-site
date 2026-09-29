@@ -1,0 +1,79 @@
+---
+import type { BlockComponentProps } from "emdash/ui";
+import type { PageContentBlock } from "../../../emdash-env";
+import Badge from "../Badge.astro";
+import Ctas from "../Ctas.astro";
+import Eyebrow from "../Eyebrow.astro";
+import Icon from "../Icon.astro";
+import Photo from "../Photo.astro";
+import { cta, lines, pairs, paragraphs } from "../../lib/text";
+
+// Light: the About layout (copy beside a tall photo). Night: the hosting band, with the crest watermark.
+type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_split" }>>;
+
+const { value } = Astro.props;
+const night = !!value.night;
+const flip = !!value.photo_first;
+const body = paragraphs(value.body);
+const checks = lines(value.checklist);
+const rows = pairs(value.panel_rows);
+const panel = !!value.panel_title || rows.length > 0;
+---
+
+<section class:list={["lfw-section", night && "lfw-night"]} data-theme={night ? "night" : undefined} id={value.anchor_id || undefined}>
+	{night && <img class="lfw-watermark" src="/brand/lakefront-crest.png" alt="" aria-hidden="true" width="720" height="713" loading="lazy" decoding="async" />}
+	<div class="lfw-container">
+		<div class:list={[night ? "lfw-split" : "lfw-about", flip && (night ? "lfw-split--flip" : "lfw-about--flip")]}>
+			<div class={night ? "lfw-col" : "lfw-about__copy"}>
+				{value.eyebrow && <Eyebrow rule="leading">{value.eyebrow}</Eyebrow>}
+				<h2 class="lfw-h2">{value.headline}</h2>
+				{value.lead && <p class="lfw-lead">{value.lead}</p>}
+				{body.map((text) => <p class="lfw-p">{text}</p>)}
+				{
+					checks.length > 0 && (
+						<ul class="lfw-checks lfw-checks--2">
+							{checks.map((item) => (
+								<li>
+									<Icon name="check" size={18} />
+									{item}
+								</li>
+							))}
+						</ul>
+					)
+				}
+				<Ctas primary={cta(value.primary_cta_label, value.primary_cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} secondaryVariant={night ? "ghost" : "outline"} />
+			</div>
+			<div class={night ? "lfw-night__media" : "lfw-about__media"}>
+				<Photo image={value.image} photo={value.photo} fallback={night ? "glass" : "window"} />
+				{
+					panel && (
+						<div class="lfw-night__panel">
+							<div class="lf-card lfw-statuscard">
+								<div class="lf-card__body">
+									<div class="lfw-panelhead">
+										<span>{value.panel_title}</span>
+										{value.panel_badge && (
+											<Badge tone="success" dot>
+												{value.panel_badge}
+											</Badge>
+										)}
+									</div>
+									{rows.length > 0 && (
+										<dl>
+											{rows.map(([label, detail]) => (
+												<div class="lfw-spec">
+													<dt>{label}</dt>
+													<dd>{detail}</dd>
+												</div>
+											))}
+										</dl>
+									)}
+								</div>
+							</div>
+						</div>
+					)
+				}
+			</div>
+		</div>
+	</div>
+</section>

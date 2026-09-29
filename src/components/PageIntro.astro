@@ -1,0 +1,29 @@
+---
+import Eyebrow from "./Eyebrow.astro";
+
+interface Props {
+	eyebrow?: string | null;
+	title: string;
+	lead?: string | null;
+	night?: boolean;
+	id?: string;
+	/** Adds bottom spacing when nothing follows the intro. */
+	solo?: boolean;
+	level?: 1 | 2;
+	titleAttrs?: Record<string, unknown>;
+}
+
+const { eyebrow, title, lead, night = false, id, solo = false, level = 1, titleAttrs = {} } = Astro.props;
+const Heading = level === 1 ? "h1" : "h2";
+---
+
+<section class:list={["lfw-intro", night && "lfw-intro--night", solo && "lfw-intro--solo"]} data-theme={night ? "night" : undefined} id={id}>
+	<div class="lfw-container">
+		<div class="lfw-intro__in">
+			{eyebrow && <Eyebrow rule="leading">{eyebrow}</Eyebrow>}
+			<Heading class="lfw-h1" {...titleAttrs}>{title}</Heading>
+			{lead && <p class="lfw-lead">{lead}</p>}
+			<slot />
+		</div>
+	</div>
+</section>

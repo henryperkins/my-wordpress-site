@@ -1,0 +1,49 @@
+---
+import type { BlockComponentProps } from "emdash/ui";
+import type { PageContentBlock } from "../../../emdash-env";
+import Ctas from "../Ctas.astro";
+import Eyebrow from "../Eyebrow.astro";
+import Photo from "../Photo.astro";
+import Tag from "../Tag.astro";
+import { cta, eyebrowItems, list } from "../../lib/text";
+
+type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_hero" }>>;
+
+const { value, index } = Astro.props;
+const Heading = index === 0 ? "h1" : "h2";
+const eyebrow = eyebrowItems(value.eyebrow);
+const stack = list(value.stack);
+---
+
+<section class="lfw-hero" id={value.anchor_id || undefined}>
+	<div class="lfw-container">
+		<div class="lfw-hero__grid">
+			<div class="lfw-hero__copy">
+				{eyebrow.length > 1 && <Eyebrow items={eyebrow} />}
+				{eyebrow.length === 1 && <Eyebrow rule="leading">{eyebrow[0]}</Eyebrow>}
+				<Heading class="lfw-display">
+					{value.headline}
+					{value.highlight && <Fragment>{" "}<span class="lfw-brandword">{value.highlight}</span></Fragment>}
+				</Heading>
+				{value.lead && <p class="lfw-lead">{value.lead}</p>}
+				<Ctas primary={cta(value.primary_cta_label, value.primary_cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} size="lg" />
+			</div>
+			<div class="lfw-hero__media">
+				<Photo image={value.image} photo={value.photo} fallback="shore" priority={index === 0} />
+			</div>
+		</div>
+		{
+			(value.goal || stack.length > 0) && (
+				<div class="lfw-strip">
+					{value.goal && <p class="lfw-strip__goal">{value.goal}</p>}
+					{stack.length > 0 && (
+						<div class="lfw-strip__stack">
+							{value.stack_label && <span class="lfw-strip__label">{value.stack_label}</span>}
+							{stack.map((item) => <Tag size="sm">{item}</Tag>)}
+						</div>
+					)}
+				</div>
+			)
+		}
+	</div>
+</section>

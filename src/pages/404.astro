@@ -1,33 +1,42 @@
 ---
+import { getMenuWithCacheHint } from "emdash";
 import Base from "../layouts/Base.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import SearchForm from "../components/SearchForm.astro";
+import { linkAttrs } from "../lib/menus";
+import { photoFor } from "../lib/photos";
+
+Astro.response.status = 404;
+
+const missing = Astro.originPathname || Astro.url.pathname;
+const showMissing = missing !== "/404" && missing.length <= 120;
+const [primary, cta] = await Promise.all([getMenuWithCacheHint("primary"), getMenuWithCacheHint("header_cta")]);
+const links = [{ label: "Home", url: "/" }, ...(primary.data?.items ?? []), ...(cta.data?.items ?? []).slice(0, 1)];
+const photo = photoFor("alley-night");
 ---
 
-<Base title="Page not found">
-	<div class="not-found">
-		<h1>404</h1>
-		<p>The page you're looking for doesn't exist.</p>
-		<a href="/">Go back home</a>
-	</div>
+<Base title="Page not found" robots="noindex">
+	<section class="lfw-404" data-theme="night">
+		<img class="lfw-404__img" src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} decoding="async" style={photo.position ? `object-position:${photo.position}` : undefined} />
+		<div class="lfw-404__shade"></div>
+		<div class="lfw-container lfw-404__in">
+			<Eyebrow rule="leading">Error 404</Eyebrow>
+			<h1 class="lfw-display">This page doesn't exist.</h1>
+			<p class="lfw-lead">
+				The link may be out of date, or the page may have moved.
+				{showMissing && <Fragment>{" "}We couldn't find <code>{missing}</code>.</Fragment>}
+			</p>
+			<SearchForm id="notfound-search" />
+			<div class="lfw-404__links">
+				<span>Or go to</span>
+				{
+					links.map((item) => (
+						<a class="lf-btn lf-btn--link lf-btn--sm" {...linkAttrs(item)}>
+							<span class="lf-btn__label">{item.label}</span>
+						</a>
+					))
+				}
+			</div>
+		</div>
+	</section>
 </Base>
-
-<style>
-	.not-found {
-		text-align: center;
-		padding: var(--spacing-24) var(--spacing-6);
-	}
-
-	.not-found h1 {
-		font-size: var(--font-size-5xl);
-		margin-bottom: var(--spacing-2);
-		color: var(--color-border);
-	}
-
-	.not-found p {
-		color: var(--color-muted);
-		margin-bottom: var(--spacing-6);
-	}
-
-	.not-found a {
-		color: var(--color-text);
-	}
-</style>

@@ -2,274 +2,1814 @@
 	"$schema": "https://emdashcms.com/seed.schema.json",
 	"version": "1",
 	"meta": {
-		"name": "Blog Starter",
-		"description": "A blog with posts and pages",
-		"author": "EmDash"
+		"name": "Lakefront Digital",
+		"description": "Lakefront Digital marketing site: Home, Services and Hosting built from Lakefront blocks, Contact and Consultation enquiry forms emailed through Cloudflare, Terms, search and a 404 page.",
+		"author": "Lakefront Digital"
 	},
 	"settings": {
-		"title": "My Blog",
-		"tagline": "Thoughts on building for the web"
+		"title": "Lakefront Digital",
+		"tagline": "Lakefront Digital is a technology company specializing in web design, WordPress customization and management, web hosting, and application deployment."
 	},
-	"collections": [
+	"blockTypes": [
 		{
-			"slug": "posts",
-			"label": "Posts",
-			"labelSingular": "Post",
-			"urlPattern": "/posts/{slug}",
-			"supports": ["drafts", "revisions", "preview", "scheduling", "search", "seo"],
-			"commentsEnabled": true,
-			"fields": [
+			"slug": "lf_hero",
+			"label": "Hero",
+			"description": "Home page introduction: eyebrow, headline, lead, buttons, photo and a 'Built on' strip",
+			"category": "Lakefront",
+			"currentVersion": 1,
+			"versions": [
 				{
-					"slug": "title",
-					"label": "Title",
-					"type": "string",
-					"required": true,
-					"searchable": true
-				},
-				{
-					"slug": "featured_image",
-					"label": "Featured Image",
-					"type": "image"
-				},
-				{
-					"slug": "content",
-					"label": "Content",
-					"type": "portableText",
-					"searchable": true
-				},
-				{
-					"slug": "excerpt",
-					"label": "Excerpt",
-					"type": "text"
-				}
-			]
-		},
-		{
-			"slug": "pages",
-			"label": "Pages",
-			"labelSingular": "Page",
-			"urlPattern": "/pages/{slug}",
-			"supports": ["drafts", "revisions", "preview", "search", "seo"],
-			"fields": [
-				{
-					"slug": "title",
-					"label": "Title",
-					"type": "string",
-					"required": true,
-					"searchable": true
-				},
-				{
-					"slug": "content",
-					"label": "Content",
-					"type": "portableText",
-					"searchable": true
-				}
-			]
-		}
-	],
-	"taxonomies": [
-		{
-			"name": "category",
-			"label": "Categories",
-			"labelSingular": "Category",
-			"hierarchical": true,
-			"collections": ["posts"],
-			"terms": [
-				{
-					"slug": "development",
-					"label": "Development"
-				},
-				{
-					"slug": "design",
-					"label": "Design"
-				},
-				{
-					"slug": "notes",
-					"label": "Notes"
-				}
-			]
-		},
-		{
-			"name": "tag",
-			"label": "Tags",
-			"labelSingular": "Tag",
-			"hierarchical": false,
-			"collections": ["posts"],
-			"terms": [
-				{
-					"slug": "webdev",
-					"label": "Web Development"
-				},
-				{
-					"slug": "opinion",
-					"label": "Opinion"
-				},
-				{
-					"slug": "tools",
-					"label": "Tools"
-				},
-				{
-					"slug": "creativity",
-					"label": "Creativity"
-				}
-			]
-		}
-	],
-	"bylines": [
-		{
-			"id": "byline-editorial",
-			"slug": "emdash-editorial",
-			"displayName": "EmDash Editorial"
-		},
-		{
-			"id": "byline-guest",
-			"slug": "guest-contributor",
-			"displayName": "Guest Contributor",
-			"isGuest": true
-		}
-	],
-	"menus": [
-		{
-			"name": "primary",
-			"label": "Primary Navigation",
-			"items": [
-				{
-					"type": "custom",
-					"label": "Home",
-					"url": "/"
-				},
-				{
-					"type": "custom",
-					"label": "About",
-					"url": "/pages/about"
-				},
-				{
-					"type": "custom",
-					"label": "Posts",
-					"url": "/posts"
-				}
-			]
-		}
-	],
-	"widgetAreas": [
-		{
-			"name": "sidebar",
-			"label": "Sidebar",
-			"description": "Widget area displayed on single post pages",
-			"widgets": [
-				{
-					"type": "component",
-					"componentId": "core:search",
-					"title": "Search"
-				},
-				{
-					"type": "component",
-					"componentId": "core:categories",
-					"title": "Categories"
-				},
-				{
-					"type": "component",
-					"componentId": "core:tags",
-					"title": "Tags"
-				},
-				{
-					"type": "component",
-					"componentId": "core:recent-posts",
-					"title": "Recent Posts",
-					"settings": {
-						"count": 5,
-						"showDate": true
-					}
-				},
-				{
-					"type": "component",
-					"componentId": "core:archives",
-					"title": "Archives",
-					"settings": {
-						"type": "monthly",
-						"limit": 6
-					}
-				}
-			]
-		},
-		{
-			"name": "footer",
-			"label": "Footer",
-			"description": "Widget area displayed in the site footer",
-			"widgets": [
-				{
-					"type": "content",
-					"title": "About",
-					"content": [
+					"version": 1,
+					"fields": [
 						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "A blog about software, design, and the occasional stray thought.",
-									"_key": "k1"
-								}
-							],
-							"_key": "k0"
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "eyebrow",
+							"label": "Eyebrow (separate items with ·)",
+							"type": "string"
+						},
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Highlighted words after the headline",
+							"type": "string"
+						},
+						{
+							"slug": "lead",
+							"label": "Lead",
+							"type": "text"
+						},
+						{
+							"slug": "primary_cta_label",
+							"label": "Primary button label",
+							"type": "string"
+						},
+						{
+							"slug": "primary_cta_url",
+							"label": "Primary button URL",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
+							}
+						},
+						{
+							"slug": "secondary_cta_label",
+							"label": "Secondary button label",
+							"type": "string"
+						},
+						{
+							"slug": "secondary_cta_url",
+							"label": "Secondary button URL",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
+							}
+						},
+						{
+							"slug": "image",
+							"label": "Photo (upload)",
+							"type": "image"
+						},
+						{
+							"slug": "photo",
+							"label": "Bundled photo (used when no photo is uploaded)",
+							"type": "select",
+							"defaultValue": "shore",
+							"validation": {
+								"options": [
+									"shore",
+									"window",
+									"glass",
+									"ripple",
+									"dock",
+									"wave",
+									"aqua-tower",
+									"loop-night",
+									"el-night",
+									"willis-fog",
+									"brick-lane",
+									"alley-night",
+									"alley-dusk"
+								]
+							}
+						},
+						{
+							"slug": "goal",
+							"label": "Strip statement",
+							"type": "text"
+						},
+						{
+							"slug": "stack_label",
+							"label": "Strip label",
+							"type": "string",
+							"defaultValue": "Built on"
+						},
+						{
+							"slug": "stack",
+							"label": "Strip tags (comma-separated)",
+							"type": "string"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "lf_page_intro",
+			"label": "Page intro",
+			"description": "Page title with eyebrow and lead; optional night style and stats",
+			"category": "Lakefront",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "eyebrow",
+							"label": "Eyebrow",
+							"type": "string"
+						},
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "lead",
+							"label": "Lead",
+							"type": "text"
+						},
+						{
+							"slug": "night",
+							"label": "Night style",
+							"type": "boolean",
+							"defaultValue": false
+						},
+						{
+							"slug": "stats",
+							"label": "Stats, one per line: value | label",
+							"type": "text"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "lf_card_grid",
+			"label": "Card grid",
+			"description": "Section heading and a grid of icon cards",
+			"category": "Lakefront",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "eyebrow",
+							"label": "Eyebrow",
+							"type": "string"
+						},
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "lead",
+							"label": "Lead",
+							"type": "text"
+						},
+						{
+							"slug": "cards",
+							"label": "Cards",
+							"type": "repeater",
+							"required": true,
+							"validation": {
+								"minItems": 1,
+								"maxItems": 12,
+								"subFields": [
+									{
+										"slug": "icon",
+										"label": "Icon",
+										"type": "select",
+										"required": true,
+										"options": [
+											"activity",
+											"badge-check",
+											"binoculars",
+											"calendar",
+											"calendar-check",
+											"chart-column",
+											"chart-line",
+											"check",
+											"circle-check",
+											"clipboard-list",
+											"clock",
+											"cloud",
+											"cloud-upload",
+											"code-xml",
+											"cpu",
+											"credit-card",
+											"database",
+											"file-text",
+											"gauge",
+											"git-branch",
+											"globe",
+											"hard-drive",
+											"headset",
+											"history",
+											"key-round",
+											"layers",
+											"layout-template",
+											"life-buoy",
+											"lightbulb",
+											"link",
+											"lock",
+											"mail",
+											"map-pin",
+											"megaphone",
+											"message-square",
+											"monitor-smartphone",
+											"network",
+											"package",
+											"panels-top-left",
+											"pen-line",
+											"phone",
+											"refresh-cw",
+											"rocket",
+											"route",
+											"scan-search",
+											"search",
+											"send",
+											"server",
+											"settings",
+											"share-2",
+											"shield-check",
+											"shopping-bag",
+											"shopping-cart",
+											"sparkles",
+											"store",
+											"target",
+											"trending-up",
+											"users",
+											"waves",
+											"wrench",
+											"zap"
+										]
+									},
+									{
+										"slug": "title",
+										"label": "Title",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "text",
+										"label": "Text",
+										"type": "text"
+									},
+									{
+										"slug": "benefit",
+										"label": "Benefit",
+										"type": "text"
+									},
+									{
+										"slug": "badge",
+										"label": "Badge",
+										"type": "string"
+									},
+									{
+										"slug": "link_label",
+										"label": "Link label",
+										"type": "string"
+									},
+									{
+										"slug": "link_url",
+										"label": "Link URL",
+										"type": "string"
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "lf_split",
+			"label": "Split feature",
+			"description": "Copy beside a tall photo, with an optional checklist and status card; light or night",
+			"category": "Lakefront",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "night",
+							"label": "Night style",
+							"type": "boolean",
+							"defaultValue": false
+						},
+						{
+							"slug": "photo_first",
+							"label": "Photo on the left",
+							"type": "boolean",
+							"defaultValue": false
+						},
+						{
+							"slug": "eyebrow",
+							"label": "Eyebrow",
+							"type": "string"
+						},
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "lead",
+							"label": "Lead",
+							"type": "text"
+						},
+						{
+							"slug": "body",
+							"label": "Body (blank line between paragraphs)",
+							"type": "text"
+						},
+						{
+							"slug": "checklist",
+							"label": "Checklist, one item per line",
+							"type": "text"
+						},
+						{
+							"slug": "primary_cta_label",
+							"label": "Primary button label",
+							"type": "string"
+						},
+						{
+							"slug": "primary_cta_url",
+							"label": "Primary button URL",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
+							}
+						},
+						{
+							"slug": "secondary_cta_label",
+							"label": "Secondary button label",
+							"type": "string"
+						},
+						{
+							"slug": "secondary_cta_url",
+							"label": "Secondary button URL",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
+							}
+						},
+						{
+							"slug": "image",
+							"label": "Photo (upload)",
+							"type": "image"
+						},
+						{
+							"slug": "photo",
+							"label": "Bundled photo (used when no photo is uploaded)",
+							"type": "select",
+							"defaultValue": "window",
+							"validation": {
+								"options": [
+									"shore",
+									"window",
+									"glass",
+									"ripple",
+									"dock",
+									"wave",
+									"aqua-tower",
+									"loop-night",
+									"el-night",
+									"willis-fog",
+									"brick-lane",
+									"alley-night",
+									"alley-dusk"
+								]
+							}
+						},
+						{
+							"slug": "panel_title",
+							"label": "Status card title",
+							"type": "string"
+						},
+						{
+							"slug": "panel_badge",
+							"label": "Status card badge",
+							"type": "string"
+						},
+						{
+							"slug": "panel_rows",
+							"label": "Status card rows, one per line: label | value",
+							"type": "text"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "lf_steps",
+			"label": "Numbered steps",
+			"description": "Numbered icon steps with an optional button",
+			"category": "Lakefront",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "eyebrow",
+							"label": "Eyebrow",
+							"type": "string"
+						},
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "lead",
+							"label": "Lead",
+							"type": "text"
+						},
+						{
+							"slug": "cta_label",
+							"label": "Button label",
+							"type": "string"
+						},
+						{
+							"slug": "cta_url",
+							"label": "Button URL",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
+							}
+						},
+						{
+							"slug": "steps",
+							"label": "Steps",
+							"type": "repeater",
+							"required": true,
+							"validation": {
+								"minItems": 1,
+								"maxItems": 8,
+								"subFields": [
+									{
+										"slug": "icon",
+										"label": "Icon",
+										"type": "select",
+										"required": true,
+										"options": [
+											"activity",
+											"badge-check",
+											"binoculars",
+											"calendar",
+											"calendar-check",
+											"chart-column",
+											"chart-line",
+											"check",
+											"circle-check",
+											"clipboard-list",
+											"clock",
+											"cloud",
+											"cloud-upload",
+											"code-xml",
+											"cpu",
+											"credit-card",
+											"database",
+											"file-text",
+											"gauge",
+											"git-branch",
+											"globe",
+											"hard-drive",
+											"headset",
+											"history",
+											"key-round",
+											"layers",
+											"layout-template",
+											"life-buoy",
+											"lightbulb",
+											"link",
+											"lock",
+											"mail",
+											"map-pin",
+											"megaphone",
+											"message-square",
+											"monitor-smartphone",
+											"network",
+											"package",
+											"panels-top-left",
+											"pen-line",
+											"phone",
+											"refresh-cw",
+											"rocket",
+											"route",
+											"scan-search",
+											"search",
+											"send",
+											"server",
+											"settings",
+											"share-2",
+											"shield-check",
+											"shopping-bag",
+											"shopping-cart",
+											"sparkles",
+											"store",
+											"target",
+											"trending-up",
+											"users",
+											"waves",
+											"wrench",
+											"zap"
+										]
+									},
+									{
+										"slug": "title",
+										"label": "Title",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "text",
+										"label": "Text",
+										"type": "text"
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "lf_service_tabs",
+			"label": "Service tabs",
+			"description": "Tabbed service details. Each tab opens from its anchor, e.g. /services#seo",
+			"category": "Lakefront",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "label",
+							"label": "Tab list label (read by screen readers)",
+							"type": "string",
+							"defaultValue": "Services"
+						},
+						{
+							"slug": "services",
+							"label": "Services",
+							"type": "repeater",
+							"required": true,
+							"validation": {
+								"minItems": 1,
+								"maxItems": 8,
+								"subFields": [
+									{
+										"slug": "slug",
+										"label": "Anchor (e.g. seo)",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "tab_label",
+										"label": "Tab label",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "icon",
+										"label": "Icon",
+										"type": "select",
+										"required": true,
+										"options": [
+											"activity",
+											"badge-check",
+											"binoculars",
+											"calendar",
+											"calendar-check",
+											"chart-column",
+											"chart-line",
+											"check",
+											"circle-check",
+											"clipboard-list",
+											"clock",
+											"cloud",
+											"cloud-upload",
+											"code-xml",
+											"cpu",
+											"credit-card",
+											"database",
+											"file-text",
+											"gauge",
+											"git-branch",
+											"globe",
+											"hard-drive",
+											"headset",
+											"history",
+											"key-round",
+											"layers",
+											"layout-template",
+											"life-buoy",
+											"lightbulb",
+											"link",
+											"lock",
+											"mail",
+											"map-pin",
+											"megaphone",
+											"message-square",
+											"monitor-smartphone",
+											"network",
+											"package",
+											"panels-top-left",
+											"pen-line",
+											"phone",
+											"refresh-cw",
+											"rocket",
+											"route",
+											"scan-search",
+											"search",
+											"send",
+											"server",
+											"settings",
+											"share-2",
+											"shield-check",
+											"shopping-bag",
+											"shopping-cart",
+											"sparkles",
+											"store",
+											"target",
+											"trending-up",
+											"users",
+											"waves",
+											"wrench",
+											"zap"
+										]
+									},
+									{
+										"slug": "name",
+										"label": "Service name",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "description",
+										"label": "Description",
+										"type": "text"
+									},
+									{
+										"slug": "features",
+										"label": "Features, one per line: title | description",
+										"type": "text"
+									},
+									{
+										"slug": "benefits",
+										"label": "Benefits",
+										"type": "text"
+									},
+									{
+										"slug": "primary_cta_label",
+										"label": "Primary button label",
+										"type": "string"
+									},
+									{
+										"slug": "primary_cta_url",
+										"label": "Primary button URL",
+										"type": "string"
+									},
+									{
+										"slug": "secondary_cta_label",
+										"label": "Secondary button label",
+										"type": "string"
+									},
+									{
+										"slug": "secondary_cta_url",
+										"label": "Secondary button URL",
+										"type": "string"
+									},
+									{
+										"slug": "image",
+										"label": "Photo (upload)",
+										"type": "image"
+									},
+									{
+										"slug": "photo",
+										"label": "Bundled photo",
+										"type": "select",
+										"options": [
+											"shore",
+											"window",
+											"glass",
+											"ripple",
+											"dock",
+											"wave",
+											"aqua-tower",
+											"loop-night",
+											"el-night",
+											"willis-fog",
+											"brick-lane",
+											"alley-night",
+											"alley-dusk"
+										]
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "lf_spec_tabs",
+			"label": "Specification tabs",
+			"description": "Spec cards, grouped into tabs by their Group value",
+			"category": "Lakefront",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "eyebrow",
+							"label": "Eyebrow",
+							"type": "string"
+						},
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "specs",
+							"label": "Specifications",
+							"type": "repeater",
+							"required": true,
+							"validation": {
+								"minItems": 1,
+								"maxItems": 24,
+								"subFields": [
+									{
+										"slug": "group",
+										"label": "Group (tab)",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "icon",
+										"label": "Icon",
+										"type": "select",
+										"required": true,
+										"options": [
+											"activity",
+											"badge-check",
+											"binoculars",
+											"calendar",
+											"calendar-check",
+											"chart-column",
+											"chart-line",
+											"check",
+											"circle-check",
+											"clipboard-list",
+											"clock",
+											"cloud",
+											"cloud-upload",
+											"code-xml",
+											"cpu",
+											"credit-card",
+											"database",
+											"file-text",
+											"gauge",
+											"git-branch",
+											"globe",
+											"hard-drive",
+											"headset",
+											"history",
+											"key-round",
+											"layers",
+											"layout-template",
+											"life-buoy",
+											"lightbulb",
+											"link",
+											"lock",
+											"mail",
+											"map-pin",
+											"megaphone",
+											"message-square",
+											"monitor-smartphone",
+											"network",
+											"package",
+											"panels-top-left",
+											"pen-line",
+											"phone",
+											"refresh-cw",
+											"rocket",
+											"route",
+											"scan-search",
+											"search",
+											"send",
+											"server",
+											"settings",
+											"share-2",
+											"shield-check",
+											"shopping-bag",
+											"shopping-cart",
+											"sparkles",
+											"store",
+											"target",
+											"trending-up",
+											"users",
+											"waves",
+											"wrench",
+											"zap"
+										]
+									},
+									{
+										"slug": "title",
+										"label": "Title",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "text",
+										"label": "Text",
+										"type": "text"
+									},
+									{
+										"slug": "tags",
+										"label": "Tags (comma-separated)",
+										"type": "string"
+									},
+									{
+										"slug": "tip_label",
+										"label": "Tip question",
+										"type": "string"
+									},
+									{
+										"slug": "tip_text",
+										"label": "Tip answer",
+										"type": "text"
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "lf_offer",
+			"label": "Offer card",
+			"description": "A highlighted offer with icon, benefit and button",
+			"category": "Lakefront",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "icon",
+							"label": "Icon",
+							"type": "select",
+							"validation": {
+								"options": [
+									"activity",
+									"badge-check",
+									"binoculars",
+									"calendar",
+									"calendar-check",
+									"chart-column",
+									"chart-line",
+									"check",
+									"circle-check",
+									"clipboard-list",
+									"clock",
+									"cloud",
+									"cloud-upload",
+									"code-xml",
+									"cpu",
+									"credit-card",
+									"database",
+									"file-text",
+									"gauge",
+									"git-branch",
+									"globe",
+									"hard-drive",
+									"headset",
+									"history",
+									"key-round",
+									"layers",
+									"layout-template",
+									"life-buoy",
+									"lightbulb",
+									"link",
+									"lock",
+									"mail",
+									"map-pin",
+									"megaphone",
+									"message-square",
+									"monitor-smartphone",
+									"network",
+									"package",
+									"panels-top-left",
+									"pen-line",
+									"phone",
+									"refresh-cw",
+									"rocket",
+									"route",
+									"scan-search",
+									"search",
+									"send",
+									"server",
+									"settings",
+									"share-2",
+									"shield-check",
+									"shopping-bag",
+									"shopping-cart",
+									"sparkles",
+									"store",
+									"target",
+									"trending-up",
+									"users",
+									"waves",
+									"wrench",
+									"zap"
+								]
+							}
+						},
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "text",
+							"label": "Text",
+							"type": "text"
+						},
+						{
+							"slug": "benefit",
+							"label": "Benefit",
+							"type": "text"
+						},
+						{
+							"slug": "cta_label",
+							"label": "Button label",
+							"type": "string"
+						},
+						{
+							"slug": "cta_url",
+							"label": "Button URL",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "lf_cta_band",
+			"label": "Call-to-action band",
+			"description": "Photo band with headline and button",
+			"category": "Lakefront",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "eyebrow",
+							"label": "Eyebrow",
+							"type": "string"
+						},
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "text",
+							"label": "Text",
+							"type": "text"
+						},
+						{
+							"slug": "cta_label",
+							"label": "Button label",
+							"type": "string"
+						},
+						{
+							"slug": "cta_url",
+							"label": "Button URL",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
+							}
+						},
+						{
+							"slug": "image",
+							"label": "Photo (upload)",
+							"type": "image"
+						},
+						{
+							"slug": "photo",
+							"label": "Bundled photo (used when no photo is uploaded)",
+							"type": "select",
+							"defaultValue": "dock",
+							"validation": {
+								"options": [
+									"shore",
+									"window",
+									"glass",
+									"ripple",
+									"dock",
+									"wave",
+									"aqua-tower",
+									"loop-night",
+									"el-night",
+									"willis-fog",
+									"brick-lane",
+									"alley-night",
+									"alley-dusk"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "lf_product",
+			"label": "Service summary",
+			"description": "Breadcrumb, photo and what's included, with buttons",
+			"category": "Lakefront",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "eyebrow",
+							"label": "Eyebrow (also the breadcrumb)",
+							"type": "string"
+						},
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "intro",
+							"label": "Intro line",
+							"type": "string"
+						},
+						{
+							"slug": "items",
+							"label": "What's included",
+							"type": "repeater",
+							"required": true,
+							"validation": {
+								"minItems": 1,
+								"maxItems": 8,
+								"subFields": [
+									{
+										"slug": "icon",
+										"label": "Icon",
+										"type": "select",
+										"required": true,
+										"options": [
+											"activity",
+											"badge-check",
+											"binoculars",
+											"calendar",
+											"calendar-check",
+											"chart-column",
+											"chart-line",
+											"check",
+											"circle-check",
+											"clipboard-list",
+											"clock",
+											"cloud",
+											"cloud-upload",
+											"code-xml",
+											"cpu",
+											"credit-card",
+											"database",
+											"file-text",
+											"gauge",
+											"git-branch",
+											"globe",
+											"hard-drive",
+											"headset",
+											"history",
+											"key-round",
+											"layers",
+											"layout-template",
+											"life-buoy",
+											"lightbulb",
+											"link",
+											"lock",
+											"mail",
+											"map-pin",
+											"megaphone",
+											"message-square",
+											"monitor-smartphone",
+											"network",
+											"package",
+											"panels-top-left",
+											"pen-line",
+											"phone",
+											"refresh-cw",
+											"rocket",
+											"route",
+											"scan-search",
+											"search",
+											"send",
+											"server",
+											"settings",
+											"share-2",
+											"shield-check",
+											"shopping-bag",
+											"shopping-cart",
+											"sparkles",
+											"store",
+											"target",
+											"trending-up",
+											"users",
+											"waves",
+											"wrench",
+											"zap"
+										]
+									},
+									{
+										"slug": "label",
+										"label": "Label",
+										"type": "string",
+										"required": true
+									}
+								]
+							}
+						},
+						{
+							"slug": "note",
+							"label": "Note",
+							"type": "text"
+						},
+						{
+							"slug": "primary_cta_label",
+							"label": "Primary button label",
+							"type": "string"
+						},
+						{
+							"slug": "primary_cta_url",
+							"label": "Primary button URL",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
+							}
+						},
+						{
+							"slug": "secondary_cta_label",
+							"label": "Secondary button label",
+							"type": "string"
+						},
+						{
+							"slug": "secondary_cta_url",
+							"label": "Secondary button URL",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
+							}
+						},
+						{
+							"slug": "image",
+							"label": "Photo (upload)",
+							"type": "image"
+						},
+						{
+							"slug": "photo",
+							"label": "Bundled photo (used when no photo is uploaded)",
+							"type": "select",
+							"defaultValue": "window",
+							"validation": {
+								"options": [
+									"shore",
+									"window",
+									"glass",
+									"ripple",
+									"dock",
+									"wave",
+									"aqua-tower",
+									"loop-night",
+									"el-night",
+									"willis-fog",
+									"brick-lane",
+									"alley-night",
+									"alley-dusk"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "lf_enquiry",
+			"label": "Enquiry form",
+			"description": "Enquiry form, emailed to you through Cloudflare Email Sending, with an optional aside",
+			"category": "Lakefront",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"defaultValue": "enquiry",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "subject",
+							"label": "Email subject",
+							"type": "string",
+							"required": true,
+							"defaultValue": "Website enquiry"
+						},
+						{
+							"slug": "eyebrow",
+							"label": "Eyebrow",
+							"type": "string"
+						},
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "lead",
+							"label": "Lead",
+							"type": "text"
+						},
+						{
+							"slug": "needs_label",
+							"label": "Needs question",
+							"type": "string",
+							"defaultValue": "What do you need?"
+						},
+						{
+							"slug": "needs",
+							"label": "Needs, one per line: key | label | description",
+							"type": "text"
+						},
+						{
+							"slug": "platform_label",
+							"label": "Platform question",
+							"type": "string"
+						},
+						{
+							"slug": "platform_options",
+							"label": "Platform answers, one per line",
+							"type": "text"
+						},
+						{
+							"slug": "timeline_options",
+							"label": "Timeline options, one per line",
+							"type": "text"
+						},
+						{
+							"slug": "notes_label",
+							"label": "Notes label",
+							"type": "string",
+							"defaultValue": "Project notes"
+						},
+						{
+							"slug": "notes_placeholder",
+							"label": "Notes placeholder",
+							"type": "string"
+						},
+						{
+							"slug": "submit_label",
+							"label": "Button label",
+							"type": "string",
+							"defaultValue": "Send request"
+						},
+						{
+							"slug": "footnote",
+							"label": "Note beside the button",
+							"type": "string"
+						},
+						{
+							"slug": "success_title",
+							"label": "Success heading ({name} = first name)",
+							"type": "string"
+						},
+						{
+							"slug": "success_text",
+							"label": "Success text ({email} = their email)",
+							"type": "text"
+						},
+						{
+							"slug": "aside",
+							"label": "Show the aside",
+							"type": "boolean",
+							"defaultValue": true
+						},
+						{
+							"slug": "aside_eyebrow",
+							"label": "Aside eyebrow",
+							"type": "string"
+						},
+						{
+							"slug": "aside_items",
+							"label": "Aside items",
+							"type": "repeater",
+							"validation": {
+								"maxItems": 6,
+								"subFields": [
+									{
+										"slug": "icon",
+										"label": "Icon",
+										"type": "select",
+										"required": true,
+										"options": [
+											"activity",
+											"badge-check",
+											"binoculars",
+											"calendar",
+											"calendar-check",
+											"chart-column",
+											"chart-line",
+											"check",
+											"circle-check",
+											"clipboard-list",
+											"clock",
+											"cloud",
+											"cloud-upload",
+											"code-xml",
+											"cpu",
+											"credit-card",
+											"database",
+											"file-text",
+											"gauge",
+											"git-branch",
+											"globe",
+											"hard-drive",
+											"headset",
+											"history",
+											"key-round",
+											"layers",
+											"layout-template",
+											"life-buoy",
+											"lightbulb",
+											"link",
+											"lock",
+											"mail",
+											"map-pin",
+											"megaphone",
+											"message-square",
+											"monitor-smartphone",
+											"network",
+											"package",
+											"panels-top-left",
+											"pen-line",
+											"phone",
+											"refresh-cw",
+											"rocket",
+											"route",
+											"scan-search",
+											"search",
+											"send",
+											"server",
+											"settings",
+											"share-2",
+											"shield-check",
+											"shopping-bag",
+											"shopping-cart",
+											"sparkles",
+											"store",
+											"target",
+											"trending-up",
+											"users",
+											"waves",
+											"wrench",
+											"zap"
+										]
+									},
+									{
+										"slug": "title",
+										"label": "Title",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "note",
+										"label": "Note",
+										"type": "string"
+									},
+									{
+										"slug": "url",
+										"label": "Link URL",
+										"type": "string"
+									}
+								]
+							}
+						},
+						{
+							"slug": "image",
+							"label": "Photo (upload)",
+							"type": "image"
+						},
+						{
+							"slug": "photo",
+							"label": "Bundled photo (used when no photo is uploaded)",
+							"type": "select",
+							"defaultValue": "dock",
+							"validation": {
+								"options": [
+									"shore",
+									"window",
+									"glass",
+									"ripple",
+									"dock",
+									"wave",
+									"aqua-tower",
+									"loop-night",
+									"el-night",
+									"willis-fog",
+									"brick-lane",
+									"alley-night",
+									"alley-dusk"
+								]
+							}
 						}
 					]
 				}
 			]
 		}
 	],
-	"sections": [
+	"collections": [
 		{
-			"slug": "newsletter-signup",
-			"title": "Newsletter Signup",
-			"description": "A call-to-action block for newsletter subscriptions",
-			"keywords": ["newsletter", "subscribe", "email", "cta"],
-			"source": "theme",
-			"content": [
+			"slug": "pages",
+			"label": "Pages",
+			"labelSingular": "Page",
+			"description": "Site pages. Marketing pages are built from Lakefront blocks; legal pages use the legal layout.",
+			"supports": [
+				"drafts",
+				"revisions",
+				"search",
+				"seo"
+			],
+			"urlPattern": "/{slug}",
+			"titleField": "title",
+			"admin": {
+				"listColumns": [
+					"template"
+				]
+			},
+			"fields": [
 				{
-					"_type": "block",
-					"style": "h3",
-					"children": [
-						{
-							"_type": "span",
-							"text": "Stay in the loop",
-							"_key": "k1"
-						}
-					],
-					"_key": "k0"
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
 				},
 				{
-					"_type": "block",
-					"style": "normal",
-					"children": [
-						{
-							"_type": "span",
-							"text": "Get notified when new posts are published. No spam, unsubscribe anytime.",
-							"_key": "k3"
-						}
-					],
-					"_key": "k2"
+					"slug": "template",
+					"label": "Layout",
+					"type": "select",
+					"defaultValue": "blocks",
+					"validation": {
+						"options": [
+							"blocks",
+							"legal"
+						]
+					}
+				},
+				{
+					"slug": "summary",
+					"label": "Summary (search results and meta description)",
+					"type": "text",
+					"searchable": true
+				},
+				{
+					"slug": "keywords",
+					"label": "Search keywords (not shown; blocks aren't indexed)",
+					"type": "text",
+					"searchable": true
+				},
+				{
+					"slug": "content",
+					"label": "Blocks (blocks layout)",
+					"type": "blocks",
+					"validation": {
+						"allowedTypes": [
+							"lf_hero",
+							"lf_page_intro",
+							"lf_card_grid",
+							"lf_split",
+							"lf_steps",
+							"lf_service_tabs",
+							"lf_spec_tabs",
+							"lf_offer",
+							"lf_cta_band",
+							"lf_product",
+							"lf_enquiry"
+						],
+						"maxItems": 24
+					}
+				},
+				{
+					"slug": "eyebrow",
+					"label": "Eyebrow (legal layout)",
+					"type": "string"
+				},
+				{
+					"slug": "effective_date",
+					"label": "Effective date (legal layout)",
+					"type": "datetime"
+				},
+				{
+					"slug": "body",
+					"label": "Body (legal layout)",
+					"type": "portableText",
+					"searchable": true
+				}
+			]
+		}
+	],
+	"menus": [
+		{
+			"name": "primary",
+			"label": "Primary navigation",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Services",
+					"url": "/services"
+				},
+				{
+					"type": "custom",
+					"label": "Hosting",
+					"url": "/hosting"
+				},
+				{
+					"type": "custom",
+					"label": "Consultation",
+					"url": "/consultation"
 				}
 			]
 		},
 		{
-			"slug": "about-author",
-			"title": "About the Author",
-			"description": "Brief author bio for use in posts or pages",
-			"keywords": ["author", "bio", "about"],
-			"source": "theme",
-			"content": [
+			"name": "header_cta",
+			"label": "Header button (first item)",
+			"items": [
 				{
-					"_type": "block",
-					"style": "normal",
-					"children": [
-						{
-							"_type": "span",
-							"text": "A software developer who writes about building things on the web. Based somewhere with good coffee and reliable internet.",
-							"_key": "k1"
-						}
-					],
-					"_key": "k0"
+					"type": "custom",
+					"label": "Start a project",
+					"url": "/contact"
+				}
+			]
+		},
+		{
+			"name": "footer_services",
+			"label": "Footer: Services",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Performance",
+					"url": "/services#performance"
+				},
+				{
+					"type": "custom",
+					"label": "Social Media",
+					"url": "/services#social"
+				},
+				{
+					"type": "custom",
+					"label": "Analytics",
+					"url": "/services#analytics"
+				},
+				{
+					"type": "custom",
+					"label": "WordPress",
+					"url": "/services#wordpress"
+				},
+				{
+					"type": "custom",
+					"label": "SEO",
+					"url": "/services#seo"
+				},
+				{
+					"type": "custom",
+					"label": "Content",
+					"url": "/services#content"
+				}
+			]
+		},
+		{
+			"name": "footer_hosting",
+			"label": "Footer: Hosting",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Technical Specifications",
+					"url": "/hosting#specs"
+				},
+				{
+					"type": "custom",
+					"label": "Site Management",
+					"url": "/hosting#management"
+				},
+				{
+					"type": "custom",
+					"label": "E-commerce Solutions",
+					"url": "/hosting#e-commerce"
+				}
+			]
+		},
+		{
+			"name": "footer_company",
+			"label": "Footer: Company",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Website Consultation",
+					"url": "/consultation"
+				},
+				{
+					"type": "custom",
+					"label": "Start a Project",
+					"url": "/contact"
+				}
+			]
+		},
+		{
+			"name": "footer_legal",
+			"label": "Footer: bottom links",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Terms and Conditions",
+					"url": "/terms"
+				},
+				{
+					"type": "custom",
+					"label": "Search",
+					"url": "/search"
+				}
+			]
+		},
+		{
+			"name": "footer_contact",
+			"label": "Footer: contact",
+			"items": [
+				{
+					"type": "custom",
+					"label": "hello@lakefrontdigital.io",
+					"url": "mailto:hello@lakefrontdigital.io"
+				},
+				{
+					"type": "custom",
+					"label": "(773) 231-8020",
+					"url": "tel:+17732318020"
+				}
+			]
+		},
+		{
+			"name": "search_popular",
+			"label": "Search: popular searches",
+			"items": [
+				{
+					"type": "custom",
+					"label": "WordPress",
+					"url": "/search?q=WordPress"
+				},
+				{
+					"type": "custom",
+					"label": "Hosting",
+					"url": "/search?q=Hosting"
+				},
+				{
+					"type": "custom",
+					"label": "WooCommerce",
+					"url": "/search?q=WooCommerce"
+				},
+				{
+					"type": "custom",
+					"label": "SEO",
+					"url": "/search?q=SEO"
+				},
+				{
+					"type": "custom",
+					"label": "Backups",
+					"url": "/search?q=Backups"
+				},
+				{
+					"type": "custom",
+					"label": "Analytics",
+					"url": "/search?q=Analytics"
 				}
 			]
 		}
@@ -277,660 +1817,1135 @@
 	"content": {
 		"pages": [
 			{
-				"id": "about",
-				"slug": "about",
+				"id": "page-home",
+				"slug": "home",
 				"status": "published",
 				"data": {
-					"title": "About",
+					"title": "Home",
+					"template": "blocks",
+					"summary": "Lakefront Digital provides small businesses with the tools and expertise they need to create an online presence that stands out from the competition.",
+					"keywords": "web design, WordPress, WooCommerce, hosting, SEO, content, analytics, social media, Chicago, small business",
 					"content": [
 						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "A place for writing about software, design, and the occasional stray thought. No posting schedule, no newsletter funnel. Just things I wanted to write down.",
-									"_key": "k1"
-								}
-							],
-							"_key": "k0"
+							"_type": "lf_hero",
+							"_version": 1,
+							"_key": "home-hero",
+							"eyebrow": "Chicago · Websites · Hosting · Growth",
+							"headline": "Empower Your Business Online with",
+							"highlight": "Lakefront Digital",
+							"lead": "Lakefront Digital provides small businesses with the tools and expertise they need to create an online presence that stands out from the competition.",
+							"primary_cta_label": "Start a project",
+							"primary_cta_url": "/contact",
+							"secondary_cta_label": "View services",
+							"secondary_cta_url": "/services",
+							"photo": "shore",
+							"goal": "Our goal is to offer a one-stop solution for all web development and hosting needs, empowering small businesses to succeed online.",
+							"stack_label": "Built on",
+							"stack": "WordPress, WooCommerce, AWS, Cloudflare"
 						},
 						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
+							"_type": "lf_card_grid",
+							"_version": 1,
+							"_key": "home-services",
+							"anchor_id": "services",
+							"eyebrow": "Services Overview",
+							"headline": "Tailored to Deliver Exceptional Results",
+							"lead": "Discover our range of services designed to elevate your small business's online presence.",
+							"cards": [
 								{
-									"_type": "span",
-									"text": "Built with Astro and EmDash. The source is open if you want to see how it works.",
-									"_key": "k3"
+									"icon": "gauge",
+									"title": "Website Performance Optimization",
+									"text": "Improve user experience, SEO rankings, and minimize security risks.",
+									"link_label": "Learn more",
+									"link_url": "/services#performance"
+								},
+								{
+									"icon": "share-2",
+									"title": "Social Media Integration",
+									"text": "Increase engagement, broaden reach, and drive more traffic.",
+									"link_label": "Learn more",
+									"link_url": "/services#social"
+								},
+								{
+									"icon": "chart-line",
+									"title": "Analytics Setup & Review",
+									"text": "Make informed decisions with insights on traffic and user interactions.",
+									"link_label": "Learn more",
+									"link_url": "/services#analytics"
+								},
+								{
+									"icon": "layout-template",
+									"title": "WordPress Website Design and Development",
+									"text": "Achieve optimal viewing on mobile and desktop devices.",
+									"link_label": "Learn more",
+									"link_url": "/services#wordpress"
+								},
+								{
+									"icon": "search",
+									"title": "SEO (Search Engine Optimization)",
+									"text": "Increase traffic, brand visibility, and leads/sales.",
+									"link_label": "Learn more",
+									"link_url": "/services#seo"
+								},
+								{
+									"icon": "pen-line",
+									"title": "Content Creation and Management",
+									"text": "Drive engagement, establish authority, support SEO, and increase dwell time.",
+									"link_label": "Learn more",
+									"link_url": "/services#content"
 								}
-							],
-							"_key": "k2"
+							]
+						},
+						{
+							"_type": "lf_split",
+							"_version": 1,
+							"_key": "home-about",
+							"photo_first": true,
+							"eyebrow": "About Lakefront Digital",
+							"headline": "Expert WordPress Web Design, SEO, and Tech Consulting for Small Businesses",
+							"body": "At Lakefront Digital, we are experts in boosting your digital presence. Our team specializes in WordPress web design, custom SEO strategies, content strategy, and digital marketing. We are dedicated to empowering your small business to compete and excel online.\n\nLakefront Digital is a technology company specializing in web design, WordPress customization and management, web hosting, and application deployment. We create customized websites tailored to meet the specific needs of our clients, ensuring a seamless user experience and robust functionality.",
+							"checklist": "Responsive web design\nBespoke WordPress solutions\nReliable web hosting\nEfficient application deployment",
+							"photo": "window"
+						},
+						{
+							"_type": "lf_split",
+							"_version": 1,
+							"_key": "home-hosting",
+							"night": true,
+							"eyebrow": "Hosting and E-commerce",
+							"headline": "Comprehensive WordPress Hosting and E-commerce Solutions for Small Businesses",
+							"lead": "This environment is designed to empower small businesses by providing a reliable, secure, and high-performing platform to manage their online presence and e-commerce activities effectively.",
+							"checklist": "AWS hosting\nCloudflare security and CDN\nNGINX caching\nAutomated backups\nNew Relic monitoring\nWooCommerce for e-commerce",
+							"primary_cta_label": "View hosting details",
+							"primary_cta_url": "/hosting",
+							"secondary_cta_label": "E-commerce solutions",
+							"secondary_cta_url": "/hosting#e-commerce",
+							"photo": "glass",
+							"panel_title": "yourbusiness.com",
+							"panel_badge": "Online",
+							"panel_rows": "Uptime target | 99.9%\nSSL | Let's Encrypt\nCDN and DDoS protection | Cloudflare\nMonitoring | New Relic · 24/7"
+						},
+						{
+							"_type": "lf_steps",
+							"_version": 1,
+							"_key": "home-consultation",
+							"eyebrow": "Website Consultation",
+							"headline": "Transform Your Online Presence",
+							"lead": "A comprehensive website consultation and business plan service for growth and success.",
+							"cta_label": "Book a consultation",
+							"cta_url": "/consultation",
+							"steps": [
+								{
+									"icon": "scan-search",
+									"title": "Detailed Website Analysis"
+								},
+								{
+									"icon": "clipboard-list",
+									"title": "Strategic Business Planning"
+								},
+								{
+									"icon": "lightbulb",
+									"title": "Personalized Recommendations"
+								},
+								{
+									"icon": "route",
+									"title": "Growth Roadmap"
+								}
+							]
+						},
+						{
+							"_type": "lf_cta_band",
+							"_version": 1,
+							"_key": "home-cta",
+							"eyebrow": "Start a project",
+							"headline": "Your One-Stop Solution",
+							"text": "From custom website design to content creation, our experienced team of web consultants will help you achieve your digital marketing goals quickly and efficiently.",
+							"cta_label": "Start a project",
+							"cta_url": "/contact",
+							"photo": "dock"
 						}
 					]
-				}
-			}
-		],
-		"posts": [
-			{
-				"id": "post-1",
-				"slug": "building-for-the-long-term",
-				"status": "published",
-				"data": {
-					"title": "Building for the Long Term",
-					"excerpt": "The frameworks will change. The databases will change. What survives is the clarity of your thinking.",
-					"featured_image": {
-						"$media": {
-							"url": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=800&fit=crop",
-							"alt": "Code on a monitor in a dark room",
-							"filename": "building-long-term.jpg"
-						}
-					},
-					"content": [
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "Every few years the industry collectively decides that everything we've been doing is wrong and there's a better way. New frameworks, new paradigms, new build tools. The churn is relentless, and if you're not careful, you spend more time migrating than building.",
-									"_key": "k1"
-								}
-							],
-							"_key": "k0"
-						},
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "I've been writing software long enough to have seen several of these cycles. jQuery to Backbone to Angular to React to whatever comes next. Each transition felt urgent at the time. Looking back, the things that actually mattered were rarely about the framework.",
-									"_key": "k3"
-								}
-							],
-							"_key": "k2"
-						},
-						{
-							"_type": "block",
-							"style": "h2",
-							"children": [
-								{
-									"_type": "span",
-									"text": "What survives",
-									"_key": "k5"
-								}
-							],
-							"_key": "k4"
-						},
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "Clean data models survive. Clear boundaries between systems survive. Good naming survives. The decision to keep things simple when you could have made them clever - that definitely survives.",
-									"_key": "k7"
-								}
-							],
-							"_key": "k6"
-						},
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "What doesn't survive is code that was written to impress, abstractions built for problems that never materialized, and architectures designed around a framework's opinions rather than the domain's reality.",
-									"_key": "k9"
-								}
-							],
-							"_key": "k8"
-						},
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "The best code I've written is boring. It reads like prose, does one thing well, and doesn't require a PhD in category theory to understand. The worst code I've written was technically impressive at the time.",
-									"_key": "k11"
-								}
-							],
-							"_key": "k10"
-						}
-					]
-				},
-				"bylines": [
-					{
-						"byline": "byline-editorial"
-					},
-					{
-						"byline": "byline-guest",
-						"roleLabel": "Guest essay"
-					}
-				],
-				"taxonomies": {
-					"category": ["development"],
-					"tag": ["opinion"]
 				}
 			},
 			{
-				"id": "post-2",
-				"slug": "the-case-for-static",
+				"id": "page-services",
+				"slug": "services",
 				"status": "published",
 				"data": {
-					"title": "The Case for Static",
-					"excerpt": "Static sites aren't a step backwards. They're what you get when you take performance and simplicity seriously.",
-					"featured_image": {
-						"$media": {
-							"url": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&h=800&fit=crop",
-							"alt": "Laptop and coffee on a wooden table",
-							"filename": "case-for-static.jpg"
-						}
-					},
+					"title": "Services",
+					"template": "blocks",
+					"summary": "Discover our range of services designed to elevate your small business's online presence. Each service is tailored to deliver exceptional results.",
+					"keywords": "website performance, speed, security, maintenance, social media, analytics, Google Analytics, WordPress, e-commerce, SEO, keywords, link building, local SEO, content, blog, tech consulting, digital marketing, hosting",
 					"content": [
 						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "There's a certain irony in the fact that the web started static, went dynamic, and is now swinging back toward static again. But the static sites of today aren't the hand-coded HTML pages of 1998. They're generated, optimized, and deployed to edge networks that serve them in milliseconds.",
-									"_key": "k1"
-								}
-							],
-							"_key": "k0"
+							"_type": "lf_page_intro",
+							"_version": 1,
+							"_key": "services-intro",
+							"eyebrow": "Services Overview",
+							"headline": "Services Designed to Elevate Your Online Presence",
+							"lead": "Each service is tailored to deliver exceptional results. From custom website design to content creation, our experienced team of web consultants will help you achieve your digital marketing goals quickly and efficiently."
 						},
 						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
+							"_type": "lf_service_tabs",
+							"_version": 1,
+							"_key": "services-tabs",
+							"label": "Services",
+							"services": [
 								{
-									"_type": "span",
-									"text": "The pitch for server-rendered everything was compelling: dynamic content, personalization, real-time data. But most sites don't need most of that most of the time. A blog post doesn't need to be rendered on every request. A product page doesn't change every second.",
-									"_key": "k3"
+									"slug": "performance",
+									"tab_label": "Performance",
+									"icon": "gauge",
+									"name": "Website Performance Optimization",
+									"description": "We reduce load times for faster performance, protect against hacking and malware, and provide regular updates and troubleshooting.",
+									"features": "Speed Optimization | Reduce load times for faster performance.\nSecurity Enhancements | Protect against hacking and malware.\nRegular Maintenance | Perform updates, backups, and troubleshooting.",
+									"benefits": "Improves user experience, enhances SEO, and reduces security risks.",
+									"primary_cta_label": "Start a project",
+									"primary_cta_url": "/contact?service=performance#enquiry",
+									"secondary_cta_label": "Book a consultation",
+									"secondary_cta_url": "/consultation",
+									"photo": "glass"
+								},
+								{
+									"slug": "social",
+									"tab_label": "Social Media",
+									"icon": "share-2",
+									"name": "Social Media Integration",
+									"description": "We link your website with social media accounts, enable easy content sharing, and embed social media feeds into your site.",
+									"features": "Connect Profiles | Link your website with social media accounts.\nEnable Sharing | Allow users to share content effortlessly.\nEmbed Feeds | Display social media feeds on your website.",
+									"benefits": "Increases engagement, broadens reach, and drives traffic back to your website.",
+									"primary_cta_label": "Start a project",
+									"primary_cta_url": "/contact?service=social#enquiry",
+									"secondary_cta_label": "Book a consultation",
+									"secondary_cta_url": "/consultation",
+									"photo": "window"
+								},
+								{
+									"slug": "analytics",
+									"tab_label": "Analytics",
+									"icon": "chart-line",
+									"name": "Analytics Setup & Review",
+									"description": "We implement Google Analytics to track visitor behavior, teach you to understand analytics data, and provide regular performance reports.",
+									"features": "Implement Analytics | Track visitor behavior with Google Analytics.\nTrain on Data | Learn to interpret analytics effectively.\nReceive Reports | Get regular performance metrics reports.",
+									"benefits": "Enables data-driven decision-making, revealing traffic sources and user interactions.",
+									"primary_cta_label": "Start a project",
+									"primary_cta_url": "/contact?service=analytics#enquiry",
+									"secondary_cta_label": "Book a consultation",
+									"secondary_cta_url": "/consultation",
+									"photo": "ripple"
+								},
+								{
+									"slug": "wordpress",
+									"tab_label": "WordPress",
+									"icon": "layout-template",
+									"name": "WordPress Website Design and Development",
+									"description": "We create custom websites that reflect your brand's unique identity, ensuring optimal viewing on mobile and desktop devices. Our services include e-commerce integration for seamless online sales and ongoing maintenance to keep your site secure and updated.",
+									"features": "Custom Design | Create websites that reflect your brand's unique identity.\nE-commerce Integration | Seamlessly integrate online sales features.\nOngoing Maintenance | Ensure your site is secure and updated regularly.",
+									"benefits": "Enhances credibility, attracts visitors, and provides an effective communication platform.",
+									"primary_cta_label": "Start a project",
+									"primary_cta_url": "/contact?service=wordpress#enquiry",
+									"secondary_cta_label": "Book a consultation",
+									"secondary_cta_url": "/consultation",
+									"photo": "dock"
+								},
+								{
+									"slug": "seo",
+									"tab_label": "SEO",
+									"icon": "search",
+									"name": "SEO (Search Engine Optimization)",
+									"description": "We optimize your site with high-value keywords, meta tags, and content, alongside link-building strategies and social media tactics. Our local SEO services boost visibility in local search results.",
+									"features": "Keyword Optimization | Use high-value keywords and meta tags.\nLink-Building Strategies | Enhance content with quality backlinks.\nLocal SEO | Boost visibility in local search results.",
+									"benefits": "Higher search engine rankings lead to increased traffic, brand visibility, and more leads/sales.",
+									"primary_cta_label": "Start a project",
+									"primary_cta_url": "/contact?service=seo#enquiry",
+									"secondary_cta_label": "Book a consultation",
+									"secondary_cta_url": "/consultation",
+									"photo": "shore"
+								},
+								{
+									"slug": "content",
+									"tab_label": "Content",
+									"icon": "pen-line",
+									"name": "Content Creation and Management",
+									"description": "Our team produces valuable blog content, develops consistent messaging across platforms, and keeps your content relevant and accurate.",
+									"features": "Blog Content | Produce valuable and engaging blog posts.\nConsistent Messaging | Maintain a unified brand voice across platforms.\nContent Updates | Keep information relevant and accurate.",
+									"benefits": "Drives engagement, establishes authority, supports SEO, and increases dwell time.",
+									"primary_cta_label": "Start a project",
+									"primary_cta_url": "/contact?service=content#enquiry",
+									"secondary_cta_label": "Book a consultation",
+									"secondary_cta_url": "/consultation",
+									"photo": "wave"
 								}
-							],
-							"_key": "k2"
+							]
 						},
 						{
-							"_type": "block",
-							"style": "h2",
-							"children": [
+							"_type": "lf_card_grid",
+							"_version": 1,
+							"_key": "services-more",
+							"eyebrow": "More ways we help",
+							"headline": "Additional Services",
+							"cards": [
 								{
-									"_type": "span",
-									"text": "The performance argument",
-									"_key": "k5"
-								}
-							],
-							"_key": "k4"
-						},
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
+									"icon": "lightbulb",
+									"title": "Tech Consulting",
+									"text": "Expert guidance to maximize digital investments.",
+									"benefit": "Streamline operations and enhance customer experiences.",
+									"link_url": "/consultation"
+								},
 								{
-									"_type": "span",
-									"text": "A static file served from a CDN is as fast as the web gets. No cold starts, no database queries, no server-side rendering overhead. The Time to First Byte is essentially the network latency to your nearest edge node. You can't beat physics.",
-									"_key": "k7"
-								}
-							],
-							"_key": "k6"
-						},
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
+									"icon": "server",
+									"title": "Small Business Hosting",
+									"text": "Optimized for WordPress, ensuring your site is always running smoothly.",
+									"benefit": "Reliable performance and scalability.",
+									"link_url": "/hosting"
+								},
 								{
-									"_type": "span",
-									"text": "And when you do need dynamic behavior, you can add it surgically. An island of interactivity in a sea of static HTML. The best of both worlds, without paying the cost of either at all times.",
-									"_key": "k9"
+									"icon": "megaphone",
+									"title": "Digital Marketing",
+									"text": "Creation and execution to promote brands, engage audiences, and drive conversions.",
+									"benefit": "Broaden reach and boost sales.",
+									"link_url": "/contact?service=marketing#enquiry"
 								}
-							],
-							"_key": "k8"
+							]
 						}
 					]
-				},
-				"bylines": [
-					{
-						"byline": "byline-editorial"
-					}
-				],
-				"taxonomies": {
-					"category": ["development"],
-					"tag": ["webdev", "opinion"]
 				}
 			},
 			{
-				"id": "post-3",
-				"slug": "learning-in-public",
+				"id": "page-hosting",
+				"slug": "hosting",
 				"status": "published",
 				"data": {
-					"title": "Learning in Public",
-					"excerpt": "Writing about what you're learning is the fastest way to find out what you don't actually understand.",
-					"featured_image": {
-						"$media": {
-							"url": "https://images.unsplash.com/photo-1432821596592-e2c18b78144f?w=1200&h=800&fit=crop",
-							"alt": "Notebook and pen on a desk",
-							"filename": "learning-in-public.jpg"
-						}
-					},
+					"title": "Hosting",
+					"template": "blocks",
+					"summary": "This environment is designed to empower small businesses by providing a reliable, secure, and high-performing platform to manage their online presence and e-commerce activities effectively.",
+					"keywords": "hosting, AWS, Cloudflare, CDN, DDoS, NGINX, SSL, Let's Encrypt, backups, Acronis, New Relic, monitoring, uptime, WP Rocket, ManageWP, Zendesk, support, WooCommerce, e-commerce, PayPal, Stripe, Square, inventory, storefront",
 					"content": [
 						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "I started writing about things I was learning not because I had anything original to say, but because I kept forgetting what I'd figured out. The blog posts were notes to my future self, published publicly more out of laziness than courage.",
-									"_key": "k1"
-								}
-							],
-							"_key": "k0"
+							"_type": "lf_page_intro",
+							"_version": 1,
+							"_key": "hosting-intro",
+							"night": true,
+							"eyebrow": "Hosting and E-commerce Solutions",
+							"headline": "Comprehensive WordPress Hosting and E-commerce Solutions for Small Businesses",
+							"lead": "This environment is designed to empower small businesses by providing a reliable, secure, and high-performing platform to manage their online presence and e-commerce activities effectively.",
+							"stats": "99.9% | Uptime, with Cloudflare CDN and redundancy\n24/7 | Alerts from New Relic monitoring\nDaily | Automated Acronis backups with easy restoration"
 						},
 						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
+							"_type": "lf_spec_tabs",
+							"_version": 1,
+							"_key": "hosting-specs",
+							"anchor_id": "specs",
+							"eyebrow": "Technical Specifications",
+							"headline": "Hosting, Management, and E-commerce",
+							"specs": [
 								{
-									"_type": "span",
-									"text": "What I didn't expect was how much the writing itself would accelerate the learning. There's a particular kind of clarity that comes from trying to explain something to someone else. The gaps in your understanding, which you can happily ignore when the knowledge lives only in your head, become painfully obvious when you try to put it into sentences.",
-									"_key": "k3"
+									"group": "Hosting",
+									"icon": "cloud",
+									"title": "Scalable Infrastructure",
+									"text": "Built on AWS to handle varying traffic loads efficiently.",
+									"tags": "AWS"
+								},
+								{
+									"group": "Hosting",
+									"icon": "globe",
+									"title": "High Availability",
+									"text": "Utilizing Cloudflare for CDN and redundancy to ensure 99.9% uptime.",
+									"tags": "Cloudflare",
+									"tip_label": "What is a CDN?",
+									"tip_text": "Content delivery network: copies of your site served from locations close to each visitor."
+								},
+								{
+									"group": "Hosting",
+									"icon": "shield-check",
+									"title": "Enhanced Security",
+									"text": "Including Let's Encrypt SSL, daily Acronis backups, and Cloudflare DDoS protection.",
+									"tags": "Let's Encrypt, Acronis, Cloudflare"
+								},
+								{
+									"group": "Hosting",
+									"icon": "zap",
+									"title": "Performance Optimization",
+									"text": "NGINX as reverse proxy and caching, combined with Cloudflare CDN.",
+									"tags": "NGINX, Cloudflare",
+									"tip_label": "What is a reverse proxy?",
+									"tip_text": "A server in front of WordPress that answers repeat requests from a fast cache."
+								},
+								{
+									"group": "Management",
+									"icon": "refresh-cw",
+									"title": "WordPress Optimization",
+									"text": "Tools like WP Rocket and ManageWP for updates and performance.",
+									"tags": "WP Rocket, ManageWP"
+								},
+								{
+									"group": "Management",
+									"icon": "activity",
+									"title": "Comprehensive Monitoring",
+									"text": "New Relic for 24/7 alerts.",
+									"tags": "New Relic"
+								},
+								{
+									"group": "Management",
+									"icon": "history",
+									"title": "Backup and Recovery",
+									"text": "Automated Acronis backups with easy restoration.",
+									"tags": "Acronis"
+								},
+								{
+									"group": "Management",
+									"icon": "headset",
+									"title": "Technical Support",
+									"text": "Zendesk for ticketing and quick resolution.",
+									"tags": "Zendesk"
+								},
+								{
+									"group": "E-commerce",
+									"icon": "shopping-cart",
+									"title": "Seamless Integration",
+									"text": "WooCommerce for store setup.",
+									"tags": "WooCommerce"
+								},
+								{
+									"group": "E-commerce",
+									"icon": "credit-card",
+									"title": "Payment Gateways",
+									"text": "PayPal, Stripe, and Square.",
+									"tags": "PayPal, Stripe, Square"
+								},
+								{
+									"group": "E-commerce",
+									"icon": "package",
+									"title": "Inventory Management",
+									"text": "Built-in WooCommerce tools.",
+									"tags": "WooCommerce"
+								},
+								{
+									"group": "E-commerce",
+									"icon": "store",
+									"title": "Customizable Storefronts",
+									"text": "Themes and plugins from ThemeForest and WordPress Directory.",
+									"tags": "ThemeForest, WordPress Directory"
 								}
-							],
-							"_key": "k2"
+							]
 						},
 						{
-							"_type": "block",
-							"style": "h2",
-							"children": [
-								{
-									"_type": "span",
-									"text": "The fear of being wrong",
-									"_key": "k5"
-								}
-							],
-							"_key": "k4"
-						},
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "The biggest barrier isn't time or writing skill. It's the fear of publishing something that turns out to be wrong. But here's the thing: being wrong publicly is one of the most efficient ways to learn. Someone will correct you, often kindly, and you'll remember that correction forever.",
-									"_key": "k7"
-								}
-							],
-							"_key": "k6"
-						},
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "The posts that helped me most weren't written by experts. They were written by people one step ahead of me on the same path, in language that hadn't yet been polished into abstraction. There's a place for that kind of writing, and it's more valuable than most people realize.",
-									"_key": "k9"
-								}
-							],
-							"_key": "k8"
+							"_type": "lf_offer",
+							"_version": 1,
+							"_key": "hosting-offer",
+							"icon": "server",
+							"headline": "Small Business Hosting",
+							"text": "Optimized for WordPress, ensuring your site is always running smoothly.",
+							"benefit": "Reliable performance and scalability.",
+							"cta_label": "Get started",
+							"cta_url": "/contact?service=hosting#enquiry"
 						}
 					]
-				},
-				"taxonomies": {
-					"category": ["notes"],
-					"tag": ["opinion"]
 				}
 			},
 			{
-				"id": "post-4",
-				"slug": "small-tools-big-impact",
+				"id": "page-contact",
+				"slug": "contact",
 				"status": "published",
 				"data": {
-					"title": "Small Tools, Big Impact",
-					"excerpt": "The best developer tools do one thing well and get out of your way. A love letter to focused software.",
-					"featured_image": {
-						"$media": {
-							"url": "https://images.unsplash.com/photo-1575026615908-666710ae5e47?w=1200&h=800&fit=crop",
-							"alt": "Wrenches and hand tools hanging on a workshop wall",
-							"filename": "small-tools.jpg"
-						}
-					},
+					"title": "Contact",
+					"template": "blocks",
+					"summary": "Share a few details and our team of web consultants will follow up with next steps.",
+					"keywords": "contact, start a project, quote, estimate, email, phone, WordPress, hosting, SEO",
 					"content": [
 						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "There's a class of software that doesn't get enough appreciation. Not the frameworks or the platforms or the IDEs, but the small, sharp tools that solve one problem so well you stop thinking about them. They become invisible, which is the highest compliment you can pay a tool.",
-									"_key": "k1"
-								}
-							],
-							"_key": "k0"
+							"_type": "lf_page_intro",
+							"_version": 1,
+							"_key": "contact-intro",
+							"eyebrow": "Start a project",
+							"headline": "Tell Us About Your Website",
+							"lead": "Share a few details and our team of web consultants will follow up with next steps. Only your name and email are required."
 						},
 						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
+							"_type": "lf_enquiry",
+							"_version": 1,
+							"_key": "contact-form",
+							"anchor_id": "enquiry",
+							"subject": "Project enquiry",
+							"needs_label": "What do you need?",
+							"needs": "wordpress | WordPress Design | Design · E-commerce · Maintenance\nperformance | Performance | Speed · Security · Maintenance\nseo | SEO | Keywords · Links · Local\ncontent | Content | Blog · Messaging · Updates\nanalytics | Analytics | Setup · Training · Reports\nsocial | Social Media | Profiles · Sharing · Feeds\nhosting | Hosting | Optimized for WordPress\nconsulting | Tech Consulting | Expert guidance\nmarketing | Digital Marketing | Promote · Engage · Convert",
+							"platform_label": "Is your current site built on WordPress?",
+							"platform_options": "Yes\nNo\nNot sure\nNo site yet",
+							"timeline_options": "As soon as possible\nIn 1–3 months\nIn 3–6 months\nJust exploring",
+							"notes_label": "Project notes",
+							"notes_placeholder": "Goals, deadlines, what's not working today.",
+							"submit_label": "Send request",
+							"footnote": "Only your name and email are required.",
+							"success_title": "Thanks, {name}. We're on it.",
+							"success_text": "Our team will review your request and reply to {email}.",
+							"aside": true,
+							"aside_eyebrow": "Other ways to start",
+							"aside_items": [
 								{
-									"_type": "span",
-									"text": "I'm talking about things like ripgrep, which searches code so fast it changed how I think about searching. Or jq, which makes JSON feel like a first-class data format in the terminal. Or curl, which has been quietly powering the internet's plumbing for decades.",
-									"_key": "k3"
+									"icon": "calendar",
+									"title": "Book a Website Consultation",
+									"note": "Analysis, planning, and a growth roadmap",
+									"url": "/consultation"
+								},
+								{
+									"icon": "headset",
+									"title": "Already hosting with us?",
+									"note": "Technical support runs on Zendesk ticketing"
+								},
+								{
+									"icon": "map-pin",
+									"title": "Chicago, Illinois",
+									"note": "Lakefront Digital home base"
 								}
 							],
-							"_key": "k2"
-						},
-						{
-							"_type": "block",
-							"style": "h2",
-							"children": [
-								{
-									"_type": "span",
-									"text": "The Unix philosophy, revisited",
-									"_key": "k5"
-								}
-							],
-							"_key": "k4"
-						},
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "Do one thing well. The advice is old enough to be a cliche, but the best modern tools still follow it. They don't try to be platforms. They don't have plugin ecosystems or configuration languages or startup wizards. They do their job and they compose with other tools that do theirs.",
-									"_key": "k7"
-								}
-							],
-							"_key": "k6"
-						},
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "The temptation is always to add more. One more feature, one more option, one more integration. But every addition is a decision someone has to make, a path through the code that has to be maintained, a thing that can break. The best tools resist this. They stay small, and in staying small, they stay reliable.",
-									"_key": "k9"
-								}
-							],
-							"_key": "k8"
+							"photo": "dock"
 						}
 					]
-				},
-				"taxonomies": {
-					"category": ["development"],
-					"tag": ["tools"]
 				}
 			},
 			{
-				"id": "post-5",
-				"slug": "designing-with-constraints",
+				"id": "page-consultation",
+				"slug": "consultation",
 				"status": "published",
 				"data": {
-					"title": "Designing with Constraints",
-					"excerpt": "Limitations aren't obstacles to creativity. They're the structure that makes creativity possible.",
-					"featured_image": {
-						"$media": {
-							"url": "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=1200&h=800&fit=crop",
-							"alt": "Pencils and design tools on a desk",
-							"filename": "designing-with-constraints.jpg"
-						}
-					},
+					"title": "Website Consultation",
+					"template": "blocks",
+					"summary": "Comprehensive Website Consultation and Business Plan Service for Growth and Success",
+					"keywords": "website consultation, website analysis, business plan, strategy, recommendations, growth roadmap, preparation tips, white papers",
 					"content": [
 						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
+							"_type": "lf_product",
+							"_version": 1,
+							"_key": "consultation-summary",
+							"eyebrow": "Website Consultation",
+							"headline": "Comprehensive Website Consultation and Business Plan Service for Growth and Success",
+							"intro": "Transform your online presence:",
+							"items": [
 								{
-									"_type": "span",
-									"text": "Give a designer a blank canvas and unlimited time, and they'll often produce something mediocre. Give them a tight brief, a small screen, and a deadline, and they'll surprise you. This isn't a paradox - it's how creativity actually works.",
-									"_key": "k1"
+									"icon": "scan-search",
+									"label": "Detailed Website Analysis"
+								},
+								{
+									"icon": "clipboard-list",
+									"label": "Strategic Business Planning"
+								},
+								{
+									"icon": "lightbulb",
+									"label": "Personalized Recommendations"
+								},
+								{
+									"icon": "route",
+									"label": "Growth Roadmap"
 								}
 							],
-							"_key": "k0"
+							"primary_cta_label": "Book a consultation",
+							"primary_cta_url": "#enquiry",
+							"secondary_cta_label": "Ask a question",
+							"secondary_cta_url": "/contact?service=consulting#enquiry",
+							"photo": "window"
 						},
 						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
+							"_type": "lf_steps",
+							"_version": 1,
+							"_key": "consultation-tips",
+							"eyebrow": "Before your consultation",
+							"headline": "Preparation Tips",
+							"steps": [
 								{
-									"_type": "span",
-									"text": "Constraints force decisions. When you can't use more than two typefaces, you have to choose carefully. When the page has to load in under a second, every element earns its place. When the interface has to work on a 320px screen, you discover what's truly essential.",
-									"_key": "k3"
+									"icon": "target",
+									"title": "Identify Goals"
+								},
+								{
+									"icon": "database",
+									"title": "Gather Data"
+								},
+								{
+									"icon": "users",
+									"title": "Know Audience"
+								},
+								{
+									"icon": "message-square",
+									"title": "Prepare Questions"
+								},
+								{
+									"icon": "binoculars",
+									"title": "Review Competitors"
 								}
-							],
-							"_key": "k2"
+							]
 						},
 						{
-							"_type": "block",
-							"style": "h2",
-							"children": [
+							"_type": "lf_card_grid",
+							"_version": 1,
+							"_key": "consultation-papers",
+							"eyebrow": "Resources",
+							"headline": "Sample White Papers",
+							"cards": [
 								{
-									"_type": "span",
-									"text": "Embracing the box",
-									"_key": "k5"
+									"icon": "file-text",
+									"title": "Optimizing Your Website for Increased Conversions"
+								},
+								{
+									"icon": "file-text",
+									"title": "Leveraging Digital Marketing for Business Growth"
 								}
-							],
-							"_key": "k4"
+							]
 						},
 						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "The web itself is a constraint. HTML flows in one direction. CSS has a box model. Browsers have viewport sizes and font rendering quirks. You can fight these constraints or you can work with them, and the results are dramatically different.",
-									"_key": "k7"
-								}
-							],
-							"_key": "k6"
-						},
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "The designs I admire most don't look like they were forced through a framework. They look like they grew naturally from the medium, respecting its grain rather than working against it. That only happens when you treat constraints as creative partners rather than enemies.",
-									"_key": "k9"
-								}
-							],
-							"_key": "k8"
+							"_type": "lf_enquiry",
+							"_version": 1,
+							"_key": "consultation-form",
+							"anchor_id": "enquiry",
+							"subject": "Website consultation request",
+							"eyebrow": "Book a consultation",
+							"headline": "Request your Website Consultation",
+							"lead": "Share a few details and our team of web consultants will follow up with next steps. Only your name and email are required.",
+							"platform_label": "Is your current site built on WordPress?",
+							"platform_options": "Yes\nNo\nNot sure\nNo site yet",
+							"timeline_options": "As soon as possible\nIn 1–3 months\nIn 3–6 months\nJust exploring",
+							"notes_label": "What would you like to cover?",
+							"notes_placeholder": "Goals, deadlines, what's not working today.",
+							"submit_label": "Request consultation",
+							"footnote": "Only your name and email are required.",
+							"success_title": "Thanks, {name}. We're on it.",
+							"success_text": "Our team will review your request and reply to {email} to schedule your consultation.",
+							"aside": false
 						}
 					]
-				},
-				"taxonomies": {
-					"category": ["design"],
-					"tag": ["creativity"]
 				}
 			},
 			{
-				"id": "post-6",
-				"slug": "a-weekend-with-a-side-project",
+				"id": "page-terms",
+				"slug": "terms",
 				"status": "published",
 				"data": {
-					"title": "A Weekend with a Side Project",
-					"excerpt": "No stakeholders, no deadlines, no Jira tickets. Just you and a dumb idea that might turn into something.",
-					"featured_image": {
-						"$media": {
-							"url": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&h=800&fit=crop",
-							"alt": "Code on a screen with a dark theme",
-							"filename": "weekend-side-project.jpg"
-						}
-					},
-					"content": [
+					"title": "Terms and Conditions",
+					"template": "legal",
+					"eyebrow": "Legal",
+					"summary": "Welcome to Lakefront Digital. These Terms and Conditions govern your use of our website and services.",
+					"keywords": "terms, conditions, legal, fees, payment, confidentiality, liability, Illinois",
+					"effective_date": "2024-06-20T00:00:00.000Z",
+					"body": [
 						{
 							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "Saturday morning. Coffee's made, the house is quiet, and I've got an idea that's been nagging at me all week. Not a good idea, necessarily - just a persistent one. A small tool that does a thing I keep doing manually. How hard could it be?",
-									"_key": "k1"
-								}
-							],
-							"_key": "k0"
-						},
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "This is the best kind of programming. No requirements document, no sprint planning, no pull request reviews. Just a text editor and a problem. The freedom to make terrible architectural decisions, rewrite everything twice, and follow tangents that turn out to be dead ends.",
-									"_key": "k3"
-								}
-							],
-							"_key": "k2"
-						},
-						{
-							"_type": "block",
+							"_key": "b2",
 							"style": "h2",
+							"markDefs": [],
 							"children": [
 								{
 									"_type": "span",
-									"text": "Why side projects matter",
-									"_key": "k5"
+									"_key": "s1",
+									"text": "Introduction",
+									"marks": []
 								}
-							],
-							"_key": "k4"
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "b7",
 							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "m3",
+									"_type": "link",
+									"href": "https://lakefrontdigital.io"
+								}
+							],
 							"children": [
 								{
 									"_type": "span",
-									"text": "Side projects are where you learn things your day job would never teach you. Not because the problems are harder, but because you're free to take risks. Try a language you've never used. Build something without a framework. Deploy to a platform you've only read about. The stakes are zero, which makes the learning maximum.",
-									"_key": "k7"
+									"_key": "s4",
+									"text": "Lakefront Digital LLC operates ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "s5",
+									"text": "lakefrontdigital.io",
+									"marks": [
+										"m3"
+									]
+								},
+								{
+									"_type": "span",
+									"_key": "s6",
+									"text": " and provides web design, hosting, and consulting services.",
+									"marks": []
 								}
-							],
-							"_key": "k6"
+							]
 						},
 						{
 							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "By Sunday evening, the thing sort of works. It's rough, the error handling is nonexistent, and the README is a single sentence. But it solves the problem I set out to solve, and I learned three things I didn't know on Friday. Not a bad weekend.",
-									"_key": "k9"
-								}
-							],
-							"_key": "k8"
-						}
-					]
-				},
-				"taxonomies": {
-					"category": ["development"],
-					"tag": ["creativity"]
-				}
-			},
-			{
-				"id": "post-7",
-				"slug": "notes-on-simplicity",
-				"status": "published",
-				"data": {
-					"title": "Notes on Simplicity",
-					"excerpt": "Simplicity isn't the absence of complexity. It's the result of understanding a problem well enough to solve it cleanly.",
-					"featured_image": {
-						"$media": {
-							"url": "https://images.unsplash.com/photo-1559051668-e1fa58f25786?w=1200&h=800&fit=crop",
-							"alt": "Geometric pattern carved into white paper",
-							"filename": "notes-on-simplicity.jpg"
-						}
-					},
-					"content": [
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "Every piece of software starts simple. A few files, a clear purpose, a small surface area. Then features get added, edge cases get handled, and before long you're looking at something that requires a diagram to understand. This isn't inevitable, but it takes discipline to prevent.",
-									"_key": "k1"
-								}
-							],
-							"_key": "k0"
-						},
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "The hard part of simplicity isn't the initial design. It's the ongoing resistance to complication. Every feature request, every bug fix, every refactor is an opportunity to add complexity. Saying no is the most important design skill, and the least celebrated.",
-									"_key": "k3"
-								}
-							],
-							"_key": "k2"
-						},
-						{
-							"_type": "block",
+							"_key": "b9",
 							"style": "h2",
+							"markDefs": [],
 							"children": [
 								{
 									"_type": "span",
-									"text": "Removing as a feature",
-									"_key": "k5"
+									"_key": "s8",
+									"text": "Services",
+									"marks": []
 								}
-							],
-							"_key": "k4"
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "b11",
 							"style": "normal",
+							"markDefs": [],
 							"children": [
 								{
 									"_type": "span",
-									"text": "The best version of a product often has fewer features than the previous one. Not because features were missing, but because someone had the courage to remove things that weren't earning their keep. Every feature has a cost - in maintenance, in cognitive load, in the weight of the interface.",
-									"_key": "k7"
+									"_key": "s10",
+									"text": "We offer services as detailed on our site. No guarantees of specific outcomes.",
+									"marks": []
 								}
-							],
-							"_key": "k6"
+							]
 						},
 						{
 							"_type": "block",
-							"style": "normal",
+							"_key": "b13",
+							"style": "h2",
+							"markDefs": [],
 							"children": [
 								{
 									"_type": "span",
-									"text": "Simplicity is a practice, not a destination. You never arrive at simple. You just keep asking: is this necessary? Could this be clearer? Is there a way to solve this problem by removing something instead of adding something? The answer is yes more often than you'd expect.",
-									"_key": "k9"
+									"_key": "s12",
+									"text": "Use of the Site",
+									"marks": []
 								}
-							],
-							"_key": "k8"
-						}
-					]
-				},
-				"taxonomies": {
-					"category": ["notes"],
-					"tag": ["opinion"]
-				}
-			},
-			{
-				"id": "post-draft",
-				"slug": "work-in-progress",
-				"status": "draft",
-				"data": {
-					"title": "Work in Progress",
-					"excerpt": "This post is still being written.",
-					"content": [
+							]
+						},
 						{
 							"_type": "block",
+							"_key": "b15",
 							"style": "normal",
+							"markDefs": [],
 							"children": [
 								{
 									"_type": "span",
-									"text": "This is a draft post that won't appear in the public listing.",
-									"_key": "k1"
+									"_key": "s14",
+									"text": "Must be 18+. Maintain account confidentiality. No prohibited activities.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b17",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s16",
+									"text": "Intellectual Property",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b19",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s18",
+									"text": "All site content is owned by us. Limited license granted. Client content licensed to us for service provision.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b21",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s20",
+									"text": "Client Responsibilities",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b23",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s22",
+									"text": "Provide accurate info. Comply with laws. No objectionable content.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b25",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s24",
+									"text": "Fees and Payment",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b27",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s26",
+									"text": "Fees non-refundable. Invoices due upon receipt. You pay taxes.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b29",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s28",
+									"text": "Confidentiality",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b31",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s30",
+									"text": "Confidential info protected for 2 years post-termination.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b33",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s32",
+									"text": "Limitation of Liability",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b35",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s34",
+									"text": "No warranties. No indirect damages. Liability capped at 12 months' payments.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b37",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s36",
+									"text": "Indemnification",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b39",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s38",
+									"text": "You indemnify us against claims from your use.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b41",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s40",
+									"text": "Termination",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b43",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s42",
+									"text": "We can terminate for any reason. Provisions survive.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b45",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s44",
+									"text": "Governing Law",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b47",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s46",
+									"text": "Illinois law. Disputes in Cook County courts.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b49",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s48",
+									"text": "Changes to Terms",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b51",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s50",
+									"text": "Changes effective upon posting.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b53",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s52",
+									"text": "Third-Party Services",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b55",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s54",
+									"text": "Comply with WooCommerce, WordPress, and Google Analytics terms.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b57",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s56",
+									"text": "Force Majeure",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b59",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s58",
+									"text": "No liability for uncontrollable events.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b61",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s60",
+									"text": "Severability",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b63",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s62",
+									"text": "Invalid provisions limited; rest enforceable.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b65",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s64",
+									"text": "Entire Agreement",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b67",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s66",
+									"text": "These Terms are the full agreement.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b69",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s68",
+									"text": "Contact Us",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b75",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "m70",
+									"_type": "link",
+									"href": "mailto:hello@lakefrontdigital.io"
+								},
+								{
+									"_key": "m71",
+									"_type": "link",
+									"href": "tel:+17732318020"
 								}
 							],
-							"_key": "k0"
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s72",
+									"text": "hello@lakefrontdigital.io",
+									"marks": [
+										"m70"
+									]
+								},
+								{
+									"_type": "span",
+									"_key": "s73",
+									"text": " | ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "s74",
+									"text": "(773) 231-8020",
+									"marks": [
+										"m71"
+									]
+								}
+							]
 						}
 					]
 				}

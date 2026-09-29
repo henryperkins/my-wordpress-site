@@ -1,0 +1,55 @@
+---
+import type { EditProxy } from "emdash";
+import { Blocks, defineBlockComponents } from "emdash/ui";
+import type { Page, PageContentBlock } from "../../emdash-env";
+import CardGrid from "./blocks/CardGrid.astro";
+import CtaBand from "./blocks/CtaBand.astro";
+import Enquiry from "./blocks/Enquiry.astro";
+import Hero from "./blocks/Hero.astro";
+import Offer from "./blocks/Offer.astro";
+import PageIntroBlock from "./blocks/PageIntroBlock.astro";
+import Product from "./blocks/Product.astro";
+import ServiceTabs from "./blocks/ServiceTabs.astro";
+import SpecTabs from "./blocks/SpecTabs.astro";
+import Split from "./blocks/Split.astro";
+import Steps from "./blocks/Steps.astro";
+import PageIntro from "./PageIntro.astro";
+
+interface Props {
+	page: { data: Page; edit: EditProxy };
+}
+
+const { page } = Astro.props;
+const blocks = page.data.content ?? [];
+
+// One renderer per Lakefront block type (seed.json → blockTypes).
+const components = defineBlockComponents<PageContentBlock>({
+	lf_hero: Hero,
+	lf_page_intro: PageIntroBlock,
+	lf_card_grid: CardGrid,
+	lf_split: Split,
+	lf_steps: Steps,
+	lf_service_tabs: ServiceTabs,
+	lf_spec_tabs: SpecTabs,
+	lf_offer: Offer,
+	lf_cta_band: CtaBand,
+	lf_product: Product,
+	lf_enquiry: Enquiry,
+});
+
+// Hero, Page intro and Service summary carry the page's h1 when they come first; otherwise add one for screen readers.
+const titled = ["lf_hero", "lf_page_intro", "lf_product"].includes(blocks[0]?._type ?? "");
+---
+
+{
+	blocks.length === 0 ? (
+		<PageIntro title={page.data.title} lead={page.data.summary} titleAttrs={page.edit.title} solo />
+	) : (
+		<Fragment>
+			{!titled && <h1 class="lfw-vh">{page.data.title}</h1>}
+			<div class="lfw-blocks" {...page.edit.content}>
+				<Blocks value={blocks} components={components} />
+			</div>
+		</Fragment>
+	)
+}

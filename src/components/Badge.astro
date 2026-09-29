@@ -1,0 +1,18 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+	tone?: "neutral" | "info" | "success" | "warning" | "danger" | "accent" | "gold" | "brand";
+	size?: "md" | "lg";
+	dot?: boolean;
+	icon?: string;
+}
+
+const { tone = "neutral", size = "md", dot = false, icon } = Astro.props;
+---
+
+<span class:list={["lf-badge", `lf-badge--${tone}`, size === "lg" && "lf-badge--lg"]}>
+	{dot && <span class="lf-badge__dot" aria-hidden="true" />}
+	{icon && <Icon name={icon} size={size === "lg" ? 13 : 12} />}
+	<slot />
+</span>

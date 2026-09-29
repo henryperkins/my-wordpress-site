@@ -5,28 +5,212 @@
 
 import type { BylineSummary, ContentBylineCredit, TaxonomyTerm, PortableTextBlock } from "emdash";
 
+export interface PageContentLfHeroV1Block {
+  _type: "lf_hero";
+  _version: 1;
+  _key: string;
+  "anchor_id"?: string | null;
+  "eyebrow"?: string | null;
+  "headline": string;
+  "highlight"?: string | null;
+  "lead"?: string | null;
+  "primary_cta_label"?: string | null;
+  "primary_cta_url"?: string | null;
+  "secondary_cta_label"?: string | null;
+  "secondary_cta_url"?: string | null;
+  "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
+  "photo"?: "shore" | "window" | "glass" | "ripple" | "dock" | "wave" | "aqua-tower" | "loop-night" | "el-night" | "willis-fog" | "brick-lane" | "alley-night" | "alley-dusk" | null;
+  "goal"?: string | null;
+  "stack_label"?: string | null;
+  "stack"?: string | null;
+}
+
+export type PageContentLfHeroBlock = PageContentLfHeroV1Block;
+
+export interface PageContentLfPageIntroV1Block {
+  _type: "lf_page_intro";
+  _version: 1;
+  _key: string;
+  "anchor_id"?: string | null;
+  "eyebrow"?: string | null;
+  "headline": string;
+  "lead"?: string | null;
+  "night"?: boolean | null;
+  "stats"?: string | null;
+}
+
+export type PageContentLfPageIntroBlock = PageContentLfPageIntroV1Block;
+
+export interface PageContentLfCardGridV1Block {
+  _type: "lf_card_grid";
+  _version: 1;
+  _key: string;
+  "anchor_id"?: string | null;
+  "eyebrow"?: string | null;
+  "headline"?: string | null;
+  "lead"?: string | null;
+  "cards": { "icon": "activity" | "badge-check" | "binoculars" | "calendar" | "calendar-check" | "chart-column" | "chart-line" | "check" | "circle-check" | "clipboard-list" | "clock" | "cloud" | "cloud-upload" | "code-xml" | "cpu" | "credit-card" | "database" | "file-text" | "gauge" | "git-branch" | "globe" | "hard-drive" | "headset" | "history" | "key-round" | "layers" | "layout-template" | "life-buoy" | "lightbulb" | "link" | "lock" | "mail" | "map-pin" | "megaphone" | "message-square" | "monitor-smartphone" | "network" | "package" | "panels-top-left" | "pen-line" | "phone" | "refresh-cw" | "rocket" | "route" | "scan-search" | "search" | "send" | "server" | "settings" | "share-2" | "shield-check" | "shopping-bag" | "shopping-cart" | "sparkles" | "store" | "target" | "trending-up" | "users" | "waves" | "wrench" | "zap"; "title": string; "text"?: string | null; "benefit"?: string | null; "badge"?: string | null; "link_label"?: string | null; "link_url"?: string | null }[];
+}
+
+export type PageContentLfCardGridBlock = PageContentLfCardGridV1Block;
+
+export interface PageContentLfSplitV1Block {
+  _type: "lf_split";
+  _version: 1;
+  _key: string;
+  "anchor_id"?: string | null;
+  "night"?: boolean | null;
+  "photo_first"?: boolean | null;
+  "eyebrow"?: string | null;
+  "headline": string;
+  "lead"?: string | null;
+  "body"?: string | null;
+  "checklist"?: string | null;
+  "primary_cta_label"?: string | null;
+  "primary_cta_url"?: string | null;
+  "secondary_cta_label"?: string | null;
+  "secondary_cta_url"?: string | null;
+  "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
+  "photo"?: "shore" | "window" | "glass" | "ripple" | "dock" | "wave" | "aqua-tower" | "loop-night" | "el-night" | "willis-fog" | "brick-lane" | "alley-night" | "alley-dusk" | null;
+  "panel_title"?: string | null;
+  "panel_badge"?: string | null;
+  "panel_rows"?: string | null;
+}
+
+export type PageContentLfSplitBlock = PageContentLfSplitV1Block;
+
+export interface PageContentLfStepsV1Block {
+  _type: "lf_steps";
+  _version: 1;
+  _key: string;
+  "anchor_id"?: string | null;
+  "eyebrow"?: string | null;
+  "headline": string;
+  "lead"?: string | null;
+  "cta_label"?: string | null;
+  "cta_url"?: string | null;
+  "steps": { "icon": "activity" | "badge-check" | "binoculars" | "calendar" | "calendar-check" | "chart-column" | "chart-line" | "check" | "circle-check" | "clipboard-list" | "clock" | "cloud" | "cloud-upload" | "code-xml" | "cpu" | "credit-card" | "database" | "file-text" | "gauge" | "git-branch" | "globe" | "hard-drive" | "headset" | "history" | "key-round" | "layers" | "layout-template" | "life-buoy" | "lightbulb" | "link" | "lock" | "mail" | "map-pin" | "megaphone" | "message-square" | "monitor-smartphone" | "network" | "package" | "panels-top-left" | "pen-line" | "phone" | "refresh-cw" | "rocket" | "route" | "scan-search" | "search" | "send" | "server" | "settings" | "share-2" | "shield-check" | "shopping-bag" | "shopping-cart" | "sparkles" | "store" | "target" | "trending-up" | "users" | "waves" | "wrench" | "zap"; "title": string; "text"?: string | null }[];
+}
+
+export type PageContentLfStepsBlock = PageContentLfStepsV1Block;
+
+export interface PageContentLfServiceTabsV1Block {
+  _type: "lf_service_tabs";
+  _version: 1;
+  _key: string;
+  "anchor_id"?: string | null;
+  "label"?: string | null;
+  "services": { "slug": string; "tab_label": string; "icon": "activity" | "badge-check" | "binoculars" | "calendar" | "calendar-check" | "chart-column" | "chart-line" | "check" | "circle-check" | "clipboard-list" | "clock" | "cloud" | "cloud-upload" | "code-xml" | "cpu" | "credit-card" | "database" | "file-text" | "gauge" | "git-branch" | "globe" | "hard-drive" | "headset" | "history" | "key-round" | "layers" | "layout-template" | "life-buoy" | "lightbulb" | "link" | "lock" | "mail" | "map-pin" | "megaphone" | "message-square" | "monitor-smartphone" | "network" | "package" | "panels-top-left" | "pen-line" | "phone" | "refresh-cw" | "rocket" | "route" | "scan-search" | "search" | "send" | "server" | "settings" | "share-2" | "shield-check" | "shopping-bag" | "shopping-cart" | "sparkles" | "store" | "target" | "trending-up" | "users" | "waves" | "wrench" | "zap"; "name": string; "description"?: string | null; "features"?: string | null; "benefits"?: string | null; "primary_cta_label"?: string | null; "primary_cta_url"?: string | null; "secondary_cta_label"?: string | null; "secondary_cta_url"?: string | null; "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null; "photo"?: "shore" | "window" | "glass" | "ripple" | "dock" | "wave" | "aqua-tower" | "loop-night" | "el-night" | "willis-fog" | "brick-lane" | "alley-night" | "alley-dusk" | null }[];
+}
+
+export type PageContentLfServiceTabsBlock = PageContentLfServiceTabsV1Block;
+
+export interface PageContentLfSpecTabsV1Block {
+  _type: "lf_spec_tabs";
+  _version: 1;
+  _key: string;
+  "anchor_id"?: string | null;
+  "eyebrow"?: string | null;
+  "headline"?: string | null;
+  "specs": { "group": string; "icon": "activity" | "badge-check" | "binoculars" | "calendar" | "calendar-check" | "chart-column" | "chart-line" | "check" | "circle-check" | "clipboard-list" | "clock" | "cloud" | "cloud-upload" | "code-xml" | "cpu" | "credit-card" | "database" | "file-text" | "gauge" | "git-branch" | "globe" | "hard-drive" | "headset" | "history" | "key-round" | "layers" | "layout-template" | "life-buoy" | "lightbulb" | "link" | "lock" | "mail" | "map-pin" | "megaphone" | "message-square" | "monitor-smartphone" | "network" | "package" | "panels-top-left" | "pen-line" | "phone" | "refresh-cw" | "rocket" | "route" | "scan-search" | "search" | "send" | "server" | "settings" | "share-2" | "shield-check" | "shopping-bag" | "shopping-cart" | "sparkles" | "store" | "target" | "trending-up" | "users" | "waves" | "wrench" | "zap"; "title": string; "text"?: string | null; "tags"?: string | null; "tip_label"?: string | null; "tip_text"?: string | null }[];
+}
+
+export type PageContentLfSpecTabsBlock = PageContentLfSpecTabsV1Block;
+
+export interface PageContentLfOfferV1Block {
+  _type: "lf_offer";
+  _version: 1;
+  _key: string;
+  "anchor_id"?: string | null;
+  "icon"?: "activity" | "badge-check" | "binoculars" | "calendar" | "calendar-check" | "chart-column" | "chart-line" | "check" | "circle-check" | "clipboard-list" | "clock" | "cloud" | "cloud-upload" | "code-xml" | "cpu" | "credit-card" | "database" | "file-text" | "gauge" | "git-branch" | "globe" | "hard-drive" | "headset" | "history" | "key-round" | "layers" | "layout-template" | "life-buoy" | "lightbulb" | "link" | "lock" | "mail" | "map-pin" | "megaphone" | "message-square" | "monitor-smartphone" | "network" | "package" | "panels-top-left" | "pen-line" | "phone" | "refresh-cw" | "rocket" | "route" | "scan-search" | "search" | "send" | "server" | "settings" | "share-2" | "shield-check" | "shopping-bag" | "shopping-cart" | "sparkles" | "store" | "target" | "trending-up" | "users" | "waves" | "wrench" | "zap" | null;
+  "headline": string;
+  "text"?: string | null;
+  "benefit"?: string | null;
+  "cta_label"?: string | null;
+  "cta_url"?: string | null;
+}
+
+export type PageContentLfOfferBlock = PageContentLfOfferV1Block;
+
+export interface PageContentLfCtaBandV1Block {
+  _type: "lf_cta_band";
+  _version: 1;
+  _key: string;
+  "anchor_id"?: string | null;
+  "eyebrow"?: string | null;
+  "headline": string;
+  "text"?: string | null;
+  "cta_label"?: string | null;
+  "cta_url"?: string | null;
+  "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
+  "photo"?: "shore" | "window" | "glass" | "ripple" | "dock" | "wave" | "aqua-tower" | "loop-night" | "el-night" | "willis-fog" | "brick-lane" | "alley-night" | "alley-dusk" | null;
+}
+
+export type PageContentLfCtaBandBlock = PageContentLfCtaBandV1Block;
+
+export interface PageContentLfProductV1Block {
+  _type: "lf_product";
+  _version: 1;
+  _key: string;
+  "anchor_id"?: string | null;
+  "eyebrow"?: string | null;
+  "headline": string;
+  "intro"?: string | null;
+  "items": { "icon": "activity" | "badge-check" | "binoculars" | "calendar" | "calendar-check" | "chart-column" | "chart-line" | "check" | "circle-check" | "clipboard-list" | "clock" | "cloud" | "cloud-upload" | "code-xml" | "cpu" | "credit-card" | "database" | "file-text" | "gauge" | "git-branch" | "globe" | "hard-drive" | "headset" | "history" | "key-round" | "layers" | "layout-template" | "life-buoy" | "lightbulb" | "link" | "lock" | "mail" | "map-pin" | "megaphone" | "message-square" | "monitor-smartphone" | "network" | "package" | "panels-top-left" | "pen-line" | "phone" | "refresh-cw" | "rocket" | "route" | "scan-search" | "search" | "send" | "server" | "settings" | "share-2" | "shield-check" | "shopping-bag" | "shopping-cart" | "sparkles" | "store" | "target" | "trending-up" | "users" | "waves" | "wrench" | "zap"; "label": string }[];
+  "note"?: string | null;
+  "primary_cta_label"?: string | null;
+  "primary_cta_url"?: string | null;
+  "secondary_cta_label"?: string | null;
+  "secondary_cta_url"?: string | null;
+  "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
+  "photo"?: "shore" | "window" | "glass" | "ripple" | "dock" | "wave" | "aqua-tower" | "loop-night" | "el-night" | "willis-fog" | "brick-lane" | "alley-night" | "alley-dusk" | null;
+}
+
+export type PageContentLfProductBlock = PageContentLfProductV1Block;
+
+export interface PageContentLfEnquiryV1Block {
+  _type: "lf_enquiry";
+  _version: 1;
+  _key: string;
+  "anchor_id"?: string | null;
+  "subject": string;
+  "eyebrow"?: string | null;
+  "headline"?: string | null;
+  "lead"?: string | null;
+  "needs_label"?: string | null;
+  "needs"?: string | null;
+  "platform_label"?: string | null;
+  "platform_options"?: string | null;
+  "timeline_options"?: string | null;
+  "notes_label"?: string | null;
+  "notes_placeholder"?: string | null;
+  "submit_label"?: string | null;
+  "footnote"?: string | null;
+  "success_title"?: string | null;
+  "success_text"?: string | null;
+  "aside"?: boolean | null;
+  "aside_eyebrow"?: string | null;
+  "aside_items"?: { "icon": "activity" | "badge-check" | "binoculars" | "calendar" | "calendar-check" | "chart-column" | "chart-line" | "check" | "circle-check" | "clipboard-list" | "clock" | "cloud" | "cloud-upload" | "code-xml" | "cpu" | "credit-card" | "database" | "file-text" | "gauge" | "git-branch" | "globe" | "hard-drive" | "headset" | "history" | "key-round" | "layers" | "layout-template" | "life-buoy" | "lightbulb" | "link" | "lock" | "mail" | "map-pin" | "megaphone" | "message-square" | "monitor-smartphone" | "network" | "package" | "panels-top-left" | "pen-line" | "phone" | "refresh-cw" | "rocket" | "route" | "scan-search" | "search" | "send" | "server" | "settings" | "share-2" | "shield-check" | "shopping-bag" | "shopping-cart" | "sparkles" | "store" | "target" | "trending-up" | "users" | "waves" | "wrench" | "zap"; "title": string; "note"?: string | null; "url"?: string | null }[] | null;
+  "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
+  "photo"?: "shore" | "window" | "glass" | "ripple" | "dock" | "wave" | "aqua-tower" | "loop-night" | "el-night" | "willis-fog" | "brick-lane" | "alley-night" | "alley-dusk" | null;
+}
+
+export type PageContentLfEnquiryBlock = PageContentLfEnquiryV1Block;
+
+export type PageContentBlock = PageContentLfHeroBlock | PageContentLfPageIntroBlock | PageContentLfCardGridBlock | PageContentLfSplitBlock | PageContentLfStepsBlock | PageContentLfServiceTabsBlock | PageContentLfSpecTabsBlock | PageContentLfOfferBlock | PageContentLfCtaBandBlock | PageContentLfProductBlock | PageContentLfEnquiryBlock;
+
 export interface Page {
   id: string;
   slug: string | null;
   status: string;
   title: string;
-  content?: PortableTextBlock[];
-  createdAt: Date;
-  updatedAt: Date;
-  publishedAt: Date | null;
-  byline?: BylineSummary | null;
-  bylines?: ContentBylineCredit[];
-  terms?: Record<string, TaxonomyTerm[]>;
-}
-
-export interface Post {
-  id: string;
-  slug: string | null;
-  status: string;
-  title: string;
-  featured_image?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
-  content?: PortableTextBlock[];
-  excerpt?: string;
+  template?: "blocks" | "legal";
+  summary?: string;
+  keywords?: string;
+  content?: PageContentBlock[];
+  eyebrow?: string;
+  effective_date?: string;
+  body?: PortableTextBlock[];
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -38,6 +222,5 @@ export interface Post {
 declare module "emdash" {
   interface EmDashCollections {
     pages: Page;
-    posts: Post;
   }
 }

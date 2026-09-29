@@ -1,0 +1,15 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+	size?: "sm" | "md";
+	icon?: string;
+}
+
+const { size = "md", icon } = Astro.props;
+---
+
+<span class:list={["lf-tag", size === "sm" && "lf-tag--sm"]}>
+	{icon && <Icon name={icon} size={size === "sm" ? 13 : 15} />}
+	<span><slot /></span>
+</span>

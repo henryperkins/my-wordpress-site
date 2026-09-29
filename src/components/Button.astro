@@ -1,0 +1,35 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+	href?: string | null;
+	variant?: "primary" | "secondary" | "brand" | "outline" | "ghost" | "link";
+	size?: "sm" | "md" | "lg";
+	iconLeft?: string | null;
+	iconRight?: string | null;
+	block?: boolean;
+	type?: "button" | "submit";
+	class?: string;
+	[attr: string]: unknown;
+}
+
+const { href, variant = "primary", size = "md", iconLeft, iconRight, block = false, type = "button", class: className, ...attrs } = Astro.props;
+const classes = ["lf-btn", variant !== "primary" && `lf-btn--${variant}`, size !== "md" && `lf-btn--${size}`, block && "lf-btn--block", className];
+const iconSize = size === "sm" ? 16 : size === "lg" ? 20 : 18;
+---
+
+{
+	href ? (
+		<a href={href} class:list={classes} {...attrs}>
+			{iconLeft && <Icon name={iconLeft} size={iconSize} />}
+			<span class="lf-btn__label"><slot /></span>
+			{iconRight && <Icon name={iconRight} size={iconSize} class="lf-btn__icon-r" />}
+		</a>
+	) : (
+		<button type={type} class:list={classes} {...attrs}>
+			{iconLeft && <Icon name={iconLeft} size={iconSize} />}
+			<span class="lf-btn__label"><slot /></span>
+			{iconRight && <Icon name={iconRight} size={iconSize} class="lf-btn__icon-r" />}
+		</button>
+	)
+}

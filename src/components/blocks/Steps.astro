@@ -1,0 +1,35 @@
+---
+import type { BlockComponentProps } from "emdash/ui";
+import type { PageContentBlock } from "../../../emdash-env";
+import Icon from "../Icon.astro";
+import SectionHead from "../SectionHead.astro";
+import { cta, pad2 } from "../../lib/text";
+
+type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_steps" }>>;
+
+const { value } = Astro.props;
+const steps = value.steps ?? [];
+const count = steps.length;
+// Four steps: the consultation deliverables grid. Five or more: the preparation-tips grid.
+const grid = count >= 5 ? "lfw-tips" : count === 4 ? "lfw-deliv" : "lfw-deliv lfw-deliv--n";
+---
+
+<section class="lfw-section" id={value.anchor_id || undefined}>
+	<div class="lfw-container">
+		<SectionHead eyebrow={value.eyebrow} headline={value.headline} lead={value.lead} action={cta(value.cta_label, value.cta_url)} />
+		<ol class={grid} style={count < 4 ? `--n:${count}` : undefined}>
+			{
+				steps.map((step, i) => (
+					<li class="lfw-step">
+						<span class="lfw-step__n" aria-hidden="true">{pad2(i + 1)}</span>
+						<span class="lfw-tile">
+							<Icon name={step.icon} size={22} />
+						</span>
+						<h3 class="lfw-h4">{step.title}</h3>
+						{step.text && <p class="lfw-card-text">{step.text}</p>}
+					</li>
+				))
+			}
+		</ol>
+	</div>
+</section>

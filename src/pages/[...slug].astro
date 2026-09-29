@@ -1,0 +1,28 @@
+---
+import { decodeSlug, getEmDashEntry, getSeoMeta, getSiteSettings } from "emdash";
+import Base from "../layouts/Base.astro";
+import LegalPage from "../components/LegalPage.astro";
+import PageBlocks from "../components/PageBlocks.astro";
+
+// Every page in the "pages" collection, at /{slug}. Layout "blocks" renders Lakefront blocks; "legal" the legal layout.
+const slug = decodeSlug(Astro.params.slug);
+if (!slug) return Astro.rewrite("/404");
+if (slug === "home") return Astro.redirect("/", 301);
+
+const { entry: page, cacheHint } = await getEmDashEntry("pages", slug);
+if (!page) return Astro.rewrite("/404");
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const settings = await getSiteSettings();
+const seo = getSeoMeta(page, {
+	siteTitle: settings?.title || "Lakefront Digital",
+	siteUrl: Astro.url.origin,
+	path: `/${slug}`,
+	defaultDescription: page.data.summary || undefined,
+});
+const legal = page.data.template === "legal";
+---
+
+<Base title={seo.title} pageTitle={seo.ogTitle} description={seo.description} canonical={seo.canonical} robots={seo.robots} type={legal ? "article" : "website"} content={{ collection: "pages", id: page.data.id, slug }}>
+	{legal ? <LegalPage page={page} /> : <PageBlocks page={page} />}
+</Base>

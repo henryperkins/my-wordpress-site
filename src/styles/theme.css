@@ -1,33 +1,20 @@
 /*
-  theme.css -- your theme overrides. This is the file to edit to
-  retheme the site.
+  theme.css: your overrides. This is the file to edit to retheme the site.
 
-  Every design token lives in src/styles/tokens.css (colors, type
-  scale, spacing, layout, shadows) with its default value. Override any
-  of them here: declarations in this file are unlayered, so they always
-  beat the @layer base defaults in tokens.css.
+  Tokens live in tokens.css (@layer base) and come straight from the Lakefront
+  Digital design system. Declarations here are unlayered, so they always win.
+  Component (lf-) and layout (lfw-) styles are in components.css and site.css.
 
-  Colors are defined with light-dark(). Overriding with a plain color
-  changes light and dark mode at once; use light-dark(<light>, <dark>)
-  to set different values per mode.
-
-  Webfonts are loaded in astro.config.mjs (--font-body, --font-mono).
-  Swap the loaded font there; use overrides here for system fonts or a
-  separate heading face.
+  Fonts load in astro.config.mjs (--font-display, --font-body).
 
   Example:
 
   :root {
-    --color-brand: light-dark(#0f766e, #2dd4bf);
-    --font-heading: "Iowan Old Style", Georgia, serif;
-    --radius: 8px;
+    --sunset-coral: #F26B5B;
+    --action-primary-bg: var(--sunset-coral);
+    --section-y: 88px;
   }
 */
 
 :root {
-}
-
-/* Keep the signed-in Admin link separated from the primary navigation. */
-.nav-admin {
-	margin-inline-start: var(--spacing-5);
 }

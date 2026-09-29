@@ -1,0 +1,34 @@
+---
+import type { BlockComponentProps } from "emdash/ui";
+import type { PageContentBlock } from "../../../emdash-env";
+import Button from "../Button.astro";
+import Eyebrow from "../Eyebrow.astro";
+import Photo from "../Photo.astro";
+import { cta } from "../../lib/text";
+
+type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_cta_band" }>>;
+
+const { value } = Astro.props;
+const action = cta(value.cta_label, value.cta_url);
+---
+
+<section class="lfw-section" id={value.anchor_id || undefined}>
+	<div class="lfw-container">
+		<div class="lfw-band" data-theme="night">
+			<Photo image={value.image} photo={value.photo} fallback="dock" class="lfw-band__img" />
+			<div class="lfw-band__shade"></div>
+			<div class="lfw-band__copy">
+				{value.eyebrow && <Eyebrow rule="leading">{value.eyebrow}</Eyebrow>}
+				<h2 class="lfw-h2">{value.headline}</h2>
+				{value.text && <p class="lfw-p">{value.text}</p>}
+				{
+					action && (
+						<Button href={action.url} size="lg" iconRight="arrow-right">
+							{action.label}
+						</Button>
+					)
+				}
+			</div>
+		</div>
+	</div>
+</section>

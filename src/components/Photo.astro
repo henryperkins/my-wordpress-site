@@ -1,0 +1,35 @@
+---
+import { Image } from "emdash/ui";
+import { photoFor } from "../lib/photos";
+import type { EmDashImage } from "../lib/types";
+
+// An uploaded image wins; otherwise the block's bundled photo (public/images) is used.
+interface Props {
+	image?: EmDashImage | null;
+	photo?: string | null;
+	fallback?: string;
+	priority?: boolean;
+	class?: string;
+}
+
+const { image, photo, fallback = "shore", priority = false, class: className } = Astro.props;
+const bundled = photoFor(photo, fallback);
+---
+
+{
+	image ? (
+		<Image image={image} class={className} priority={priority} />
+	) : (
+		<img
+			src={bundled.src}
+			alt={bundled.alt}
+			width={bundled.width}
+			height={bundled.height}
+			class={className}
+			loading={priority ? "eager" : "lazy"}
+			fetchpriority={priority ? "high" : undefined}
+			decoding="async"
+			style={bundled.position ? `object-position:${bundled.position}` : undefined}
+		/>
+	)
+}
