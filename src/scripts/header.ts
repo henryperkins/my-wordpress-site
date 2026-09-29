@@ -81,6 +81,7 @@ type SearchModal = HTMLElement & { open?: () => void };
 const searchLinks = [...(header?.querySelectorAll<HTMLAnchorElement>("[data-ai-search-open]") ?? [])];
 const searchModal = document.getElementById("lfw-ai-search") as SearchModal | null;
 if (searchLinks.length > 0 && searchModal) {
+	const shown = (el: HTMLElement) => el.isConnected && el.getClientRects().length > 0;
 	customElements.whenDefined("search-modal-snippet").then(() => {
 		for (const link of searchLinks) link.setAttribute("aria-haspopup", "dialog");
 	});
@@ -92,4 +93,17 @@ if (searchLinks.length > 0 && searchModal) {
 			searchModal.open();
 		});
 	}
+	// The modal leaves focus on the page body when it closes (Escape, the backdrop, a result), so hand it back to
+	// whatever opened it: a search link, or the element that had focus when the Ctrl/Cmd+K shortcut was used.
+	// The menu panel closes when its Search link is used, so focus then falls back to the menu button.
+	let opener: HTMLElement | null = null;
+	searchModal.addEventListener("open", () => {
+		const active = document.activeElement;
+		opener = active instanceof HTMLElement && active !== document.body ? active : null;
+	});
+	searchModal.addEventListener("close", () => {
+		const fallback = [toggle, ...searchLinks].find((el) => !!el && shown(el));
+		(opener && shown(opener) ? opener : fallback)?.focus();
+		opener = null;
+	});
 }

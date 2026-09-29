@@ -31,7 +31,7 @@
 .lf-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;box-sizing:border-box;height:44px;padding:0 20px;margin:0;border:1.5px solid transparent;border-radius:var(--radius-md);background:var(--action-primary-bg);color:var(--action-primary-fg);font:var(--type-button);letter-spacing:.005em;white-space:nowrap;text-decoration:none;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;transition:background-color var(--dur-fast) var(--ease-current),border-color var(--dur-fast) var(--ease-current),color var(--dur-fast) var(--ease-current),box-shadow var(--dur-fast) var(--ease-current),transform var(--dur-instant) var(--ease-current)}
 .lf-btn:hover{background:var(--action-primary-bg-hover);color:var(--action-primary-fg);text-decoration:none}
 .lf-btn:active{transform:translateY(1px)}
-.lf-btn:focus-visible{outline:none;box-shadow:var(--ring-focus)}
+.lf-btn:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
 .lf-btn__icon-r{transition:transform var(--dur-base) var(--ease-current)}
 .lf-btn:hover .lf-btn__icon-r{transform:translateX(3px)}
 .lf-btn--secondary{background:var(--action-secondary-bg);color:var(--action-secondary-fg)}
@@ -58,7 +58,7 @@
 .lf-iconbtn{display:inline-flex;align-items:center;justify-content:center;flex:none;box-sizing:border-box;width:40px;height:40px;padding:0;margin:0;border:1.5px solid transparent;border-radius:var(--radius-md);background:transparent;color:var(--text-strong);cursor:pointer;text-decoration:none;-webkit-tap-highlight-color:transparent;transition:background-color var(--dur-fast) var(--ease-current),border-color var(--dur-fast) var(--ease-current),color var(--dur-fast) var(--ease-current),box-shadow var(--dur-fast) var(--ease-current),transform var(--dur-instant) var(--ease-current)}
 .lf-iconbtn:hover{background:var(--action-ghost-bg-hover);color:var(--text-strong)}
 .lf-iconbtn:active{transform:translateY(1px)}
-.lf-iconbtn:focus-visible{outline:none;box-shadow:var(--ring-focus)}
+.lf-iconbtn:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
 .lf-iconbtn--outline{border-color:var(--border-default)}
 .lf-iconbtn--outline:hover{background:var(--surface-sunken)}
 .lf-iconbtn--solid{background:var(--action-secondary-bg);color:var(--action-secondary-fg)}
@@ -83,7 +83,7 @@
 .lf-card--inverse{background:var(--surface-card);border-color:var(--border-default)}
 .lf-card--interactive{cursor:pointer}
 .lf-card--interactive:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--teal-200)}
-.lf-card--interactive:focus-visible{outline:none;box-shadow:var(--ring-focus)}
+.lf-card--interactive:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
 .lf-card--inverse.lf-card--interactive:hover{border-color:var(--border-inverse-strong)}
 .lf-card__media{position:relative;flex:none;aspect-ratio:var(--lf-ratio,16/10);overflow:hidden;background:var(--surface-sunken)}
 .lf-card__media img{display:block;width:100%;height:100%;object-fit:cover;transition:transform var(--dur-tide) var(--ease-current)}
@@ -111,14 +111,14 @@
 .lf-tag>.lf-icon{color:var(--text-brand)}
 button.lf-tag{cursor:pointer}
 button.lf-tag:hover{border-color:var(--teal-300);background:var(--surface-sunken)}
-button.lf-tag:focus-visible{outline:none;box-shadow:var(--ring-focus)}
+button.lf-tag:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
 .lf-tag.is-selected,button.lf-tag.is-selected:hover{background:var(--action-secondary-bg);border-color:var(--action-secondary-bg);color:var(--action-secondary-fg)}
 .lf-tag.is-selected>.lf-icon{color:inherit}
 .lf-tag--sm{height:26px;padding:0 10px;font-size:13px;gap:5px}
 .lf-tag--removable{padding-right:5px}
 .lf-tag__remove{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;padding:0;margin:0;border:0;border-radius:50%;background:transparent;color:inherit;opacity:.65;cursor:pointer;transition:opacity var(--dur-fast) var(--ease-current),background-color var(--dur-fast) var(--ease-current)}
 .lf-tag__remove:hover{opacity:1;background:var(--action-ghost-bg-hover)}
-.lf-tag__remove:focus-visible{outline:none;box-shadow:var(--ring-focus);opacity:1}
+.lf-tag__remove:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus);opacity:1}
 
 /* Field shell (Input, Select) */
 .lf-field{display:flex;flex-direction:column;gap:6px;min-width:0}
@@ -133,7 +133,7 @@ button.lf-tag:focus-visible{outline:none;box-shadow:var(--ring-focus)}
 .lf-input{display:block;width:100%;box-sizing:border-box;height:44px;margin:0;padding:0 14px;border:1px solid var(--border-strong);border-radius:var(--radius-md);background:var(--surface-field);color:var(--text-strong);font:var(--type-body);font-size:16px;line-height:1.3;-webkit-appearance:none;appearance:none;transition:border-color var(--dur-fast) var(--ease-current),box-shadow var(--dur-fast) var(--ease-current),background-color var(--dur-fast) var(--ease-current)}
 .lf-input::placeholder{color:var(--text-muted);opacity:1}
 .lf-input:hover{border-color:var(--ink-600)}
-.lf-input:focus{outline:none;border-color:var(--current-teal);box-shadow:0 0 0 3px rgba(39,136,145,.22)}
+.lf-input:focus{outline:2px solid transparent;border-color:var(--current-teal);box-shadow:0 0 0 3px rgba(39,136,145,.22)}
 .lf-input[aria-invalid="true"]{border-color:var(--status-danger-fg)}
 .lf-input[aria-invalid="true"]:focus{box-shadow:0 0 0 3px rgba(184,57,43,.18)}
 .lf-input:disabled{background:var(--ink-100);border-color:var(--ink-200);color:var(--text-disabled);cursor:not-allowed}
@@ -155,7 +155,7 @@ select.lf-input.is-placeholder{color:var(--text-muted)}
 .lf-choice:hover .lf-choice__box{border-color:var(--ink-600)}
 .lf-choice>input:checked+.lf-choice__box{background:var(--control-on);border-color:var(--control-on)}
 .lf-choice>input:checked+.lf-choice__box::after{opacity:1;transform:rotate(45deg) scale(1)}
-.lf-choice>input:focus-visible+.lf-choice__box{box-shadow:var(--ring-focus)}
+.lf-choice>input:focus-visible+.lf-choice__box{outline:2px solid transparent;outline-offset:2px;box-shadow:var(--ring-focus)}
 .lf-choice--radio .lf-choice__box{border-radius:50%}
 .lf-choice--radio .lf-choice__box::after{width:8px;height:8px;margin:0;border:0;border-radius:50%;background:var(--control-on);transform:scale(0)}
 .lf-choice--radio>input:checked+.lf-choice__box{background:var(--surface-field);border-color:var(--control-on)}
@@ -170,8 +170,8 @@ select.lf-input.is-placeholder{color:var(--text-muted)}
 .lf-choice--card{display:flex;width:100%;padding:16px;border:1px solid var(--border-default);border-radius:var(--radius-lg);background:var(--surface-card);transition:border-color var(--dur-fast) var(--ease-current),background-color var(--dur-fast) var(--ease-current),box-shadow var(--dur-fast) var(--ease-current)}
 .lf-choice--card:hover{border-color:var(--teal-300)}
 .lf-choice--card:has(>input:checked){border-color:var(--control-on);background:var(--surface-sunken);box-shadow:inset 0 0 0 1px var(--control-on)}
-.lf-choice--card:has(>input:focus-visible){box-shadow:var(--ring-focus)}
-.lf-choice--card:has(>input:focus-visible) .lf-choice__box{box-shadow:none}
+.lf-choice--card:has(>input:focus-visible){outline:2px solid transparent;outline-offset:2px;box-shadow:var(--ring-focus)}
+.lf-choice--card:has(>input:focus-visible) .lf-choice__box{outline:none;box-shadow:none}
 
 /* Switch */
 .lf-switch{position:relative;display:inline-flex;align-items:flex-start;gap:12px;cursor:pointer;font:var(--type-body);font-size:16px;line-height:1.4;color:var(--text-strong);-webkit-tap-highlight-color:transparent}
@@ -180,7 +180,7 @@ select.lf-input.is-placeholder{color:var(--text-muted)}
 .lf-switch__thumb{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--white);box-shadow:0 1px 3px rgba(8,42,58,.28);transition:transform var(--dur-base) var(--ease-current)}
 .lf-switch>input:checked+.lf-switch__track{background:var(--control-on)}
 .lf-switch>input:checked+.lf-switch__track .lf-switch__thumb{transform:translateX(16px)}
-.lf-switch>input:focus-visible+.lf-switch__track{box-shadow:var(--ring-focus)}
+.lf-switch>input:focus-visible+.lf-switch__track{outline:2px solid transparent;outline-offset:2px;box-shadow:var(--ring-focus)}
 .lf-switch--sm .lf-switch__track{width:32px;height:20px;margin-top:0}
 .lf-switch--sm .lf-switch__thumb{width:14px;height:14px}
 .lf-switch--sm>input:checked+.lf-switch__track .lf-switch__thumb{transform:translateX(12px)}
@@ -193,7 +193,7 @@ select.lf-input.is-placeholder{color:var(--text-muted)}
 .lf-tab{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;flex:none;box-sizing:border-box;height:48px;padding:0 16px;margin:0;border:0;background:transparent;color:var(--text-muted);font:var(--type-label);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color var(--dur-fast) var(--ease-current),background-color var(--dur-fast) var(--ease-current)}
 .lf-tab:hover{color:var(--text-strong)}
 .lf-tab[aria-selected="true"]{color:var(--text-strong)}
-.lf-tab:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--focus-ring-color);border-radius:var(--radius-sm)}
+.lf-tab:focus-visible{outline:2px solid transparent;outline-offset:-2px;box-shadow:inset 0 0 0 2px var(--focus-ring-color);border-radius:var(--radius-sm)}
 .lf-tab:disabled{color:var(--text-disabled);cursor:not-allowed}
 .lf-tab__count{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:var(--radius-full);background:var(--surface-sunken);color:var(--text-muted);font:700 12px/1 var(--font-display)}
 .lf-tab[aria-selected="true"] .lf-tab__count{background:var(--lake-mist);color:var(--lake-navy)}
@@ -209,3 +209,6 @@ select.lf-input.is-placeholder{color:var(--text-muted)}
 .lf-tabs--segmented.lf-tabs--sm .lf-tab{height:30px;padding:0 12px}
 .lf-tabs--segmented .lf-tabs__ink{top:4px;bottom:4px;height:auto;border-radius:var(--radius-sm);background:var(--surface-card);box-shadow:var(--shadow-sm)}
 [data-theme="night"] .lf-tabs--segmented .lf-tabs__ink{background:var(--navy-700)}
+
+/* Forced colours (Windows high contrast) drop box-shadows and painted backgrounds: the transparent outlines above become the focus rings, and system colours redraw the state marks */
+@media (forced-colors:active){.lf-eyebrow__item::before{background:CanvasText}.lf-choice--radio .lf-choice__box::after{background:CanvasText}.lf-switch__track{border:1px solid CanvasText}.lf-switch__thumb{background:CanvasText}.lf-switch>input:checked+.lf-switch__track{border-color:Highlight;background:Highlight}.lf-switch>input:checked+.lf-switch__track .lf-switch__thumb{background:HighlightText}.lf-tag.is-selected,button.lf-tag.is-selected:hover{border-color:Highlight;background:Highlight;color:HighlightText}.lf-tabs .lf-tabs__ink{background:Highlight}.lf-tabs--segmented .lf-tabs__ink{border:2px solid Highlight;background:Canvas}}
