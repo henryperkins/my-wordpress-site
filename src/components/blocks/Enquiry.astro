@@ -20,11 +20,16 @@ const uid = `enq-${slugify(blockKey || anchor)}`;
 const page = Astro.url.pathname;
 const status = Astro.url.searchParams.get("enquiry");
 const sent = status === "sent";
+// The consultation form asks for a phone number instead of a website.
+const showPhone = value.show_phone === true;
+const showWebsite = value.show_website !== false;
 const alert =
 	status === "failed"
 		? "We couldn't send your request. Please try again, or email us directly."
 		: status === "invalid"
-			? "Add your name and an email we can reply to, then send the form again."
+			? showPhone
+				? "Check your name, email and phone number, then send the form again."
+				: "Add your name and an email we can reply to, then send the form again."
 			: "";
 // /contact?service=seo#enquiry ticks the matching need.
 const preset = (Astro.url.searchParams.get("service") ?? "").toLowerCase();
@@ -82,29 +87,41 @@ const asideItems = value.aside ? (value.aside_items ?? []) : [];
 							</Field>
 						</div>
 
-						<div class="lfw-form__row">
-							<Field id={`${uid}-website`} label="Current website" optional>
-								<div class="lf-control">
-									<Icon name="globe" size={18} class="lf-control__icon" />
-									<input class="lf-input lf-input--with-icon" id={`${uid}-website`} name="website" type="text" inputmode="url" autocomplete="url" placeholder="yourbusiness.com" maxlength="200" />
+						{
+							(showPhone || showWebsite || timelines.length > 0) && (
+								<div class="lfw-form__row">
+									{showPhone && (
+										<Field id={`${uid}-phone`} label="Phone" optional error="phone">
+											<div class="lf-control">
+												<Icon name="phone" size={18} class="lf-control__icon" />
+												<input class="lf-input lf-input--with-icon" id={`${uid}-phone`} name="phone" type="tel" autocomplete="tel" placeholder="(312) 555-0142" maxlength="40" aria-describedby={`${uid}-phone-error`} />
+											</div>
+										</Field>
+									)}
+									{showWebsite && (
+										<Field id={`${uid}-website`} label="Current website" optional>
+											<div class="lf-control">
+												<Icon name="globe" size={18} class="lf-control__icon" />
+												<input class="lf-input lf-input--with-icon" id={`${uid}-website`} name="website" type="text" inputmode="url" autocomplete="url" placeholder="yourbusiness.com" maxlength="200" />
+											</div>
+										</Field>
+									)}
+									{timelines.length > 0 && (
+										<Field id={`${uid}-timeline`} label="Timeline" optional>
+											<div class="lf-control">
+												<select class="lf-input is-placeholder" id={`${uid}-timeline`} name="timeline">
+													<option value="">When would you like to launch?</option>
+													{timelines.map((option) => (
+														<option value={option}>{option}</option>
+													))}
+												</select>
+												<Icon name="chevron-down" size={18} class="lf-control__chev" />
+											</div>
+										</Field>
+									)}
 								</div>
-							</Field>
-							{
-								timelines.length > 0 && (
-									<Field id={`${uid}-timeline`} label="Timeline" optional>
-										<div class="lf-control">
-											<select class="lf-input is-placeholder" id={`${uid}-timeline`} name="timeline">
-												<option value="">When would you like to launch?</option>
-												{timelines.map((option) => (
-													<option value={option}>{option}</option>
-												))}
-											</select>
-											<Icon name="chevron-down" size={18} class="lf-control__chev" />
-										</div>
-									</Field>
-								)
-							}
-						</div>
+							)
+						}
 
 						{
 							needs.length > 0 && (

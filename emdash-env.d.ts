@@ -177,6 +177,8 @@ export interface PageContentLfEnquiryV1Block {
   "eyebrow"?: string | null;
   "headline"?: string | null;
   "lead"?: string | null;
+  "show_phone"?: boolean | null;
+  "show_website"?: boolean | null;
   "needs_label"?: string | null;
   "needs"?: string | null;
   "platform_label"?: string | null;

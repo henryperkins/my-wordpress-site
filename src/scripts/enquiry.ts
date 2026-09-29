@@ -5,6 +5,7 @@ const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const MESSAGES = {
 	name: "Tell us who to reply to.",
 	email: "Enter an email we can reply to.",
+	phone: "Enter a phone number we can call, or leave it blank.",
 	failed: "We couldn't send your request. Please try again, or email us directly.",
 	offline: "We couldn't reach the server. Check your connection and try again.",
 };
@@ -40,7 +41,7 @@ for (const root of document.querySelectorAll<HTMLElement>("[data-enquiry]")) {
 
 	const applyErrors = (errors: Record<string, string>) => {
 		let first: HTMLElement | null = null;
-		for (const name of ["name", "email"]) {
+		for (const name of ["name", "email", "phone"]) {
 			const input = setError(name, errors[name] ?? "");
 			if (errors[name] && !first) first = input;
 		}
@@ -79,6 +80,8 @@ for (const root of document.querySelectorAll<HTMLElement>("[data-enquiry]")) {
 		const errors: Record<string, string> = {};
 		if (!name) errors.name = MESSAGES.name;
 		if (!EMAIL.test(email)) errors.email = MESSAGES.email;
+		const phone = String(data.get("phone") ?? "").trim();
+		if (phone && phone.replace(/\D/g, "").length < 7) errors.phone = MESSAGES.phone;
 		applyErrors(errors);
 		if (Object.keys(errors).length) return;
 

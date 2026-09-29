@@ -6,6 +6,8 @@ import { isCurrent, linkAttrs } from "../lib/menus";
 import type { MenuItem, SiteLogo } from "../lib/types";
 
 // Primary nav comes from the "primary" menu; the button is the first item of "header_cta".
+// A menu item with children (Services › All services, SEO) opens a small panel; scripts/header.ts toggles it.
+// Same markup as the design system's SiteHeader (components/site/SiteHeader.jsx).
 interface Props {
 	siteTitle: string;
 	logo?: SiteLogo | null;
@@ -16,6 +18,17 @@ interface Props {
 
 const { siteTitle, logo, items, cta, admin = false } = Astro.props;
 const current = (url: string) => (isCurrent(url, Astro.url) ? "page" : undefined);
+const kids = (item: MenuItem): MenuItem[] => (item.children ?? []) as MenuItem[];
+const groupCurrent = (item: MenuItem) => isCurrent(item.url, Astro.url) || kids(item).some((child) => isCurrent(child.url, Astro.url));
+const pathOf = (url: string) => {
+	try {
+		return new URL(url, Astro.url).pathname.replace(/\/+$/, "") || "/";
+	} catch {
+		return url;
+	}
+};
+// On mobile the parent is a link, so children that repeat it ("All services") are left out.
+const subItems = (item: MenuItem) => kids(item).filter((child) => pathOf(child.url) !== pathOf(item.url));
 ---
 
 <header class:list={["lfw-header", items.length === 0 && "lfw-header--nonav"]} data-header>
@@ -26,11 +39,27 @@ const current = (url: string) => (isCurrent(url, Astro.url) ? "page" : undefined
 		{
 			items.length > 0 && (
 				<nav class="lfw-nav" aria-label="Primary">
-					{items.map((item) => (
-						<a {...linkAttrs(item)} aria-current={current(item.url)}>
-							{item.label}
-						</a>
-					))}
+					{items.map((item, i) =>
+						kids(item).length > 0 ? (
+							<div class="lfw-navgroup" data-navgroup>
+								<button type="button" class:list={["lfw-nav__btn", groupCurrent(item) && "is-current"]} aria-expanded="false" aria-controls={`lfw-subnav-${i}`}>
+									{item.label}
+									<Icon name="chevron-down" size={16} />
+								</button>
+								<div class="lfw-subnav" id={`lfw-subnav-${i}`} hidden>
+									{kids(item).map((child) => (
+										<a {...linkAttrs(child)} aria-current={current(child.url)}>
+											{child.label}
+										</a>
+									))}
+								</div>
+							</div>
+						) : (
+							<a {...linkAttrs(item)} aria-current={current(item.url)}>
+								{item.label}
+							</a>
+						),
+					)}
 				</nav>
 			)
 		}
@@ -53,9 +82,20 @@ const current = (url: string) => (isCurrent(url, Astro.url) ? "page" : undefined
 	<nav class="lfw-mobile" id="lfw-mobile-nav" aria-label="Menu" hidden data-mobile-nav>
 		{
 			items.map((item) => (
-				<a {...linkAttrs(item)} aria-current={current(item.url)}>
-					{item.label}
-				</a>
+				<>
+					<a {...linkAttrs(item)} aria-current={current(item.url)}>
+						{item.label}
+					</a>
+					{subItems(item).length > 0 && (
+						<div class="lfw-mobile__sub">
+							{subItems(item).map((child) => (
+								<a {...linkAttrs(child)} aria-current={current(child.url)}>
+									{child.label}
+								</a>
+							))}
+						</div>
+					)}
+				</>
 			))
 		}
 		{

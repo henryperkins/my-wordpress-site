@@ -1352,6 +1352,18 @@
 							"type": "text"
 						},
 						{
+							"slug": "show_phone",
+							"label": "Ask for a phone number",
+							"type": "boolean",
+							"defaultValue": false
+						},
+						{
+							"slug": "show_website",
+							"label": "Ask for their current website",
+							"type": "boolean",
+							"defaultValue": true
+						},
+						{
 							"slug": "needs_label",
 							"label": "Needs question",
 							"type": "string",
@@ -1750,7 +1762,19 @@
 				{
 					"type": "custom",
 					"label": "Services",
-					"url": "/services"
+					"url": "/services",
+					"children": [
+						{
+							"type": "custom",
+							"label": "All services",
+							"url": "/services"
+						},
+						{
+							"type": "custom",
+							"label": "SEO",
+							"url": "/seo"
+						}
+					]
 				},
 				{
 					"type": "custom",
@@ -1759,8 +1783,8 @@
 				},
 				{
 					"type": "custom",
-					"label": "Consultation",
-					"url": "/consultation"
+					"label": "Work",
+					"url": "/work"
 				},
 				{
 					"type": "custom",
@@ -1775,8 +1799,8 @@
 			"items": [
 				{
 					"type": "custom",
-					"label": "Start a project",
-					"url": "/contact"
+					"label": "Book a consultation",
+					"url": "/consultation"
 				}
 			]
 		},
@@ -1791,7 +1815,7 @@
 				},
 				{
 					"type": "custom",
-					"label": "Social Media",
+					"label": "Social media",
 					"url": "/services#social"
 				},
 				{
@@ -1807,7 +1831,7 @@
 				{
 					"type": "custom",
 					"label": "SEO",
-					"url": "/services#seo"
+					"url": "/seo"
 				},
 				{
 					"type": "custom",
@@ -1822,17 +1846,17 @@
 			"items": [
 				{
 					"type": "custom",
-					"label": "Technical Specifications",
+					"label": "Technical specifications",
 					"url": "/hosting#specs"
 				},
 				{
 					"type": "custom",
-					"label": "Site Management",
+					"label": "Site management",
 					"url": "/hosting#management"
 				},
 				{
 					"type": "custom",
-					"label": "E-commerce Solutions",
+					"label": "E-commerce solutions",
 					"url": "/hosting#e-commerce"
 				}
 			]
@@ -1843,18 +1867,23 @@
 			"items": [
 				{
 					"type": "custom",
-					"label": "Website Consultation",
+					"label": "Website consultation",
 					"url": "/consultation"
 				},
 				{
 					"type": "custom",
-					"label": "Start a Project",
-					"url": "/contact"
+					"label": "Work",
+					"url": "/work"
 				},
 				{
 					"type": "custom",
 					"label": "Blog",
 					"url": "/blog"
+				},
+				{
+					"type": "custom",
+					"label": "Start a project",
+					"url": "/contact"
 				}
 			]
 		},
@@ -1952,8 +1981,8 @@
 							"headline": "Empower Your Business Online with",
 							"highlight": "Lakefront Digital",
 							"lead": "Lakefront Digital provides small businesses with the tools and expertise they need to create an online presence that stands out from the competition.",
-							"primary_cta_label": "Start a project",
-							"primary_cta_url": "/contact",
+							"primary_cta_label": "Book a consultation",
+							"primary_cta_url": "/consultation",
 							"secondary_cta_label": "View services",
 							"secondary_cta_url": "/services",
 							"photo": "shore",
@@ -2078,8 +2107,8 @@
 							"eyebrow": "Start a project",
 							"headline": "Your One-Stop Solution",
 							"text": "From custom website design to content creation, our experienced team of web consultants will help you achieve your digital marketing goals quickly and efficiently.",
-							"cta_label": "Start a project",
-							"cta_url": "/contact",
+							"cta_label": "Book a consultation",
+							"cta_url": "/consultation",
 							"photo": "dock"
 						}
 					]
@@ -2125,7 +2154,7 @@
 								},
 								{
 									"slug": "social",
-									"tab_label": "Social Media",
+									"tab_label": "Social media",
 									"icon": "share-2",
 									"name": "Social Media Integration",
 									"description": "We link your website with social media accounts, enable easy content sharing, and embed social media feeds into your site.",
@@ -2175,8 +2204,8 @@
 									"benefits": "Higher search engine rankings lead to increased traffic, brand visibility, and more leads/sales.",
 									"primary_cta_label": "Start a project",
 									"primary_cta_url": "/contact?service=seo#enquiry",
-									"secondary_cta_label": "Book a consultation",
-									"secondary_cta_url": "/consultation",
+									"secondary_cta_label": "Our SEO approach",
+									"secondary_cta_url": "/seo",
 									"photo": "shore"
 								},
 								{
@@ -2236,7 +2265,7 @@
 					"title": "Hosting",
 					"template": "blocks",
 					"summary": "This environment is designed to empower small businesses by providing a reliable, secure, and high-performing platform to manage their online presence and e-commerce activities effectively.",
-					"keywords": "hosting, AWS, Cloudflare, CDN, DDoS, NGINX, SSL, Let's Encrypt, backups, Acronis, New Relic, monitoring, uptime, WP Rocket, ManageWP, Zendesk, support, WooCommerce, e-commerce, PayPal, Stripe, Square, inventory, storefront",
+					"keywords": "hosting, AWS, Cloudflare, CDN, DDoS, NGINX, SSL, Let's Encrypt, backups, Jetpack, New Relic, monitoring, uptime, WP Rocket, ManageWP, Zendesk, support, WooCommerce, e-commerce, PayPal, Stripe, inventory, storefront",
 					"content": [
 						{
 							"_type": "lf_page_intro",
@@ -2246,14 +2275,14 @@
 							"eyebrow": "Hosting and E-commerce Solutions",
 							"headline": "Comprehensive WordPress Hosting and E-commerce Solutions for Small Businesses",
 							"lead": "This environment is designed to empower small businesses by providing a reliable, secure, and high-performing platform to manage their online presence and e-commerce activities effectively.",
-							"stats": "99.9% | Uptime, with Cloudflare CDN and redundancy\n24/7 | Alerts from New Relic monitoring\nDaily | Automated Acronis backups with easy restoration"
+							"stats": "99.9% | Uptime, with Cloudflare CDN and redundancy\n24/7 | Alerts from New Relic monitoring\nDaily | Automated Jetpack backups with easy restoration"
 						},
 						{
 							"_type": "lf_spec_tabs",
 							"_version": 1,
 							"_key": "hosting-specs",
 							"anchor_id": "specs",
-							"eyebrow": "Technical Specifications",
+							"eyebrow": "Technical specifications",
 							"headline": "Hosting, Management, and E-commerce",
 							"specs": [
 								{
@@ -2276,8 +2305,8 @@
 									"group": "Hosting",
 									"icon": "shield-check",
 									"title": "Enhanced Security",
-									"text": "Including Let's Encrypt SSL, daily Acronis backups, and Cloudflare DDoS protection.",
-									"tags": "Let's Encrypt, Acronis, Cloudflare"
+									"text": "Including Let's Encrypt SSL, daily Jetpack backups, and Cloudflare DDoS protection.",
+									"tags": "Let's Encrypt, Jetpack, Cloudflare"
 								},
 								{
 									"group": "Hosting",
@@ -2306,8 +2335,8 @@
 									"group": "Management",
 									"icon": "history",
 									"title": "Backup and Recovery",
-									"text": "Automated Acronis backups with easy restoration.",
-									"tags": "Acronis"
+									"text": "Automated Jetpack backups with easy restoration.",
+									"tags": "Jetpack"
 								},
 								{
 									"group": "Management",
@@ -2327,8 +2356,8 @@
 									"group": "E-commerce",
 									"icon": "credit-card",
 									"title": "Payment Gateways",
-									"text": "PayPal, Stripe, and Square.",
-									"tags": "PayPal, Stripe, Square"
+									"text": "PayPal and Stripe.",
+									"tags": "PayPal, Stripe"
 								},
 								{
 									"group": "E-commerce",
@@ -2515,10 +2544,9 @@
 							"subject": "Website consultation request",
 							"eyebrow": "Book a consultation",
 							"headline": "Request your Website Consultation",
-							"lead": "Share a few details and our team of web consultants will follow up with next steps. Only your name and email are required.",
-							"platform_label": "Is your current site built on WordPress?",
-							"platform_options": "Yes\nNo\nNot sure\nNo site yet",
-							"timeline_options": "As soon as possible\nIn 1–3 months\nIn 3–6 months\nJust exploring",
+							"lead": "Share a few details and our team of web consultants will follow up with next steps.",
+							"show_phone": true,
+							"show_website": false,
 							"notes_label": "What would you like to cover?",
 							"notes_placeholder": "Goals, deadlines, what's not working today.",
 							"submit_label": "Request consultation",
@@ -3363,32 +3391,12 @@
 							"_type": "block",
 							"_key": "b12",
 							"style": "normal",
-							"markDefs": [
-								{
-									"_key": "mz",
-									"_type": "link",
-									"href": "https://tools.google.com/dlpage/gaoptout"
-								}
-							],
+							"markDefs": [],
 							"children": [
 								{
 									"_type": "span",
 									"_key": "sy",
-									"text": "We use Google Analytics to understand how visitors find and use our site. It sets cookies and collects information such as the pages you visit, how long you stay, your approximate location, and your device. You can block cookies in your browser settings or install Google's ",
-									"marks": []
-								},
-								{
-									"_type": "span",
-									"_key": "s10",
-									"text": "opt-out browser add-on",
-									"marks": [
-										"mz"
-									]
-								},
-								{
-									"_type": "span",
-									"_key": "s11",
-									"text": ". Our security provider, Cloudflare, may also set cookies needed to protect the site. We don't use advertising cookies.",
+									"text": "We use Cloudflare Web Analytics to understand how visitors find and use our site. It doesn't use cookies or local storage and doesn't follow you across other sites. It counts page views and records basic details such as the page, the site that referred you, and your browser, device type, and country. Our security provider, Cloudflare, may set cookies needed to protect the site. We don't use advertising cookies.",
 									"marks": []
 								}
 							]
@@ -3430,7 +3438,7 @@
 								{
 									"_type": "span",
 									"_key": "s17",
-									"text": "With service providers that help us run our business, such as Cloudflare (hosting, security, and email routing), Google (analytics), our email provider, and Stripe and PayPal (payments). They may use it only to provide their services to us.",
+									"text": "With service providers that help us run our business, such as Cloudflare (hosting, security, analytics, and email delivery) and our email provider. They may use it only to provide their services to us.",
 									"marks": []
 								}
 							],
@@ -3468,34 +3476,6 @@
 							],
 							"listItem": "bullet",
 							"level": 1
-						},
-						{
-							"_type": "block",
-							"_key": "b1e",
-							"style": "h2",
-							"markDefs": [],
-							"children": [
-								{
-									"_type": "span",
-									"_key": "s1d",
-									"text": "Payments",
-									"marks": []
-								}
-							]
-						},
-						{
-							"_type": "block",
-							"_key": "b1g",
-							"style": "normal",
-							"markDefs": [],
-							"children": [
-								{
-									"_type": "span",
-									"_key": "s1f",
-									"text": "Stripe and PayPal process payments for us. We don't receive or store your full card number; the processor's own privacy policy covers the payment details you give it.",
-									"marks": []
-								}
-							]
 						},
 						{
 							"_type": "block",

@@ -1,4 +1,4 @@
-/* Lakefront Digital site layout, adapted from the design system UI kit (ui_kits/website/website.css). Prefix lfw-. */
+/* Lakefront Digital site layout (prefix lfw-). Master copy: the design system's components/site/site.css. The EmDash theme ships an identical copy in src/styles/site.css; change the master, then copy it over. */
 .lfw{min-height:100vh;display:flex;flex-direction:column;background:var(--surface-canvas)}
 .lfw main{flex:1}
 .lfw-page{animation:lfw-enter var(--dur-slow) var(--ease-current) both}
@@ -154,7 +154,7 @@
 .lfw-two>div{display:flex;flex-direction:column;gap:18px}
 @media (max-width:900px){.lfw-two{grid-template-columns:1fr}}
 
-/* Product (WooCommerce consultation) */
+/* Service summary */
 .lfw-crumbs{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:28px;font:var(--type-body-sm);color:var(--text-muted)}
 .lfw-crumbs a{color:var(--text-link)}
 .lfw-crumbs [aria-current]{color:var(--text-strong);font-weight:600}
@@ -203,9 +203,8 @@
 .lfw-footer__base{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:56px;padding-top:24px;border-top:1px solid var(--border-default);font:var(--type-caption);color:var(--text-muted)}
 @media (max-width:860px){.lfw-footer__grid{grid-template-columns:1fr 1fr}.lfw-footer__brand{grid-column:1/-1}}
 
-/* Header tools (search, cart) */
+/* Header tools (search) */
 .lfw-tools{display:flex;align-items:center;gap:2px}
-@keyframes lfw-pop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
 @media (max-width:1080px){.lfw-tools{margin-left:auto}.lfw-header .lfw-menu{margin-left:4px}}
 .lfw-footer__row{display:flex;align-items:center;flex-wrap:wrap;gap:6px 20px}
 .lfw-footer__base a{color:var(--text-body);text-decoration:none}
@@ -266,7 +265,7 @@
 .lfw:has(.lfw-404) .lfw-footer{margin-top:0;border-top:1px solid var(--border-inverse)}
 @media (max-width:700px){.lfw-404__shade{background:var(--protect-full)}}
 
-/* Kept from the kit's checkout styles: empty states, success tile, notes */
+/* Empty states, success tile, notes */
 .lfw-note{display:flex;align-items:flex-start;gap:8px;margin:0;font:var(--type-caption);font-size:14px;color:var(--status-warning-fg)}
 .lfw-note .lf-icon{margin-top:1px}
 .lfw-empty{display:flex;flex-direction:column;align-items:center;gap:16px;max-width:560px;margin:0 auto;padding:40px 0;text-align:center}
@@ -481,3 +480,75 @@ a.lf-tag:focus-visible{outline:none;box-shadow:var(--ring-focus)}
 .lfw-prose code{padding:.15em .4em;border-radius:6px;background:var(--surface-sunken);font:.9em var(--font-mono)}
 .lfw-prose pre{overflow-x:auto;padding:18px 20px;border-radius:12px;background:var(--lake-navy);color:var(--foam-white);font:14px/1.6 var(--font-mono)}
 .lfw-prose pre code{padding:0;background:none;color:inherit}
+
+/* Header: a menu item with children (Services › SEO) opens a small panel; on mobile the children indent under their parent */
+.lfw-navgroup{position:relative;display:flex}
+.lfw-nav__btn{position:relative;display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 10px 0 14px;border:0;border-radius:8px;background:none;font:600 15px/1 var(--font-display);color:var(--text-strong);white-space:nowrap;cursor:pointer;transition:background-color var(--dur-fast) var(--ease-current),color var(--dur-fast) var(--ease-current)}
+.lfw-nav__btn:hover,.lfw-nav__btn[aria-expanded="true"]{background:var(--action-ghost-bg-hover)}
+.lfw-nav__btn:focus-visible{outline:none;box-shadow:var(--ring-focus)}
+.lfw-nav__btn>.lf-icon{color:var(--text-muted);transition:transform var(--dur-fast) var(--ease-current)}
+.lfw-nav__btn[aria-expanded="true"]>.lf-icon{transform:rotate(180deg)}
+.lfw-nav__btn.is-current{color:var(--deep-water)}
+.lfw-nav__btn.is-current::after{content:"";position:absolute;left:14px;right:32px;bottom:2px;height:2px;border-radius:2px;background:var(--current-teal)}
+.lfw-subnav{position:absolute;left:0;top:calc(100% + 8px);z-index:calc(var(--z-header) + 1);display:flex;flex-direction:column;gap:2px;min-width:220px;padding:8px;border:1px solid var(--border-default);border-radius:var(--radius-lg);background:var(--surface-card);box-shadow:var(--shadow-lg);animation:lfw-enter var(--dur-base) var(--ease-current) both}
+.lfw-subnav[hidden]{display:none}
+.lfw-nav .lfw-subnav a{height:auto;padding:11px 12px;font:600 15px/1.3 var(--font-display)}
+.lfw-nav .lfw-subnav a[aria-current="page"]{background:var(--surface-sunken);color:var(--deep-water)}
+.lfw-nav .lfw-subnav a[aria-current="page"]::after{display:none}
+.lfw-mobile__sub{display:flex;flex-direction:column;margin:-4px 0 4px;padding-left:16px;border-left:2px solid var(--border-default)}
+.lfw-mobile .lfw-mobile__sub a{padding:10px 0;font:600 16px/1.2 var(--font-display)}
+html:not(.js) .lfw-navgroup:is(:hover,:focus-within)>.lfw-subnav[hidden]{display:flex}
+/* Without JavaScript the panel opens on hover, so bridge the gap above it to keep it open on the way down */
+html:not(.js) .lfw-subnav::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:10px}
+
+/* Case study (from the website kit; used by the Work page) */
+.lfw-dialogform{display:flex;flex-direction:column;gap:18px}
+.lfw-sample{background:var(--gold-100);border-bottom:1px solid rgba(138,100,20,.2)}
+.lfw-sample__in{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;padding-top:12px;padding-bottom:12px;font:var(--type-body-sm);color:var(--lake-navy)}
+.lfw-ph{font-style:italic}
+.lfw-case-hero{padding:40px 0 0}
+.lfw-case-hero__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+.lfw-case-hero__copy{display:flex;flex-direction:column;align-items:flex-start;gap:22px}
+.lfw-case-hero__media{height:clamp(420px,42vw,560px);border-radius:var(--radius-2xl);overflow:hidden;background:var(--surface-sunken)}
+.lfw-case-hero__media img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 58%}
+.lfw-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin:48px 0 0;padding:24px 0 0;border-top:1px solid var(--border-default)}
+.lfw-facts dt,.lfw-mini{margin:0;font:700 11px/1.2 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}
+.lfw-facts dd{margin:8px 0 0;font:var(--type-h5);color:var(--text-strong)}
+.lfw-case-story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:48px}
+.lfw-case-story__body{display:flex;flex-direction:column;gap:18px;max-width:720px}
+.lfw-case-approach{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:64px;align-items:start}
+.lfw-case-approach__media{position:sticky;top:calc(var(--header-h) + 24px);height:640px;border-radius:var(--radius-2xl);overflow:hidden;background:var(--lake-navy)}
+.lfw-case-approach__media img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.lfw-case-approach__copy{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.lfw-case-steps{list-style:none;margin:8px 0 0;padding:0;width:100%}
+.lfw-case-steps li{display:grid;grid-template-columns:48px minmax(0,1fr);gap:20px;padding:24px 0;border-top:1px solid var(--border-default)}
+.lfw-case-steps li>div{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.lfw-case-steps p{margin:0;font:var(--type-body);font-size:16px;color:var(--text-muted)}
+.lfw-case-results{position:relative;overflow:hidden}
+.lfw-case-results__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.lfw-case-results__shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,42,58,.97) 0%,rgba(8,42,58,.9) 45%,rgba(8,42,58,.74) 100%)}
+.lfw-case-results>.lfw-container{position:relative}
+.lfw-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.lfw-metric{display:flex;flex-direction:column;gap:10px;padding:24px;border:1.5px dashed var(--border-inverse-strong);border-radius:var(--radius-lg);background:rgba(5,32,44,.45)}
+.lfw-metric b{font:800 clamp(30px,3vw,40px)/1 var(--font-display);letter-spacing:-.02em;color:var(--text-inverse-muted)}
+.lfw-metric span{font:var(--type-h5);color:var(--text-strong)}
+.lfw-metric small{font:var(--type-body-sm);color:var(--text-muted)}
+.lfw-quote{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+.lfw-video{position:relative;display:block;width:100%;aspect-ratio:4/3;padding:0;border:0;border-radius:var(--radius-2xl);overflow:hidden;background:var(--lake-navy);cursor:pointer}
+.lfw-video img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.78;transition:transform var(--dur-tide) var(--ease-current)}
+.lfw-video:hover img{transform:scale(1.03)}
+.lfw-video:focus-visible{outline:none;box-shadow:var(--ring-focus)}
+.lfw-video__play{position:absolute;inset:0;margin:auto;display:flex;align-items:center;justify-content:center;width:76px;height:76px;border-radius:50%;background:var(--sunset-coral);color:var(--lake-navy);box-shadow:var(--shadow-lg);transition:transform var(--dur-base) var(--ease-current)}
+.lfw-video:hover .lfw-video__play{transform:scale(1.06)}
+.lfw-video__msg{position:absolute;inset:0;margin:auto;display:flex;align-items:center;gap:10px;width:max-content;height:max-content;padding:12px 16px;border-radius:var(--radius-md);background:var(--foam-white);color:var(--lake-navy);font:var(--type-label);animation:lfw-enter var(--dur-base) var(--ease-current) both}
+.lfw-video__label{position:absolute;left:16px;bottom:16px;padding:6px 10px;border-radius:6px;background:rgba(8,42,58,.84);color:var(--foam-white);font:700 12px/1.2 var(--font-display)}
+.lfw-quote__text{display:flex;flex-direction:column;gap:20px;margin:0}
+.lfw-quote__text>.lf-icon{color:var(--current-teal)}
+.lfw-quote blockquote{margin:0;font:600 clamp(22px,2.2vw,28px)/1.35 var(--font-display);letter-spacing:-.01em;color:var(--text-strong);text-wrap:pretty}
+.lfw-quote figcaption b{display:block;font:var(--type-h5);color:var(--text-strong)}
+.lfw-quote figcaption span{font:var(--type-body-sm);color:var(--text-muted)}
+.lfw-case-stack{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:24px 48px;padding-top:40px;border-top:1px solid var(--border-default)}
+.lfw-case-stack>div:first-child{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.lfw-case-stack .lfw-tags{max-width:640px;justify-content:flex-end}
+@media (max-width:900px){.lfw-case-hero__grid,.lfw-case-story,.lfw-case-approach,.lfw-quote{grid-template-columns:1fr;gap:32px}.lfw-case-hero__media{height:340px}.lfw-case-approach__media{position:relative;top:0;height:320px}.lfw-facts{grid-template-columns:repeat(2,minmax(0,1fr))}.lfw-metrics{grid-template-columns:1fr}.lfw-case-stack .lfw-tags{justify-content:flex-start}}
+

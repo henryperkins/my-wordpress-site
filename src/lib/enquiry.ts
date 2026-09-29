@@ -8,6 +8,7 @@ export interface Enquiry {
 	subject: string;
 	name: string;
 	email: string;
+	phone: string;
 	website: string;
 	timeline: string;
 	platform: string;
@@ -41,6 +42,7 @@ export function parseEnquiry(form: FormData, page: string): ParsedEnquiry {
 		subject: line(form.get("subject"), 120) || "Website enquiry",
 		name: line(form.get("name"), 120),
 		email: line(form.get("email"), 200),
+		phone: line(form.get("phone"), 40),
 		website: line(form.get("website"), 200),
 		timeline: line(form.get("timeline"), 80),
 		platform: line(form.get("platform"), 80),
@@ -56,6 +58,7 @@ export function parseEnquiry(form: FormData, page: string): ParsedEnquiry {
 	const errors: Record<string, string> = {};
 	if (!enquiry.name) errors.name = "Tell us who to reply to.";
 	if (!EMAIL.test(enquiry.email)) errors.email = "Enter an email we can reply to.";
+	if (enquiry.phone && enquiry.phone.replace(/\D/g, "").length < 7) errors.phone = "Enter a phone number we can call, or leave it blank.";
 	return Object.keys(errors).length ? { spam: false, errors } : { spam: false, errors, enquiry };
 }
 
@@ -66,6 +69,7 @@ export async function sendEnquiry(enquiry: Enquiry, origin: string): Promise<voi
 		"",
 		`Name: ${enquiry.name}`,
 		`Email: ${enquiry.email}`,
+		enquiry.phone && `Phone: ${enquiry.phone}`,
 		enquiry.website && `Website: ${enquiry.website}`,
 		enquiry.timeline && `Timeline: ${enquiry.timeline}`,
 		enquiry.platform && `Platform: ${enquiry.platform}`,

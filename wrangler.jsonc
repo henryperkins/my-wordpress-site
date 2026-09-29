@@ -8,6 +8,8 @@
 	"keep_vars": true,
 	// Persist plugin failures so the sandbox workaround can be verified after deployment.
 	"observability": { "enabled": true, "head_sampling_rate": 1 },
+	// Smart Placement was turned on in the dashboard; a deploy without this key turns it off again.
+	"placement": { "mode": "smart" },
 	"d1_databases": [
 		{
 			"binding": "DB",
