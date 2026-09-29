@@ -14,9 +14,12 @@
 .lf-eyebrow{display:inline-flex;align-items:center;gap:14px;margin:0;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-eyebrow)}
 .lf-eyebrow__text{display:inline-flex;align-items:center;flex-wrap:wrap;gap:.2em .75em;margin-right:calc(var(--ls-eyebrow) * -1)}
 .lf-eyebrow--list{letter-spacing:.16em}
-.lf-eyebrow--list .lf-eyebrow__text{margin-right:-.16em}
+/* A list wraps between items into balanced lines. Every item leads with its dot, and the text box is pulled left by one
+   dot's width and clipped there, so the dot that would start a line is never seen: no line begins or ends on a dot */
+.lf-eyebrow--list .lf-eyebrow__text{display:block;margin:0 -.16em 0 calc(-1.5em - 5px);line-height:1.4;word-spacing:-.4em;text-wrap:balance;clip-path:inset(-.5em -.5em -.5em calc(1.5em + 5px))}
+.lf-eyebrow__item{white-space:nowrap;word-spacing:normal}
+.lf-eyebrow__item::before{content:"";display:inline-block;width:5px;height:5px;margin:0 .75em;border-radius:50%;background:var(--sunset-coral);vertical-align:.17em}
 .lf-eyebrow__rule{display:block;flex:none;width:28px;height:2px;border-radius:2px;background:var(--rule-brand)}
-.lf-eyebrow__sep{display:block;flex:none;width:5px;height:5px;border-radius:50%;background:var(--sunset-coral)}
 .lf-eyebrow--muted{color:var(--text-muted)}
 .lf-eyebrow--strong{color:var(--text-strong)}
 .lf-eyebrow--accent{color:var(--coral-700)}

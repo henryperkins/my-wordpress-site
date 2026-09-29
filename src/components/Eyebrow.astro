@@ -20,8 +20,9 @@ const leading = rule === "leading" || rule === "flanked";
 			list
 				? list.map((item, i) => (
 						<Fragment>
-							{i > 0 && <span class="lf-eyebrow__sep" aria-hidden="true" />}
-							<span>{item}</span>
+							{/* Items wrap at the spaces between them (which screen readers also hear); each draws its own coral dot */}
+							{i > 0 && " "}
+							<span class="lf-eyebrow__item">{item}</span>
 						</Fragment>
 					))
 				: <slot />

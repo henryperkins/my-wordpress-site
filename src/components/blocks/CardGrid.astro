@@ -24,7 +24,7 @@ const grid = cards.length === 2 || cards.length === 4 ? "lfw-grid2" : "lfw-grid3
 					const Card = url ? "a" : "div";
 					return (
 						<Card href={url} class:list={["lf-card", roomy && "lf-card--pad-lg", url && "lf-card--interactive"]}>
-							<div class="lf-card__body">
+							<div class:list={["lf-card__body", !card.badge && "lfw-iconcard"]}>
 								<div class="lfw-spechead">
 									<span class="lfw-tile">
 										<Icon name={card.icon} size={24} />

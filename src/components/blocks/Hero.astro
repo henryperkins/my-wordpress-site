@@ -28,22 +28,23 @@ const stack = list(value.stack);
 				{value.lead && <p class="lfw-lead">{value.lead}</p>}
 				<Ctas primary={cta(value.primary_cta_label, value.primary_cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} size="lg" />
 			</div>
+			{/* Before the photo in reading order: under both columns on wide screens, straight after the buttons once stacked */}
+			{
+				(value.goal || stack.length > 0) && (
+					<div class="lfw-strip">
+						{value.goal && <p class="lfw-strip__goal">{value.goal}</p>}
+						{stack.length > 0 && (
+							<div class="lfw-strip__stack">
+								{value.stack_label && <span class="lfw-strip__label">{value.stack_label}</span>}
+								{stack.map((item) => <Tag size="sm">{item}</Tag>)}
+							</div>
+						)}
+					</div>
+				)
+			}
 			<div class="lfw-hero__media">
 				<Photo image={value.image} photo={value.photo} fallback="shore" priority={index === 0} />
 			</div>
 		</div>
-		{
-			(value.goal || stack.length > 0) && (
-				<div class="lfw-strip">
-					{value.goal && <p class="lfw-strip__goal">{value.goal}</p>}
-					{stack.length > 0 && (
-						<div class="lfw-strip__stack">
-							{value.stack_label && <span class="lfw-strip__label">{value.stack_label}</span>}
-							{stack.map((item) => <Tag size="sm">{item}</Tag>)}
-						</div>
-					)}
-				</div>
-			)
-		}
 	</div>
 </section>

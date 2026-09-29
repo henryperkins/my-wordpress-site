@@ -10,6 +10,7 @@ import type { MenuItem, SiteLogo } from "../lib/types";
 // A menu item with children (Services › All services, SEO) opens a small panel; scripts/header.ts toggles it.
 // Same markup as the design system's SiteHeader (components/site/SiteHeader.jsx).
 // The search icon links to /search; with JavaScript it opens the AI search modal instead (also Cmd/Ctrl+K).
+// On phones the icon gives its place in the bar to the booking button, and the menu panel's Search link takes over.
 // The modal sits after <header>: the header's backdrop-filter would confine its fixed overlay to the bar.
 interface Props {
 	siteTitle: string;
@@ -101,6 +102,10 @@ const subItems = (item: MenuItem) => kids(item).filter((child) => pathOf(child.u
 				</>
 			))
 		}
+		<a class="lfw-mobile__search" href="/search" aria-current={current("/search")} data-ai-search-open>
+			<Icon name="search" />
+			Search
+		</a>
 		{
 			cta && (
 				<Button {...linkAttrs(cta)} block iconRight="arrow-right">
