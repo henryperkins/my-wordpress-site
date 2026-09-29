@@ -1,6 +1,8 @@
-# Temporary EmDash plugin sandbox workaround
+# Temporary EmDash plugin sandbox workarounds
 
-Prepared on 2026-09-29 for EmDash and `@emdash-cms/cloudflare` 1.0.1.
+Prepared on 2026-09-29 for EmDash and `@emdash-cms/cloudflare` 1.0.1. There are
+two: a larger subrequest budget for sandboxed plugins, and repairs for registry
+plugins whose admin pages EmDash rejects (see "Admin page repairs" below).
 
 The Cloudflare runner defaults to 10 subrequests per plugin invocation. EmDash
 1.0.1 does not pass resource limits when it creates the runner, so raising the
@@ -30,10 +32,43 @@ subrequests" or ROUTE_ERROR events.
 
 ## Which plugins this covers
 
-Only the sandboxed registry plugins: Cloudflare Email Sending and Webhook
-Notifier. Site search uses the first-party `aiSearch()` plugin in
+Only the sandboxed registry plugins: Cloudflare Email Sending, Webhook Notifier
+and audit-log. Site search uses the first-party `aiSearch()` plugin in
 `astro.config.mjs`, which runs in the site Worker rather than the sandbox, so
 this budget doesn't apply to it.
+
+## Admin page repairs
+
+Since EmDash 0.39, the host validates what a sandboxed plugin's `admin` route
+returns. One invalid block replaces the whole admin page with "Plugin responded
+with 502: INVALID_BLOCK_RESPONSE". Two registry plugins from EmDash's own
+publisher have never matched the Block Kit types:
+
+- Webhook Notifier 0.2.2: its button uses `text` instead of `label`, and its
+  banners use `text`/`style` instead of `title`/`variant`. The settings page
+  fails. Fixed upstream in [#3362](https://github.com/emdash-cms/emdash/pull/3362),
+  which isn't merged yet.
+- audit-log 0.2.2 (and 0.2.3 on npm): its table uses camelCase keys (`pageActionId`,
+  `nextCursor`, `emptyText`, `blockId`), so Audit History fails. Its "Load more"
+  handler also passes the whole `value` object on as the cursor. Reported as
+  [#3616](https://github.com/emdash-cms/emdash/issues/3616).
+
+`src/lib/plugin-admin-compat.ts` fills in a missing field from its old spelling,
+and `plugin-sandbox.ts` applies it to `admin` route responses only. Valid
+responses pass through unchanged. A camelCase table's page action gets a
+`lakefront-compat:cursor:` prefix, and the matching "Load more" request reaches
+the plugin with the raw cursor as `value`, which is the shape audit-log reads.
+
+Not repaired: Webhook Notifier's dashboard widget stays empty, because its
+handler answers `widget:webhook-status` but the manifest declares `status`.
+
+Verified on 2026-09-29:
+- The plugins' production bundles were run against the 1.0.1 validator.
+- A local `astro dev` run went through the Cloudflare runner, with both plugins
+  installed from the registry. Without the repair, both pages returned 502;
+  with it, they returned 200.
+- Audit History paged to its last page.
+- Webhook Notifier saved its settings and ran Test Webhook.
 
 ## Verify after deployment
 
@@ -52,3 +87,9 @@ Astro configuration/virtual-module path, upgrade, restore `sandboxRunner:
 sandbox()`, and remove the local adapter. Use the released option for the chosen
 budget and verify the resulting isolate configuration and live plugin behavior.
 Keep observability enabled.
+
+Remove the admin page repairs once fixed releases of both plugins are installed:
+Webhook Notifier with #3362, and an audit-log release that fixes #3616. Delete
+`src/lib/plugin-admin-compat.ts` and the `withAdminCompat` wiring in
+`plugin-sandbox.ts`. Then open both admin pages and check Workers Logs for
+"invalid Block Kit content".
