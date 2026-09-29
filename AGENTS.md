@@ -22,6 +22,9 @@ The admin UI is at `http://localhost:4321/_emdash/admin`.
 | `src/layouts/Base.astro` | EmDash wiring (settings, menus, page contributions), header, footer |
 | `src/components/PageBlocks.astro` | Maps each block `_type` to its renderer in `src/components/blocks/` |
 | `src/components/LegalPage.astro` | Legal layout for pages whose Layout is `legal` |
+| `src/components/BlogList.astro` | Blog index and category listing: chips, featured post, grid, paging |
+| `src/pages/blog/` | Blog index, category archives and articles |
+| `src/pages/rss.xml.ts` | RSS feed of the newest posts |
 | `src/pages/api/enquiry.ts` | Enquiry endpoint; sends mail via `src/lib/enquiry.ts` |
 | `src/scripts/` | Header, tabs, enquiry and legal-page behaviour (progressive enhancement) |
 
@@ -44,7 +47,7 @@ The EmDash docs are available as an MCP server at `https://docs.emdashcms.com/mc
 
 ## This Template
 
-A marketing site for Lakefront Digital, a Chicago web design, WordPress, hosting and SEO agency. Pages are composed from Lakefront blocks; there is no blog.
+A marketing site for Lakefront Digital, a Chicago web design, WordPress, hosting and SEO agency. Pages are composed from Lakefront blocks; the blog holds guides.
 
 ## Pages
 
@@ -52,12 +55,17 @@ A marketing site for Lakefront Digital, a Chicago web design, WordPress, hosting
 | --- | --- | --- |
 | Home | `/` | Page with slug `home`: hero, services grid, about, night hosting band, consultation steps, CTA band |
 | Page | `/[...slug]` | Any page: blocks layout, or legal layout (numbered sections, TOC, print) |
+| Blog | `/blog` | Intro from the `blog` page, category chips, featured post, post grid, then the `blog` page's blocks |
+| Category | `/blog/category/[slug]` | Posts in one category |
+| Article | `/blog/[slug]` | Breadcrumb, title, byline, hero photo, Portable Text body, help card, related posts |
+| RSS | `/rss.xml` | 20 newest posts |
 | Search | `/search` | Full-text search over pages, popular searches, browse cards |
 | 404 | fallback | Night photo, search, quick links |
 
 ## Schema
 
-- `pages` collection: `title`, `template` (`blocks` | `legal`), `summary`, `keywords`, `content` (blocks), `eyebrow`, `effective_date`, `body` (Portable Text). The legal fields are used only by the legal layout.
+- `pages` collection: `title`, `template` (`blocks` | `legal`), `summary`, `keywords`, `content` (blocks), `eyebrow`, `effective_date`, `body` (Portable Text). The legal fields are used only by the legal layout; the page with slug `blog` feeds the blog intro.
+- `posts` collection: `title`, `excerpt`, `featured_image`, `photo` (bundled fallback), `featured` (boolean), `content` (Portable Text). `category` taxonomy (hierarchical). Bylines are optional.
 - Block types (`lf_` prefix): hero, page_intro, card_grid, split, steps, service_tabs, spec_tabs, offer, cta_band, product, enquiry.
 - Block text conventions: lists are one item per line; pairs are `label | value`; eyebrow items are separated with `·`.
 - Menus: `primary`, `header_cta` (first item is the header button), `footer_services`, `footer_hosting`, `footer_company` (column headings come from the menu label minus `Footer:`), `footer_contact`, `footer_legal`, `search_popular`.

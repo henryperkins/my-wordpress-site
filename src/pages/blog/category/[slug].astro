@@ -1,0 +1,28 @@
+---
+import { decodeSlug, getEmDashCollection, getTaxonomyTermsWithCacheHint, getTermsForEntries } from "emdash";
+import Base from "../../../layouts/Base.astro";
+import BlogList from "../../../components/BlogList.astro";
+import PageIntro from "../../../components/PageIntro.astro";
+import { categoryPath, PAGE_SIZE } from "../../../lib/posts";
+
+const slug = decodeSlug(Astro.params.slug);
+const termsResult = await getTaxonomyTermsWithCacheHint("category", { includeCounts: true });
+const term: any = slug ? termsResult.data.find((item: any) => item.slug === slug) : null;
+if (!term) return Astro.rewrite("/404");
+
+const cursor = Astro.url.searchParams.get("cursor") || undefined;
+const list = await getEmDashCollection("posts", { where: { category: term.slug }, orderBy: { published_at: "desc" }, limit: PAGE_SIZE, cursor });
+if (Astro.cache?.enabled) {
+	Astro.cache.set(termsResult.cacheHint);
+	Astro.cache.set(list.cacheHint);
+}
+
+const termsFor = await getTermsForEntries("posts", list.entries.map((entry) => entry.data.id), "category");
+const categories = termsResult.data.map((item: any) => ({ slug: item.slug, label: item.label, count: item.count }));
+const description = term.description || `Posts in ${term.label}.`;
+---
+
+<Base title={cursor ? `${term.label} (older posts)` : term.label} description={description} robots={cursor ? "noindex, follow" : undefined}>
+	<PageIntro eyebrow="Blog" title={term.label} lead={term.description} />
+	<BlogList posts={list.entries} termsFor={termsFor} categories={categories} active={term.slug} nextCursor={list.nextCursor} cursor={cursor} basePath={categoryPath(term.slug)} />
+</Base>

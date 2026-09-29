@@ -21,7 +21,7 @@ const panel = !!value.panel_title || rows.length > 0;
 ---
 
 <section class:list={["lfw-section", night && "lfw-night"]} data-theme={night ? "night" : undefined} id={value.anchor_id || undefined}>
-	{night && <img class="lfw-watermark" src="/brand/lakefront-crest.png" alt="" aria-hidden="true" width="720" height="713" loading="lazy" decoding="async" />}
+	{night && <img class="lfw-watermark" src="/brand/lakefront-crest.svg" alt="" aria-hidden="true" width="720" height="713" loading="lazy" decoding="async" />}
 	<div class="lfw-container">
 		<div class:list={[night ? "lfw-split" : "lfw-about", flip && (night ? "lfw-split--flip" : "lfw-about--flip")]}>
 			<div class={night ? "lfw-col" : "lfw-about__copy"}>

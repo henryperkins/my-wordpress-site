@@ -17,9 +17,11 @@ import PageIntro from "./PageIntro.astro";
 
 interface Props {
 	page: { data: Page; edit: EditProxy };
+	/** Render only the blocks, below content the route already titled (the blog index). */
+	embedded?: boolean;
 }
 
-const { page } = Astro.props;
+const { page, embedded = false } = Astro.props;
 const blocks = page.data.content ?? [];
 
 // One renderer per Lakefront block type (seed.json → blockTypes).
@@ -42,7 +44,13 @@ const titled = ["lf_hero", "lf_page_intro", "lf_product"].includes(blocks[0]?._t
 ---
 
 {
-	blocks.length === 0 ? (
+	embedded ? (
+		blocks.length > 0 && (
+			<div class="lfw-blocks" {...page.edit.content}>
+				<Blocks value={blocks} components={components} />
+			</div>
+		)
+	) : blocks.length === 0 ? (
 		<PageIntro title={page.data.title} lead={page.data.summary} titleAttrs={page.edit.title} solo />
 	) : (
 		<Fragment>

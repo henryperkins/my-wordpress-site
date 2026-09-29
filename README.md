@@ -6,10 +6,11 @@ The Lakefront Digital marketing site as an [EmDash](https://docs.emdashcms.com/t
 
 - **Home, Services and Hosting** built from 11 Lakefront blocks that editors add, reorder and edit in the admin
 - **Contact and Website Consultation** with an enquiry form, emailed to you through Cloudflare Email Sending (no checkout; commerce is out of scope for now)
-- **Terms and Conditions** on the legal layout: numbered sections, table of contents, print
-- **Search** and a **404** page
+- **Terms and Conditions** and **Privacy Policy** on the legal layout: numbered sections, table of contents, print
+- **Blog** with the copy book's four SEO guides: index with a featured post and category chips, category archives, articles with a help card and related posts, and an RSS feed
+- **Search** (pages and posts) and a **404** page
 - Header and footer from CMS menus; logo, title and tagline from Site Settings
-- Manrope + Source Sans 3 (Astro fonts), Lucide icons, 13 bundled photos
+- Vector logo (SVG) in `public/brand/`, Manrope + Source Sans 3 (Astro fonts), Lucide icons, 13 bundled photos
 
 ## Routes
 
@@ -17,14 +18,17 @@ The Lakefront Digital marketing site as an [EmDash](https://docs.emdashcms.com/t
 | --- | --- | --- |
 | Home | `/` | the page with slug `home` (`/home` redirects here) |
 | Pages | `/:slug` | `pages` collection; Layout = `blocks` or `legal` |
-| Search | `/search?q=` | full-text search over published pages |
+| Blog | `/blog`, `/blog/:slug` | `posts` collection; intro from the page with slug `blog` |
+| Blog category | `/blog/category/:slug` | `category` taxonomy |
+| RSS | `/rss.xml` | 20 newest posts |
+| Search | `/search?q=` | full-text search over published pages and posts |
 | Enquiry endpoint | `POST /api/enquiry` | `src/lib/enquiry.ts` |
 | 404 | fallback | `src/pages/404.astro` |
 
 ## Replacing the blog template in this repository
 
 1. Copy this folder over the repository root. It keeps the package name, versions and pnpm settings.
-2. Delete the blog files the theme doesn't use: `src/components/PostCard.astro`, `src/pages/posts/`, `src/pages/pages/`, `src/pages/category/`, `src/pages/tag/`, `src/pages/rss.xml.ts`, `src/utils/`.
+2. Delete the blog files the theme doesn't use: `src/pages/posts/`, `src/pages/pages/`, `src/pages/category/`, `src/pages/tag/`, `src/utils/`. The theme's own `PostCard.astro` and `rss.xml.ts` replace the repository's.
 3. Keep `.agents/`, `.cursor/` and `.vscode/`. Run `pnpm wrangler types` to refresh `worker-configuration.d.ts` for the new email binding.
 4. **Use a fresh database.** A seed is applied only to an empty database whose setup hasn't run, so a D1 database that already went through the blog setup keeps the blog schema. Point `d1_databases` in `wrangler.jsonc` at a new database (or clear `.wrangler/` locally) before first run.
 
@@ -35,7 +39,7 @@ pnpm install
 pnpm dev
 ```
 
-Open http://localhost:4321/_emdash/admin and complete the setup wizard. Choose to include sample content to get Home, Services, Hosting, Contact, Website Consultation and Terms with the copy-book text; skip it to start from the schema, menus and blocks only.
+Open http://localhost:4321/_emdash/admin and complete the setup wizard. Choose to include sample content to get Home, Services, Hosting, Contact, Website Consultation, the blog intro page, four guides, Terms and Privacy Policy with the copy-book text; skip it to start from the schema, menus and blocks only.
 
 ## Enquiry email (Cloudflare Email Sending)
 
@@ -66,13 +70,26 @@ Locally, Wrangler simulates the binding and logs where it wrote the message. If 
 - Blocks aren't indexed for search, so fill in each page's **Summary** and **Search keywords**.
 - The block that comes first provides the page's `h1` (Hero, Page intro or Service summary).
 
+## Blog
+
+- The page with the slug `blog` sets the index's eyebrow, title and summary; any blocks on it (the sample has a call-to-action band) appear below the posts.
+- The newest post with **Feature at the top of the blog** switched on leads the index; otherwise the newest post does.
+- Posts use **Featured image**, or fall back to their **Bundled photo**. Numbered lists render as numbered tiles; bulleted lists get teal dashes.
+- Articles show a help card with the header button (`header_cta` menu) and the site tagline.
+- The four sample guides are short outlines from the copy book; replace them with full articles when you have them.
+
+## Before launch
+
+- Have the **Privacy Policy** reviewed. It's a draft dated September 29, 2026, written for this site: enquiries emailed via Cloudflare, Stripe and PayPal payments, client sites you host. Section 4 assumes you use Google Analytics, as the Terms mention it; the theme doesn't add it, so install it or edit that section. The retention periods in section 8 are placeholders to confirm.
+- Set both legal pages' **Effective date** when you publish.
+
 ## Customising
 
 - Tokens: `src/styles/tokens.css` (from the design system). Override them in `src/styles/theme.css`.
 - Component (`lf-`) and layout (`lfw-`) styles: `src/styles/components.css`, `src/styles/site.css`.
 - Icons: add a Lucide SVG to `src/icons/`, then add its name to the icon options in `seed/seed.json`.
-- Brand files: `public/brand/`. The footer always uses the reversed lockup from there.
+- Brand files: `public/brand/` — vector crest, wordmark, lockup and horizontal logos. Files ending `-reversed` are for navy grounds (the crest sits on a white disc there, because its foam and sky are transparent). The footer always uses the reversed artwork.
 
 ## Not included yet
 
-Blog and article templates, commerce/checkout, a Privacy Policy (the legal layout is ready for one), and a vector logo.
+Commerce/checkout, comments, tags, and a one-color mark or favicon made from the vector logo.

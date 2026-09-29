@@ -1,0 +1,148 @@
+---
+import { decodeSlug, getEmDashCollection, getEmDashEntry, getMenuWithCacheHint, getSeoMeta, getSiteSettings, getTermsForEntries } from "emdash";
+import { PortableText } from "emdash/ui";
+import Base from "../../layouts/Base.astro";
+import Button from "../../components/Button.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import Icon from "../../components/Icon.astro";
+import Photo from "../../components/Photo.astro";
+import PostCard from "../../components/PostCard.astro";
+import { linkAttrs } from "../../lib/menus";
+import { photoFor } from "../../lib/photos";
+import { BLOG_PATH, categoryPath, initials, readingTime } from "../../lib/posts";
+import { formatDate } from "../../lib/text";
+
+const slug = decodeSlug(Astro.params.slug);
+if (!slug) return Astro.rewrite("/404");
+
+const { entry: post, cacheHint } = await getEmDashEntry("posts", slug);
+if (!post) return Astro.rewrite("/404");
+
+const [recent, ctaResult, settings] = await Promise.all([
+	getEmDashCollection("posts", { orderBy: { published_at: "desc" }, limit: 7 }),
+	getMenuWithCacheHint("header_cta"),
+	getSiteSettings(),
+]);
+if (Astro.cache?.enabled) {
+	Astro.cache.set(cacheHint);
+	Astro.cache.set(recent.cacheHint);
+	Astro.cache.set(ctaResult.cacheHint);
+}
+
+const categories = post.data.terms?.category ?? [];
+const primary = categories[0];
+const bylines = post.data.bylines ?? [];
+const minutes = readingTime(post.data.content);
+const published = formatDate(post.data.publishedAt);
+
+// Related: posts that share a category first, then the newest.
+const others = recent.entries.filter((entry) => entry.id !== post.id);
+const relatedTerms = await getTermsForEntries("posts", others.map((entry) => entry.data.id), "category");
+const shares = (entry: (typeof others)[number]) => (relatedTerms.get(entry.data.id) ?? []).some((term) => categories.some((own) => own.slug === term.slug));
+const related = [...others.filter(shares), ...others.filter((entry) => !shares(entry))].slice(0, 3);
+
+const cta = ctaResult.data?.items?.[0];
+const siteTitle = settings?.title || "Lakefront Digital";
+const image = post.data.featured_image;
+const ogImage = image?.src ? new URL(image.src, Astro.url.origin).href : new URL(photoFor(post.data.photo, "window").src, Astro.url.origin).href;
+const seo = getSeoMeta(post, {
+	siteTitle,
+	siteUrl: Astro.url.origin,
+	path: `${BLOG_PATH}/${slug}`,
+	defaultDescription: post.data.excerpt || undefined,
+	defaultOgImage: ogImage,
+});
+---
+
+<Base title={seo.title} pageTitle={seo.ogTitle} description={seo.description} image={seo.ogImage} canonical={seo.canonical} robots={seo.robots} type="article" content={{ collection: "posts", id: post.data.id, slug }}>
+	<article class="lfw-article">
+		<header class="lfw-article__head">
+			<div class="lfw-container">
+				<div class="lfw-article__intro">
+					<nav class="lfw-crumbs" aria-label="Breadcrumb">
+						<a href={BLOG_PATH}>Blog</a>
+						{
+							primary && (
+								<Fragment>
+									<Icon name="chevron-right" size={14} />
+									<a href={categoryPath(primary.slug)}>{primary.label}</a>
+								</Fragment>
+							)
+						}
+					</nav>
+					<h1 class="lfw-display" {...post.edit.title}>{post.data.title}</h1>
+					{post.data.excerpt && <p class="lfw-lead" {...post.edit.excerpt}>{post.data.excerpt}</p>}
+					<div class="lfw-article__meta">
+						{
+							bylines.length > 0 && (
+								<span class="lfw-byline">
+									<span class="lfw-byline__avatars">
+										{bylines.slice(0, 3).map((credit) => (
+											<span class="lfw-byline__avatar">
+												{credit.byline.avatarMediaId ? <img src={`/_emdash/api/media/file/${credit.byline.avatarMediaId}`} alt="" width="44" height="44" loading="lazy" /> : initials(credit.byline.displayName)}
+											</span>
+										))}
+									</span>
+									<span class="lfw-byline__names">
+										{bylines.map((credit, i) => (
+											<Fragment>
+												{i > 0 && ", "}
+												<b>{credit.byline.displayName}</b>
+												{credit.roleLabel && <span> ({credit.roleLabel})</span>}
+											</Fragment>
+										))}
+									</span>
+								</span>
+							)
+						}
+						{bylines.length > 0 && (published || minutes) && <span class="lfw-article__sep" aria-hidden="true" />}
+						{published && <time datetime={post.data.publishedAt?.toISOString()}>{published}</time>}
+						<span><Icon name="clock" size={16} />{minutes} min read</span>
+					</div>
+				</div>
+			</div>
+		</header>
+		<div class="lfw-container">
+			<div class="lfw-article__hero" {...post.edit.featured_image}>
+				<Photo image={image} photo={post.data.photo} fallback="window" priority />
+			</div>
+		</div>
+		<div class="lfw-section lfw-article__main">
+			<div class="lfw-container lfw-article__grid">
+				<div class="lfw-prose" {...post.edit.content}>
+					<PortableText value={post.data.content ?? []} />
+				</div>
+				{
+					cta && (
+						<aside class="lfw-help" aria-label="Get help">
+							<span class="lfw-tile lfw-tile--card"><Icon name={primary?.slug === "seo" ? "search" : "message-square"} size={22} /></span>
+							<h2 class="lfw-h4">Need a hand with {primary ? primary.label : "your website"}?</h2>
+							{settings?.tagline && <p class="lfw-card-text">{settings.tagline}</p>}
+							<Button {...linkAttrs(cta)} iconRight="arrow-right">{cta.label}</Button>
+						</aside>
+					)
+				}
+			</div>
+		</div>
+	</article>
+	{
+		related.length > 0 && (
+			<section class="lfw-section lfw-related" aria-labelledby="more-posts">
+				<div class="lfw-container">
+					<div class="lfw-sechead lfw-sechead--row">
+						<div class="lfw-sechead__text">
+							<Eyebrow rule="leading">Keep reading</Eyebrow>
+							<h2 class="lfw-h2" id="more-posts">More from the blog</h2>
+						</div>
+						<Button href={BLOG_PATH} variant="secondary" iconRight="arrow-right">All posts</Button>
+					</div>
+					<div class="lfw-postgrid">
+						{related.map((entry) => (
+							<PostCard post={entry} categories={relatedTerms.get(entry.data.id) ?? []} />
+						))}
+					</div>
+				</div>
+			</section>
+		)
+	}
+</Base>

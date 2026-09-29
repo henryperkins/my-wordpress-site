@@ -1,0 +1,30 @@
+---
+import type { EditProxy } from "emdash";
+import type { Post } from "../../emdash-env";
+import Eyebrow from "./Eyebrow.astro";
+import Icon from "./Icon.astro";
+import Photo from "./Photo.astro";
+import { postPath, readingTime } from "../lib/posts";
+
+interface Props {
+	post: { id: string; data: Post; edit?: EditProxy };
+	categories?: { slug: string; label: string }[];
+	level?: 2 | 3;
+}
+
+const { post, categories = [], level = 3 } = Astro.props;
+const Heading = level === 2 ? "h2" : "h3";
+const minutes = readingTime(post.data.content);
+---
+
+<a class="lf-card lf-card--interactive lfw-postcard" href={postPath(post.id)}>
+	<div class="lf-card__media" style="--lf-ratio:3/2">
+		<Photo image={post.data.featured_image} photo={post.data.photo} fallback="window" />
+	</div>
+	<div class="lf-card__body">
+		{categories[0] && <Eyebrow size="sm" as="span">{categories[0].label}</Eyebrow>}
+		<Heading class="lfw-card-title">{post.data.title}</Heading>
+		{post.data.excerpt && <p class="lfw-card-text">{post.data.excerpt}</p>}
+		<span class="lfw-postmeta"><Icon name="clock" size={14} />{minutes} min read</span>
+	</div>
+</a>

@@ -9,7 +9,6 @@
 .lf-logo img{display:block;width:auto;max-width:none}
 .lf-logo__rule{display:block;width:1.5px;background:var(--lake-navy);opacity:.28;border-radius:1px}
 .lf-logo--reversed .lf-logo__rule{background:var(--foam-white);opacity:.36}
-.lf-logo--reversed .lf-logo__word{filter:brightness(0) invert(1)}
 
 /* Eyebrow — spaced uppercase label; echoes "— D I G I T A L —" in the wordmark */
 .lf-eyebrow{display:inline-flex;align-items:center;gap:14px;margin:0;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-eyebrow)}

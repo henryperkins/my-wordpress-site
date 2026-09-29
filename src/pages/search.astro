@@ -7,19 +7,21 @@ import Eyebrow from "../components/Eyebrow.astro";
 import Icon from "../components/Icon.astro";
 import SearchForm from "../components/SearchForm.astro";
 import { linkAttrs } from "../lib/menus";
+import { postPath } from "../lib/posts";
 import { truncate } from "../lib/text";
 
 export const prerender = false;
 
-// Full-text search over published pages. Blocks aren't indexed, so each page's Summary and
+// Full-text search over published pages and blog posts. Blocks aren't indexed, so each page's Summary and
 // Search keywords fields carry what it should be found by.
 const query = (Astro.url.searchParams.get("q") ?? "").trim().slice(0, 200);
 const pathFor = (slug?: string | null) => (!slug || slug === "home" ? "/" : `/${slug}`);
+const resultPath = (collection: string, slug?: string | null) => (collection === "posts" ? postPath(slug) : pathFor(slug));
 
 let results: Awaited<ReturnType<typeof search>>["items"] = [];
 if (query) {
 	try {
-		({ items: results } = await search(query, { collections: ["pages"], status: "published", limit: 30 }));
+		({ items: results } = await search(query, { collections: ["pages", "posts"], status: "published", limit: 30 }));
 	} catch (error) {
 		console.error("[search]", error);
 	}
@@ -29,7 +31,7 @@ const [popularResult, ctaResult] = await Promise.all([getMenuWithCacheHint("sear
 const popular = popularResult.data?.items ?? [];
 const ask = ctaResult.data?.items?.[0];
 
-const ICONS: Record<string, string> = { home: "globe", services: "layout-template", hosting: "server", consultation: "clipboard-list", contact: "send" };
+const ICONS: Record<string, string> = { home: "globe", services: "layout-template", hosting: "server", consultation: "clipboard-list", contact: "send", blog: "pen-line" };
 const browse = query
 	? []
 	: (await getEmDashCollection("pages", { status: "published", limit: 50 })).entries
@@ -76,11 +78,11 @@ const browse = query
 						{results.map((result) => (
 							<article class="lfw-result">
 								<div class="lfw-result__path">
-									<Badge>Page</Badge>
-									<span>{pathFor(result.slug)}</span>
+									<Badge>{result.collection === "posts" ? "Blog" : "Page"}</Badge>
+									<span>{resultPath(result.collection, result.slug)}</span>
 								</div>
 								<h2 class="lfw-result__heading">
-									<a class="lfw-result__title" href={pathFor(result.slug)}>
+									<a class="lfw-result__title" href={resultPath(result.collection, result.slug)}>
 										{result.title || "Untitled"}
 									</a>
 								</h2>

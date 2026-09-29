@@ -77,6 +77,7 @@ const columns = [
 		<Font cssVariable="--font-body" preload />
 		<link rel="icon" href={settings?.favicon?.url || "/favicon.png"} />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="alternate" type="application/rss+xml" title={`${siteTitle} blog`} href="/rss.xml" />
 		<meta name="theme-color" content="#082A3A" />
 		<title>{fullTitle}</title>
 		<EmDashHead page={pageCtx} />

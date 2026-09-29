@@ -2,9 +2,16 @@
 // to offer it in the admin, also add its name to the icon options in seed/seed.json.
 const files = import.meta.glob<string>("../icons/*.svg", { query: "?raw", import: "default", eager: true });
 
+// Icons are inlined, so drop any embedded metadata (provenance manifests, editor data) at build time.
+const clean = (svg: string) =>
+	svg
+		.replace(/<metadata[\s\S]*?<\/metadata>/g, "")
+		.replace(/\s+xmlns:[a-z0-9]+="[^"]*"/gi, "")
+		.trim();
+
 const icons = new Map<string, string>();
 for (const [path, svg] of Object.entries(files)) {
-	icons.set(path.slice(path.lastIndexOf("/") + 1, -4), svg);
+	icons.set(path.slice(path.lastIndexOf("/") + 1, -4), clean(svg));
 }
 
 export const iconSvg = (name?: string | null): string => (name ? icons.get(name) ?? "" : "");

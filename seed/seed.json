@@ -3,7 +3,7 @@
 	"version": "1",
 	"meta": {
 		"name": "Lakefront Digital",
-		"description": "Lakefront Digital marketing site: Home, Services and Hosting built from Lakefront blocks, Contact and Consultation enquiry forms emailed through Cloudflare, Terms, search and a 404 page.",
+		"description": "Lakefront Digital marketing site: Home, Services and Hosting built from Lakefront blocks, Contact and Consultation enquiry forms emailed through Cloudflare, a blog with four SEO guides, Terms and Privacy Policy, search and a 404 page.",
 		"author": "Lakefront Digital"
 	},
 	"settings": {
@@ -1589,7 +1589,7 @@
 				},
 				{
 					"slug": "summary",
-					"label": "Summary (search results and meta description)",
+					"label": "Summary (search results, meta description, and the blog intro on the “blog” page)",
 					"type": "text",
 					"searchable": true
 				},
@@ -1622,7 +1622,7 @@
 				},
 				{
 					"slug": "eyebrow",
-					"label": "Eyebrow (legal layout)",
+					"label": "Eyebrow (legal layout and blog intro)",
 					"type": "string"
 				},
 				{
@@ -1637,6 +1637,109 @@
 					"searchable": true
 				}
 			]
+		},
+		{
+			"slug": "posts",
+			"label": "Blog",
+			"labelSingular": "Post",
+			"description": "Blog posts and guides, listed at /blog.",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"scheduling",
+				"search",
+				"seo"
+			],
+			"urlPattern": "/blog/{slug}",
+			"titleField": "title",
+			"admin": {
+				"listColumns": [
+					"featured"
+				]
+			},
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "excerpt",
+					"label": "Excerpt (article lead, cards, RSS and meta description)",
+					"type": "text",
+					"searchable": true
+				},
+				{
+					"slug": "featured_image",
+					"label": "Featured image",
+					"type": "image"
+				},
+				{
+					"slug": "photo",
+					"label": "Bundled photo (used when no image is uploaded)",
+					"type": "select",
+					"defaultValue": "window",
+					"validation": {
+						"options": [
+							"shore",
+							"window",
+							"glass",
+							"ripple",
+							"dock",
+							"wave",
+							"aqua-tower",
+							"loop-night",
+							"el-night",
+							"willis-fog",
+							"brick-lane",
+							"alley-night",
+							"alley-dusk"
+						]
+					}
+				},
+				{
+					"slug": "featured",
+					"label": "Feature at the top of the blog",
+					"type": "boolean"
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "portableText",
+					"searchable": true
+				}
+			]
+		}
+	],
+	"taxonomies": [
+		{
+			"name": "category",
+			"label": "Categories",
+			"labelSingular": "Category",
+			"hierarchical": true,
+			"collections": [
+				"posts"
+			],
+			"terms": [
+				{
+					"slug": "seo",
+					"label": "SEO"
+				},
+				{
+					"slug": "content-strategy",
+					"label": "Content strategy"
+				}
+			]
+		}
+	],
+	"bylines": [
+		{
+			"id": "byline-lakefront",
+			"slug": "lakefront-digital",
+			"displayName": "Lakefront Digital"
 		}
 	],
 	"menus": [
@@ -1658,6 +1761,11 @@
 					"type": "custom",
 					"label": "Consultation",
 					"url": "/consultation"
+				},
+				{
+					"type": "custom",
+					"label": "Blog",
+					"url": "/blog"
 				}
 			]
 		},
@@ -1742,6 +1850,11 @@
 					"type": "custom",
 					"label": "Start a Project",
 					"url": "/contact"
+				},
+				{
+					"type": "custom",
+					"label": "Blog",
+					"url": "/blog"
 				}
 			]
 		},
@@ -1753,6 +1866,11 @@
 					"type": "custom",
 					"label": "Terms and Conditions",
 					"url": "/terms"
+				},
+				{
+					"type": "custom",
+					"label": "Privacy Policy",
+					"url": "/privacy"
 				},
 				{
 					"type": "custom",
@@ -2413,6 +2531,31 @@
 				}
 			},
 			{
+				"id": "page-blog",
+				"slug": "blog",
+				"status": "published",
+				"data": {
+					"title": "Guides to getting found online",
+					"template": "blocks",
+					"eyebrow": "Blog",
+					"summary": "Plain-English guides to SEO and content for small businesses.",
+					"keywords": "blog, guides, SEO, keyword research, on-page optimization, link building, content strategy",
+					"content": [
+						{
+							"_type": "lf_cta_band",
+							"_version": 1,
+							"_key": "blog-cta",
+							"eyebrow": "SEO",
+							"headline": "Want us to handle your SEO?",
+							"text": "We optimize your site with high-value keywords, meta tags, and content, alongside link-building strategies and social media tactics.",
+							"cta_label": "Start a project",
+							"cta_url": "/contact?service=seo#enquiry",
+							"photo": "shore"
+						}
+					]
+				}
+			},
+			{
 				"id": "page-terms",
 				"slug": "terms",
 				"status": "published",
@@ -2947,6 +3090,1671 @@
 								}
 							]
 						}
+					]
+				}
+			},
+			{
+				"id": "page-privacy",
+				"slug": "privacy",
+				"status": "published",
+				"data": {
+					"title": "Privacy Policy",
+					"template": "legal",
+					"eyebrow": "Legal",
+					"summary": "How Lakefront Digital collects, uses, and protects personal information when you use our website and services.",
+					"keywords": "privacy, personal information, cookies, Google Analytics, data retention, security, your rights",
+					"effective_date": "2026-09-29T00:00:00.000Z",
+					"body": [
+						{
+							"_type": "block",
+							"_key": "b1",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s0",
+									"text": "Introduction",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b6",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "m3",
+									"_type": "link",
+									"href": "https://lakefrontdigital.io"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s2",
+									"text": "Lakefront Digital LLC (“Lakefront Digital,” “we,” “us”) operates ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "s4",
+									"text": "lakefrontdigital.io",
+									"marks": [
+										"m3"
+									]
+								},
+								{
+									"_type": "span",
+									"_key": "s5",
+									"text": " and provides web design, hosting, and consulting services. This policy explains what personal information we collect, how we use it, and the choices you have.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b8",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s7",
+									"text": "Information We Collect",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "bb",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s9",
+									"text": "Information you give us:",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"_key": "sa",
+									"text": " your name, email address, website, project details, and anything else you include when you send an enquiry or book a consultation.",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "be",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "sc",
+									"text": "Client information:",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"_key": "sd",
+									"text": " billing contacts, and the account access and content you share so we can deliver your project.",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "bh",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "sf",
+									"text": "Technical information:",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"_key": "sg",
+									"text": " IP address, browser and device type, pages requested, and referring pages, recorded automatically by our hosting, security, and analytics providers.",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "bj",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "si",
+									"text": "How We Use Information",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "bl",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "sk",
+									"text": "We use personal information to:",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "bn",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "sm",
+									"text": "Reply to enquiries and prepare proposals",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "bp",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "so",
+									"text": "Deliver, support, and bill for the services you engage us for",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "br",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "sq",
+									"text": "Keep our site, and the sites we host, secure",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "bt",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "ss",
+									"text": "Meet legal, tax, and accounting obligations",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "bv",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "su",
+									"text": "We don't sell or rent personal information.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "bx",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "sw",
+									"text": "Cookies and Analytics",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b12",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "mz",
+									"_type": "link",
+									"href": "https://tools.google.com/dlpage/gaoptout"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "sy",
+									"text": "We use Google Analytics to understand how visitors find and use our site. It sets cookies and collects information such as the pages you visit, how long you stay, your approximate location, and your device. You can block cookies in your browser settings or install Google's ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "s10",
+									"text": "opt-out browser add-on",
+									"marks": [
+										"mz"
+									]
+								},
+								{
+									"_type": "span",
+									"_key": "s11",
+									"text": ". Our security provider, Cloudflare, may also set cookies needed to protect the site. We don't use advertising cookies.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b14",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s13",
+									"text": "How We Share Information",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b16",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s15",
+									"text": "We share personal information only:",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b18",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s17",
+									"text": "With service providers that help us run our business, such as Cloudflare (hosting, security, and email routing), Google (analytics), our email provider, and Stripe and PayPal (payments). They may use it only to provide their services to us.",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b1a",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s19",
+									"text": "When the law requires it, or to protect our rights and the safety of others.",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b1c",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s1b",
+									"text": "As part of a merger, acquisition, or sale of our business.",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b1e",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s1d",
+									"text": "Payments",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b1g",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s1f",
+									"text": "Stripe and PayPal process payments for us. We don't receive or store your full card number; the processor's own privacy policy covers the payment details you give it.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b1i",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s1h",
+									"text": "Client Websites",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b1k",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s1j",
+									"text": "When we build, host, or maintain a website for a client, we handle the personal information on that site, such as orders and form submissions, only on the client's instructions and to provide our services. The client's privacy policy governs that information, so please contact them with questions about it.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b1m",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s1l",
+									"text": "Data Retention",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b1o",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s1n",
+									"text": "We keep enquiries that don't become projects for up to two years, and client records for as long as we work together and afterwards as tax and accounting rules require. When we no longer need information, we delete or anonymize it.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b1q",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s1p",
+									"text": "Security",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b1s",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s1r",
+									"text": "We protect information with encryption in transit, access controls, and reputable providers. No method of transmission or storage is completely secure, so we can't guarantee absolute security.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b1u",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s1t",
+									"text": "Your Choices and Rights",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b1z",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "m1w",
+									"_type": "link",
+									"href": "mailto:hello@lakefrontdigital.io"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s1v",
+									"text": "You can ask us to access, correct, or delete the personal information we hold about you, or to stop contacting you. Email ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "s1x",
+									"text": "hello@lakefrontdigital.io",
+									"marks": [
+										"m1w"
+									]
+								},
+								{
+									"_type": "span",
+									"_key": "s1y",
+									"text": " and we'll respond within 30 days. Depending on where you live, you may have additional rights under local law.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b21",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s20",
+									"text": "Children's Privacy",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b23",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s22",
+									"text": "Our site and services are for people 18 and older. We don't knowingly collect personal information from children.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b25",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s24",
+									"text": "International Visitors",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b27",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s26",
+									"text": "We're based in Illinois, in the United States. Our providers may process information in the United States and other countries.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b29",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s28",
+									"text": "Changes to This Policy",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b2b",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s2a",
+									"text": "We may update this policy. Changes take effect when posted, and we'll update the effective date at the top of this page.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b2d",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s2c",
+									"text": "Contact Us",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b2j",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "m2e",
+									"_type": "link",
+									"href": "mailto:hello@lakefrontdigital.io"
+								},
+								{
+									"_key": "m2h",
+									"_type": "link",
+									"href": "tel:+17732318020"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s2f",
+									"text": "hello@lakefrontdigital.io",
+									"marks": [
+										"m2e"
+									]
+								},
+								{
+									"_type": "span",
+									"_key": "s2g",
+									"text": " | ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "s2i",
+									"text": "(773) 231-8020",
+									"marks": [
+										"m2h"
+									]
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"posts": [
+			{
+				"id": "post-seo-content-strategy",
+				"slug": "seo-content-strategy",
+				"status": "published",
+				"data": {
+					"title": "SEO and content strategy for small businesses",
+					"excerpt": "Nine building blocks for small-business SEO, from keyword research and on-page work to planning, publishing and promoting content.",
+					"photo": "loop-night",
+					"featured": true,
+					"content": [
+						{
+							"_type": "block",
+							"_key": "b2l",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s2k",
+									"text": "Search engine optimization",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b2o",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "m2m",
+									"_type": "link",
+									"href": "/blog/keyword-research"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s2n",
+									"text": "Keyword research",
+									"marks": [
+										"m2m"
+									]
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b2r",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "m2p",
+									"_type": "link",
+									"href": "/blog/on-page-optimization"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s2q",
+									"text": "On-page optimization",
+									"marks": [
+										"m2p"
+									]
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b2t",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s2s",
+									"text": "Content creation",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b2w",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "m2u",
+									"_type": "link",
+									"href": "/blog/link-building"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s2v",
+									"text": "Link building",
+									"marks": [
+										"m2u"
+									]
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b2y",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s2x",
+									"text": "Content strategy",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b30",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s2z",
+									"text": "Define goals",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b32",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s31",
+									"text": "Know your audience",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b34",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s33",
+									"text": "Content planning",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b36",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s35",
+									"text": "Diversify content types",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b38",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s37",
+									"text": "Promote and distribute",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "byline-lakefront"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"seo",
+						"content-strategy"
+					]
+				}
+			},
+			{
+				"id": "post-keyword-research",
+				"slug": "keyword-research",
+				"status": "published",
+				"data": {
+					"title": "Keyword research",
+					"excerpt": "Keywords are the foundation of SEO. Conduct thorough research to identify terms your audience uses.",
+					"photo": "ripple",
+					"featured": false,
+					"content": [
+						{
+							"_type": "block",
+							"_key": "b3a",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s39",
+									"text": "Step-by-step guide",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b3c",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s3b",
+									"text": "Understand your niche",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b3e",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s3d",
+									"text": "Define your goals",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b3g",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s3f",
+									"text": "Make a list of relevant topics",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b3i",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s3h",
+									"text": "Generate keyword ideas",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b3k",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s3j",
+									"text": "Use keyword research tools, such as Google Keyword Planner or SEMrush",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b3m",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s3l",
+									"text": "Analyze search intent",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b3o",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s3n",
+									"text": "Study the competition",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b3q",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s3p",
+									"text": "Choose head terms and long-tail keywords",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b3s",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s3r",
+									"text": "Consider keyword difficulty",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b3u",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s3t",
+									"text": "Refine your list with metrics",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b3w",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s3v",
+									"text": "Group keywords by topic",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b3y",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s3x",
+									"text": "Incorporate keywords strategically",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b40",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s3z",
+									"text": "Monitor performance and iterate",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "byline-lakefront"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"seo"
+					]
+				}
+			},
+			{
+				"id": "post-on-page-optimization",
+				"slug": "on-page-optimization",
+				"status": "published",
+				"data": {
+					"title": "On-page optimization",
+					"excerpt": "On-page optimization refers to techniques applied directly on your website, including meta tags, headings, URL structure, and keyword-rich content.",
+					"photo": "window",
+					"featured": false,
+					"content": [
+						{
+							"_type": "block",
+							"_key": "b42",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s41",
+									"text": "Key components",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b44",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s43",
+									"text": "Title tags",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b46",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s45",
+									"text": "Meta descriptions",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b48",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s47",
+									"text": "Headings",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b4a",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s49",
+									"text": "URL structure",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b4c",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s4b",
+									"text": "Content quality",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b4e",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s4d",
+									"text": "Keyword optimization",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b4g",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s4f",
+									"text": "Image alt text",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b4i",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s4h",
+									"text": "Internal linking",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b4k",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s4j",
+									"text": "Mobile-friendliness",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b4m",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s4l",
+									"text": "Page load speed",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b4o",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s4n",
+									"text": "Schema markup",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b4q",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s4p",
+									"text": "Canonical tags",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b4s",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s4r",
+									"text": "Social sharing elements",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "byline-lakefront"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"seo"
+					]
+				}
+			},
+			{
+				"id": "post-link-building",
+				"slug": "link-building",
+				"status": "published",
+				"data": {
+					"title": "Link building",
+					"excerpt": "Link building is the process of acquiring high-quality backlinks from external websites. Search engines consider backlinks as indicators of trust and authority.",
+					"photo": "el-night",
+					"featured": false,
+					"content": [
+						{
+							"_type": "block",
+							"_key": "b4u",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s4t",
+									"text": "Strategies for link building",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b4w",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s4v",
+									"text": "Content creation",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b4y",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s4x",
+									"text": "Guest blogging",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b50",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s4z",
+									"text": "Broken link building",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b52",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s51",
+									"text": "Skyscraper technique",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b54",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s53",
+									"text": "Outreach",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b56",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s55",
+									"text": "Infographics",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b58",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s57",
+									"text": "Resource pages",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b5a",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s59",
+									"text": "Partnerships and collaborations",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b5c",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s5b",
+									"text": "Best practices",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "b5e",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s5d",
+									"text": "Focus on quality over quantity",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b5g",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s5f",
+									"text": "Avoid paid links",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b5i",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s5h",
+									"text": "Be relevant and add value",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b5k",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s5j",
+									"text": "Don't overdo anchor text",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b5m",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s5l",
+									"text": "Monitor your backlink profile",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "b5o",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "s5n",
+									"text": "Disavow toxic backlinks",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "byline-lakefront"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"seo"
 					]
 				}
 			}

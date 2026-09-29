@@ -1,0 +1,105 @@
+---
+import type { EditProxy } from "emdash";
+import type { Post } from "../../emdash-env";
+import Eyebrow from "./Eyebrow.astro";
+import Icon from "./Icon.astro";
+import Photo from "./Photo.astro";
+import PostCard from "./PostCard.astro";
+import { BLOG_PATH, categoryPath, postPath, readingTime } from "../lib/posts";
+
+// The blog listing shared by /blog and /blog/category/[slug]: category chips, an optional featured post, the grid and paging.
+type Entry = { id: string; data: Post; edit?: EditProxy };
+type Term = { slug: string; label: string; count?: number };
+
+interface Props {
+	posts: Entry[];
+	featured?: Entry | null;
+	termsFor: Map<string, Term[]>;
+	categories: Term[];
+	total?: number;
+	active?: string | null;
+	nextCursor?: string | null;
+	cursor?: string | null;
+	basePath: string;
+}
+
+const { posts, featured, termsFor, categories, total, active = null, nextCursor, cursor, basePath } = Astro.props;
+const termsOf = (entry: Entry) => termsFor.get(entry.data.id) ?? [];
+const featuredTerms = featured ? termsOf(featured) : [];
+const chips = categories.filter((term) => term.count === undefined || term.count > 0);
+---
+
+{
+	chips.length > 0 && (
+		<div class="lfw-container">
+			<nav class="lfw-chips" aria-label="Blog categories">
+				<a class="lfw-chip" href={BLOG_PATH} aria-current={active ? undefined : "page"}>
+					All posts{total !== undefined && <b>{total}</b>}
+				</a>
+				{chips.map((term) => (
+					<a class="lfw-chip" href={categoryPath(term.slug)} aria-current={active === term.slug ? "page" : undefined}>
+						{term.label}
+						{term.count !== undefined && <b>{term.count}</b>}
+					</a>
+				))}
+				<a class="lf-btn lf-btn--link lf-btn--sm lfw-chips__rss" href="/rss.xml">
+					<Icon name="rss" size={16} class="lf-btn__icon-l" />
+					<span class="lf-btn__label">RSS</span>
+				</a>
+			</nav>
+		</div>
+	)
+}
+
+<section class="lfw-section lfw-bloglist-sec">
+	<div class="lfw-container lfw-bloglist">
+		{
+			featured && (
+				<a class="lfw-featured" href={postPath(featured.id)}>
+					<div class="lfw-featured__media">
+						<Photo image={featured.data.featured_image} photo={featured.data.photo} fallback="window" priority />
+					</div>
+					<div class="lfw-featured__copy">
+						{featuredTerms.length > 0 && <Eyebrow items={featuredTerms.map((term) => term.label)} />}
+						<h2 class="lfw-featured__title">{featured.data.title}</h2>
+						{featured.data.excerpt && <p class="lfw-lead">{featured.data.excerpt}</p>}
+						<span class="lfw-postmeta lfw-postmeta--lg"><Icon name="clock" size={16} />{readingTime(featured.data.content)} min read</span>
+						<span class="lfw-readmore">
+							Read more
+							<Icon name="arrow-right" size={18} />
+						</span>
+					</div>
+				</a>
+			)
+		}
+		{
+			posts.length > 0 && (
+				<div class="lfw-postgrid">
+					{posts.map((post) => (
+						<PostCard post={post} categories={termsOf(post)} level={featured ? 3 : 2} />
+					))}
+				</div>
+			)
+		}
+		{!featured && posts.length === 0 && <p class="lfw-lead">No posts here yet.</p>}
+		{
+			(cursor || nextCursor) && (
+				<nav class="lfw-pager" aria-label="Pagination">
+					{cursor ? (
+						<a class="lf-btn lf-btn--outline" href={basePath}>
+							<span class="lf-btn__label">Newest posts</span>
+						</a>
+					) : (
+						<span />
+					)}
+					{nextCursor && (
+						<a class="lf-btn lf-btn--secondary" href={`${basePath}?cursor=${encodeURIComponent(nextCursor)}`}>
+							<span class="lf-btn__label">Older posts</span>
+							<Icon name="arrow-right" size={18} class="lf-btn__icon-r" />
+						</a>
+					)}
+				</nav>
+			)
+		}
+	</div>
+</section>

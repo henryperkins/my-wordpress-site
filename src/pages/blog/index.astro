@@ -1,0 +1,50 @@
+---
+import { getEmDashCollection, getEmDashEntry, getSeoMeta, getSiteSettings, getTaxonomyTermsWithCacheHint, getTermsForEntries } from "emdash";
+import Base from "../../layouts/Base.astro";
+import BlogList from "../../components/BlogList.astro";
+import PageBlocks from "../../components/PageBlocks.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import { BLOG_PATH, PAGE_SIZE } from "../../lib/posts";
+
+// The blog index. Its intro (eyebrow, title, summary) and any blocks below the posts come from the page with the slug "blog".
+const cursor = Astro.url.searchParams.get("cursor") || undefined;
+
+const [{ entry: page, cacheHint: pageHint }, termsResult, list, settings] = await Promise.all([
+	getEmDashEntry("pages", "blog"),
+	getTaxonomyTermsWithCacheHint("category", { includeCounts: true }),
+	getEmDashCollection("posts", { orderBy: { published_at: "desc" }, limit: PAGE_SIZE, cursor }),
+	getSiteSettings(),
+]);
+if (Astro.cache?.enabled) {
+	Astro.cache.set(pageHint);
+	Astro.cache.set(termsResult.cacheHint);
+	Astro.cache.set(list.cacheHint);
+}
+
+const entries = list.entries;
+// First page only: the newest post marked "Feature at the top of the blog", or else the newest post.
+const featured = cursor ? null : (entries.find((entry) => entry.data.featured) ?? entries[0] ?? null);
+const rest = featured ? entries.filter((entry) => entry.id !== featured.id) : entries;
+const termsFor = await getTermsForEntries("posts", entries.map((entry) => entry.data.id), "category");
+const categories = termsResult.data.map((term: any) => ({ slug: term.slug, label: term.label, count: term.count }));
+const total = categories.some((term) => term.count !== undefined) && !list.nextCursor && !cursor ? entries.length : undefined;
+
+const siteTitle = settings?.title || "Lakefront Digital";
+const title = page?.data.title || "Blog";
+const seo = page
+	? getSeoMeta(page, { siteTitle, siteUrl: Astro.url.origin, path: BLOG_PATH, defaultDescription: page.data.summary || undefined })
+	: null;
+---
+
+<Base
+	title={cursor ? `${title} (older posts)` : (seo?.title ?? title)}
+	pageTitle={seo?.ogTitle}
+	description={seo?.description ?? page?.data.summary}
+	canonical={cursor ? undefined : seo?.canonical}
+	robots={cursor ? "noindex, follow" : seo?.robots}
+	content={page ? { collection: "pages", id: page.data.id, slug: "blog" } : undefined}
+>
+	<PageIntro eyebrow={page?.data.eyebrow || "Blog"} title={title} lead={page?.data.summary} titleAttrs={page?.edit.title ?? {}} />
+	<BlogList posts={rest} featured={featured} termsFor={termsFor} categories={categories} total={total} nextCursor={list.nextCursor} cursor={cursor} basePath={BLOG_PATH} />
+	{page && <PageBlocks page={page} embedded />}
+</Base>
