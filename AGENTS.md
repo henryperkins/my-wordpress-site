@@ -25,6 +25,7 @@ The admin UI is at `http://localhost:4321/_emdash/admin`.
 | `src/components/BlogList.astro` | Blog index and category listing: chips, featured post, grid, paging |
 | `src/pages/blog/` | Blog index, category archives and articles |
 | `src/pages/rss.xml.ts` | RSS feed of the newest posts |
+| `src/pages/sitemap-[collection].xml.ts` | Replaces EmDash's per-collection sitemap so the home page is listed as `/`, not `/home` |
 | `src/pages/api/enquiry.ts` | Enquiry endpoint; sends mail via `src/lib/enquiry.ts` |
 | `src/pages/api/ai-search/search.ts` | AI search endpoint for the header's search modal (`aiSearch()` plugin; instance `emdash-ai-search` in AI Search namespace `emdash`) |
 | `src/scripts/` | Header, tabs, enquiry and legal-page behaviour (progressive enhancement) |
