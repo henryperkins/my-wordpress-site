@@ -168,13 +168,13 @@
 .lfw-crumbs a{color:var(--text-link)}
 .lfw-crumbs [aria-current]{color:var(--text-strong);font-weight:600}
 .lfw-product{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start}
-.lfw-product__media{height:600px;border-radius:var(--radius-2xl);overflow:hidden;background:var(--surface-sunken)}
+.lfw-product__media{order:-1;height:600px;border-radius:var(--radius-2xl);overflow:hidden;background:var(--surface-sunken)}
 .lfw-product__media img{display:block;width:100%;height:100%;object-fit:cover;object-position:55% 50%}
 .lfw-product__summary{display:flex;flex-direction:column;align-items:flex-start;gap:22px;padding-top:8px}
 .lfw-product__intro{margin:0;font:var(--type-label);font-size:16px;color:var(--text-strong)}
 .lfw-product .lfw-features li>.lf-icon{color:var(--deep-water)}
 .lfw-booked{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
-@media (max-width:900px){.lfw-product{grid-template-columns:1fr;gap:32px}.lfw-product__media{height:320px}}
+@media (max-width:900px){.lfw-product{grid-template-columns:1fr;gap:32px}.lfw-product__media{order:0;height:240px}}
 
 /* Contact */
 .lfw-contact{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:48px;align-items:start}
@@ -320,12 +320,9 @@ a.lf-card{color:inherit;text-decoration:none}
 @media (max-width:1080px){html:not(.js) .lfw-mobile[hidden]{display:flex!important}html:not(.js) .lfw-menu{display:none!important}}
 /* Without JavaScript that panel is always open, so the header scrolls with the page instead of pinning it */
 @media (max-width:1080px){html:not(.js) .lfw-header{position:relative}}
-/* The booking button stays in the bar when the nav collapses. On phones it drops its arrow, search moves into the menu panel
-   and, below 480px, the logo keeps only its crest, so crest, button and menu fit a 360px screen; the overflow check hides the button below that */
-.lfw-mobile .lfw-mobile__search{display:none}
-@media (max-width:600px){.lfw-header__in{gap:8px}.lfw-tools{display:contents}.lfw-tools>[data-ai-search-open]{display:none}.lfw-header__cta{padding:0 14px;font-size:14px}.lfw-header__cta>.lf-btn__icon-r{display:none}.lfw-menu{width:44px;height:44px}.lfw-mobile .lfw-mobile__search{display:flex;align-items:center;gap:10px}}
-@media (max-width:480px){.lfw-header .lf-logo__rule,.lfw-header .lf-logo__word{display:none}}
-@media (max-width:359px){.lfw-header__cta{display:none!important}}
+/* Collapsed navigation leaves the primary action to the page and keeps the full brand and search visible. */
+@media (max-width:1080px){.lfw-header__cta{display:none!important}}
+@media (max-width:600px){.lfw-header__in{gap:8px}.lfw-tools{gap:4px}.lfw-menu{width:44px;height:44px}}
 
 /* Photos: uploaded (EmDash Image) or bundled */
 .lfw-about__media,.lfw-panel__media,.lfw-product__media,.lfw-aside__img{position:relative}
@@ -336,6 +333,9 @@ a.lf-card{color:inherit;text-decoration:none}
 .lfw-404__img{object-position:60% 50%}
 
 /* Tabs: every panel renders server-side; without JavaScript they simply stack */
+.lfw-service-select{display:none;font:var(--type-label);color:var(--text-strong)}
+.lfw-service-select .lf-control{margin-top:10px}
+@media (max-width:760px){.js .lfw-service-select{display:block}.js .lfw-service-tabs{display:none}}
 html:not(.js) [data-tabs] [role="tablist"]{display:none}
 .js [data-tabs] [role="tabpanel"]:not(.is-active){display:none}
 html:not(.js) [data-tabs] .lfw-panel+.lfw-panel{margin-top:48px;border-top:1px solid var(--border-default)}

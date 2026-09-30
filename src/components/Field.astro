@@ -23,7 +23,7 @@ const { id, label, optional = false, error } = Astro.props;
 		error && (
 			<p class="lf-field__error" id={`${id}-error`} data-error-for={error} hidden>
 				<Icon name="circle-alert" size={16} />
-				<span />
+				<span data-error-text />
 			</p>
 		)
 	}

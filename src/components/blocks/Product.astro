@@ -23,9 +23,6 @@ const items = value.items ?? [];
 			<span aria-current="page">{value.eyebrow || value.headline}</span>
 		</nav>
 		<div class="lfw-product">
-			<div class="lfw-product__media">
-				<Photo image={value.image} photo={value.photo} fallback="window" priority={index === 0} />
-			</div>
 			<div class="lfw-product__summary">
 				{value.eyebrow && <Eyebrow rule="leading">{value.eyebrow}</Eyebrow>}
 				<Heading class="lfw-h1">{value.headline}</Heading>
@@ -46,6 +43,9 @@ const items = value.items ?? [];
 				}
 				{value.note && <p class="lfw-p">{value.note}</p>}
 				<Ctas primary={cta(value.primary_cta_label, value.primary_cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} size="lg" />
+			</div>
+			<div class="lfw-product__media">
+				<Photo image={value.image} photo={value.photo} fallback="window" priority={index === 0} />
 			</div>
 		</div>
 	</div>

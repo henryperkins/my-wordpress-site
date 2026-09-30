@@ -27,7 +27,17 @@ const total = pad2(services.length);
 	<div class="lfw-container">
 		{
 			tabbed && (
-				<div class="lf-tabs" role="tablist" aria-label={value.label || "Services"}>
+				<>
+				<label class="lfw-service-select">
+					<span>{value.label || "Services"}</span>
+					<span class="lf-control">
+					<select class="lf-input" data-tab-select>
+						{services.map((service) => <option value={service.id}>{service.tab_label}</option>)}
+					</select>
+					<Icon name="chevron-down" class="lf-control__chev" size={18} />
+					</span>
+				</label>
+				<div class="lf-tabs lfw-service-tabs" role="tablist" aria-label={value.label || "Services"}>
 					{services.map((service, i) => (
 						<button type="button" role="tab" class="lf-tab" id={`${uid}-${service.id}`} aria-controls={service.id} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>
 							<Icon name={service.icon} size={18} />
@@ -36,6 +46,7 @@ const total = pad2(services.length);
 					))}
 					<span class="lf-tabs__ink" aria-hidden="true" />
 				</div>
+				</>
 			)
 		}
 		{

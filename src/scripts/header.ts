@@ -75,7 +75,7 @@ if (header && inner) {
 	syncScrolled();
 }
 
-// Search links (the bar's icon, and on phones the menu panel's Search link): open the AI search modal (Header.astro)
+// The bar's search icon opens the AI search modal (Header.astro)
 // instead of navigating. Modified clicks, and visitors whose modal never loads, still get the /search page.
 type SearchModal = HTMLElement & { open?: () => void };
 const searchLinks = [...(header?.querySelectorAll<HTMLAnchorElement>("[data-ai-search-open]") ?? [])];
@@ -95,7 +95,7 @@ if (searchLinks.length > 0 && searchModal) {
 	}
 	// The modal leaves focus on the page body when it closes (Escape, the backdrop, a result), so hand it back to
 	// whatever opened it: a search link, or the element that had focus when the Ctrl/Cmd+K shortcut was used.
-	// The menu panel closes when its Search link is used, so focus then falls back to the menu button.
+	// If responsive navigation hides the opener, focus falls back to a visible header control.
 	let opener: HTMLElement | null = null;
 	searchModal.addEventListener("open", () => {
 		const active = document.activeElement;

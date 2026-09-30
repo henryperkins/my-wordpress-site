@@ -4,6 +4,7 @@ export {};
 
 interface TabSet {
 	list: HTMLElement;
+	root: HTMLElement;
 	panels: HTMLElement[];
 	select(index: number): void;
 }
@@ -19,6 +20,7 @@ for (const root of document.querySelectorAll<HTMLElement>("[data-tabs]")) {
 	const panels = tabs.map((tab) => document.getElementById(tab.getAttribute("aria-controls") ?? ""));
 	if (!tabs.length || panels.some((panel) => !panel)) continue;
 	const ink = list.querySelector<HTMLElement>(".lf-tabs__ink");
+	const selector = root.querySelector("select[data-tab-select]") as HTMLSelectElement | null;
 
 	const placeInk = () => {
 		const tab = tabs.find((item) => item.getAttribute("aria-selected") === "true");
@@ -36,17 +38,21 @@ for (const root of document.querySelectorAll<HTMLElement>("[data-tabs]")) {
 		});
 		placeInk();
 		const tab = tabs[index]!;
+		if (selector) selector.value = panels[index]!.id;
 		if (focus) tab.focus();
 		// Keep the selected tab in view when the tab list scrolls sideways on small screens.
 		if (tab.offsetLeft < list.scrollLeft || tab.offsetLeft + tab.offsetWidth > list.scrollLeft + list.clientWidth) {
 			list.scrollTo({ left: Math.max(0, tab.offsetLeft - 16), behavior: reduced() ? "auto" : "smooth" });
 		}
 	};
-
 	const choose = (index: number, focus = false) => {
 		select(index, focus);
 		history.replaceState(null, "", `#${panels[index]!.id}`);
 	};
+	selector?.addEventListener("change", () => {
+		const index = panels.findIndex((panel) => panel!.id === selector.value);
+		if (index >= 0) choose(index);
+	});
 
 	tabs.forEach((tab, i) => {
 		tab.addEventListener("click", () => choose(i));
@@ -68,17 +74,19 @@ for (const root of document.querySelectorAll<HTMLElement>("[data-tabs]")) {
 	document.fonts?.ready.then(placeInk);
 	placeInk();
 	requestAnimationFrame(() => ink?.classList.add("is-animated"));
-	sets.push({ list, panels: panels as HTMLElement[], select });
+	sets.push({ list, root, panels: panels as HTMLElement[], select });
 }
 
 const openFromHash = (smooth: boolean) => {
-	const id = decodeURIComponent(location.hash.slice(1));
+	let id: string;
+	try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
 	if (!id) return;
 	for (const set of sets) {
 		const index = set.panels.findIndex((panel) => panel.id === id);
 		if (index < 0) continue;
 		set.select(index);
-		const top = set.list.getBoundingClientRect().top + window.scrollY - headerOffset();
+		const anchor = set.list.getClientRects().length ? set.list : set.root;
+		const top = anchor.getBoundingClientRect().top + window.scrollY - headerOffset();
 		window.scrollTo({ top, behavior: smooth && !reduced() ? "smooth" : "auto" });
 		return;
 	}

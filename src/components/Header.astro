@@ -10,7 +10,7 @@ import type { MenuItem, SiteLogo } from "../lib/types";
 // A menu item with children (Services › All services, SEO) opens a small panel; scripts/header.ts toggles it.
 // Same markup as the design system's SiteHeader (components/site/SiteHeader.jsx).
 // The search icon links to /search; with JavaScript it opens the AI search modal instead (also Cmd/Ctrl+K).
-// On phones the icon gives its place in the bar to the booking button, and the menu panel's Search link takes over.
+// On phones the page owns the primary action; the header keeps search and ordinary navigation links.
 // The modal sits after <header>: the header's backdrop-filter would confine its fixed overlay to the bar.
 interface Props {
 	siteTitle: string;
@@ -33,6 +33,13 @@ const pathOf = (url: string) => {
 };
 // On mobile the parent is a link, so children that repeat it ("All services") are left out.
 const subItems = (item: MenuItem) => kids(item).filter((child) => pathOf(child.url) !== pathOf(item.url));
+const ctaAttrs = cta ? linkAttrs(cta) : undefined;
+// On the destination page, preserve tracking/validation query parameters and entered form data.
+// An explicit query in the CMS destination still requests that different navigation.
+if (cta && ctaAttrs && isCurrent(cta.url, Astro.url)) {
+	const destination = new URL(cta.url, Astro.url);
+	if (destination.hash && !destination.search) ctaAttrs.href = destination.hash;
+}
 ---
 
 <header class:list={["lfw-header", items.length === 0 && "lfw-header--nonav"]} data-header>
@@ -73,7 +80,7 @@ const subItems = (item: MenuItem) => kids(item).filter((child) => pathOf(child.u
 		</div>
 		{
 			cta && (
-				<Button {...linkAttrs(cta)} class="lfw-header__cta" iconRight="arrow-right">
+				<Button {...ctaAttrs} class="lfw-header__cta" iconRight="arrow-right">
 					{cta.label}
 				</Button>
 			)
@@ -102,15 +109,11 @@ const subItems = (item: MenuItem) => kids(item).filter((child) => pathOf(child.u
 				</>
 			))
 		}
-		<a class="lfw-mobile__search" href="/search" aria-current={current("/search")} data-ai-search-open>
-			<Icon name="search" />
-			Search
-		</a>
 		{
 			cta && (
-				<Button {...linkAttrs(cta)} block iconRight="arrow-right">
+				<a {...ctaAttrs} aria-current={current(cta.url)}>
 					{cta.label}
-				</Button>
+				</a>
 			)
 		}
 	</nav>

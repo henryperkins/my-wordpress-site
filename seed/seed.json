@@ -3,7 +3,7 @@
 	"version": "1",
 	"meta": {
 		"name": "Lakefront Digital",
-		"description": "Lakefront Digital marketing site: Home, Services and Hosting built from Lakefront blocks, Contact and Consultation enquiry forms emailed through Cloudflare, a blog with four SEO guides, Terms and Privacy Policy, search and a 404 page.",
+		"description": "Lakefront Digital marketing site: Home, Services and Hosting built from Lakefront blocks, Contact and Consultation enquiry forms emailed through Cloudflare, a draft blog with four SEO article outlines, Terms and Privacy Policy, search and a 404 page.",
 		"author": "Lakefront Digital"
 	},
 	"settings": {
@@ -1800,7 +1800,7 @@
 				{
 					"type": "custom",
 					"label": "Book a consultation",
-					"url": "/consultation"
+					"url": "/consultation#enquiry"
 				}
 			]
 		},
@@ -2050,7 +2050,7 @@
 							"photo_first": true,
 							"eyebrow": "About Lakefront Digital",
 							"headline": "Expert WordPress Web Design, SEO, and Tech Consulting for Small Businesses",
-							"body": "At Lakefront Digital, we are experts in boosting your digital presence. Our team specializes in WordPress web design, custom SEO strategies, content strategy, and digital marketing. We are dedicated to empowering your small business to compete and excel online.\n\nLakefront Digital is a technology company specializing in web design, WordPress customization and management, web hosting, and application deployment. We create customized websites tailored to meet the specific needs of our clients, ensuring a seamless user experience and robust functionality.",
+							"body": "At Lakefront Digital, we are experts in boosting your digital presence. We specialize in WordPress web design, custom SEO strategies, content strategy, and digital marketing. We are dedicated to empowering your small business to compete and excel online.\n\nLakefront Digital is a technology company specializing in web design, WordPress customization and management, web hosting, and application deployment. We create customized websites tailored to meet the specific needs of our clients, ensuring a seamless user experience and robust functionality.",
 							"checklist": "Responsive web design\nBespoke WordPress solutions\nReliable web hosting\nEfficient application deployment",
 							"photo": "window"
 						},
@@ -2106,7 +2106,7 @@
 							"_key": "home-cta",
 							"eyebrow": "Start a project",
 							"headline": "Your One-Stop Solution",
-							"text": "From custom website design to content creation, our experienced team of web consultants will help you achieve your digital marketing goals quickly and efficiently.",
+							"text": "From custom website design to content creation, we will help you achieve your digital marketing goals quickly and efficiently.",
 							"cta_label": "Book a consultation",
 							"cta_url": "/consultation",
 							"photo": "dock"
@@ -2130,7 +2130,7 @@
 							"_key": "services-intro",
 							"eyebrow": "Services Overview",
 							"headline": "Services Designed to Elevate Your Online Presence",
-							"lead": "Each service is tailored to deliver exceptional results. From custom website design to content creation, our experienced team of web consultants will help you achieve your digital marketing goals quickly and efficiently."
+							"lead": "Each service is tailored to deliver exceptional results. From custom website design to content creation, we will help you achieve your digital marketing goals quickly and efficiently."
 						},
 						{
 							"_type": "lf_service_tabs",
@@ -2213,7 +2213,7 @@
 									"tab_label": "Content",
 									"icon": "pen-line",
 									"name": "Content Creation and Management",
-									"description": "Our team produces valuable blog content, develops consistent messaging across platforms, and keeps your content relevant and accurate.",
+									"description": "We produce valuable blog content, develop consistent messaging across platforms, and keep your content relevant and accurate.",
 									"features": "Blog Content | Produce valuable and engaging blog posts.\nConsistent Messaging | Maintain a unified brand voice across platforms.\nContent Updates | Keep information relevant and accurate.",
 									"benefits": "Drives engagement, establishes authority, supports SEO, and increases dwell time.",
 									"primary_cta_label": "Start a project",
@@ -2275,7 +2275,7 @@
 							"eyebrow": "Hosting and E-commerce Solutions",
 							"headline": "Comprehensive WordPress Hosting and E-commerce Solutions for Small Businesses",
 							"lead": "This environment is designed to empower small businesses by providing a reliable, secure, and high-performing platform to manage their online presence and e-commerce activities effectively.",
-							"stats": "99.9% | Uptime, with Cloudflare CDN and redundancy\n24/7 | Alerts from New Relic monitoring\nDaily | Automated Jetpack backups with easy restoration"
+							"stats": "99.9% | Uptime target, with Cloudflare CDN and redundancy\n24/7 | Alerts from New Relic monitoring\nDaily | Automated Jetpack backups with easy restoration"
 						},
 						{
 							"_type": "lf_spec_tabs",
@@ -2296,7 +2296,7 @@
 									"group": "Hosting",
 									"icon": "globe",
 									"title": "High Availability",
-									"text": "Utilizing Cloudflare for CDN and redundancy to ensure 99.9% uptime.",
+									"text": "Cloudflare CDN and redundancy support our 99.9% uptime target.",
 									"tags": "Cloudflare",
 									"tip_label": "What is a CDN?",
 									"tip_text": "Content delivery network: copies of your site served from locations close to each visitor."
@@ -2396,7 +2396,7 @@
 				"data": {
 					"title": "Contact",
 					"template": "blocks",
-					"summary": "Share a few details and our team of web consultants will follow up with next steps.",
+					"summary": "Share a few details and we will follow up with next steps.",
 					"keywords": "contact, start a project, quote, estimate, email, phone, WordPress, hosting, SEO",
 					"content": [
 						{
@@ -2405,7 +2405,7 @@
 							"_key": "contact-intro",
 							"eyebrow": "Start a project",
 							"headline": "Tell Us About Your Website",
-							"lead": "Share a few details and our team of web consultants will follow up with next steps. Only your name and email are required."
+							"lead": "Share a few details and we will follow up with next steps. Only your name and email are required."
 						},
 						{
 							"_type": "lf_enquiry",
@@ -2423,7 +2423,7 @@
 							"submit_label": "Send request",
 							"footnote": "Only your name and email are required.",
 							"success_title": "Thanks, {name}. We're on it.",
-							"success_text": "Our team will review your request and reply to {email}.",
+							"success_text": "We will review your request and reply to {email}.",
 							"aside": true,
 							"aside_eyebrow": "Other ways to start",
 							"aside_items": [
@@ -2432,11 +2432,6 @@
 									"title": "Book a Website Consultation",
 									"note": "Analysis, planning, and a growth roadmap",
 									"url": "/consultation"
-								},
-								{
-									"icon": "headset",
-									"title": "Already hosting with us?",
-									"note": "Technical support runs on Zendesk ticketing"
 								},
 								{
 									"icon": "map-pin",
@@ -2456,32 +2451,32 @@
 				"data": {
 					"title": "Website Consultation",
 					"template": "blocks",
-					"summary": "Comprehensive Website Consultation and Business Plan Service for Growth and Success",
-					"keywords": "website consultation, website analysis, business plan, strategy, recommendations, growth roadmap, preparation tips, white papers",
+					"summary": "Website analysis, business planning, recommendations and a practical growth roadmap.",
+					"keywords": "website consultation, website analysis, business plan, strategy, recommendations, growth roadmap, preparation tips",
 					"content": [
 						{
 							"_type": "lf_product",
 							"_version": 1,
 							"_key": "consultation-summary",
-							"eyebrow": "Website Consultation",
-							"headline": "Comprehensive Website Consultation and Business Plan Service for Growth and Success",
-							"intro": "Transform your online presence:",
+							"eyebrow": "",
+							"headline": "Website Consultation",
+							"intro": "We’ll review your website and business goals, then outline practical next steps.",
 							"items": [
 								{
 									"icon": "scan-search",
-									"label": "Detailed Website Analysis"
+									"label": "Website analysis"
 								},
 								{
 									"icon": "clipboard-list",
-									"label": "Strategic Business Planning"
+									"label": "Business planning"
 								},
 								{
 									"icon": "lightbulb",
-									"label": "Personalized Recommendations"
+									"label": "Recommendations for your goals"
 								},
 								{
 									"icon": "route",
-									"label": "Growth Roadmap"
+									"label": "Growth roadmap"
 								}
 							],
 							"primary_cta_label": "Book a consultation",
@@ -2489,6 +2484,25 @@
 							"secondary_cta_label": "Ask a question",
 							"secondary_cta_url": "/contact?service=consulting#enquiry",
 							"photo": "window"
+						},
+						{
+							"_type": "lf_enquiry",
+							"_version": 1,
+							"_key": "consultation-form",
+							"anchor_id": "enquiry",
+							"subject": "Website consultation request",
+							"eyebrow": "Book a consultation",
+							"headline": "Request your Website Consultation",
+							"lead": "Share a few details and we will follow up with next steps.",
+							"show_phone": true,
+							"show_website": false,
+							"notes_label": "What would you like to cover?",
+							"notes_placeholder": "Goals, deadlines, what's not working today.",
+							"submit_label": "Request consultation",
+							"footnote": "Only your name and email are required.",
+							"success_title": "Thanks, {name}. We're on it.",
+							"success_text": "We will review your request and reply to {email} to schedule your consultation.",
+							"aside": false
 						},
 						{
 							"_type": "lf_steps",
@@ -2518,42 +2532,6 @@
 									"title": "Review Competitors"
 								}
 							]
-						},
-						{
-							"_type": "lf_card_grid",
-							"_version": 1,
-							"_key": "consultation-papers",
-							"eyebrow": "Resources",
-							"headline": "Sample White Papers",
-							"cards": [
-								{
-									"icon": "file-text",
-									"title": "Optimizing Your Website for Increased Conversions"
-								},
-								{
-									"icon": "file-text",
-									"title": "Leveraging Digital Marketing for Business Growth"
-								}
-							]
-						},
-						{
-							"_type": "lf_enquiry",
-							"_version": 1,
-							"_key": "consultation-form",
-							"anchor_id": "enquiry",
-							"subject": "Website consultation request",
-							"eyebrow": "Book a consultation",
-							"headline": "Request your Website Consultation",
-							"lead": "Share a few details and our team of web consultants will follow up with next steps.",
-							"show_phone": true,
-							"show_website": false,
-							"notes_label": "What would you like to cover?",
-							"notes_placeholder": "Goals, deadlines, what's not working today.",
-							"submit_label": "Request consultation",
-							"footnote": "Only your name and email are required.",
-							"success_title": "Thanks, {name}. We're on it.",
-							"success_text": "Our team will review your request and reply to {email} to schedule your consultation.",
-							"aside": false
 						}
 					]
 				}
@@ -2561,7 +2539,7 @@
 			{
 				"id": "page-blog",
 				"slug": "blog",
-				"status": "published",
+				"status": "draft",
 				"data": {
 					"title": "Guides to getting found online",
 					"template": "blocks",
@@ -3756,7 +3734,7 @@
 			{
 				"id": "post-seo-content-strategy",
 				"slug": "seo-content-strategy",
-				"status": "published",
+				"status": "draft",
 				"data": {
 					"title": "SEO and content strategy for small businesses",
 					"excerpt": "Nine building blocks for small-business SEO, from keyword research and on-page work to planning, publishing and promoting content.",
@@ -3976,7 +3954,7 @@
 			{
 				"id": "post-keyword-research",
 				"slug": "keyword-research",
-				"status": "published",
+				"status": "draft",
 				"data": {
 					"title": "Keyword research",
 					"excerpt": "Keywords are the foundation of SEO. Conduct thorough research to identify terms your audience uses.",
@@ -4221,7 +4199,7 @@
 			{
 				"id": "post-on-page-optimization",
 				"slug": "on-page-optimization",
-				"status": "published",
+				"status": "draft",
 				"data": {
 					"title": "On-page optimization",
 					"excerpt": "On-page optimization refers to techniques applied directly on your website, including meta tags, headings, URL structure, and keyword-rich content.",
@@ -4466,7 +4444,7 @@
 			{
 				"id": "post-link-building",
 				"slug": "link-building",
-				"status": "published",
+				"status": "draft",
 				"data": {
 					"title": "Link building",
 					"excerpt": "Link building is the process of acquiring high-quality backlinks from external websites. Search engines consider backlinks as indicators of trust and authority.",

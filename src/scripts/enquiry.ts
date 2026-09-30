@@ -33,7 +33,7 @@ for (const root of document.querySelectorAll<HTMLElement>("[data-enquiry]")) {
 		}
 		if (error) {
 			error.hidden = !message;
-			const text = error.querySelector("span");
+			const text = error.querySelector<HTMLElement>("[data-error-text]");
 			if (text) text.textContent = message;
 		}
 		return input instanceof HTMLElement ? input : null;
@@ -45,13 +45,18 @@ for (const root of document.querySelectorAll<HTMLElement>("[data-enquiry]")) {
 			const input = setError(name, errors[name] ?? "");
 			if (errors[name] && !first) first = input;
 		}
-		first?.focus();
+		if (first) {
+			// Validation changes the layout. Reveal the field explicitly instead of relying
+			// on browser focus scrolling, which can leave it offscreen during a smooth scroll.
+			first.focus({ preventScroll: true });
+			first.scrollIntoView({ block: "center", behavior: "instant" });
+		}
 	};
 
 	const showAlert = (message: string) => {
 		if (!alertBox) return;
 		alertBox.hidden = !message;
-		const text = alertBox.querySelector("span");
+		const text = alertBox.querySelector<HTMLElement>("[data-enquiry-alert-text]");
 		if (text) text.textContent = message;
 	};
 

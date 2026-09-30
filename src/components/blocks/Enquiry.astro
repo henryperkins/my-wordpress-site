@@ -44,7 +44,7 @@ const platforms = lines(value.platform_options);
 const timelines = lines(value.timeline_options);
 const columns = (n: number) => (n === 4 ? "lfw-choices--4" : n === 2 ? "lfw-choices--2" : undefined);
 const successTitle = value.success_title || "Thanks, {name}. We're on it.";
-const successText = value.success_text || "Our team will review your request and reply to {email}.";
+const successText = value.success_text || "We will review your request and reply to {email}.";
 const asideItems = value.aside ? (value.aside_items ?? []) : [];
 ---
 
@@ -71,7 +71,7 @@ const asideItems = value.aside ? (value.aside_items ?? []) : [];
 						</div>
 						<p class="lfw-formerror" role="alert" hidden={!alert} data-enquiry-alert>
 							<Icon name="circle-alert" size={18} />
-							<span>{alert}</span>
+							<span data-enquiry-alert-text>{alert}</span>
 						</p>
 
 						<div class="lfw-form__row">

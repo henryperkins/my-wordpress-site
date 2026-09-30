@@ -1,3 +1,15 @@
-// Answers the header's AI search modal, which posts to <apiUrl>/search (AISearchSnippet in Header.astro).
-// The aiSearch() plugin queries AI Search through the AI_SEARCH binding and hides scheduled content until it goes live.
-export { POST, prerender } from "@emdash-cms/cloudflare/plugins/ai-search";
+import type { APIRoute } from "astro";
+import { POST as nativeSearch } from "@emdash-cms/cloudflare/plugins/ai-search";
+import { getEmDashCollection } from "emdash";
+import { filterAISearchResponse } from "../../../lib/search-results";
+
+export const prerender = false;
+
+// Keep the native plugin's request validation, binding, configuration and error
+// behavior. Its index can lag publication changes, so validate destinations and
+// replace index metadata with current published CMS fields before responding.
+export const POST: APIRoute = async (context) => filterAISearchResponse(
+	await nativeSearch(context),
+	getEmDashCollection,
+	{ onError: (error) => console.error("[ai-search] Published content verification failed:", error) },
+);

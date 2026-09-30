@@ -60,12 +60,20 @@ The header's search icon opens a search modal served by EmDash's first-party `ai
 
 Locally, search is off. AI Search bindings only exist remotely, and `astro.config.mjs` sets `remoteBindings: false`, so `pnpm dev` answers searches with "Search is temporarily unavailable". With remote bindings on, content saved in the local database would be indexed into the production instance.
 
+Public results are checked against current published CMS content and deduplicated by destination. See [search behavior and index safeguards](docs/plugin-ai-search.md).
+
+### UI regression checks
+
+Use the pinned package manager (`corepack pnpm` also works when `pnpm` is not on your PATH). Run `pnpm test` with Node 24 for search publication and excerpt checks, then `pnpm typecheck` and `pnpm build`.
+
+The browser suite expects a populated local database with the current Lakefront pages and `header_cta` pointing to `/consultation#enquiry`. Start `pnpm dev --port 4332`, then run `pnpm test:browser`. For stable runs without development reloads, build and run `pnpm preview --port 4333`, then `PLAYWRIGHT_BASE_URL=http://127.0.0.1:4333 pnpm test:browser`. Install Chromium and WebKit with `pnpm exec playwright install chromium webkit` when needed. Form submissions are intercepted by the tests, so the suite does not send enquiry emails.
+
 ## Caching and photos
 
 - **Pages come from Cloudflare's edge cache** (Workers Cache, `cache` in `astro.config.mjs`), so most visits don't start the Worker.
   - A page stays fresh for 5 minutes. After that it's served stale for up to a day while it refreshes in the background.
   - EmDash purges a page as soon as its content, a menu or the site settings change.
-  - Search results and the 404 page are kept for a minute only, because publishing doesn't purge them.
+  - Search results and the 404 page are kept for a minute. Search results also carry collection tags so publishing invalidates them.
   - Each deployment starts with an empty cache.
 - **Signed in, you may see the cached public version of a page,** without the editing toolbar. Add a query string such as `?fresh=1` for a copy rendered for you.
 - **With the cache on, every request counts toward the Workers request allowance,** including static files, which are otherwise free. The Paid plan includes 10 million requests a month, and cache hits use no CPU time.

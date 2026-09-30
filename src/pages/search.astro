@@ -7,25 +7,40 @@ import Eyebrow from "../components/Eyebrow.astro";
 import Icon from "../components/Icon.astro";
 import SearchForm from "../components/SearchForm.astro";
 import { linkAttrs } from "../lib/menus";
-import { postPath } from "../lib/posts";
 import { truncate } from "../lib/text";
 import { cachePage } from "../lib/cache";
+import { loadPublishedSearchEntries, searchExcerpt, searchResultDestination, type SearchTextPart } from "../lib/search-results";
 
 export const prerender = false;
 
-// Full-text search over published pages and blog posts. Blocks aren't indexed, so each page's Summary and
-// Search keywords fields carry what it should be found by. Publishing doesn't purge result pages, so the edge
-// cache keeps them for a minute only.
+// Full-text search over published pages and blog posts. Blocks aren't indexed,
+// so each page's Summary and Search keywords carry what it should be found by.
 const query = (Astro.url.searchParams.get("q") ?? "").trim().slice(0, 200);
 const pathFor = (slug?: string | null) => (!slug || slug === "home" ? "/" : `/${slug}`);
-const resultPath = (collection: string, slug?: string | null) => (collection === "posts" ? postPath(slug) : pathFor(slug));
 
-let results: Awaited<ReturnType<typeof search>>["items"] = [];
+let results: { collection: string; path: string; title: string; excerpt: SearchTextPart[] }[] = [];
+let searchFailed = false;
 if (query) {
 	try {
-		({ items: results } = await search(query, { collections: ["pages", "posts"], status: "published", limit: 30 }));
+		const { items } = await search(query, { collections: ["pages", "posts"], status: "published", limit: 30 });
+		const candidates = items.flatMap((result) => searchResultDestination(result.collection, result.slug) ?? []);
+		const published = await loadPublishedSearchEntries(candidates, async (collection, filter) => {
+			const result = await getEmDashCollection(collection, filter);
+			if (Astro.cache?.enabled) Astro.cache.set(result.cacheHint);
+			return result;
+		});
+		const seen = new Set<string>();
+		results = items.flatMap((result) => {
+			const destination = searchResultDestination(result.collection, result.slug);
+			const current = destination && published.get(destination.path);
+			if (!destination || !current || seen.has(destination.path)) return [];
+			seen.add(destination.path);
+			return [{ collection: result.collection, path: destination.path, title: current.title, excerpt: searchExcerpt(current.title, result.snippet, current.description, query) }];
+		});
 	} catch (error) {
 		console.error("[search]", error);
+		searchFailed = true;
+		Astro.response.status = 503;
 	}
 }
 
@@ -45,7 +60,14 @@ const browse = query
 			}))
 			.sort((a, b) => (a.href === "/" ? -1 : b.href === "/" ? 1 : a.title.localeCompare(b.title)));
 
-await cachePage(Astro, { maxAge: 60 });
+if (searchFailed) {
+	Astro.response.headers.set("Cache-Control", "no-store");
+	if (Astro.cache?.enabled) Astro.cache.set(false);
+} else {
+	// Collection tags also invalidate empty results after a new publication.
+	if (Astro.cache?.enabled) Astro.cache.set({ tags: ["pages", "posts"] });
+	await cachePage(Astro, { maxAge: 60 });
+}
 ---
 
 <Base title={query ? `Search: ${query}` : "Search"} description="Search the site." robots={query ? "noindex" : undefined}>
@@ -83,21 +105,29 @@ await cachePage(Astro, { maxAge: 60 });
 							<article class="lfw-result">
 								<div class="lfw-result__path">
 									<Badge>{result.collection === "posts" ? "Blog" : "Page"}</Badge>
-									<span>{resultPath(result.collection, result.slug)}</span>
+									<span>{result.path}</span>
 								</div>
 								<h2 class="lfw-result__heading">
-									<a class="lfw-result__title" href={resultPath(result.collection, result.slug)}>
-										{result.title || "Untitled"}
+									<a class="lfw-result__title" href={result.path}>
+										{result.title}
 									</a>
 								</h2>
-								{result.snippet && <p set:html={result.snippet} />}
+								{result.excerpt.length > 0 && <p>{result.excerpt.map((part) => part.marked ? <mark>{part.text}</mark> : part.text)}</p>}
 							</article>
 						))}
 					</div>
 				)
 			}
 			{
-				query && results.length === 0 && (
+				query && searchFailed && (
+					<div class="lfw-empty lfw-empty--left" role="status">
+						<h2 class="lfw-h3">Search is temporarily unavailable</h2>
+						<p class="lfw-p">Please try again in a moment.</p>
+					</div>
+				)
+			}
+			{
+				query && !searchFailed && results.length === 0 && (
 					<div class="lfw-empty lfw-empty--left">
 						<span class="lfw-tile lfw-tile--lg">
 							<Icon name="search-x" size={28} />
@@ -116,7 +146,7 @@ await cachePage(Astro, { maxAge: 60 });
 						)}
 						{ask && (
 							<Button {...linkAttrs(ask)} variant="link" iconRight="arrow-right">
-								Or ask our team
+								Or ask us
 							</Button>
 						)}
 					</div>
