@@ -9,7 +9,7 @@ import Photo from "../Photo.astro";
 import SectionHead from "../SectionHead.astro";
 import { cells, fillTemplate, href, lines, slugify } from "../../lib/text";
 
-// Posts to /api/enquiry, which emails the request through Cloudflare Email Sending.
+// Posts to /api/enquiry, which saves the request in the CMS inbox and emails it through Cloudflare Email Sending.
 // Works without JavaScript (the endpoint redirects back with ?enquiry=sent); scripts/enquiry.ts adds inline validation.
 type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_enquiry" }>>;
 
@@ -20,6 +20,10 @@ const uid = `enq-${slugify(blockKey || anchor)}`;
 const page = Astro.url.pathname;
 const status = Astro.url.searchParams.get("enquiry");
 const sent = status === "sent";
+// Reuse a failed request's idempotency key when retrying without JavaScript.
+const retryToken = Astro.url.searchParams.get("enquiry_token") ?? "";
+const enquiryToken =
+	status === "failed" && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(retryToken) ? retryToken : "";
 // The consultation form asks for a phone number instead of a website.
 const showPhone = value.show_phone === true;
 const showWebsite = value.show_website !== false;
@@ -65,6 +69,7 @@ const asideItems = value.aside ? (value.aside_items ?? []) : [];
 						<input type="hidden" name="subject" value={value.subject || "Website enquiry"} />
 						<input type="hidden" name="page" value={page} />
 						<input type="hidden" name="anchor" value={anchor} />
+						<input type="hidden" name="enquiry_token" value={enquiryToken} />
 						<div class="lfw-hp" aria-hidden="true">
 							<label for={`${uid}-company-site`}>Leave this field empty</label>
 							<input id={`${uid}-company-site`} type="text" name="company_site" tabindex="-1" autocomplete="off" />

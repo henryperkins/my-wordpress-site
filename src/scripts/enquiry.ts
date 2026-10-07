@@ -1,6 +1,6 @@
-// Enquiry forms post to /api/enquiry. Without JavaScript the browser submits normally and the endpoint
-// redirects back with ?enquiry=sent. With it, the form validates inline, sends in the background and
-// swaps in the thank-you message.
+// Enquiry forms post to /api/enquiry for the CMS inbox and email. Without JavaScript the browser
+// submits normally and the endpoint redirects back with ?enquiry=sent. With it, the form validates
+// inline, sends in the background and swaps in the thank-you message.
 const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const MESSAGES = {
 	name: "Tell us who to reply to.",
@@ -22,6 +22,9 @@ for (const root of document.querySelectorAll<HTMLElement>("[data-enquiry]")) {
 	const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
 	const submitLabel = submit?.querySelector<HTMLElement>(".lf-btn__label");
 	const idleLabel = submitLabel?.textContent ?? "";
+	const enquiryToken = form.querySelector<HTMLInputElement>('input[name="enquiry_token"]');
+	// Keep one idempotency key across retries; it does not authenticate a request.
+	if (enquiryToken && !enquiryToken.value) enquiryToken.value = crypto.randomUUID();
 	form.noValidate = true;
 
 	const setError = (name: string, message: string): HTMLElement | null => {
@@ -117,6 +120,7 @@ for (const root of document.querySelectorAll<HTMLElement>("[data-enquiry]")) {
 	done.querySelector<HTMLElement>("[data-enquiry-again]")?.addEventListener("click", (event) => {
 		event.preventDefault();
 		form.reset();
+		if (enquiryToken) enquiryToken.value = crypto.randomUUID();
 		for (const select of form.querySelectorAll("select")) select.classList.toggle("is-placeholder", !select.value);
 		done.hidden = true;
 		form.hidden = false;

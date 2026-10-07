@@ -5,7 +5,7 @@ The Lakefront Digital marketing site as an [EmDash](https://docs.emdashcms.com/t
 ## What's included
 
 - **Home, Services and Hosting** built from 11 Lakefront blocks that editors add, reorder and edit in the admin
-- **Contact and Website Consultation** with an enquiry form, emailed to you through Cloudflare Email Sending (no checkout; commerce is out of scope for now)
+- **Contact and Website Consultation** with enquiries saved in the EmDash Forms inbox and emailed through Cloudflare Email Sending (no checkout; commerce is out of scope for now)
 - **Terms and Conditions** and **Privacy Policy** on the legal layout: numbered sections, table of contents, print
 - **Blog** with the copy book's four SEO guides: index with a featured post and category chips, category archives, articles with a help card and related posts, and an RSS feed
 - **Search** (pages and posts): an AI search modal in the header (Cloudflare AI Search, Cmd/Ctrl+K) and full-text search at `/search`; and a **404** page
@@ -49,6 +49,14 @@ Open http://localhost:4321/_emdash/admin and complete the setup wizard. Choose t
 3. `pnpm deploy`.
 
 Locally, Wrangler simulates the binding and logs where it wrote the message. If the binding or vars are missing, dev logs the enquiry instead of sending; production returns an error to the visitor. The form works without JavaScript; a honeypot field drops most bots. Add Cloudflare Turnstile if spam gets through.
+
+## Enquiry inbox (Forms)
+
+The native `@emdash-cms/plugin-forms` dependency supplies **Forms**, **Submissions**, CSV export and the **Recent Submissions** dashboard widget. On its first activation, the local adapter creates inbox definitions for **Project enquiries** and **Website Consultation**, preserving existing definitions on later activations.
+
+Both public forms continue posting to `/api/enquiry`. Valid enquiries are saved before the existing Cloudflare enquiry email is sent. Failed email attempts keep their saved enquiry, and a retry reuses the same record. Successful sends are not repeated. Inbox details include **Email notification** (`Sending`, `Sent` or `Failed`); `Sent` means Cloudflare accepted the message, not that inbox delivery was confirmed.
+
+Public form fields, choices and copy still come from the Lakefront CMS page blocks. These Forms definitions manage the inbox; their editor does not change the public blocks. The adapter disables the stock public submit/definition routes and Portable Text form embeds, avoiding a second submission path. It does not enable extra notification emails, autoresponders, webhooks or automatic deletion. See [inbox operations and verification](docs/enquiry-inbox.md).
 
 ## CMS email (native Cloudflare provider)
 

@@ -2,6 +2,8 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 
 test.use({ viewport: { width: 390, height: 844 } });
 
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 const messages = {
 	name: "Tell us who to reply to.",
 	email: "Enter an email we can reply to.",
@@ -152,13 +154,20 @@ test("server field errors preserve details and describe the fields", async ({ pa
 for (const failure of ["server", "offline", "non-json"] as const) {
 	test(`${failure} failure keeps the request available for a successful retry`, async ({ page }) => {
 		let succeed = false;
+		const submittedTokens: string[] = [];
 		await page.route("**/api/enquiry", async (route) => {
+			// Enhanced submissions use multipart FormData; inspect the actual hidden field sent.
+			const body = route.request().postData() ?? "";
+			submittedTokens.push(body.match(/name="enquiry_token"\r\n\r\n([^\r\n]*)/)?.[1] ?? "");
 			if (succeed) return route.fulfill({ json: { ok: true } });
 			if (failure === "offline") return route.abort("connectionfailed");
 			if (failure === "non-json") return route.fulfill({ status: 502, contentType: "text/html", body: "Temporary failure" });
 			return route.fulfill({ status: 502, json: { ok: false, message: messages.failed } });
 		});
 		const form = await openEnquiry(page, "/consultation");
+		const token = form.locator('input[name="enquiry_token"]');
+		const initialToken = await token.inputValue();
+		expect(initialToken).toMatch(UUID);
 		await fillConsultation(form);
 		const submit = form.locator('button[type="submit"]');
 		const idleLabel = await submit.innerText();
@@ -173,6 +182,7 @@ for (const failure of ["server", "offline", "non-json"] as const) {
 		await expect(submit).toBeEnabled();
 		await expect(submit).toHaveText(idleLabel);
 		await expect(submit).not.toHaveAttribute("aria-busy", "true");
+		await expect(token).toHaveValue(initialToken);
 
 		// A second failure exercises alert clearing without destroying its icon.
 		await clickSubmit(submit);
@@ -180,6 +190,7 @@ for (const failure of ["server", "offline", "non-json"] as const) {
 		await expectReadableMessage(alert.getByText(message, { exact: true }));
 		await expect(alert.locator('[data-icon="circle-alert"] svg')).toBeVisible();
 		await expectConsultationValues(form);
+		await expect(token).toHaveValue(initialToken);
 
 		succeed = true;
 		await clickSubmit(submit);
@@ -190,10 +201,14 @@ for (const failure of ["server", "offline", "non-json"] as const) {
 		await expect(done).toContainText("jordan@example.com");
 		await expect(form).toBeHidden();
 		await expect(done).not.toContainText(/\{name\}|\{email\}/);
+		expect(submittedTokens).toEqual([initialToken, initialToken, initialToken]);
 		await done.getByRole("link", { name: "Send another request" }).click();
 		await expect(done).toBeHidden();
 		await expect(form).toBeVisible();
 		await expect(form.getByLabel("Your name", { exact: true })).toBeFocused();
+		const nextToken = await token.inputValue();
+		expect(nextToken).toMatch(UUID);
+		expect(nextToken).not.toBe(initialToken);
 		for (const field of ["name", "email", "phone", "notes"]) {
 			await expect(form.locator(`[name="${field}"]`)).toHaveValue("");
 		}
@@ -229,6 +244,18 @@ test.describe("without JavaScript", () => {
 		expect(data.get("page")).toBe("/consultation");
 		expect(data.get("anchor")).toBe("enquiry");
 		expect(data.get("company_site")).toBe("");
+		expect(data.get("enquiry_token")).toBe("");
+	});
+
+	test("a failed return page keeps a valid retry token and rejects malformed tokens", async ({ page }) => {
+		const retryToken = "9d2c3b54-b94d-4fc8-b655-44df7aad5f9f";
+		await page.goto(`/consultation?enquiry=failed&enquiry_token=${retryToken}#enquiry`);
+		const token = page.locator('[data-enquiry] input[name="enquiry_token"]');
+		await expect(token).toHaveValue(retryToken);
+		await page.goto("/consultation?enquiry=failed&enquiry_token=invalid%22%3Etoken#enquiry");
+		await expect(token).toHaveValue("");
+		await page.goto(`/consultation?enquiry=invalid&enquiry_token=${retryToken}#enquiry`);
+		await expect(token).toHaveValue("");
 	});
 
 	for (const status of ["invalid", "failed"] as const) {
