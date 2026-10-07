@@ -38,7 +38,7 @@
 		// Cloudflare still enforces verified recipients and the onboarded sender domain.
 		{
 			"name": "CMS_EMAIL",
-			"allowed_sender_addresses": ["website@lakefrontdigital.io"],
+			"allowed_sender_addresses": ["welcome@webmail.lakefrontdigital.io"],
 		},
 	],
 	"vars": {

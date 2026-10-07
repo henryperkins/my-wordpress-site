@@ -135,6 +135,29 @@ before submission; its targeted rerun and the final full run passed without a
 code change. Enquiry submissions were intercepted throughout; only the single
 authorized CMS email test reached a mail provider.
 
+## Sending subdomain follow-up — 2026-10-07
+
+CMS mail now sends from `welcome@webmail.lakefrontdigital.io`, with replies to
+`hello@lakefrontdigital.io`. Cloudflare lists the sending subdomain as enabled
+and its email DNS as `ready`. The native provider and `CMS_EMAIL` sender
+restriction agree on that address. Enquiries keep their existing root-domain
+sender and fixed destination.
+
+The tested build was deployed without rebuilding as Worker version
+`7da34d05-7238-4a86-99b9-88f45c100c28`. A single CMS test returned 200 and a
+completed-send log from that version. Cloudflare's stored message preview
+confirmed the actual From, Reply-To, recipient and subject headers. Inbox
+receipt and a fresh magic-link sign-in were not independently exercised.
+
+All 25 DNS records matched the before-deployment snapshot after the change,
+including the root `smtp.google.com` MX. Email Routing remains disabled. The
+existing owner account's email, admin role and passkey record also matched
+before and after; the sender change does not move the receiving inbox.
+
+All 23 unit tests, typecheck and build passed. The site returned 200. This was
+a sender configuration change; the browser evidence above belongs to the
+earlier deployment. No Cloudflare API token was added to CMS settings or source.
+
 ## Verify after deployment
 
 1. Confirm the active deployment uses this build and has observability enabled.

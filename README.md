@@ -52,13 +52,15 @@ Locally, Wrangler simulates the binding and logs where it wrote the message. If 
 
 ## CMS email (native Cloudflare provider)
 
-CMS login links, invitations and recovery mail use `cloudflareEmail()` from `@emdash-cms/cloudflare/plugins`, configured in `astro.config.mjs`. It sends through `CMS_EMAIL`, separately from the enquiry binding, using `website@lakefrontdigital.io` with replies to `hello@lakefrontdigital.io`. No Cloudflare API token is stored in EmDash.
+CMS login links, invitations and recovery mail use `cloudflareEmail()` from `@emdash-cms/cloudflare/plugins`, configured in `astro.config.mjs`. It sends through `CMS_EMAIL`, separately from the enquiry binding, using `welcome@webmail.lakefrontdigital.io` with replies to `hello@lakefrontdigital.io`. No Cloudflare API token is stored in EmDash.
 
-1. Use the same onboarded Email Sending domain described above. `CMS_EMAIL` restricts the sender to `website@lakefrontdigital.io`; recipients must satisfy Cloudflare's account verification rules. The enquiry binding remains restricted to its fixed inbox.
+1. Onboard `webmail.lakefrontdigital.io` as its own Email Sending domain, and verify its email DNS. Cloudflare confirmed it enabled with DNS status `ready` on 2026-10-07. `CMS_EMAIL` restricts the sender to `welcome@webmail.lakefrontdigital.io`; recipients must satisfy Cloudflare's account verification rules. The enquiry binding keeps its existing root-domain sender and fixed inbox.
 2. Run the verification commands below and deploy. Activate `cloudflare-email` under **Plugins**, then select it under **Settings > Email**. It is automatically selected when it is the only active transport.
 3. Send a test email to the CMS account's verified address through **Settings > Email**, and inspect Cloudflare Email Sending's delivery status.
 
 The old registry **Cloudflare Email Sending** plugin is inactive, and its saved API token was removed on 2026-10-07. That credential also serves deployments, so it was not revoked. For another installation, revoke a retired plugin token only if it was dedicated to that plugin. Do not enable Email Routing or replace the existing Google Workspace MX records. For local-only authentication checks, use EmDash's development console email provider; no verification message should leave a local test instance.
+
+The sending subdomain does not provide a webmail inbox. Each CMS user's email must be an existing address that can receive login and recovery messages. Email DNS can be ready without the subdomain serving a website.
 
 ## AI search (Cloudflare AI Search)
 

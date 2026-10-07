@@ -37,7 +37,7 @@ export default defineConfig({
 			plugins: [
 				cloudflareEmail({
 					binding: "CMS_EMAIL",
-					from: { email: "website@lakefrontdigital.io", name: "Lakefront Digital" },
+					from: { email: "welcome@webmail.lakefrontdigital.io", name: "Lakefront Digital" },
 					replyTo: "hello@lakefrontdigital.io",
 				}),
 				aiSearch({
