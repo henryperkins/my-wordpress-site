@@ -1,3 +1,5 @@
+import { getRequestContext, runWithContext } from "emdash";
+
 /** Search results stay as text; the Astro renderer supplies the only allowed markup (<mark>). */
 export interface SearchTextPart { text: string; marked: boolean }
 export interface SearchEntry {
@@ -104,11 +106,16 @@ export function searchResultDestination(collection: string, slug: string | null 
 	return candidate?.collection === collection ? candidate : null;
 }
 
-/**
- * Check live collection rows, never preview-aware getEmDashEntry() or index metadata.
- * In EmDash 1.0.1 an explicit published collection filter reads the live fields
- * even in edit/preview requests. Unpublished revisions remain separate.
- */
+/** Keep public search on live revisions, preserving locale and database routing. */
+export function withPublishedContent<T>(read: () => T): T {
+	const context = getRequestContext();
+	if (!context || (!context.editMode && context.preview === undefined)) return read();
+	// A fresh context also avoids reusing a collection query cached with draft
+	// overlays elsewhere in the editor request. Leave the outer context intact.
+	return runWithContext({ ...context, editMode: false, preview: undefined }, read);
+}
+
+/** Check published collection rows rather than preview revisions or index metadata. */
 export async function loadPublishedSearchEntries(candidates: SearchCandidate[], read: SearchCollectionReader, now = Date.now()): Promise<Map<string, PublicSearchEntry>> {
 	const unique = new Map<string, SearchCandidate>();
 	for (const candidate of candidates.slice(0, MAX_CANDIDATES)) {
@@ -116,7 +123,7 @@ export async function loadPublishedSearchEntries(candidates: SearchCandidate[], 
 		if (validated?.path === candidate.path) unique.set(candidate.path, candidate);
 	}
 	const groups = ["pages", "posts"] as const;
-	const records = await Promise.all(groups.map(async (collection) => {
+	const records = await withPublishedContent(() => Promise.all(groups.map(async (collection) => {
 		const slugs = [...new Set([...unique.values()].filter((candidate) => candidate.collection === collection).map((candidate) => candidate.slug))];
 		const found = new Map<string, PublicSearchEntry>();
 		if (slugs.length === 0) return found;
@@ -148,7 +155,7 @@ export async function loadPublishedSearchEntries(candidates: SearchCandidate[], 
 			cursor = result.nextCursor;
 		}
 		throw new Error("Search content query exceeded its candidate page limit");
-	}));
+	})));
 	return new Map(records.flatMap((group) => [...group]));
 }
 

@@ -2,7 +2,7 @@
 // EmDash has never accepted. Since EmDash 0.39 the host rejects those responses, and the whole
 // admin page fails with "502 INVALID_BLOCK_RESPONSE". See docs/plugin-sandbox.md.
 //
-// - Webhook Notifier 0.2.2: button `text`, banner `text`/`style` (emdash-cms/emdash#3362, unmerged)
+// - Webhook Notifier 0.2.2: button `text`, banner `text`/`style` (fixed in npm 0.2.3; registry still 0.2.2)
 // - audit-log 0.2.2 and 0.2.3: camelCase table keys, raw paging cursor (emdash-cms/emdash#3616)
 //
 // Only a missing field is filled in, so valid responses pass through unchanged.

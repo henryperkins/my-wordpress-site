@@ -9,7 +9,7 @@ import SearchForm from "../components/SearchForm.astro";
 import { linkAttrs } from "../lib/menus";
 import { truncate } from "../lib/text";
 import { cachePage } from "../lib/cache";
-import { loadPublishedSearchEntries, searchExcerpt, searchResultDestination, type SearchTextPart } from "../lib/search-results";
+import { loadPublishedSearchEntries, searchExcerpt, searchResultDestination, withPublishedContent, type SearchTextPart } from "../lib/search-results";
 
 export const prerender = false;
 
@@ -51,7 +51,7 @@ const ask = ctaResult.data?.items?.[0];
 const ICONS: Record<string, string> = { home: "globe", services: "layout-template", hosting: "server", consultation: "clipboard-list", contact: "send", blog: "pen-line" };
 const browse = query
 	? []
-	: (await getEmDashCollection("pages", { status: "published", limit: 50 })).entries
+	: (await withPublishedContent(() => getEmDashCollection("pages", { status: "published", limit: 50 }))).entries
 			.map((entry) => ({
 				href: pathFor(entry.id),
 				title: entry.data.title,

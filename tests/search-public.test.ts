@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { getRequestContext, runWithContext, type EmDashRequestContext } from "emdash";
 import {
 	filterAISearchResponse,
 	loadPublishedSearchEntries,
@@ -18,6 +19,42 @@ const chunk = (path: string, score = 0.8) => ({
 	item: { key: path, metadata: { title: "Unpublished title", description: "Private draft text", image: "https://example.com/stale.png" } },
 });
 const response = (chunks: ReturnType<typeof chunk>[]) => Response.json({ success: true, result: { search_query: "hosting", chunks } });
+
+test("public search keeps published metadata during editing and previews, including an already-cached draft", async () => {
+	const database = {};
+	for (const context of [
+		{ editMode: true, locale: "en", db: database, dbIsIsolated: true },
+		{ editMode: false, preview: { collection: "pages", id: "id-hosting" }, locale: "en", db: database, dbIsIsolated: true },
+	] satisfies EmDashRequestContext[]) {
+		await runWithContext(context, async () => {
+			// Model the upstream reader at the publication boundary: draft overlays
+			// and its query cache are scoped to the real EmDash request context.
+			const cached = new WeakMap<EmDashRequestContext, { entries: SearchEntry[] }>();
+			const read: SearchCollectionReader = async () => {
+				const scope = getRequestContext()!;
+				assert.equal(scope.locale, "en");
+				assert.equal(scope.db, database);
+				assert.equal(scope.dbIsIsolated, true);
+				const previous = cached.get(scope);
+				if (previous) return previous;
+				const result = { entries: [scope.editMode || scope.preview
+					? entry("hosting", { title: "Private draft title", summary: "Private draft summary" })
+					: entry("hosting", { title: "Published hosting", summary: "Published hosting summary" })] };
+				cached.set(scope, result);
+				return result;
+			};
+			// EmDash 1.2 overlays drafts even with an explicit published filter.
+			const draft = await read("pages", { status: "published", where: { slug: ["hosting"] }, limit: 50 });
+			assert.equal(draft.entries[0]?.data.title, "Private draft title");
+			const result = await filterAISearchResponse(response([chunk("/hosting")]), read, { now });
+			assert.equal(result.status, 200);
+			assert.deepEqual((await result.json()).result.chunks[0].item.metadata, {
+				title: "Published hosting", description: "Published hosting summary",
+			});
+			assert.equal(getRequestContext(), context, "the surrounding editor context is preserved");
+		});
+	}
+});
 
 test("AI results are unique by canonical destination and use current published metadata", async () => {
 	const read: SearchCollectionReader = async (collection, filter) => {

@@ -3,7 +3,7 @@ import cloudflare from "@astrojs/cloudflare";
 import { cacheCloudflare } from "@astrojs/cloudflare/cache";
 import react from "@astrojs/react";
 import { d1, r2, sandbox } from "@emdash-cms/cloudflare";
-import { aiSearch } from "@emdash-cms/cloudflare/plugins";
+import { aiSearch, cloudflareEmail } from "@emdash-cms/cloudflare/plugins";
 import { defineConfig, fontProviders } from "astro/config";
 import emdash from "emdash/astro";
 
@@ -35,6 +35,11 @@ export default defineConfig({
 			// Site search: Cloudflare AI Search through the AI_SEARCH namespace binding in wrangler.jsonc.
 			// Posts live under /blog, so their result links need their own template.
 			plugins: [
+				cloudflareEmail({
+					binding: "CMS_EMAIL",
+					from: { email: "website@lakefrontdigital.io", name: "Lakefront Digital" },
+					replyTo: "hello@lakefrontdigital.io",
+				}),
 				aiSearch({
 					instanceName: "emdash-ai-search",
 					urlTemplates: { posts: "/blog/{slug}", pages: "/{slug}" },

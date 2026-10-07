@@ -34,6 +34,12 @@
 			"name": "ENQUIRY_EMAIL",
 			"destination_address": "hello@lakefrontdigital.io",
 		},
+		// CMS login links and invitations go to their user's address, independently of enquiries.
+		// Cloudflare still enforces verified recipients and the onboarded sender domain.
+		{
+			"name": "CMS_EMAIL",
+			"allowed_sender_addresses": ["website@lakefrontdigital.io"],
+		},
 	],
 	"vars": {
 		"ENQUIRY_FROM": "website@lakefrontdigital.io",

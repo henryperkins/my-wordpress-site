@@ -4,6 +4,12 @@ Prepared on 2026-09-29 for EmDash and `@emdash-cms/cloudflare` 1.0.1. There are
 two: a larger subrequest budget for sandboxed plugins, and repairs for registry
 plugins whose admin pages EmDash rejects (see "Admin page repairs" below).
 
+Retained for the 2026-10-07 upgrade to EmDash and `@emdash-cms/cloudflare`
+1.2.0. The installed integration still does not pass configurable sandbox
+limits to the runner, and the upstream fixes below have not shipped in the
+installed registry plugins. The production verification recorded here remains
+specific to 1.0.1; the follow-up verification below records the 1.2.0 checks.
+
 The Cloudflare runner defaults to 10 subrequests per plugin invocation. EmDash
 1.0.1 does not pass resource limits when it creates the runner, so raising the
 parent Worker's `limits.subrequests` does not change that plugin budget.
@@ -32,8 +38,9 @@ subrequests" or ROUTE_ERROR events.
 
 ## Which plugins this covers
 
-Only the sandboxed registry plugins: Cloudflare Email Sending, Webhook Notifier
-and audit-log. Site search uses the first-party `aiSearch()` plugin in
+All sandboxed registry plugins, including audit-log and the installed but inactive
+Cloudflare Email Sending, Webhook Notifier and Publish Check plugins. Site search
+uses the first-party `aiSearch()` plugin in
 `astro.config.mjs`, which runs in the site Worker rather than the sandbox, so
 this budget doesn't apply to it.
 
@@ -47,7 +54,8 @@ publisher have never matched the Block Kit types:
 - Webhook Notifier 0.2.2: its button uses `text` instead of `label`, and its
   banners use `text`/`style` instead of `title`/`variant`. The settings page
   fails. Fixed upstream in [#3362](https://github.com/emdash-cms/emdash/pull/3362),
-  which isn't merged yet.
+  merged on 2026-10-06 and included in npm 0.2.3. The registry still advertises
+  0.2.2 as of 2026-10-07; the installed bundle does not contain the fix.
 - audit-log 0.2.2 (and 0.2.3 on npm): its table uses camelCase keys (`pageActionId`,
   `nextCursor`, `emptyText`, `blockId`), so Audit History fails. Its "Load more"
   handler also passes the whole `value` object on as the cursor. Reported as
@@ -59,8 +67,22 @@ responses pass through unchanged. A camelCase table's page action gets a
 `lakefront-compat:cursor:` prefix, and the matching "Load more" request reaches
 the plugin with the raw cursor as `value`, which is the shape audit-log reads.
 
-Not repaired: Webhook Notifier's dashboard widget stays empty, because its
-handler answers `widget:webhook-status` but the manifest declares `status`.
+Not repaired in the installed 0.2.2 bundle: Webhook Notifier's dashboard widget
+stays empty, because its handler answers `widget:webhook-status` but the manifest
+declares `status`. npm 0.2.3 repairs this too. Webhook Notifier is inactive on
+Lakefront because no destination was configured.
+
+Publish Check 0.3.0 is also inactive. Its default blocking policy misses the
+site's `summary` description, custom `lf_*` block links and legal `body` field.
+An offline run of its actual bundle rejected all eight copied CMS pages for
+missing descriptions and internal links. Keep it inactive until its inspector
+matches this content model; warn mode avoids cancellation but retains false
+findings. Its settings and reports pages make 16 and 18 bridge reads, so they
+also need the larger sandbox budget if the plugin is enabled later.
+
+CMS email now uses the native `cloudflareEmail()` provider and `CMS_EMAIL`
+binding. Like native AI Search, it runs in the site Worker and does not use this
+sandbox budget. See the CMS email configuration in `README.md`.
 
 Verified on 2026-09-29:
 - The plugins' production bundles were run against the 1.0.1 validator.
@@ -69,6 +91,49 @@ Verified on 2026-09-29:
   with it, they returned 200.
 - Audit History paged to its last page.
 - Webhook Notifier saved its settings and ran Test Webhook.
+
+## Follow-up verification on EmDash 1.2.0 — 2026-10-07
+
+Worker version `09ec6d05-0544-49f3-a401-8a84b8d73370` includes the native
+`cloudflareEmail()` configuration and separate `CMS_EMAIL` binding. The native
+email and AI Search plugins and registry audit-log remain active. The old
+registry email provider, unconfigured Webhook Notifier and Publish Check are
+inactive.
+
+The native email provider was selected through the normal CMS settings API.
+One test to the owner's verified address returned success, and the production
+Worker logged a completed send through Cloudflare Email Sending with a message
+ID. Inbox receipt has not been independently confirmed; Cloudflare's message
+status lookup returned `message_not_found`. The old registry plugin's saved
+plaintext API token was removed, with a database read confirming zero copies
+under that option key. The shared deployment credential was not revoked.
+The enquiry binding and existing Google Workspace MX configuration were retained.
+
+An authenticated browser rendered the production dashboard, its Recent Activity
+widget, Email Settings and Audit History. All six existing audit rows rendered
+at 1440px and 390px without page overflow; the mobile table scrolls within its
+container. The browser used a local proxy carrying the existing owner OAuth
+credential to the production admin APIs; this did not exercise a fresh sign-in.
+
+The six live audit records fit on one page. A read-only browser fixture split the
+first response after two real records and supplied the cursor returned by the
+production history API with `limit=2`. Clicking **Load more** sent that cursor
+through the production adapter and plugin; the server returned 200 with the
+remaining four records, which rendered with no further paging button. This
+checks the paging request and response path without adding production records;
+it does not establish behavior with a naturally full 50-record page.
+
+The installed registry bundles were also checked offline against the 1.2.0
+Block Kit validator. The audit and webhook repairs remain necessary, and the
+Publish Check findings above use copies of existing CMS content. These offline
+checks do not reproduce Worker Loader resource limits.
+
+Node 24 unit tests (23), typecheck (63 files, zero errors, warnings or hints) and
+the build passed. The production browser suite passed all 42 Chromium/WebKit
+tests in a full serial run. An earlier run had one WebKit enquiry test time out
+before submission; its targeted rerun and the final full run passed without a
+code change. Enquiry submissions were intercepted throughout; only the single
+authorized CMS email test reached a mail provider.
 
 ## Verify after deployment
 

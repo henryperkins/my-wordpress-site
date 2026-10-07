@@ -50,6 +50,16 @@ Open http://localhost:4321/_emdash/admin and complete the setup wizard. Choose t
 
 Locally, Wrangler simulates the binding and logs where it wrote the message. If the binding or vars are missing, dev logs the enquiry instead of sending; production returns an error to the visitor. The form works without JavaScript; a honeypot field drops most bots. Add Cloudflare Turnstile if spam gets through.
 
+## CMS email (native Cloudflare provider)
+
+CMS login links, invitations and recovery mail use `cloudflareEmail()` from `@emdash-cms/cloudflare/plugins`, configured in `astro.config.mjs`. It sends through `CMS_EMAIL`, separately from the enquiry binding, using `website@lakefrontdigital.io` with replies to `hello@lakefrontdigital.io`. No Cloudflare API token is stored in EmDash.
+
+1. Use the same onboarded Email Sending domain described above. `CMS_EMAIL` restricts the sender to `website@lakefrontdigital.io`; recipients must satisfy Cloudflare's account verification rules. The enquiry binding remains restricted to its fixed inbox.
+2. Run the verification commands below and deploy. Activate `cloudflare-email` under **Plugins**, then select it under **Settings > Email**. It is automatically selected when it is the only active transport.
+3. Send a test email to the CMS account's verified address through **Settings > Email**, and inspect Cloudflare Email Sending's delivery status.
+
+The old registry **Cloudflare Email Sending** plugin is inactive, and its saved API token was removed on 2026-10-07. That credential also serves deployments, so it was not revoked. For another installation, revoke a retired plugin token only if it was dedicated to that plugin. Do not enable Email Routing or replace the existing Google Workspace MX records. For local-only authentication checks, use EmDash's development console email provider; no verification message should leave a local test instance.
+
 ## AI search (Cloudflare AI Search)
 
 The header's search icon opens a search modal served by EmDash's first-party `aiSearch()` plugin through the `AI_SEARCH` namespace binding. No API token is involved.
