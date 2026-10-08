@@ -246,6 +246,8 @@ components:
 
 **Creative North Star: "The Civic Lakefront"**
 
+> Water supplies the motion. Engineering supplies the structure.
+
 Chicago's lakefront is public infrastructure done well: orderly, open, clearly signed and built to last. This system brings that civic temperament to a business that runs other people's websites. Pages stand on a Foam White ground with Lake Navy type. Teal does the wayfinding: spaced uppercase eyebrows with a short rule, numbered steps, and a thin line of ink under the current page or tab. One warm colour, Sunset Coral, marks the action. Navy night-water sections change the pace of long pages. Tall, softly rounded photographs show three subjects only: the lake's water, the city's architecture, and real work.
 
 The mood is crisp, technical and exact. The site shows its machinery instead of promising it: spec cards that name the real tools as tags, status panels written as label-and-value rows, numbered steps and large stat figures. Components are engineered and plainly labelled: solid buttons, crisp 1px borders, and labels that say exactly what happens. The spacing is measured. Sections breathe on a 96px rhythm inside a 1200px container, while the content inside them stays specific.
@@ -335,6 +337,11 @@ The palette follows a water-texture progression, from Lake Navy through Deep Wat
 
 **The Crest Colours Rule.** The logo artwork has its own navy (#012A53), teal (#178F96) and sun yellow (#FEBE38). They exist only inside the crest; never use them in UI.
 
+### Palette Modes
+- **Lake mode:** Navy + Deep Water + Current Teal + Foam Aqua + Sunset Coral. The default website and brand identity palette.
+- **Night-water mode (`data-theme="night"`):** Navy canvas, off-white typography (#E3EEF1), aqua diagrams/accents and coral controls. Paces long pages and frames infrastructure, hosting, and performance.
+- **Foam mode:** Foam White canvas, Lake Navy typography, subtle mist borders and isolated teal/coral highlights. Standard daylight page mode, ensuring high readability without an uninterrupted wall of dark blue.
+
 ## Typography
 
 **Display Font:** Manrope (with ui-sans-serif, system-ui, sans-serif)
@@ -374,7 +381,7 @@ The page is a single 1200px column, padded clamp(20px, 4vw, 40px) at the sides. 
 - Card grids run three across, drop to two at 960px, and to one at 600px. Grids of two or four cards use two columns.
 
 **Splits:**
-- **Hero:** two equal columns with a 56px gap, and the "Built on" strip 48px below them. It stacks at 900px, with a 340px photo. Stacked, the strip comes straight after the buttons and the photo closes the hero.
+- **Hero:** asymmetric split (left 46% copy beside 54% photo) with a 56px gap, and the "Built on" strip 48px below them. It stacks at 900px, with a 340px photo. Stacked, the strip comes straight after the buttons and the photo closes the hero.
 - **About split:** 1.1fr copy beside a 0.9fr photo, reversed when the photo leads, with a 64px gap. It stacks at 960px.
 - **Service tabs:** 1.05fr copy beside a 1fr photo, with a 56px gap. At 760px and below, a labelled native service selector replaces the tab strip.
 - **Consultation summary:** the explanation and action precede the photo in reading order. At 900px and below the photo follows the summary at 240px tall; the form comes before preparation material.

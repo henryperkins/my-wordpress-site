@@ -40,7 +40,7 @@
 
 /* Hero */
 .lfw-hero{padding:32px 0 0;margin-bottom:var(--section-y)}
-.lfw-hero__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px 56px;align-items:center}
+.lfw-hero__grid{display:grid;grid-template-columns:minmax(0,46fr) minmax(0,54fr);gap:48px 56px;align-items:center}
 .lfw-hero__copy{grid-column:1;grid-row:1;display:flex;flex-direction:column;align-items:flex-start;gap:24px;padding:24px 0}
 .lfw-hero__ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
 .lfw-hero__media{grid-column:2;grid-row:1;position:relative;height:clamp(420px,44vw,580px);border-radius:var(--radius-2xl);overflow:hidden;background:var(--surface-sunken)}
