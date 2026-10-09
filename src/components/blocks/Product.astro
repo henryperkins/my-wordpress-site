@@ -45,7 +45,7 @@ const items = value.items ?? [];
 				<Ctas primary={cta(value.primary_cta_label, value.primary_cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} size="lg" />
 			</div>
 			<div class="lfw-product__media">
-				<Photo image={value.image} photo={value.photo} fallback="window" priority={index === 0} />
+				<Photo image={value.image} photo={value.photo} fallback="window" priority={index === 0} layout="product" />
 			</div>
 		</div>
 	</div>

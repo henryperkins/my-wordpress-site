@@ -52,3 +52,12 @@ test("enquiry storage receives the existing bounded normalized payload", () => {
 	assert.equal(parsed.enquiry?.needs.length, 12);
 	assert.ok(parsed.enquiry?.needs.every((need) => need.length <= 80));
 });
+
+test("invalid enquiries retain bounded normalized values for correction without becoming deliverable", () => {
+	const parsed = parseEnquiry(form({ name: "N".repeat(200), email: "not-an-email", phone: "123", notes: "x".repeat(6000), needs: Array(20).fill("x".repeat(100)) }), "/contact");
+	assert.equal(parsed.enquiry, undefined);
+	assert.equal(parsed.draft?.name.length, 120);
+	assert.equal(parsed.draft?.notes.length, 5000);
+	assert.equal(parsed.draft?.needs.length, 12);
+	assert.ok(parsed.draft?.needs.every((need) => need.length <= 80));
+});

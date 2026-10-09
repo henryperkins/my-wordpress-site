@@ -8,9 +8,11 @@ interface Props {
 	optional?: boolean;
 	/** Form field name whose validation message renders here. */
 	error?: string;
+	/** Server validation message for an ordinary form retry. */
+	message?: string;
 }
 
-const { id, label, optional = false, error } = Astro.props;
+const { id, label, optional = false, error, message = "" } = Astro.props;
 ---
 
 <div class="lf-field">
@@ -21,9 +23,9 @@ const { id, label, optional = false, error } = Astro.props;
 	<slot />
 	{
 		error && (
-			<p class="lf-field__error" id={`${id}-error`} data-error-for={error} hidden>
+			<p class="lf-field__error" id={`${id}-error`} data-error-for={error} hidden={!message}>
 				<Icon name="circle-alert" size={16} />
-				<span data-error-text />
+				<span data-error-text>{message}</span>
 			</p>
 		)
 	}

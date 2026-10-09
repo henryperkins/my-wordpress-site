@@ -37,6 +37,19 @@ Without JavaScript, a failed return URL carries the UUID back to its hidden
 field. The key is not authentication and grants no read access. Changed details
 or a new key create a separate enquiry.
 
+Ordinary form validation and delivery failures retain normalized form values and
+field errors for 30 minutes in the adapter's existing `SESSION` KV binding. Each
+failure uses a fresh `lf-enquiry-draft:` key with KV `expirationTtl: 1800`;
+`lf_enquiry_draft` is an opaque HttpOnly, SameSite=Lax cookie, Secure on HTTPS.
+The draft is scoped to its return page, form anchor and status; delivery failures
+also require the matching retry token. Personal details and the draft read key
+never enter the URL. Result pages bypass edge caching and send
+`Cache-Control: private, no-store` before streaming. Reloads retain the draft;
+replacement and successful submissions delete it and success clears the cookie.
+Abandoned records expire in KV. Recovery can be unavailable if cookies are
+blocked or KV is unavailable or has not yet made a write visible; delivery
+feedback and the retry link still work.
+
 Insert-only and revision-fenced writes prevent concurrent requests from claiming
 the same send and preserve owner triage changes. The adapter also replaces the
 stock admin update handler with revision-fenced writes, so an owner edit cannot
@@ -79,7 +92,8 @@ not collected by the enquiry integration.
 
 Run `pnpm test` on Node 24, `pnpm typecheck`, `pnpm build`, and
 `pnpm exec playwright test --workers=1` against a populated local instance.
-Browser tests intercept mail submissions. Exercise the real local endpoint with
+Browser tests intercept valid mail submissions and exercise real invalid local
+redirects and honeypot cleanup without sending email. Exercise the real local endpoint with
 Wrangler's email simulation to verify persistence, duplicate retries, the
 honeypot, invalid fields and the ordinary 303 path. No production binding should
 be used during these checks.

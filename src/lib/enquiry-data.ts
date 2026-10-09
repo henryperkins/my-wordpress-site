@@ -15,6 +15,8 @@ export interface ParsedEnquiry {
 	spam: boolean;
 	errors: Record<string, string>;
 	enquiry?: Enquiry;
+	/** Bounded values retained for an ordinary form's validation retry. Never delivered. */
+	draft?: Enquiry;
 }
 
 const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
@@ -47,5 +49,5 @@ export function parseEnquiry(form: FormData, page: string): ParsedEnquiry {
 	if (!enquiry.name) errors.name = "Tell us who to reply to.";
 	if (!EMAIL.test(enquiry.email)) errors.email = "Enter an email we can reply to.";
 	if (enquiry.phone && enquiry.phone.replace(/\D/g, "").length < 7) errors.phone = "Enter a phone number we can call, or leave it blank.";
-	return Object.keys(errors).length ? { spam: false, errors } : { spam: false, errors, enquiry };
+	return Object.keys(errors).length ? { spam: false, errors, draft: enquiry } : { spam: false, errors, enquiry };
 }

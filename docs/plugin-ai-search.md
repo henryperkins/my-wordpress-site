@@ -15,6 +15,15 @@ EmDash 1.2.0 overlays draft revisions in collection results during edit and prev
 
 The destination parser follows this site's current flat page slugs and `/blog/{slug}` article routes. Extend it deliberately when introducing nested page slugs or translated route prefixes. It rejects external URLs, query strings, fragments, reserved routes and encoded path separators; it does not issue HTTP requests to candidate destinations.
 
+The header imports `src/scripts/ai-search-compat.ts` for the installed
+`@cloudflare/ai-search-snippet` 0.0.42. It supplies a valid dialog name, combobox
+and result-grid semantics (including favorite buttons), contains keyboard focus,
+restores the background on close and cancels pending searches on dismissal.
+Empty, loading and error states use status/alert semantics. Remove the adapter
+only after the installed snippet passes these states and the keyboard/reopen
+regressions in `tests/browser/accessibility.spec.ts` without it. The ordinary
+`/search` link remains the fallback when JavaScript or the custom element fails.
+
 `/search` uses the same publication check. A native snippet that only repeats its heading falls back to the published summary/excerpt, or is omitted when no useful description exists. Text and search highlights are rendered as Astro text nodes and `<mark>` elements, rather than inserting CMS text as HTML. Successful search pages retain a one-minute edge lifetime and collection cache tags; query failures show an unavailable state with status 503 and no storage.
 
 Run the focused regression suite with Node 24:

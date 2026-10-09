@@ -61,6 +61,10 @@ for (const root of document.querySelectorAll<HTMLElement>("[data-enquiry]")) {
 		alertBox.hidden = !message;
 		const text = alertBox.querySelector<HTMLElement>("[data-enquiry-alert-text]");
 		if (text) text.textContent = message;
+		if (message) {
+			alertBox.focus({ preventScroll: true });
+			alertBox.scrollIntoView({ block: "center", behavior: "instant" });
+		}
 	};
 
 	const setBusy = (busy: boolean) => {
@@ -120,6 +124,21 @@ for (const root of document.querySelectorAll<HTMLElement>("[data-enquiry]")) {
 	done.querySelector<HTMLElement>("[data-enquiry-again]")?.addEventListener("click", (event) => {
 		event.preventDefault();
 		form.reset();
+		// A recovered server draft is also the browser's reset default. Start a
+		// fresh request explicitly so those previous details cannot return here.
+		for (const name of ["name", "email", "phone", "website", "notes"]) {
+			const field = form.elements.namedItem(name);
+			if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) field.value = field.defaultValue = "";
+		}
+		for (const choice of form.querySelectorAll<HTMLInputElement>('input[type="checkbox"], input[type="radio"]')) {
+			choice.checked = choice.defaultChecked = choice.hasAttribute("data-enquiry-preset");
+		}
+		for (const select of form.querySelectorAll("select")) {
+			for (const option of select.options) option.defaultSelected = option.value === "";
+			select.value = "";
+		}
+		applyErrors({});
+		showAlert("");
 		if (enquiryToken) enquiryToken.value = crypto.randomUUID();
 		for (const select of form.querySelectorAll("select")) select.classList.toggle("is-placeholder", !select.value);
 		done.hidden = true;

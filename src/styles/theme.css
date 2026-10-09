@@ -27,3 +27,62 @@ search-modal-snippet {
   --search-snippet-primary-color: var(--text-link);
   --search-snippet-z-modal: var(--z-overlay);
 }
+
+/* Let enlarged text reflow inside the consultation and footer grid tracks. */
+.lfw-product__summary,
+.lfw-product__summary > *,
+.lfw-product__summary .lfw-features li > div,
+.lfw-footer__grid > * {
+  min-width: 0;
+}
+
+.lfw-product__summary > *,
+.lfw-product__summary .lf-btn {
+  max-width: 100%;
+}
+
+.lfw-product__summary,
+.lfw-footer a {
+  overflow-wrap: anywhere;
+}
+
+.lfw-product__summary .lf-btn {
+  height: auto;
+  min-height: calc(var(--space-12) + var(--space-1));
+  padding-block: var(--space-3);
+  line-height: 1.35;
+  white-space: normal;
+}
+
+/* The effective date keeps its pill styling and can grow to more than one line. */
+.lfw-legal-meta .lf-badge {
+  height: auto;
+  min-height: calc(var(--space-6) + var(--space-1) / 2);
+  max-width: 100%;
+  padding-block: calc(var(--space-1) / 2);
+  line-height: 1.4;
+  white-space: normal;
+}
+
+/* Increase the hit area without changing the icon or type size. Fine-pointer
+   desktop navigation keeps the design system's compact spacing. */
+@media (max-width: 1080px), (any-pointer: coarse) {
+  .lfw-tools .lf-iconbtn,
+  .lfw-menu {
+    width: calc(var(--space-10) + var(--space-1));
+    height: calc(var(--space-10) + var(--space-1));
+  }
+
+  .lfw-footer ul {
+    gap: 0;
+  }
+
+  .lfw-footer ul a,
+  .lfw-footer__base a {
+    display: inline-flex;
+    align-items: center;
+    min-width: calc(var(--space-10) + var(--space-1));
+    min-height: calc(var(--space-10) + var(--space-1));
+    max-width: 100%;
+  }
+}

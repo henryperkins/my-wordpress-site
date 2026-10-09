@@ -8,7 +8,7 @@ import Icon from "../../components/Icon.astro";
 import Photo from "../../components/Photo.astro";
 import PostCard from "../../components/PostCard.astro";
 import { linkAttrs } from "../../lib/menus";
-import { SIZES, photoFor } from "../../lib/photos";
+import { photoFor } from "../../lib/photos";
 import { BLOG_PATH, categoryPath, initials, readingTime } from "../../lib/posts";
 import { formatDate } from "../../lib/text";
 import { cachePage } from "../../lib/cache";
@@ -107,7 +107,7 @@ await cachePage(Astro);
 		</header>
 		<div class="lfw-container">
 			<div class="lfw-article__hero" {...post.edit.featured_image}>
-				<Photo image={image} photo={post.data.photo} fallback="window" priority sizes={SIZES.container} />
+				<Photo image={image} photo={post.data.photo} fallback="window" priority layout="article" />
 			</div>
 		</div>
 		<div class="lfw-section lfw-article__main">

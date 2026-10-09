@@ -44,7 +44,7 @@ const panel = !!value.panel_title || rows.length > 0;
 				<Ctas primary={cta(value.primary_cta_label, value.primary_cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} secondaryVariant={night ? "ghost" : "outline"} />
 			</div>
 			<div class={night ? "lfw-night__media" : "lfw-about__media"}>
-				<Photo image={value.image} photo={value.photo} fallback={night ? "glass" : "window"} />
+				<Photo image={value.image} photo={value.photo} fallback={night ? "glass" : "window"} layout={night ? "split" : "about"} />
 				{
 					panel && (
 						<div class="lfw-night__panel">

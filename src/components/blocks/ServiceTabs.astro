@@ -82,7 +82,7 @@ const total = pad2(services.length);
 						<Ctas primary={cta(service.primary_cta_label, service.primary_cta_url)} secondary={cta(service.secondary_cta_label, service.secondary_cta_url)} />
 					</div>
 					<div class="lfw-panel__media">
-						<Photo image={service.image} photo={service.photo} fallback="glass" />
+						<Photo image={service.image} photo={service.photo} fallback="glass" layout="service" />
 					</div>
 				</div>
 			))

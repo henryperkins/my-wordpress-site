@@ -54,7 +54,7 @@ Locally, Wrangler simulates the binding and logs where it wrote the message. If 
 
 The native `@emdash-cms/plugin-forms` dependency supplies **Forms**, **Submissions**, CSV export and the **Recent Submissions** dashboard widget. On its first activation, the local adapter creates inbox definitions for **Project enquiries** and **Website Consultation**, preserving existing definitions on later activations.
 
-Both public forms continue posting to `/api/enquiry`. Valid enquiries are saved before the existing Cloudflare enquiry email is sent. Failed email attempts keep their saved enquiry, and a retry reuses the same record. Successful sends are not repeated. Inbox details include **Email notification** (`Sending`, `Sent` or `Failed`); `Sent` means Cloudflare accepted the message, not that inbox delivery was confirmed.
+Both public forms continue posting to `/api/enquiry`. Valid enquiries are saved before the existing Cloudflare enquiry email is sent. Failed email attempts keep their saved enquiry, and a retry reuses the same record. Successful sends are not repeated. Ordinary form failures retain entered values in a private, 30-minute KV draft; result pages bypass page caches. Inbox details include **Email notification** (`Sending`, `Sent` or `Failed`); `Sent` means Cloudflare accepted the message, not that inbox delivery was confirmed.
 
 Public form fields, choices and copy still come from the Lakefront CMS page blocks. These Forms definitions manage the inbox; their editor does not change the public blocks. The adapter disables the stock public submit/definition routes and Portable Text form embeds, avoiding a second submission path. It does not enable extra notification emails, autoresponders, webhooks or automatic deletion. See [inbox operations and verification](docs/enquiry-inbox.md).
 
@@ -86,7 +86,7 @@ Public results are checked against current published CMS content and deduplicate
 
 Use the pinned package manager (`corepack pnpm` also works when `pnpm` is not on your PATH). Run `pnpm test` with Node 24 for search publication and excerpt checks, then `pnpm typecheck` and `pnpm build`.
 
-The browser suite expects a populated local database with the current Lakefront pages and `header_cta` pointing to `/consultation#enquiry`. Start `pnpm dev --port 4332`, then run `pnpm test:browser`. For stable runs without development reloads, build and run `pnpm preview --port 4333`, then `PLAYWRIGHT_BASE_URL=http://127.0.0.1:4333 pnpm test:browser`. Install Chromium and WebKit with `pnpm exec playwright install chromium webkit` when needed. Form submissions are intercepted by the tests, so the suite does not send enquiry emails.
+The browser suite expects a populated local database with the current Lakefront pages and `header_cta` pointing to `/consultation#enquiry`. Start `pnpm dev --port 4332`, then run `pnpm test:browser`. For stable runs without development reloads, build and run `pnpm preview --port 4333`, then `PLAYWRIGHT_BASE_URL=http://127.0.0.1:4333 pnpm test:browser`. Install Chromium and WebKit with `pnpm exec playwright install chromium webkit` when needed. Valid form submissions are intercepted; real invalid local redirects and honeypot cleanup are exercised without sending enquiry emails.
 
 ## Caching and photos
 

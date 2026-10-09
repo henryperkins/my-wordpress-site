@@ -8,21 +8,22 @@ interface Props {
 	tone?: "color" | "reversed";
 	logo?: SiteLogo | null;
 	alt?: string;
+	loading?: "eager" | "lazy";
 }
 
-const { height = 44, tone = "color", logo, alt = "Lakefront Digital" } = Astro.props;
+const { height = 44, tone = "color", logo, alt = "Lakefront Digital", loading = "eager" } = Astro.props;
 const wordHeight = Math.round(height * 0.5);
 const suffix = tone === "reversed" ? "-reversed" : "";
 ---
 
 {
 	logo ? (
-		<img src={logo.url} alt={logo.alt || alt} width={logo.width} height={logo.height} class="lfw-sitelogo" style={`height:${height}px`} />
+		<img src={logo.url} alt={logo.alt || alt} width={logo.width} height={logo.height} class="lfw-sitelogo" style={`height:${height}px`} loading={loading} />
 	) : (
 		<span class:list={["lf-logo", "lf-logo--horizontal", tone === "reversed" && "lf-logo--reversed"]} style={`gap:${Math.round(height * 0.3)}px`}>
-			<img src={`/brand/lakefront-crest${suffix}.svg`} alt="" width={Math.round((805 / 797) * height)} height={height} style={`height:${height}px`} />
+			<img src={`/brand/lakefront-crest${suffix}.svg`} alt="" width={Math.round((805 / 797) * height)} height={height} style={`height:${height}px`} loading={loading} />
 			<span class="lf-logo__rule" aria-hidden="true" style={`height:${Math.round(height * 0.72)}px`} />
-			<img class="lf-logo__word" src={`/brand/lakefront-wordmark${suffix}.svg`} alt={alt} width={Math.round((1049 / 221) * wordHeight)} height={wordHeight} style={`height:${wordHeight}px`} />
+			<img class="lf-logo__word" src={`/brand/lakefront-wordmark${suffix}.svg`} alt={alt} width={Math.round((1049 / 221) * wordHeight)} height={wordHeight} style={`height:${wordHeight}px`} loading={loading} />
 		</span>
 	)
 }

@@ -57,7 +57,7 @@ const chips = categories.filter((term) => term.count === undefined || term.count
 			featured && (
 				<a class="lfw-featured" href={postPath(featured.id)}>
 					<div class="lfw-featured__media">
-						<Photo image={featured.data.featured_image} photo={featured.data.photo} fallback="window" priority />
+						<Photo image={featured.data.featured_image} photo={featured.data.photo} fallback="window" priority layout="featured" />
 					</div>
 					<div class="lfw-featured__copy">
 						{featuredTerms.length > 0 && <Eyebrow items={featuredTerms.map((term) => term.label)} />}

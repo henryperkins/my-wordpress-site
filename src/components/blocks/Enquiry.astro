@@ -1,5 +1,6 @@
 ---
 import type { BlockComponentProps } from "emdash/ui";
+import { env } from "cloudflare:workers";
 import type { PageContentBlock } from "../../../emdash-env";
 import Button from "../Button.astro";
 import Eyebrow from "../Eyebrow.astro";
@@ -8,6 +9,7 @@ import Icon from "../Icon.astro";
 import Photo from "../Photo.astro";
 import SectionHead from "../SectionHead.astro";
 import { cells, fillTemplate, href, lines, slugify } from "../../lib/text";
+import { readEnquiryDraft, ENQUIRY_DRAFT_COOKIE, ENQUIRY_TOKEN, type EnquiryDraft } from "../../lib/enquiry-draft";
 
 // Posts to /api/enquiry, which saves the request in the CMS inbox and emails it through Cloudflare Email Sending.
 // Works without JavaScript (the endpoint redirects back with ?enquiry=sent); scripts/enquiry.ts adds inline validation.
@@ -22,8 +24,17 @@ const status = Astro.url.searchParams.get("enquiry");
 const sent = status === "sent";
 // Reuse a failed request's idempotency key when retrying without JavaScript.
 const retryToken = Astro.url.searchParams.get("enquiry_token") ?? "";
+let draft: EnquiryDraft | null = null;
+try {
+	const storage = (env as unknown as { SESSION?: KVNamespace }).SESSION;
+	if (storage) draft = await readEnquiryDraft(storage, Astro.cookies.get(ENQUIRY_DRAFT_COOKIE)?.value, { page, anchor, status, token: retryToken });
+} catch {
+	console.error("[enquiry] draft recovery unavailable");
+}
+const saved = draft?.values;
+const errors = draft?.errors ?? {};
 const enquiryToken =
-	status === "failed" && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(retryToken) ? retryToken : "";
+	draft?.token ?? (status === "failed" && ENQUIRY_TOKEN.test(retryToken) ? retryToken : "");
 // The consultation form asks for a phone number instead of a website.
 const showPhone = value.show_phone === true;
 const showWebsite = value.show_website !== false;
@@ -74,20 +85,20 @@ const asideItems = value.aside ? (value.aside_items ?? []) : [];
 							<label for={`${uid}-company-site`}>Leave this field empty</label>
 							<input id={`${uid}-company-site`} type="text" name="company_site" tabindex="-1" autocomplete="off" />
 						</div>
-						<p class="lfw-formerror" role="alert" hidden={!alert} data-enquiry-alert>
+						<p class="lfw-formerror" role="alert" tabindex="-1" hidden={!alert} data-enquiry-alert>
 							<Icon name="circle-alert" size={18} />
 							<span data-enquiry-alert-text>{alert}</span>
 						</p>
 
 						<div class="lfw-form__row">
-							<Field id={`${uid}-name`} label="Your name" error="name">
+							<Field id={`${uid}-name`} label="Your name" error="name" message={errors.name}>
 								<div class="lf-control">
-									<input class="lf-input" id={`${uid}-name`} name="name" type="text" autocomplete="name" placeholder="Jordan Reyes" maxlength="120" required aria-describedby={`${uid}-name-error`} />
+									<input class="lf-input" id={`${uid}-name`} name="name" type="text" autocomplete="name" placeholder="Jordan Reyes" maxlength="120" required value={saved?.name ?? ""} aria-invalid={errors.name ? "true" : undefined} aria-describedby={`${uid}-name-error`} />
 								</div>
 							</Field>
-							<Field id={`${uid}-email`} label="Work email" error="email">
+							<Field id={`${uid}-email`} label="Work email" error="email" message={errors.email}>
 								<div class="lf-control">
-									<input class="lf-input" id={`${uid}-email`} name="email" type="email" autocomplete="email" placeholder="you@company.com" maxlength="200" required aria-describedby={`${uid}-email-error`} />
+									<input class="lf-input" id={`${uid}-email`} name="email" type="email" autocomplete="email" placeholder="you@company.com" maxlength="200" required value={saved?.email ?? ""} aria-invalid={errors.email ? "true" : undefined} aria-describedby={`${uid}-email-error`} />
 								</div>
 							</Field>
 						</div>
@@ -96,10 +107,10 @@ const asideItems = value.aside ? (value.aside_items ?? []) : [];
 							(showPhone || showWebsite || timelines.length > 0) && (
 								<div class="lfw-form__row">
 									{showPhone && (
-										<Field id={`${uid}-phone`} label="Phone" optional error="phone">
+										<Field id={`${uid}-phone`} label="Phone" optional error="phone" message={errors.phone}>
 											<div class="lf-control">
 												<Icon name="phone" size={18} class="lf-control__icon" />
-												<input class="lf-input lf-input--with-icon" id={`${uid}-phone`} name="phone" type="tel" autocomplete="tel" placeholder="(312) 555-0142" maxlength="40" aria-describedby={`${uid}-phone-error`} />
+												<input class="lf-input lf-input--with-icon" id={`${uid}-phone`} name="phone" type="tel" autocomplete="tel" placeholder="(312) 555-0142" maxlength="40" value={saved?.phone ?? ""} aria-invalid={errors.phone ? "true" : undefined} aria-describedby={`${uid}-phone-error`} />
 											</div>
 										</Field>
 									)}
@@ -107,17 +118,17 @@ const asideItems = value.aside ? (value.aside_items ?? []) : [];
 										<Field id={`${uid}-website`} label="Current website" optional>
 											<div class="lf-control">
 												<Icon name="globe" size={18} class="lf-control__icon" />
-												<input class="lf-input lf-input--with-icon" id={`${uid}-website`} name="website" type="text" inputmode="url" autocomplete="url" placeholder="yourbusiness.com" maxlength="200" />
+												<input class="lf-input lf-input--with-icon" id={`${uid}-website`} name="website" type="text" inputmode="url" autocomplete="url" placeholder="yourbusiness.com" maxlength="200" value={saved?.website ?? ""} />
 											</div>
 										</Field>
 									)}
 									{timelines.length > 0 && (
 										<Field id={`${uid}-timeline`} label="Timeline" optional>
 											<div class="lf-control">
-												<select class="lf-input is-placeholder" id={`${uid}-timeline`} name="timeline">
+												<select class:list={["lf-input", !saved?.timeline && "is-placeholder"]} id={`${uid}-timeline`} name="timeline">
 													<option value="">When would you like to launch?</option>
 													{timelines.map((option) => (
-														<option value={option}>{option}</option>
+														<option value={option} selected={saved?.timeline === option}>{option}</option>
 													))}
 												</select>
 												<Icon name="chevron-down" size={18} class="lf-control__chev" />
@@ -135,7 +146,7 @@ const asideItems = value.aside ? (value.aside_items ?? []) : [];
 									<div class="lfw-choices">
 										{needs.map((need) => (
 											<label class="lf-choice lf-choice--card">
-												<input type="checkbox" name="needs" value={need.label} checked={need.key === preset} />
+												<input type="checkbox" name="needs" value={need.label} checked={saved ? saved.needs.includes(need.label) : need.key === preset} data-enquiry-preset={need.key === preset ? "true" : undefined} />
 												<span class="lf-choice__box" aria-hidden="true" />
 												<span class="lf-choice__text">
 													<span class="lf-choice__label">{need.label}</span>
@@ -155,7 +166,7 @@ const asideItems = value.aside ? (value.aside_items ?? []) : [];
 									<div class:list={["lfw-choices", columns(platforms.length)]}>
 										{platforms.map((option) => (
 											<label class="lf-choice lf-choice--radio lf-choice--card">
-												<input type="radio" name="platform" value={option} />
+												<input type="radio" name="platform" value={option} checked={saved?.platform === option} />
 												<span class="lf-choice__box" aria-hidden="true" />
 												<span class="lf-choice__text">
 													<span class="lf-choice__label">{option}</span>
@@ -168,7 +179,7 @@ const asideItems = value.aside ? (value.aside_items ?? []) : [];
 						}
 
 						<Field id={`${uid}-notes`} label={value.notes_label || "Project notes"} optional>
-							<textarea class="lf-input" id={`${uid}-notes`} name="notes" rows="4" maxlength="5000" placeholder={value.notes_placeholder || undefined}></textarea>
+							<textarea class="lf-input" id={`${uid}-notes`} name="notes" rows="4" maxlength="5000" placeholder={value.notes_placeholder || undefined}>{saved?.notes ?? ""}</textarea>
 						</Field>
 
 						<div class="lfw-form__foot">
@@ -183,7 +194,7 @@ const asideItems = value.aside ? (value.aside_items ?? []) : [];
 				value.aside && (
 					<aside class="lfw-aside" aria-label={value.aside_eyebrow || "Other ways to start"}>
 						<div class="lfw-aside__img">
-							<Photo image={value.image} photo={value.photo} fallback="dock" />
+							<Photo image={value.image} photo={value.photo} fallback="dock" layout="aside" />
 						</div>
 						{value.aside_eyebrow && <Eyebrow rule="leading">{value.aside_eyebrow}</Eyebrow>}
 						{asideItems.length > 0 && (

@@ -12,7 +12,8 @@ const messages = {
 	offline: "We couldn't reach the server. Check your connection and try again.",
 };
 
-// Every enquiry request stays inside the browser, including if validation regresses.
+// Enhanced/valid enquiries stay inside the browser. The no-JS recovery test
+// permits local invalid submissions and a honeypot hit; neither sends mail.
 test.beforeEach(async ({ page }) => {
 	await page.route("**/api/enquiry", (route) => route.abort("blockedbyclient"));
 });
@@ -175,6 +176,8 @@ for (const failure of ["server", "offline", "non-json"] as const) {
 		const message = failure === "offline" ? messages.offline : messages.failed;
 		const alert = form.getByRole("alert");
 		await expect(alert).toBeVisible();
+		await expect(alert).toBeFocused();
+		await expect(alert).toBeInViewport({ ratio: 1 });
 		await expectReadableMessage(alert.getByText(message, { exact: true }));
 		expect(await alert.ariaSnapshot()).toContain(message);
 		await expect(alert.locator('[data-icon="circle-alert"] svg')).toBeVisible();
@@ -221,8 +224,113 @@ for (const failure of ["server", "offline", "non-json"] as const) {
 	});
 }
 
+test("a contact delivery error is focused and revealed above the long form", async ({ page }) => {
+	await page.route("**/api/enquiry", (route) => route.fulfill({ status: 502, json: { ok: false, message: messages.failed } }));
+	const form = await openEnquiry(page, "/contact");
+	await form.getByLabel("Your name", { exact: true }).fill("Jordan Reyes");
+	await form.getByLabel("Work email", { exact: true }).fill("jordan@example.com");
+	await clickSubmit(form.locator('button[type="submit"]'));
+	const alert = form.getByRole("alert");
+	await expect(alert).toBeFocused();
+	await expect(alert).toBeInViewport({ ratio: 1 });
+	await expect(alert).toContainText(messages.failed);
+	await expect(form.getByLabel("Your name", { exact: true })).toHaveValue("Jordan Reyes");
+});
+
+test("a recovered draft starts a blank request after an enhanced success", async ({ page }) => {
+	const response = await page.request.post("/api/enquiry", {
+		form: { page: "/consultation", anchor: "enquiry", name: "Jordan Reyes", email: "jordan@example.com", phone: "123", notes: "Recovered notes" },
+		maxRedirects: 0,
+	});
+	expect(response.status()).toBe(303);
+	await page.route("**/api/enquiry", (route) => route.fulfill({ json: { ok: true } }));
+	const form = await openEnquiry(page, response.headers().location);
+	await expect(form.locator('[name="notes"]')).toHaveValue("Recovered notes");
+	await form.getByLabel("Phone", { exact: false }).fill("(312) 555-0142");
+	await clickSubmit(form.locator('button[type="submit"]'));
+	const done = page.locator("[data-enquiry-done]");
+	await expect(done).toBeVisible();
+	await done.getByRole("link", { name: "Send another request" }).click();
+	for (const name of ["name", "email", "phone", "notes"]) await expect(form.locator(`[name="${name}"]`)).toHaveValue("");
+	await expect(form.getByRole("alert")).toBeHidden();
+	await expect(form.locator('[aria-invalid="true"]')).toHaveCount(0);
+	await page.request.post("/api/enquiry", { form: { company_site: "bot" }, maxRedirects: 0 });
+});
+
 test.describe("without JavaScript", () => {
 	test.use({ javaScriptEnabled: false });
+
+	test("the contact draft restores website, timeline, repeated needs and platform choices", async ({ page }) => {
+		await page.goto("/contact");
+		const form = page.locator("[data-enquiry] form");
+		const timeline = await form.locator('[name="timeline"] option').nth(1).getAttribute("value");
+		const platform = await form.locator('[name="platform"]').first().getAttribute("value");
+		const needs = await form.locator('[name="needs"]').evaluateAll((inputs) => inputs.slice(0, 2).map((input) => (input as HTMLInputElement).value));
+		const data = new URLSearchParams({ page: "/contact", anchor: "enquiry", name: "", email: "jordan@example.com", website: "example.com", timeline: timeline!, platform: platform!, notes: "Keep every choice" });
+		for (const need of needs) data.append("needs", need);
+		const response = await page.request.post("/api/enquiry", { data: data.toString(), headers: { "Content-Type": "application/x-www-form-urlencoded" }, maxRedirects: 0 });
+		expect(response.status()).toBe(303);
+		await page.goto(response.headers().location);
+		await expect(form.locator('[name="website"]')).toHaveValue("example.com");
+		await expect(form.locator('[name="timeline"]')).toHaveValue(timeline!);
+		expect(await form.locator('[name="needs"]:checked').evaluateAll((inputs) => inputs.map((input) => (input as HTMLInputElement).value))).toEqual(needs);
+		await expect(form.locator('[name="platform"]:checked')).toHaveValue(platform!);
+		await expectFieldError(form, form.getByLabel("Your name", { exact: true }), messages.name);
+		await page.request.post("/api/enquiry", { form: { company_site: "bot" }, maxRedirects: 0 });
+	});
+
+	test("local invalid redirects recover private values and errors through reload and correction", async ({ page, browser, baseURL }) => {
+		await page.unroute("**/api/enquiry");
+		await page.goto("/consultation");
+		const form = page.locator("[data-enquiry] form");
+		await fillConsultation(form);
+		await form.getByLabel("Phone", { exact: false }).fill("123");
+		const notes = 'First line\n<keep this text> & "quotes"';
+		await form.locator('[name="notes"]').fill(notes);
+		const response = page.waitForResponse((response) => response.url().endsWith("/api/enquiry"));
+		await form.locator('button[type="submit"]').press("Enter");
+		expect((await response).status()).toBe(303);
+		await expect(page).toHaveURL(/\/consultation\?enquiry=invalid#enquiry$/);
+		await expect(form.getByLabel("Your name", { exact: true })).toHaveValue("Jordan Reyes");
+		await expect(form.getByLabel("Work email", { exact: true })).toHaveValue("jordan@example.com");
+		await expect(form.getByLabel("Phone", { exact: false })).toHaveValue("123");
+		await expect(form.locator('[name="notes"]')).toHaveValue(notes);
+		await expectFieldError(form, form.getByLabel("Phone", { exact: false }), messages.phone);
+		const firstCookie = (await page.context().cookies()).find((cookie) => cookie.name === "lf_enquiry_draft")!;
+		expect(firstCookie.httpOnly).toBe(true);
+		expect(firstCookie.sameSite).toBe("Lax");
+		expect(firstCookie.value).toMatch(UUID);
+		expect(firstCookie.expires - Date.now() / 1000).toBeLessThanOrEqual(1800);
+		expect(firstCookie.expires - Date.now() / 1000).toBeGreaterThan(1700);
+		const reload = await page.reload();
+		expect(reload!.headers()["cache-control"]).toContain("private");
+		expect(reload!.headers()["cache-control"]).toContain("no-store");
+		await expect(form.locator('[name="notes"]')).toHaveValue(notes);
+
+		const isolated = await browser.newContext({ javaScriptEnabled: false });
+		try {
+			const other = await isolated.newPage();
+			await other.goto(page.url());
+			await expect(other.locator('[data-enquiry] [name="name"]')).toHaveValue("");
+			await expect(other.locator('[data-enquiry] [name="notes"]')).toHaveValue("");
+		} finally { await isolated.close(); }
+		await page.goto("/contact?enquiry=invalid#enquiry");
+		await expect(page.locator('[data-enquiry] [name="name"]')).toHaveValue("");
+		await page.goto("/consultation?enquiry=invalid#enquiry");
+		await form.locator('[name="notes"]').fill("Corrected notes");
+		await Promise.all([page.waitForNavigation(), form.locator('button[type="submit"]').press("Enter")]);
+		await expect(form.locator('[name="notes"]')).toHaveValue("Corrected notes");
+		const replacement = (await page.context().cookies()).find((cookie) => cookie.name === "lf_enquiry_draft")!;
+		expect(replacement.value).not.toBe(firstCookie.value);
+
+		// The honeypot takes the success cleanup path without saving or sending an enquiry.
+		const success = await page.request.post(`${baseURL}/api/enquiry`, { form: { company_site: "bot", page: "/consultation", anchor: "enquiry" }, maxRedirects: 0 });
+		expect(success.status()).toBe(303);
+		expect((await page.context().cookies()).some((cookie) => cookie.name === "lf_enquiry_draft")).toBe(false);
+		await page.context().addCookies([replacement]);
+		await page.reload();
+		await expect(form.locator('[name="notes"]')).toHaveValue("");
+	});
 
 	test("the form posts its details normally without JSON enhancement", async ({ page }) => {
 		await page.route("**/api/enquiry", (route) => route.fulfill({ status: 200, contentType: "text/plain", body: "Request captured" }));

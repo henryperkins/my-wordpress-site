@@ -1,6 +1,6 @@
 ---
 import { Image } from "emdash/ui";
-import { SIZES, photoFor, srcsetFor } from "../lib/photos";
+import { photoFor, sizesFor, srcsetFor, type PhotoLayout } from "../lib/photos";
 import type { EmDashImage } from "../lib/types";
 
 // An uploaded image wins; otherwise the block's bundled photo (public/images) is used, resized at the edge.
@@ -10,22 +10,25 @@ interface Props {
 	fallback?: string;
 	priority?: boolean;
 	class?: string;
-	/** How wide the bundled photo renders (lib/photos SIZES); defaults to a two-column panel. */
+	/** Layout slot and cover crop (lib/photos); defaults to the consultation panel. */
+	layout?: PhotoLayout;
+	/** Explicit width-only sizes for a custom or content-driven crop. */
 	sizes?: string;
 }
 
-const { image, photo, fallback = "shore", priority = false, class: className, sizes = SIZES.panel } = Astro.props;
+const { image, photo, fallback = "shore", priority = false, class: className, layout = "product", sizes } = Astro.props;
 const bundled = photoFor(photo, fallback);
+const responsiveSizes = sizes ?? sizesFor(layout, image ?? bundled);
 ---
 
 {
 	image ? (
-		<Image image={image} class={className} priority={priority} />
+		<Image image={image} class={className} priority={priority} sizes={responsiveSizes} />
 	) : (
 		<img
 			src={bundled.src}
 			srcset={srcsetFor(bundled)}
-			sizes={sizes}
+			sizes={responsiveSizes}
 			alt={bundled.alt}
 			width={bundled.width}
 			height={bundled.height}

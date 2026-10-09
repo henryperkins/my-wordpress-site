@@ -23,12 +23,17 @@ if (toc) {
 		if (!target) return;
 		const offset = (document.querySelector<HTMLElement>("[data-header]")?.offsetHeight ?? 0) + 24;
 		window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: reduced() ? "auto" : "smooth" });
+		// Move the reading position as well as the viewport. The heading stays out
+		// of the normal tab order; the next Tab continues from its section.
+		if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+		target.focus({ preventScroll: true });
 		history.replaceState(null, "", `#${id}`);
 		setActive(id);
 	};
 
 	for (const link of links) {
 		link.addEventListener("click", (event) => {
+			if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 			event.preventDefault();
 			jump(link.dataset.tocLink ?? "");
 		});

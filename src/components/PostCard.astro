@@ -4,7 +4,6 @@ import type { Post } from "../../emdash-env";
 import Eyebrow from "./Eyebrow.astro";
 import Icon from "./Icon.astro";
 import Photo from "./Photo.astro";
-import { SIZES } from "../lib/photos";
 import { postPath, readingTime } from "../lib/posts";
 
 interface Props {
@@ -20,7 +19,7 @@ const minutes = readingTime(post.data.content);
 
 <a class="lf-card lf-card--interactive lfw-postcard" href={postPath(post.id)}>
 	<div class="lf-card__media" style="--lf-ratio:3/2">
-		<Photo image={post.data.featured_image} photo={post.data.photo} fallback="window" sizes={SIZES.card} />
+		<Photo image={post.data.featured_image} photo={post.data.photo} fallback="window" layout="card" />
 	</div>
 	<div class="lf-card__body">
 		{categories[0] && <Eyebrow size="sm" as="span">{categories[0].label}</Eyebrow>}
