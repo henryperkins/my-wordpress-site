@@ -26,6 +26,6 @@ const legal = page.data.template === "legal";
 await cachePage(Astro);
 ---
 
-<Base title={seo.title} pageTitle={seo.ogTitle} description={seo.description} canonical={seo.canonical} robots={seo.robots} type={legal ? "article" : "website"} content={{ collection: "pages", id: page.data.id, slug }}>
+<Base title={seo.title} pageTitle={seo.ogTitle} description={seo.description} image={seo.ogImage} canonical={seo.canonical} robots={seo.robots} type={legal ? "article" : "website"} content={{ collection: "pages", id: page.data.id, slug }}>
 	{legal ? <LegalPage page={page} /> : <PageBlocks page={page} />}
 </Base>

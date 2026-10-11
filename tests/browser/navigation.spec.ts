@@ -12,6 +12,20 @@ test("mobile header leaves the primary action to the page", async ({ page }) => 
 	await expect(page.locator(".lfw-hero").getByRole("link", { name: "Book a consultation" })).toHaveCount(1);
 });
 
+test("pages without their own image share the built-in card", async ({ page, request }) => {
+	for (const path of ["/", "/contact", "/search"]) {
+		await page.goto(path);
+		const image = await page.locator('meta[property="og:image"]').getAttribute("content");
+		expect(image).toMatch(/^https?:\/\/.+\/brand\/share-card\.jpg$/);
+		await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute("content", "summary_large_image");
+		await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200");
+		await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute("content", "630");
+	}
+	const card = await request.get("/brand/share-card.jpg");
+	expect(card.ok()).toBe(true);
+	expect(card.headers()["content-type"]).toBe("image/jpeg");
+});
+
 test("consultation navigation keeps entered details", async ({ page }) => {
 	await page.setViewportSize({ width: 1440, height: 900 });
 	await page.goto("/consultation");

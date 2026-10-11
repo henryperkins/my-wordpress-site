@@ -7,6 +7,8 @@
 
 /* Header */
 .lfw-header{position:sticky;top:0;z-index:var(--z-header);background:rgba(247,250,249,.9);-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid transparent;transition:border-color var(--dur-base) var(--ease-current)}
+/* Without the blur, 10% of a night section's text would read through the bar, so it goes solid. */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.lfw-header{background:var(--foam-white)}}
 .lfw-header.is-scrolled{border-bottom-color:var(--border-default)}
 /* --header-cover is how much of the top of the view the pinned header covers (0 where it scrolls with the page). A focused control or an anchor target outside the header stops below it instead of under it. The header's own controls get no margin: they never need scrolling to, and a root scroll-padding would scroll the page whenever one took focus. */
 :root{--header-cover:var(--header-h)}
@@ -86,12 +88,13 @@
 /* Route rows (a card grid's "rows" layout): rule-topped like steps, read across like a sign: where you are, what we do, where to go */
 /* The rows share one set of columns (subgrid), so titles, text and links line up down the list */
 .lfw-routes{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:48px minmax(0,4fr) minmax(0,5fr) auto;column-gap:32px;border-bottom:2px solid var(--border-default)}
-.lfw-route{position:relative;grid-column:1/-1;display:grid;grid-template-columns:subgrid;align-items:center;row-gap:12px;padding:24px 0;border-top:2px solid var(--border-default)}
+.lfw-route{position:relative;grid-column:1/-1;display:grid;grid-template-columns:subgrid;align-items:center;row-gap:12px;padding:24px 0;border-top:2px solid var(--border-default);transition:border-color var(--dur-fast) var(--ease-current)}
 .lfw-route__title{margin:0;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong);text-wrap:balance;transition:color var(--dur-fast) var(--ease-current)}
 .lfw-route__text{margin:0;max-width:60ch;font:var(--type-body-sm);font-size:16px;line-height:1.55;color:var(--text-muted)}
 /* The link stretches over its row, so the whole row is the target while the link's name stays short */
 .lfw-route__go{position:static;justify-self:end}
 .lfw-route__go::after{content:"";position:absolute;inset:0;border-radius:var(--radius-md)}
+.lfw-route:hover{border-top-color:var(--current-teal)}
 .lfw-route:hover .lfw-route__title{color:var(--text-link)}
 .lfw-route:hover .lfw-route__go .lf-btn__label{text-decoration-color:currentColor}
 .lfw-route:hover .lfw-route__go .lf-btn__icon-r{transform:translateX(3px)}

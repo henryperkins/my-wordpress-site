@@ -41,6 +41,11 @@ const bare = [` | ${siteTitle}`, ` — ${siteTitle}`, ` - ${siteTitle}`].reduce(
 );
 const fullTitle = !bare || bare === siteTitle ? siteTitle : `${bare} — ${siteTitle}`;
 
+// The share image: the page's own, else the one set in Site Settings → SEO (EmDashHead adds that), else the built-in
+// card in public/brand, as a logo upload replaces the brand files.
+const shareCard = !image && !settings?.seo?.defaultOgImage ? new URL("/brand/share-card.jpg", settings?.url || Astro.url).href : null;
+const shareImage = image || shareCard;
+
 // SEO data is passed here and rendered by EmDashHead, along with plugin contributions.
 const pageCtx = createPublicPageContext({
 	Astro,
@@ -50,9 +55,9 @@ const pageCtx = createPublicPageContext({
 	pageTitle: pageTitle ?? (bare || siteTitle),
 	description,
 	canonical,
-	image,
+	image: shareImage,
 	content,
-	seo: { ogImage: image, robots },
+	seo: { ogImage: shareImage, robots },
 	siteName: siteTitle,
 });
 
@@ -78,6 +83,15 @@ const columns = [
 		<meta name="theme-color" content="#082A3A" />
 		<title>{fullTitle}</title>
 		<EmDashHead page={pageCtx} />
+		{
+			shareCard && (
+				<>
+					<meta property="og:image:width" content="1200" />
+					<meta property="og:image:height" content="630" />
+					<meta property="og:image:alt" content={`The ${siteTitle} logo over the Chicago Loop at night`} />
+				</>
+			)
+		}
 	</head>
 	<body>
 		<EmDashBodyStart page={pageCtx} />

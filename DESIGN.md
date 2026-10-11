@@ -558,7 +558,7 @@ Components are engineered and plainly labelled. Every control looks built rather
 
 ### Navigation
 - **Header:**
-  - A sticky 76px bar at 90% Foam White with a light blur. A Lake Mist hairline appears once the page scrolls.
+  - A sticky 76px bar at 90% Foam White with a light blur, or solid Foam White where the browser can't blur. A Lake Mist hairline appears once the page scrolls.
   - The order runs: the 40px horizontal logo, the links, the search icon, then the coral header button.
 - **Links:**
   - Manrope 600 at 15px, 40px tall, with 14px sides and 8px corners, and a teal wash on hover.
@@ -650,7 +650,7 @@ The system's signature wayfinding: short uppercase labels above headlines.
 The signage form of a card grid (its "rows" layout), for sending visitors down the route that fits their situation, such as the home page's "Where are you starting from?".
 - **Anatomy, left to right:** a 48px icon tile, an H4 title naming the situation, one or two sentences of card text, and a link-style action naming where it goes, with a trailing arrow.
 - **Rules, not boxes:** each row sits under a 2px Lake Mist rule, and the list closes with one. The rows share one set of columns (CSS subgrid), so titles, text and actions line up down the list. Actions align right.
-- **The whole row is the target:** the action stretches over its row, so a tap anywhere follows it, while its accessible name stays the short destination ("Move your site to us"). On hover the title turns Deep Water and the arrow slides 3px; keyboard focus rings the whole row.
+- **The whole row is the target:** the action stretches over its row, so a tap anywhere follows it, while its accessible name stays the short destination ("Move your site to us"). On hover the row's rule turns Current Teal, the title Deep Water, and the arrow slides 3px; keyboard focus rings the whole row.
 - **At 960px and below** the tile sits beside the title, with the text and action under the title. **At 600px and below** the text and action run full width.
 - Use rows when each item is a different route the visitor chooses between; use cards for a set of comparable things.
 
@@ -675,6 +675,7 @@ The signage form of a card grid (its "rows" layout), for sending visitors down t
 - **The logo:** a horizontal lockup of crest, rule and wordmark.
   - 40px in the header and 44px in the footer.
   - The reversed files are for navy grounds. There, the crest sits on a white disc, because its foam and sky are transparent.
+- **The share card** (`public/brand/share-card.jpg`, 1200 × 630): the reversed lockup and the "Chicago · Websites · Hosting · Growth" eyebrow over the Loop at night, under the CTA band's navy protection. Pages without their own SEO image share it. An image set in Site Settings → SEO replaces it, as an uploaded logo replaces the brand files.
 
 ## Do's and Don'ts
 

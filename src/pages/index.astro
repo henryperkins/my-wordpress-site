@@ -27,7 +27,7 @@ await cachePage(Astro);
 
 {
 	page && seo ? (
-		<Base title={seo.title} pageTitle={seo.ogTitle} description={seo.description} canonical={seo.canonical} robots={seo.robots} content={{ collection: "pages", id: page.data.id, slug: "home" }}>
+		<Base title={seo.title} pageTitle={seo.ogTitle} description={seo.description} image={seo.ogImage} canonical={seo.canonical} robots={seo.robots} content={{ collection: "pages", id: page.data.id, slug: "home" }}>
 			<PageBlocks page={page} />
 		</Base>
 	) : (
