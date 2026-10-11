@@ -10,7 +10,11 @@ interface TabSet {
 }
 
 const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const headerOffset = () => (document.querySelector<HTMLElement>("[data-header]")?.offsetHeight ?? 0) + 16;
+// The header covers the top of the view only while it is pinned (not on short screens).
+const headerOffset = () => {
+	const header = document.querySelector<HTMLElement>("[data-header]");
+	return (header && getComputedStyle(header).position === "sticky" ? header.offsetHeight : 0) + 16;
+};
 const sets: TabSet[] = [];
 
 for (const root of document.querySelectorAll<HTMLElement>("[data-tabs]")) {
@@ -57,7 +61,9 @@ for (const root of document.querySelectorAll<HTMLElement>("[data-tabs]")) {
 		const left = list.scrollLeft > from ? from : list.scrollLeft < to ? to : null;
 		if (left !== null) list.scrollTo({ left: Math.max(0, left), behavior: reduced() ? "auto" : "smooth" });
 	};
+	// A visitor's switch lets the new panel enter (site.css); the panel shown on page load paints with the page.
 	const choose = (index: number, focus = false) => {
+		root.dataset.switched = "";
 		select(index, focus);
 		history.replaceState(null, "", `#${panels[index]!.id}`);
 	};
@@ -97,6 +103,7 @@ const openFromHash = (smooth: boolean) => {
 	for (const set of sets) {
 		const index = set.panels.findIndex((panel) => panel.id === id);
 		if (index < 0) continue;
+		if (smooth) set.root.dataset.switched = "";
 		set.select(index);
 		const anchor = set.list.getClientRects().length ? set.list : set.root;
 		const top = anchor.getBoundingClientRect().top + window.scrollY - headerOffset();

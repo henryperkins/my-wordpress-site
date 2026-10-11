@@ -1,13 +1,16 @@
 /* Lakefront Digital site layout (prefix lfw-). Master copy: the design system's components/site/site.css. The EmDash theme ships an identical copy in src/styles/site.css; change the master, then copy it over. */
 .lfw{min-height:100vh;display:flex;flex-direction:column;background:var(--surface-canvas)}
 .lfw main{flex:1}
-.lfw-page{animation:lfw-enter var(--dur-slow) var(--ease-current) both}
+/* The page itself has no entrance: its first screen paints at once, so nothing hides the hero, the largest paint. Panels and dropdowns enter with lfw-enter when they open. */
 @keyframes lfw-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .lfw-container{width:100%;max-width:var(--container-max);margin:0 auto;padding:0 var(--container-pad);box-sizing:border-box}
 
 /* Header */
 .lfw-header{position:sticky;top:0;z-index:var(--z-header);background:rgba(247,250,249,.9);-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid transparent;transition:border-color var(--dur-base) var(--ease-current)}
 .lfw-header.is-scrolled{border-bottom-color:var(--border-default)}
+/* --header-cover is how much of the top of the view the pinned header covers (0 where it scrolls with the page). A focused control or an anchor target outside the header stops below it instead of under it. The header's own controls get no margin: they never need scrolling to, and a root scroll-padding would scroll the page whenever one took focus. */
+:root{--header-cover:var(--header-h)}
+:where(main,footer) :where(a[href],button,input,select,textarea,summary,[tabindex]){scroll-margin-top:calc(var(--header-cover) + 8px)}
 .lfw-header__in{display:flex;align-items:center;gap:24px;height:var(--header-h)}
 .lfw-logo-link{display:inline-flex;border-radius:6px;text-decoration:none}
 .lfw-nav{display:flex;align-items:center;gap:4px;margin-left:auto}
@@ -158,7 +161,7 @@
 /* Specs */
 .lfw-sectop{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-bottom:32px}
 .lfw-sectop .lfw-sechead{margin-bottom:0}
-.lfw-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--grid-gutter);animation:lfw-enter var(--dur-slow) var(--ease-current) both}
+.lfw-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--grid-gutter)}
 @media (max-width:760px){.lfw-specs{grid-template-columns:1fr}}
 .lfw-spechead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
 .lfw-offer{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
@@ -182,12 +185,12 @@
 .lfw-intro--night{padding:80px 0 72px}
 
 /* Tab panels */
-.lfw-panel{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:56px;align-items:start;padding-top:48px;animation:lfw-enter var(--dur-slow) var(--ease-current) both}
+.lfw-panel{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:56px;align-items:start;padding-top:48px}
 .lfw-panel__copy{display:flex;flex-direction:column;align-items:flex-start;gap:22px}
 .lfw-panel__media{height:520px;border-radius:var(--radius-xl);overflow:hidden;background:var(--surface-sunken)}
 .lfw-panel__media img{display:block;width:100%;height:100%;object-fit:cover}
 @media (max-width:900px){.lfw-panel{grid-template-columns:1fr;gap:32px}.lfw-panel__media{height:280px}}
-.lfw-seopanel{display:flex;flex-direction:column;gap:36px;padding-top:48px;animation:lfw-enter var(--dur-slow) var(--ease-current) both}
+.lfw-seopanel{display:flex;flex-direction:column;gap:36px;padding-top:48px}
 .lfw-seopanel__head{display:flex;flex-direction:column;gap:12px;max-width:720px}
 .lfw-two{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:48px;align-items:start}
 .lfw-two>div{display:flex;flex-direction:column;gap:18px}
@@ -207,8 +210,8 @@
 @media (max-width:900px){.lfw-product{grid-template-columns:1fr;gap:32px}.lfw-product__media{order:0;height:240px}}
 
 /* Contact */
-/* Booking and project buttons jump to #enquiry; land the form below the sticky header, not under it */
-[data-enquiry]{scroll-margin-top:calc(var(--header-h) + 16px)}
+/* Booking and project buttons jump to #enquiry; land the form below the pinned header, not under it */
+[data-enquiry]{scroll-margin-top:calc(var(--header-cover) + 16px)}
 .lfw-contact{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:48px;align-items:start}
 @media (max-width:960px){.lfw-contact{grid-template-columns:1fr}}
 .lfw-form{display:flex;flex-direction:column;gap:22px}
@@ -223,7 +226,7 @@
 .lfw-inline{display:flex;flex-wrap:wrap;gap:12px 24px}
 .lfw-form__foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding-top:6px}
 .lfw-form__foot>span{font:var(--type-body-sm);color:var(--text-muted)}
-.lfw-aside{display:flex;flex-direction:column;gap:24px;position:sticky;top:calc(var(--header-h) + 24px)}
+.lfw-aside{display:flex;flex-direction:column;gap:24px;position:sticky;top:calc(var(--header-cover) + 24px)}
 .lfw-aside__img{height:280px;border-radius:var(--radius-xl);overflow:hidden}
 .lfw-aside__img img{display:block;width:100%;height:100%;object-fit:cover;object-position:60% 50%}
 .lfw-contact-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
@@ -254,7 +257,7 @@
 /* Legal */
 .lfw-legal-meta{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
 .lfw-legal{display:grid;grid-template-columns:260px minmax(0,1fr);gap:64px;align-items:start}
-.lfw-toc{position:sticky;top:calc(var(--header-h) + 24px);max-height:calc(100vh - var(--header-h) - 48px);overflow:auto}
+.lfw-toc{position:sticky;top:calc(var(--header-cover) + 24px);max-height:calc(100vh - var(--header-cover) - 48px);overflow:auto}
 .lfw-toc__label{margin:0 0 12px;font:700 11px/1.2 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}
 .lfw-toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px;border-left:1px solid var(--border-default)}
 .lfw-toc a{display:flex;gap:10px;margin-left:-1px;padding:7px 12px 7px 16px;border-left:2px solid transparent;font:600 14px/1.35 var(--font-display);color:var(--text-muted);text-decoration:none;transition:color var(--dur-fast) var(--ease-current),border-color var(--dur-fast) var(--ease-current)}
@@ -270,7 +273,7 @@
 .lfw-legal__sec p{margin:0 0 0 40px;font:var(--type-body);color:var(--text-body)}
 .lfw-legal__help{margin-top:24px}
 @media (max-width:900px){.lfw-legal{grid-template-columns:1fr;gap:28px}.lfw-toc{position:relative;top:0;max-height:none;overflow:visible}.lfw-toc ol,.lfw-toc__label{display:none}.lfw-toc__mobile{display:block}.lfw-legal__sec p{margin-left:0}}
-@media print{.lfw-header,.lfw-footer,.lfw-toc,.lfw-legal-meta .lf-btn,.lf-toast{display:none!important}.lfw-legal{display:block}.lfw-page{animation:none}}
+@media print{.lfw-header,.lfw-footer,.lfw-toc,.lfw-legal-meta .lf-btn,.lf-toast{display:none!important}.lfw-legal{display:block}}
 
 /* Search + 404 */
 .lfw-search{padding:56px 0 32px}
@@ -352,10 +355,14 @@ a.lf-card{color:inherit;text-decoration:none}
 @media (min-width:1081px){.lfw-header:not([data-collapsed]) .lfw-mobile{display:none!important}}
 @media (max-width:1080px){html:not(.js) .lfw-mobile[hidden]{display:flex!important}html:not(.js) .lfw-menu{display:none!important}}
 /* Without JavaScript that panel is always open, so the header scrolls with the page instead of pinning it */
-@media (max-width:1080px){html:not(.js) .lfw-header{position:relative}}
+@media (max-width:1080px){html:not(.js) .lfw-header{position:relative}html:not(.js){--header-cover:0px}}
 /* Collapsed navigation leaves the primary action to the page and keeps the full brand and search visible. */
 @media (max-width:1080px){.lfw-header__cta{display:none!important}}
 @media (max-width:600px){.lfw-header__in{gap:8px}.lfw-tools{gap:4px}.lfw-menu{width:44px;height:44px}}
+/* Short screens (a landscape phone, 400% zoom): a pinned 76px bar would cover a fifth to a third of the view, so the header scrolls away with the page, and the enquiry aside, taller than the view, stops sticking */
+@media (max-height:480px){.lfw-header{position:relative}:root{--header-cover:0px}.lfw-aside{position:static}}
+/* While the header is pinned, a long menu scrolls inside its panel instead of running off the bottom of the screen */
+@media (min-height:481px){.js .lfw-mobile{max-height:calc(100vh - var(--header-h));max-height:calc(100dvh - var(--header-h));overflow-y:auto;overscroll-behavior:contain}}
 
 /* Photos: uploaded (EmDash Image) or bundled */
 .lfw-about__media,.lfw-panel__media,.lfw-product__media,.lfw-aside__img{position:relative}
@@ -371,9 +378,11 @@ a.lf-card{color:inherit;text-decoration:none}
 @media (max-width:760px){.js .lfw-service-select{display:block}.js .lfw-service-tabs{display:none}}
 html:not(.js) [data-tabs] [role="tablist"]{display:none}
 .js [data-tabs] [role="tabpanel"]:not(.is-active){display:none}
+/* A panel enters when a visitor switches to it (tabs.ts sets data-switched), not on page load, so the first panel paints with the page */
+[data-tabs][data-switched] [role="tabpanel"].is-active{animation:lfw-enter var(--dur-slow) var(--ease-current) both}
 html:not(.js) [data-tabs] .lfw-panel+.lfw-panel{margin-top:48px;border-top:1px solid var(--border-default)}
 html:not(.js) [data-tabs] .lfw-specs+.lfw-specs{margin-top:32px}
-[data-tabs] [role="tabpanel"]{scroll-margin-top:calc(var(--header-h) + 72px)}
+[data-tabs] [role="tabpanel"]{scroll-margin-top:calc(var(--header-cover) + 72px)}
 [data-tabs] [role="tabpanel"]:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus);border-radius:var(--radius-lg)}
 .lfw-specs__group{grid-column:1/-1;margin:8px 0 0;font:var(--type-h4);color:var(--text-strong)}
 .js .lfw-specs__group{display:none}
@@ -390,7 +399,7 @@ html:not(.js) [data-tabs] .lfw-specs+.lfw-specs{margin-top:32px}
 /* Legal layout: Portable Text body, numbered h2 sections */
 .lfw-legal__col{display:flex;flex-direction:column;min-width:0;max-width:720px}
 .lfw-legal__body{counter-reset:legal}
-.lfw-legal__body h2{display:flex;gap:12px;margin:0;padding:26px 0 10px;border-top:1px solid var(--border-subtle);font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong);counter-increment:legal;scroll-margin-top:calc(var(--header-h) + 24px)}
+.lfw-legal__body h2{display:flex;gap:12px;margin:0;padding:26px 0 10px;border-top:1px solid var(--border-subtle);font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong);counter-increment:legal;scroll-margin-top:calc(var(--header-cover) + 24px)}
 .lfw-legal__body h2::before{content:counter(legal) ".";flex:none;min-width:28px;color:var(--current-teal)}
 .lfw-legal__body h2:first-of-type{padding-top:0;border-top:0}
 .lfw-legal__body p,.lfw-legal__body ul,.lfw-legal__body ol{margin:0 0 12px 40px;font:var(--type-body);color:var(--text-body)}
@@ -510,8 +519,8 @@ a.lf-tag:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus
 .lfw-prose{min-width:0;max-width:720px;font:var(--type-body);color:var(--text-body)}
 .lfw-prose>*{margin:0}
 .lfw-prose>*+*{margin-top:18px}
-.lfw-prose h2{margin-top:56px;font:var(--type-h3);letter-spacing:var(--ls-heading);color:var(--text-strong);text-wrap:balance;scroll-margin-top:calc(var(--header-h) + 24px)}
-.lfw-prose h3{margin-top:36px;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong);scroll-margin-top:calc(var(--header-h) + 24px)}
+.lfw-prose h2{margin-top:56px;font:var(--type-h3);letter-spacing:var(--ls-heading);color:var(--text-strong);text-wrap:balance;scroll-margin-top:calc(var(--header-cover) + 24px)}
+.lfw-prose h3{margin-top:36px;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong);scroll-margin-top:calc(var(--header-cover) + 24px)}
 .lfw-prose>h2:first-child,.lfw-prose>h3:first-child{margin-top:0}
 .lfw-prose p{text-wrap:pretty}
 .lfw-prose strong{font-weight:600;color:var(--text-strong)}

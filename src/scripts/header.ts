@@ -5,16 +5,24 @@ const inner = header?.querySelector<HTMLElement>(".lfw-header__in");
 const toggle = header?.querySelector<HTMLButtonElement>("[data-menu-toggle]");
 const panel = header?.querySelector<HTMLElement>("[data-mobile-nav]");
 const groups = [...(header?.querySelectorAll<HTMLElement>("[data-navgroup]") ?? [])];
+const page = document.querySelector<HTMLElement>("main");
 
 if (header && inner) {
 	const isOpen = () => toggle?.getAttribute("aria-expanded") === "true";
 	const syncScrolled = () => header.classList.toggle("is-scrolled", window.scrollY > 8 || isOpen());
 	const setOpen = (open: boolean) => {
 		if (!toggle || !panel) return;
+		// Closing the panel while the header is pinned would pull the page up under the visitor by the panel's height.
+		// Chrome's scroll anchoring holds the page still; Safari has none, so measure the page and scroll it back.
+		const before = !open && isOpen() ? page?.getBoundingClientRect().top : undefined;
 		toggle.setAttribute("aria-expanded", String(open));
 		toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
 		panel.hidden = !open;
 		syncScrolled();
+		if (page && before !== undefined) {
+			const moved = page.getBoundingClientRect().top - before;
+			if (Math.abs(moved) > 1) window.scrollBy({ top: moved, behavior: "instant" });
+		}
 	};
 	const menuShown = () => !!toggle && getComputedStyle(toggle).display !== "none";
 
@@ -40,8 +48,39 @@ if (header && inner) {
 			if (!group.contains(event.relatedTarget as Node | null)) setGroup(group, false);
 		});
 	}
+	// A press outside an open menu closes it. The mobile panel's press goes no further: closing the panel can move the
+	// page under the pointer, so the click that ends the same press is dropped rather than landing on whatever slid
+	// into its place.
+	let dropClick = false;
 	document.addEventListener("pointerdown", (event) => {
-		for (const group of groups) if (groupOpen(group) && !group.contains(event.target as Node)) setGroup(group, false);
+		const target = event.target as Node;
+		for (const group of groups) if (groupOpen(group) && !group.contains(target)) setGroup(group, false);
+		dropClick = isOpen() && menuShown() && !header.contains(target);
+		if (dropClick) setOpen(false);
+	});
+	// A press that turns into a scroll ends without a click.
+	document.addEventListener("pointercancel", () => {
+		dropClick = false;
+	});
+	document.addEventListener(
+		"click",
+		(event) => {
+			// A click from the keyboard (detail 0) never ends a press.
+			if (!dropClick || event.detail === 0) return;
+			dropClick = false;
+			event.preventDefault();
+			event.stopPropagation();
+		},
+		true,
+	);
+	// Focus leaving the header closes the menu too, so the open panel never covers the control that has focus.
+	header.addEventListener("focusout", (event) => {
+		const next = event.relatedTarget;
+		if (isOpen() && menuShown() && next instanceof Node && !header.contains(next)) setOpen(false);
+	});
+	// So does the search dialog opening over the page (its icon, or Ctrl/Cmd+K from anywhere), before any press in it.
+	document.getElementById("lfw-ai-search")?.addEventListener("open", () => {
+		if (isOpen()) setOpen(false);
 	});
 
 	toggle?.addEventListener("click", () => setOpen(!isOpen()));

@@ -21,7 +21,9 @@ if (toc) {
 	const jump = (id: string) => {
 		const target = document.getElementById(id);
 		if (!target) return;
-		const offset = (document.querySelector<HTMLElement>("[data-header]")?.offsetHeight ?? 0) + 24;
+		// The header covers the top of the view only while it is pinned (not on short screens).
+		const header = document.querySelector<HTMLElement>("[data-header]");
+		const offset = (header && getComputedStyle(header).position === "sticky" ? header.offsetHeight : 0) + 24;
 		window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: reduced() ? "auto" : "smooth" });
 		// Move the reading position as well as the viewport. The heading stays out
 		// of the normal tab order; the next Tab continues from its section.

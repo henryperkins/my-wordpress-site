@@ -179,7 +179,8 @@ lakefrontdigital.io is the marketing site for Lakefront Digital (Lakefront Digit
   - The legal table-of-contents links work.
 - **Keep what's already in place:**
   - a skip link
-  - visible keyboard focus
+  - visible keyboard focus, never hidden under the pinned header
+  - forced-colours (Windows high contrast) support, including the logo
   - reduced-motion handling
   - labelled form fields, with inline errors that match the server's
   - ARIA states on the menus, tabs and forms

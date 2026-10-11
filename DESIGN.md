@@ -360,7 +360,7 @@ The palette follows a water-texture progression, from Lake Navy through Deep Wat
 - **Lead** (Source Sans 3, 400, 20px, 1.55): the paragraph under a page or section headline. It's set in Ink 500 at no more than 60ch. On phones (600px and below) it steps down to 18px at 1.5, so it no longer matches the 20px titles and a line holds a few more words.
 - **Body** (400, 17px, 1.6): body and legal text, with prose capped at 720px. Card, list and feature text steps down to 16px.
   - Body paragraphs are set in the body ink: Lake Navy on light grounds and Night text (#E3EEF1) on night-water. Ink 500 grey is for leads, card text and captions, so a section's argument never reads as a caption.
-  - A heading word longer than its column, such as a domain name, breaks rather than overflowing.
+  - A word longer than its column, such as a domain name, a URL or an email address, breaks rather than overflowing. This covers headings, paragraphs, checklists, status values and wrapped button labels. Status labels keep whole words; their values give way.
 - **Body small** (400, 15px, 1.5): footer lists, spec rows and meta lines.
 - **Caption** (400, 13px, 1.4): the footer base row and post meta. Field hints and errors use it at 14px.
 - **Label** (Manrope, 600, 15px, 1.2): nav links and tabs. Field labels and table-of-contents links use it at 14px.
@@ -397,6 +397,8 @@ The page is a single 1200px column, padded clamp(20px, 4vw, 40px) at the sides. 
 
 **The header:**
 - A sticky 76px bar.
+- Anything scrolled to below the pinned bar stops clear of it: a focused control 8px under it, the enquiry form 16px, legal and article headings 24px, and a tab panel 72px. The bar's own controls carry no offset, so focusing one never scrolls the page.
+- On short screens (480px tall or less, such as a landscape phone or 400% zoom) the header scrolls with the page instead of pinning, because a pinned bar would cover a fifth to a third of the view.
 - At 1080px, or whenever its menu would overflow, the links collapse into a menu button and the coral header button leaves the bar.
 - The collapsed bar keeps the full logo, search and menu. Booking becomes an ordinary menu link; the page owns the primary action.
 - Without JavaScript the menu panel is always open, so the header scrolls with the page instead of pinning it.
@@ -493,7 +495,8 @@ Components are engineered and plainly labelled. Every control looks built rather
 - **Link:** a label with a 1.5px underline at 35% opacity that fills in on hover, plus a trailing arrow. It's used for "Learn more" on cards.
 - **Icon buttons:** 40px squares with 8px corners, transparent, with a teal wash on hover.
   - The outline version adds a Lake Mist border, as on the mobile menu button. That button is 44px square at 600px and below.
-- **Pairs on phones:** at 480px and below, a stacked primary and its partner run full width, so the two read as one decision. In the CTA band this starts at 560px, because a ghost partner that wraps under its coral button would sit indented by its own padding. At 480px and below a label too long for one line wraps inside its button, centred, and the button grows from its 44px or 52px minimum.
+- **Pairs on phones:** at 480px and below, a stacked primary and its partner run full width, so the two read as one decision. In the CTA band this starts at 560px, because a ghost partner that wraps under its coral button would sit indented by its own padding.
+- **Long labels:** a label too long for its line wraps inside its button, centred, and the button grows from its 44px or 52px minimum. This holds at any width for button pairs and the button beside a section heading. Link-style actions in route rows and cards wrap the same way, with the arrow at the end.
 - **Note under a pair:** one short line that answers the question before the click, such as "Your first consultation is free. We reply by email."
   - Body small (15px) in Ink 500, or Text inverse muted on night-water, capped at 52ch.
   - It takes its own line 12px under the buttons, inside the same group.
@@ -569,6 +572,8 @@ Components are engineered and plainly labelled. Every control looks built rather
   - The current page is Deep Water, underlined by a 2px Current Teal line 6px below the text. The search icon uses Deep Water on /search.
   - Child links indent 16px behind a 2px Lake Mist rule.
   - The consultation action is an ordinary text link. On its destination page it uses a fragment link, preserving query parameters and entered enquiry details.
+  - The panel closes on Escape, on a tap or click outside it, when focus leaves the header, and when search opens over the page. The tap that closes it does nothing else: closing moves the page under the finger, so a tap let through could land on the wrong link.
+  - Closing it while the header is pinned keeps the page where it was, and a menu taller than the screen scrolls inside its panel.
 - **Phones, at 600px and below:**
   - The bar keeps the full horizontal logo, search icon and 44px menu button, with 8px gaps.
   - Search opens the AI search modal and returns focus to its opener when closed. Without JavaScript it links to /search.
@@ -590,13 +595,14 @@ Windows high-contrast mode swaps the palette for system colours and drops box-sh
 - **Focus:** each focus ring sits over a transparent 2px outline, which becomes the visible ring. Tabs draw theirs inside.
 - **Current and selected:** the current-page bar, the tab ink, the current contents entry and the current chip switch to Highlight. A selected chip or tag fills Highlight, with HighlightText.
 - **Marks:** the radio dot and the prose bullet dashes turn CanvasText.
+- **Logo:** images keep their own colours, so each lockup switches to the artwork drawn for the system background: reversed on a dark palette, navy ink on a light one. The divider between crest and wordmark turns CanvasText.
 
 ### Eyebrows
 The system's signature wayfinding: short uppercase labels above headlines.
 - Manrope 700 at 13px, spaced 0.24em, in Deep Water (Foam Aqua on night-water).
 - A single eyebrow leads with a 28 × 2px Current Teal rule.
 - A list, such as "Chicago · Websites · Hosting · Growth", separates its items with 5px Sunset Coral dots. Editors type the list with `·`.
-- A list wraps between items into balanced lines, and no line starts or ends on a dot.
+- A list wraps between items into balanced lines, and no line starts or ends on a dot. An item longer than a whole line wraps inside itself.
 
 ### Night-water Sections
 - **`data-theme="night"` switches any section to the navy canvas:**
@@ -669,7 +675,7 @@ The signage form of a card grid (its "rows" layout), for sending visitors down t
 - **Do** keep motion on the water curve, cubic-bezier(.22,.61,.36,1):
   - 140ms for hovers;
   - 220ms for lifts and panels;
-  - 360ms for page and panel entrances with an 8px rise.
+  - 360ms for panel entrances with an 8px rise: a tab switch, an opened dropdown or tip. Pages themselves don't fade in; the first screen, with the hero as its largest paint, shows at once.
   Honour reduced motion.
 - **Do** keep every no-JavaScript path working: tabs stack, forms post, dropdowns open on hover or focus, and the legal table of contents is a plain list.
 
