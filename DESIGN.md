@@ -385,7 +385,7 @@ The page is a single 1200px column, padded clamp(20px, 4vw, 40px) at the sides. 
 
 **Splits:**
 - **Hero:** asymmetric split (left 46% copy beside 54% photo) with a 56px gap, and the "Built on" strip 48px below them. It stacks at 900px, with a 340px photo. Stacked, the strip comes straight after the buttons and the photo closes the hero.
-- **About split:** 1.1fr copy beside a 0.9fr photo, reversed when the photo leads, with a 64px gap. It stacks at 960px. Its paragraphs cap at 65ch, so the stacked copy keeps a readable measure.
+- **About split:** 1.1fr copy beside a 0.9fr photo, with a 64px gap. When the photo leads, it moves to the left, but only while the two sit side by side. It stacks at 960px with the copy and its button first, then the photo in a 4:5 frame up to 400px wide, sized for the founder's portrait. Its paragraphs cap at 65ch, so the stacked copy keeps a readable measure. An uploaded photo crops around its upper centre, where a face sits.
 - **Service tabs:** 1.05fr copy beside a 1fr photo, with a 56px gap. At 760px and below, a labelled native service selector replaces the tab strip.
 - **Consultation summary:** the explanation and action precede the photo in reading order. At 900px and below the photo follows the summary at 240px tall; the form comes before preparation material.
 - **Legal pages:** a 260px sticky table of contents beside a 720px body, with a 64px gap. They go to one column at 900px.
@@ -466,7 +466,7 @@ The system is structured and softly rounded, and the corner radius grows with th
 
 ### Named Rules
 **The Tall Panel Rule.** Photographs are tall panels that crop to fill:
-- **Heights:** the hero is clamp(420px, 44vw, 580px); about 560px; service summary 600px; tab panels 520px; night media 500px.
+- **Heights:** the hero is clamp(420px, 44vw, 580px); about 560px, or a 4:5 frame up to 400px wide when stacked; service summary 600px; tab panels 520px; night media 500px.
 - **Corners:** 28px at page scale, and 20px inside tabs and asides.
 - **Full bleed:** only on night moments under navy protection, such as the 404 page and case-study results.
 
@@ -498,7 +498,7 @@ Components are engineered and plainly labelled. Every control looks built rather
   - The outline version adds a Lake Mist border, as on the mobile menu button. That button is 44px square at 600px and below.
 - **Pairs on phones:** at 480px and below, a stacked primary and its partner run full width, so the two read as one decision. In the CTA band this starts at 560px, because a ghost partner that wraps under its coral button would sit indented by its own padding. The hero's pair also stacks full width from 901 to 1080px, where its copy column is too narrow for both large buttons side by side.
 - **Long labels:** a label too long for its line wraps inside its button, centred, and the button grows from its 44px or 52px minimum. This holds at any width for button pairs and the button beside a section heading. Link-style actions in route rows and cards wrap the same way, with the arrow at the end.
-- **Note under a pair:** one short line that answers the question before the click, such as "Your first consultation is free. We reply by email."
+- **Note under a pair:** a line or two that answers the question before the click, such as "Not sure what you need? Your first consultation is free. Either way, we reply by email."
   - Body small (15px) in Ink 500, or Text inverse muted on night-water, capped at 52ch.
   - It takes its own line 12px under the buttons, inside the same group.
   - Use it where the decision happens, such as the home hero, not under every button.

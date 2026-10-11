@@ -2020,60 +2020,10 @@
 							"primary_cta_url": "/consultation#enquiry",
 							"secondary_cta_label": "Start a project",
 							"secondary_cta_url": "/contact#enquiry",
-							"note": "Your first consultation is free. We reply by email.",
+							"note": "Not sure what you need? Your first consultation is free. Either way, we reply by email.",
 							"photo": "el-night",
 							"stack_label": "Built on",
 							"stack": "WordPress, WooCommerce, AWS, Cloudflare"
-						},
-						{
-							"_type": "lf_split",
-							"_version": 1,
-							"_key": "home-hosting",
-							"night": true,
-							"eyebrow": "Hosting and management",
-							"headline": "Your site, looked after every day",
-							"lead": "It runs on infrastructure we manage. We keep WordPress and its plugins up to date, back it up every day and monitor it around the clock.",
-							"checklist": "Hosting on AWS\nCloudflare speed and protection\nFast pages with NGINX caching\nDaily backups with Jetpack\n24/7 monitoring with New Relic\nWooCommerce online stores",
-							"primary_cta_label": "View hosting details",
-							"primary_cta_url": "/hosting",
-							"secondary_cta_label": "Move your site to us",
-							"secondary_cta_url": "/contact?service=hosting#enquiry",
-							"photo": "glass",
-							"panel_title": "yourbusiness.com",
-							"panel_badge": "Online",
-							"panel_rows": "Uptime target | 99.9%\nSSL | Let’s Encrypt\nCDN and DDoS protection | Cloudflare\nMonitoring | New Relic · 24/7",
-							"photo_first": false
-						},
-						{
-							"_type": "lf_steps",
-							"_version": 1,
-							"_key": "home-consultation",
-							"eyebrow": "Website Consultation",
-							"headline": "Know where your site stands and what to do next",
-							"cta_label": "Book a consultation",
-							"cta_url": "/consultation#enquiry",
-							"steps": [
-								{
-									"icon": "scan-search",
-									"title": "Website analysis",
-									"text": "We review how your site looks, performs and gets found today."
-								},
-								{
-									"icon": "clipboard-list",
-									"title": "Business planning",
-									"text": "We work out what the site needs to do for your business."
-								},
-								{
-									"icon": "lightbulb",
-									"title": "Recommendations for your goals",
-									"text": "Specific changes to make, matched to those goals."
-								},
-								{
-									"icon": "route",
-									"title": "Growth roadmap",
-									"text": "What to do next, and what can wait."
-								}
-							]
 						},
 						{
 							"_type": "lf_card_grid",
@@ -2103,7 +2053,7 @@
 									"title": "An app or a site on another platform",
 									"text": "We deploy it on infrastructure we manage and keep it running.",
 									"link_label": "Talk about your app",
-									"link_url": "/contact#enquiry"
+									"link_url": "/contact?service=hosting#enquiry"
 								},
 								{
 									"icon": "trending-up",
@@ -2122,8 +2072,61 @@
 							"eyebrow": "Who you’ll work with",
 							"headline": "One person, accountable for your site",
 							"body": "Lakefront Digital is run by Henry Perkins in Chicago. Henry builds and looks after every client site personally, so the person you meet in your first consultation is the person who keeps your site running.\n\nWe work with small businesses across the US: new WordPress sites and stores, WordPress sites someone else built, and apps that need a reliable home. When something needs changing, you email the person who knows your site.",
+							"primary_cta_label": "Book a consultation",
+							"primary_cta_url": "/consultation#enquiry",
 							"photo": "willis-fog",
 							"night": false
+						},
+						{
+							"_type": "lf_split",
+							"_version": 1,
+							"_key": "home-hosting",
+							"night": true,
+							"eyebrow": "Hosting and management",
+							"headline": "Your site, looked after every day",
+							"lead": "It runs on infrastructure we manage. We keep WordPress and its plugins up to date, back it up every day and monitor it around the clock.",
+							"checklist": "Hosting on AWS\nCloudflare speed and protection\nFast pages with NGINX caching\nDaily backups with Jetpack\n24/7 monitoring with New Relic\nWooCommerce online stores",
+							"primary_cta_label": "View hosting details",
+							"primary_cta_url": "/hosting",
+							"secondary_cta_label": "Move your site to us",
+							"secondary_cta_url": "/contact?service=hosting#enquiry",
+							"photo": "glass",
+							"panel_title": "yourbusiness.com",
+							"panel_badge": "Online",
+							"panel_rows": "Uptime target | 99.9%\nSSL | Let’s Encrypt\nCDN and DDoS protection | Cloudflare\nMonitoring | New Relic · 24/7",
+							"photo_first": false
+						},
+						{
+							"_type": "lf_steps",
+							"_version": 1,
+							"_key": "home-consultation",
+							"eyebrow": "Website Consultation",
+							"headline": "Know where your site stands and what to do next",
+							"lead": "Your first consultation is a free conversation about your site and your goals. Everything after that is quoted.",
+							"cta_label": "Book a consultation",
+							"cta_url": "/consultation#enquiry",
+							"steps": [
+								{
+									"icon": "scan-search",
+									"title": "Website analysis",
+									"text": "We review how your site looks, performs and gets found today."
+								},
+								{
+									"icon": "clipboard-list",
+									"title": "Business planning",
+									"text": "We work out what the site needs to do for your business."
+								},
+								{
+									"icon": "lightbulb",
+									"title": "Recommendations for your goals",
+									"text": "Specific changes to make, matched to those goals."
+								},
+								{
+									"icon": "route",
+									"title": "Growth roadmap",
+									"text": "What to do next, and what can wait."
+								}
+							]
 						},
 						{
 							"_type": "lf_cta_band",
@@ -2148,7 +2151,7 @@
 				"data": {
 					"title": "Services",
 					"template": "blocks",
-					"summary": "Discover our range of services designed to elevate your small business's online presence. Each service is tailored to deliver exceptional results.",
+					"summary": "WordPress design and e-commerce, SEO, content, analytics, social media and performance work for small businesses, plus tech consulting and hosting.",
 					"keywords": "website performance, speed, security, maintenance, social media, analytics, Google Analytics, WordPress, e-commerce, SEO, keywords, link building, local SEO, content, blog, tech consulting, digital marketing, hosting",
 					"content": [
 						{
@@ -2291,7 +2294,7 @@
 				"data": {
 					"title": "Hosting",
 					"template": "blocks",
-					"summary": "This environment is designed to empower small businesses by providing a reliable, secure, and high-performing platform to manage their online presence and e-commerce activities effectively.",
+					"summary": "Managed WordPress hosting for small businesses on AWS, with Cloudflare, NGINX caching, daily Jetpack backups and 24/7 New Relic monitoring.",
 					"keywords": "hosting, AWS, Cloudflare, CDN, DDoS, NGINX, SSL, Let's Encrypt, backups, Jetpack, New Relic, monitoring, uptime, WP Rocket, ManageWP, Zendesk, support, WooCommerce, e-commerce, PayPal, Stripe, inventory, storefront",
 					"content": [
 						{
@@ -2423,25 +2426,20 @@
 				"data": {
 					"title": "Contact",
 					"template": "blocks",
-					"summary": "Share a few details and we will follow up with next steps.",
+					"summary": "Start a project: tell us about your website and what you need, and we’ll reply by email.",
 					"keywords": "contact, start a project, quote, estimate, email, phone, WordPress, hosting, SEO",
 					"content": [
-						{
-							"_type": "lf_page_intro",
-							"_version": 1,
-							"_key": "contact-intro",
-							"eyebrow": "Start a project",
-							"headline": "Tell Us About Your Website",
-							"lead": "Share a few details and we will follow up with next steps. Only your name and email are required."
-						},
 						{
 							"_type": "lf_enquiry",
 							"_version": 1,
 							"_key": "contact-form",
 							"anchor_id": "enquiry",
 							"subject": "Project enquiry",
+							"eyebrow": "Start a project",
+							"headline": "Tell us about your website",
+							"lead": "Share a few details and we’ll reply by email. Every project is quoted once we know what it needs.",
 							"needs_label": "What do you need?",
-							"needs": "wordpress | WordPress Design | Design · E-commerce · Maintenance\nperformance | Performance | Speed · Security · Maintenance\nseo | SEO | Keywords · Links · Local\ncontent | Content | Blog · Messaging · Updates\nanalytics | Analytics | Setup · Training · Reports\nsocial | Social Media | Profiles · Sharing · Feeds\nhosting | Hosting | Optimized for WordPress\nconsulting | Tech Consulting | Expert guidance\nmarketing | Digital Marketing | Promote · Engage · Convert",
+							"needs": "wordpress | WordPress Design | Design · E-commerce · Maintenance\nperformance | Performance | Speed · Security · Maintenance\nseo | SEO | Keywords · Links · Local\ncontent | Content | Blog · Messaging · Updates\nanalytics | Analytics | Setup · Training · Reports\nsocial | Social Media | Profiles · Sharing · Feeds\nhosting | Hosting | WordPress sites and apps\nconsulting | Tech Consulting | Expert guidance\nmarketing | Digital Marketing | Promote · Engage · Convert",
 							"platform_label": "Is your current site built on WordPress?",
 							"platform_options": "Yes\nNo\nNot sure\nNo site yet",
 							"timeline_options": "As soon as possible\nIn 1–3 months\nIn 3–6 months\nJust exploring",
@@ -2456,8 +2454,8 @@
 							"aside_items": [
 								{
 									"icon": "calendar",
-									"title": "Book a Website Consultation",
-									"note": "Analysis, planning, and a growth roadmap",
+									"title": "Book a consultation",
+									"note": "Your first consultation is free",
 									"url": "/consultation"
 								},
 								{
@@ -2478,7 +2476,7 @@
 				"data": {
 					"title": "Website Consultation",
 					"template": "blocks",
-					"summary": "Website analysis, business planning, recommendations and a practical growth roadmap.",
+					"summary": "A free first consultation about your site and goals. Website analysis, business planning, recommendations and a growth roadmap are quoted after that.",
 					"keywords": "website consultation, website analysis, business plan, strategy, recommendations, growth roadmap, preparation tips",
 					"content": [
 						{
@@ -2487,7 +2485,7 @@
 							"_key": "consultation-summary",
 							"eyebrow": "",
 							"headline": "Website Consultation",
-							"intro": "We’ll review your website and business goals, then outline practical next steps.",
+							"intro": "Your first consultation is free. Everything after that is quoted.",
 							"items": [
 								{
 									"icon": "scan-search",
@@ -2519,8 +2517,8 @@
 							"anchor_id": "enquiry",
 							"subject": "Website consultation request",
 							"eyebrow": "Book a consultation",
-							"headline": "Request your Website Consultation",
-							"lead": "Share a few details and we will follow up with next steps.",
+							"headline": "Start with a free first consultation",
+							"lead": "Share a few details and we’ll reply by email to schedule it.",
 							"show_phone": true,
 							"show_website": false,
 							"notes_label": "What would you like to cover?",
@@ -2528,7 +2526,7 @@
 							"submit_label": "Request consultation",
 							"footnote": "Only your name and email are required.",
 							"success_title": "Thanks, {name}. We're on it.",
-							"success_text": "We will review your request and reply to {email} to schedule your consultation.",
+							"success_text": "We’ll reply to {email} to schedule your free first consultation.",
 							"aside": false
 						},
 						{
@@ -2536,27 +2534,27 @@
 							"_version": 1,
 							"_key": "consultation-tips",
 							"eyebrow": "Before your consultation",
-							"headline": "Preparation Tips",
+							"headline": "Preparation tips",
 							"steps": [
 								{
 									"icon": "target",
-									"title": "Identify Goals"
+									"title": "Identify goals"
 								},
 								{
 									"icon": "database",
-									"title": "Gather Data"
+									"title": "Gather data"
 								},
 								{
 									"icon": "users",
-									"title": "Know Audience"
+									"title": "Know your audience"
 								},
 								{
 									"icon": "message-square",
-									"title": "Prepare Questions"
+									"title": "Prepare questions"
 								},
 								{
 									"icon": "binoculars",
-									"title": "Review Competitors"
+									"title": "Review competitors"
 								}
 							]
 						}

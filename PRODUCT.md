@@ -50,9 +50,9 @@ lakefrontdigital.io is the marketing site for Lakefront Digital (Lakefront Digit
 
 - **Two ways to get in touch:**
   - "Book a consultation" goes to `/consultation#enquiry`. It is a desktop header button and an ordinary mobile menu link; the page owns the primary mobile action.
-  - "Start a project" goes to /contact. It is in the main menu, and the home hero and closing band pair it with "Book a consultation"; those buttons go straight to each form's `#enquiry`.
-  - Service pages link to `/contact?service=<slug>#enquiry`, which pre-ticks that need. The home hosting section's "Move your site to us" uses `?service=hosting`.
-  - Under the home hero's buttons, a note says the first consultation is free and that we reply by email.
+  - "Start a project" goes to /contact. It is in the main menu, and the home hero and closing band pair it with "Book a consultation"; those buttons go straight to each form's `#enquiry`. Each form carries its own heading, so the jump lands on it; /contact has no separate intro.
+  - Service pages link to `/contact?service=<slug>#enquiry`, which pre-ticks that need. On the home page, "Move your site to us" and the app route's "Talk about your app" use `?service=hosting`.
+  - Under the home hero's buttons, a note tells visitors who aren't sure what they need that the first consultation is free, and that either way we reply by email.
   - The footer also lists the email address and phone number.
 - **The consultation form** asks for name, work email, an optional phone number and notes.
 - **The project form** asks for:
@@ -89,7 +89,7 @@ lakefrontdigital.io is the marketing site for Lakefront Digital (Lakefront Digit
   - Tech Consulting
   - Small Business Hosting
   - Digital Marketing
-- **The Website Consultation** covers website analysis, strategic business planning, personalized recommendations and a growth roadmap.
+- **The Website Consultation** covers website analysis, strategic business planning, personalized recommendations and a growth roadmap. It starts with a free first consultation, a conversation about the client's site and goals; the rest is quoted after that.
 - **Client e-commerce** runs on WooCommerce, with PayPal and Stripe.
 - **Hosting and management.** Lakefront takes on:
   - sites it builds;
@@ -97,9 +97,8 @@ lakefrontdigital.io is the marketing site for Lakefront Digital (Lakefront Digit
   - apps and non-WordPress sites.
 - **Prices:**
   - Hosting and management plan prices may be published. The figures haven't been supplied, so ask when a page needs them.
-  - The first consultation is free.
-  - Everything else is quoted.
-  - **Open:** is the full Website Consultation (analysis, plan and roadmap) free too, or a paid follow-on?
+  - Only the first consultation is free: a conversation about the client's site and goals.
+  - Everything else is quoted, including the Website Consultation's analysis, planning, recommendations and roadmap. The owner decided this on 2026-10-11.
 - **No checkout or online payment on this site.** Commerce is out of scope for now, so enquiries are the only conversion.
 - **Content lives in EmDash, not in code.**
   - Pages are built from 11 Lakefront blocks: hero, page intro, card grid, split, steps, service tabs, spec tabs, offer, call-to-action band, service summary and enquiry form.
@@ -112,6 +111,7 @@ lakefrontdigital.io is the marketing site for Lakefront Digital (Lakefront Digit
   - Check what the site actually runs before writing any privacy or cookie claim.
 - **Terminology:**
   - "Website Consultation" is the named offer, in title case.
+  - "First consultation" is the free conversation that starts it. Say "Everything after that is quoted" where the two meet.
   - "Book a consultation" is the button.
   - "Start a project" is the project enquiry route.
 

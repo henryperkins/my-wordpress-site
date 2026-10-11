@@ -49,6 +49,8 @@ interface ImageSlot {
 const stacked = (breakpoint: number, height: number): ImageSlot => ({
 	media: `(max-width: ${breakpoint}px)`, width: CONTAINER_WIDTH, height: `${height}px`,
 });
+// Stacked, the About photo is a 4:5 portrait frame up to 400px wide.
+const ABOUT_STACKED = `min(${CONTAINER_WIDTH}, 400px)`;
 const FEATURED_COLUMN = column(0.5, 56);
 const CARD_SINGLE = `calc(${CONTAINER_WIDTH} - 2px)`;
 const CARD_DOUBLE = `calc(${column(0.5, 24)} - 2px)`;
@@ -58,7 +60,7 @@ const CARD_TRIPLE = `calc(${column(1 / 3, 48)} - 2px)`;
 // subtract their 1px borders; auto-fill changes columns at 624/948px of content.
 const LAYOUTS = {
 	hero: [stacked(900, 340), { width: column(0.54, 56), height: "clamp(420px, 44vw, 580px)" }],
-	about: [stacked(960, 320), { width: column(0.45, 64), height: "560px" }],
+	about: [{ media: "(max-width: 960px)", width: ABOUT_STACKED, height: `calc(${ABOUT_STACKED} * 1.25)` }, { width: column(0.45, 64), height: "560px" }],
 	split: [stacked(960, 420), { width: column(0.5, 64), height: "500px" }],
 	service: [stacked(900, 280), { width: column(1 / 2.05, 56), height: "520px" }],
 	product: [stacked(900, 240), { width: column(0.5, 56), height: "600px" }],
