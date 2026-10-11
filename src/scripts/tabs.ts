@@ -28,6 +28,16 @@ for (const root of document.querySelectorAll<HTMLElement>("[data-tabs]")) {
 		ink.style.width = `${tab.offsetWidth}px`;
 		ink.style.transform = `translateX(${tab.offsetLeft}px)`;
 	};
+	// A strip wider than its space scrolls sideways. Mark the clipped edges so the strip fades there (components.css).
+	const markEdges = () => {
+		const end = list.scrollWidth - list.clientWidth;
+		list.classList.toggle("is-clipped-start", end > 1 && list.scrollLeft > 1);
+		list.classList.toggle("is-clipped-end", end > 1 && list.scrollLeft < end - 1);
+	};
+	const layout = () => {
+		placeInk();
+		markEdges();
+	};
 
 	const select = (index: number, focus = false) => {
 		tabs.forEach((tab, i) => {
@@ -40,10 +50,12 @@ for (const root of document.querySelectorAll<HTMLElement>("[data-tabs]")) {
 		const tab = tabs[index]!;
 		if (selector) selector.value = panels[index]!.id;
 		if (focus) tab.focus();
-		// Keep the selected tab in view when the tab list scrolls sideways on small screens.
-		if (tab.offsetLeft < list.scrollLeft || tab.offsetLeft + tab.offsetWidth > list.scrollLeft + list.clientWidth) {
-			list.scrollTo({ left: Math.max(0, tab.offsetLeft - 16), behavior: reduced() ? "auto" : "smooth" });
-		}
+		// Keep the selected tab in view, clear of the 40px edge fades, when the strip scrolls sideways.
+		const clearance = 48;
+		const from = tab.offsetLeft - clearance;
+		const to = tab.offsetLeft + tab.offsetWidth + clearance - list.clientWidth;
+		const left = list.scrollLeft > from ? from : list.scrollLeft < to ? to : null;
+		if (left !== null) list.scrollTo({ left: Math.max(0, left), behavior: reduced() ? "auto" : "smooth" });
 	};
 	const choose = (index: number, focus = false) => {
 		select(index, focus);
@@ -70,9 +82,10 @@ for (const root of document.querySelectorAll<HTMLElement>("[data-tabs]")) {
 		});
 	});
 
-	new ResizeObserver(placeInk).observe(list);
-	document.fonts?.ready.then(placeInk);
-	placeInk();
+	list.addEventListener("scroll", markEdges, { passive: true });
+	new ResizeObserver(layout).observe(list);
+	document.fonts?.ready.then(layout);
+	layout();
 	requestAnimationFrame(() => ink?.classList.add("is-animated"));
 	sets.push({ list, root, panels: panels as HTMLElement[], select });
 }

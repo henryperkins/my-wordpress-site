@@ -73,8 +73,8 @@ const LAYOUTS = {
 		{ width: CARD_TRIPLE, height: `calc(${CARD_TRIPLE} * ${2 / 3})` },
 	],
 	article: [{ width: CONTAINER_WIDTH, height: `max(260px, calc(${CONTAINER_WIDTH} * ${9 / 21}))` }],
-	// The band has a 380px minimum; longer CMS copy may make its crop taller.
-	band: [{ width: CONTAINER_WIDTH, height: "380px" }],
+	// The band has a 380px minimum; longer CMS copy may make its crop taller. On phones its photo is a strip above the copy.
+	band: [{ media: "(max-width: 700px)", width: CONTAINER_WIDTH, height: "clamp(170px, 50vw, 260px)" }, { width: CONTAINER_WIDTH, height: "380px" }],
 	container: [{ width: CONTAINER_WIDTH }],
 	viewport: [{ width: "100vw" }],
 } satisfies Record<string, ImageSlot[]>;

@@ -412,9 +412,11 @@ The page is a single 1200px column, padded clamp(20px, 4vw, 40px) at the sides. 
 
 Depth comes from tone, not shadow. Surfaces separate as a Foam White canvas, White cards and Teal 50 wells, each edged with a 1px Lake Mist border. Shadows appear in two cases: when something floats above the page (the header dropdown, tooltips, the status card on its photo), or when something responds to touch (a hovered interactive card). Every shadow is tinted Lake Navy.
 
-Photographs that carry text sit under navy protection:
-- a left-to-right gradient, from 94% navy to clear by 78% of the width;
-- on phones, a flat 72% navy scrim instead.
+Photographs that carry text sit under navy protection, measured from the copy rather than the photo, so a narrower screen never thins the navy under the text:
+- a left-to-right gradient from 94% navy at the left edge:
+  - On the CTA band it reaches 78% at the end of the copy column and clears by 874px, 78% of the band's widest width.
+  - On the 404 it reaches 85% at the end of the copy, where its small Foam Aqua links can reach, and clears 300px later.
+- on phones, a flat 88% navy scrim, the strength a 13px Foam Aqua eyebrow needs over a bright photo. The CTA band avoids the scrim on phones by moving its photo above the copy.
 
 ### Shadow Vocabulary
 - **xs** (`box-shadow: 0 1px 2px rgba(8,42,58,.06)`): a hairline lift. It's rare.
@@ -490,6 +492,10 @@ Components are engineered and plainly labelled. Every control looks built rather
 - **Icon buttons:** 40px squares with 8px corners, transparent, with a teal wash on hover.
   - The outline version adds a Lake Mist border, as on the mobile menu button. That button is 44px square at 600px and below.
 - **Pairs on phones:** at 480px and below, a stacked primary and its partner run full width, so the two read as one decision.
+- **Touch targets:** on touch screens, and at 1080px and below, the header and footer controls answer a 44px target, and so do these:
+  - Controls that stay small by design keep their look and grow only their hit area: spec tips, search suggestions and breadcrumb links.
+  - Segmented tabs, the Print button and the 404's quick links grow to 44px tall.
+  - Links inside running text are exempt.
 - **Unused variant:** a Deep Water brand button exists in the kit but not on the site.
 
 ### Chips
@@ -537,6 +543,7 @@ Components are engineered and plainly labelled. Every control looks built rather
 - **Choices:**
   - Checkboxes are 20px with 5px corners; radios are round. Both have a 1.5px Ink 400 border and fill Deep Water when checked.
   - Choice cards are bordered 14px tiles. When checked they gain a Deep Water ring and a Teal 50 fill.
+  - Choice grids take as many columns as fit, up to three, or four for short options such as the platform choice. A card never narrows below 168px (120px for short options), so the longest word in a label fits beside its box; on phones the needs list runs as a single column.
   - Switches are 40 × 24px pill tracks.
 
 ### Navigation
@@ -563,6 +570,7 @@ Components are engineered and plainly labelled. Every control looks built rather
 - **Tabs:**
   - Underline tabs: Manrope 600 at 15px and 48px tall, turning from Ink 500 to Lake Navy when selected, over a 2px Current Teal ink bar that slides in 360ms.
   - Segmented tabs sit in a Teal 50 tray with 10px corners, with a White thumb carrying the sm shadow.
+  - A strip that doesn't fit scrolls sideways by swipe, trackpad or arrow keys. Its clipped edge fades over 40px, and selecting a tab scrolls it into view, clear of the fade.
   - Service tabs become a labelled, full-width native select at 760px and below. Every service remains discoverable; the selected option, panel and URL anchor stay synchronized when resizing or following deep links.
   - Without JavaScript, the panels simply stack.
 - **Footer:** always night-water.
@@ -602,8 +610,9 @@ The system's signature wayfinding: short uppercase labels above headlines.
 - **Photo panels** follow the Tall Panel Rule, with a Teal 50 placeholder while they load. Each photo loads at the width it renders, resized at the edge and sent as AVIF or WebP.
 - **The CTA band:**
   - A 28px-cornered navy band at least 380px tall.
-  - Its photograph sits under the left-hand navy protection, which switches to a full scrim on phones.
-  - The copy is capped at 520px, with 56px padding (32px on phones), and ends in a large coral button.
+  - Its photograph sits under the left-hand navy protection, which follows the copy column.
+  - The copy is capped at 520px, with 56px padding, and ends in a large coral button.
+  - On phones (700px and below) the photograph becomes a strip across the top, clamp(170px, 50vw, 260px) tall, that fades into the navy. The copy follows on solid navy with 24px sides.
 
 ### Numbered Steps
 - Steps are numbered 01 to 05 in Manrope 800 at 13px, spaced 0.16em, in the eyebrow colour: Deep Water, or Foam Aqua on night-water.

@@ -141,7 +141,7 @@
   --scrim:rgba(5,32,44,.56);
   --protect-left:linear-gradient(90deg,rgba(8,42,58,.94) 0%,rgba(8,42,58,.78) 38%,rgba(8,42,58,0) 78%);
   --protect-bottom:linear-gradient(0deg,rgba(8,42,58,.92) 0%,rgba(8,42,58,.55) 45%,rgba(8,42,58,0) 80%);
-  --protect-full:rgba(8,42,58,.72);
+  --protect-full:rgba(8,42,58,.88);      /* 13px Foam Aqua eyebrows need about 88% navy over a bright photo */
 }
 
 /* Night-water mode — navy canvas, off-white type, aqua diagrams, coral controls.

@@ -67,10 +67,14 @@ search-modal-snippet {
 /* Increase the hit area without changing the icon or type size. Fine-pointer
    desktop navigation keeps the design system's compact spacing. */
 @media (max-width: 1080px), (any-pointer: coarse) {
+  :root {
+    --hit: calc(var(--space-10) + var(--space-1));
+  }
+
   .lfw-tools .lf-iconbtn,
   .lfw-menu {
-    width: calc(var(--space-10) + var(--space-1));
-    height: calc(var(--space-10) + var(--space-1));
+    width: var(--hit);
+    height: var(--hit);
   }
 
   .lfw-footer ul {
@@ -81,8 +85,54 @@ search-modal-snippet {
   .lfw-footer__base a {
     display: inline-flex;
     align-items: center;
-    min-width: calc(var(--space-10) + var(--space-1));
-    min-height: calc(var(--space-10) + var(--space-1));
+    min-width: var(--hit);
+    min-height: var(--hit);
     max-width: 100%;
+  }
+
+  /* Controls that keep their designed size, focus ring and open state, and
+     answer a larger invisible target: the 32px tip button and chips, and
+     breadcrumb links. */
+  .lfw-tip > summary,
+  .lfw-suggest a.lf-tag,
+  .lfw-crumbs a {
+    position: relative;
+  }
+
+  .lfw-tip > summary::after,
+  .lfw-suggest a.lf-tag::after,
+  .lfw-crumbs a::after {
+    content: "";
+    position: absolute;
+  }
+
+  /* 32px grows to 44px. */
+  .lfw-tip > summary::after {
+    inset: calc((var(--hit) - var(--space-8)) / -2);
+  }
+
+  /* The target is measured from inside the chip's 1px border, so add it back. */
+  .lfw-suggest a.lf-tag::after {
+    inset: calc((var(--hit) - var(--space-8)) / -2 - 1px) calc(var(--space-1) * -1 - 1px);
+  }
+
+  .lfw-crumbs a::after {
+    inset: calc(var(--space-3) * -1) calc(var(--space-1) * -1);
+  }
+
+  /* Suggestion rows sit 12px apart, so neighbouring chips' 44px targets
+     meet without overlapping. */
+  .lfw-suggest {
+    row-gap: var(--space-3);
+  }
+
+  /* Controls that take the full touch size. */
+  .lf-tabs--segmented .lf-tab,
+  .lfw-legal-meta .lf-btn--sm {
+    height: var(--hit);
+  }
+
+  .lfw-404__links .lf-btn--link {
+    min-height: var(--hit);
   }
 }

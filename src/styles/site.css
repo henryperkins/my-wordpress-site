@@ -140,11 +140,15 @@
 .lfw-offer .lfw-card-benefit{border-top:0;padding-top:4px}
 
 /* CTA band */
-.lfw-band{position:relative;display:flex;align-items:center;min-height:380px;border-radius:var(--radius-2xl);overflow:hidden;background:var(--lake-navy)}
+.lfw-band{--copy-w:520px;--copy-pad:56px;position:relative;display:flex;align-items:center;min-height:380px;border-radius:var(--radius-2xl);overflow:hidden;background:var(--lake-navy)}
 .lfw-band>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 50%}
-.lfw-band__shade{position:absolute;inset:0;background:var(--protect-left)}
-.lfw-band__copy{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:18px;max-width:520px;padding:56px}
-@media (max-width:700px){.lfw-band__copy{padding:32px}.lfw-band__shade{background:var(--protect-full)}}
+/* Photo protection is measured from the copy, not the photo, so a narrower screen never thins the navy under the text: 94% navy at the left edge, --protect-hold at the end of the copy, clear --protect-fade later */
+.lfw-band__shade,.lfw-404__shade{position:absolute;inset:0;background:linear-gradient(90deg,color-mix(in srgb,var(--lake-navy) 94%,transparent) 0,color-mix(in srgb,var(--lake-navy) var(--protect-hold),transparent) var(--copy-end),transparent calc(var(--copy-end) + var(--protect-fade)))}
+/* The band's text ends at 464px; clearing 410px later keeps the desktop photo open from 874px, 78% of the widest band */
+.lfw-band__shade{--copy-end:calc(var(--copy-w) - var(--copy-pad));--protect-hold:78%;--protect-fade:410px}
+.lfw-band__copy{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:18px;max-width:var(--copy-w);padding:var(--copy-pad)}
+/* Phones: the photo becomes a strip across the top that fades into the navy, and the copy sits below it on solid navy */
+@media (max-width:700px){.lfw-band{--band-photo-h:clamp(170px,50vw,260px);flex-direction:column;align-items:stretch;min-height:0}.lfw-band>img{position:relative;inset:auto;height:var(--band-photo-h)}.lfw-band__shade{inset:0 0 auto;height:var(--band-photo-h);background:linear-gradient(0deg,var(--lake-navy),transparent 55%)}.lfw-band__copy{max-width:none;padding:4px 24px 32px}.lfw-band__copy>.lfw-p{max-width:60ch}}
 
 /* Page intro */
 .lfw-intro{padding:72px 0 56px}
@@ -184,11 +188,11 @@
 @media (max-width:600px){.lfw-form__row{grid-template-columns:1fr}}
 .lfw-fieldset{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;border:0;min-width:0}
 .lfw-fieldset legend{padding:0;margin-bottom:10px;font:var(--type-label);font-size:14px;color:var(--text-strong)}
-.lfw-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.lfw-choices--2{grid-template-columns:repeat(2,minmax(0,1fr))}
-.lfw-choices--4{grid-template-columns:repeat(4,minmax(0,1fr))}
+/* Choice cards take as many columns as fit, up to --choice-cols, and are never narrower than --choice-min, so the longest word in a label ("Performance") still fits beside its box */
+.lfw-choices{--choice-cols:3;--choice-min:168px;--choice-gap:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(max(min(100%,var(--choice-min)),calc((100% - (var(--choice-cols) - 1) * var(--choice-gap)) / var(--choice-cols))),1fr));gap:var(--choice-gap)}
+.lfw-choices--2{--choice-cols:2;--choice-min:120px}
+.lfw-choices--4{--choice-cols:4;--choice-min:120px}
 .lfw-inline{display:flex;flex-wrap:wrap;gap:12px 24px}
-@media (max-width:700px){.lfw-choices,.lfw-choices--4{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .lfw-form__foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding-top:6px}
 .lfw-form__foot>span{font:var(--type-body-sm);color:var(--text-muted)}
 .lfw-aside{display:flex;flex-direction:column;gap:24px;position:sticky;top:calc(var(--header-h) + 24px)}
@@ -263,11 +267,12 @@
 .lfw-browse__row{display:flex;align-items:center;gap:14px}
 .lfw-browse__row b{display:block;font:var(--type-h5);color:var(--text-strong)}
 .lfw-browse__row>div>span{display:block;font:var(--type-body-sm);font-size:14px;color:var(--text-muted)}
-.lfw-404{position:relative;display:flex;align-items:center;min-height:calc(100vh - var(--header-h));overflow:hidden}
+.lfw-404{--copy-w:620px;position:relative;display:flex;align-items:center;min-height:calc(100vh - var(--header-h));overflow:hidden}
 .lfw-404>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 50%}
-.lfw-404__shade{position:absolute;inset:0;background:var(--protect-left)}
+/* The copy column sits wherever the container places it. 85% holds to its end, where the 14px Foam Aqua quick links can reach */
+.lfw-404__shade{--copy-end:calc(max(0px,(100% - var(--container-max)) / 2) + var(--container-pad) + var(--copy-w));--protect-hold:85%;--protect-fade:300px}
 .lfw-404__in{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:22px;padding-top:88px;padding-bottom:88px}
-.lfw-404__in>*{max-width:620px}
+.lfw-404__in>*{max-width:var(--copy-w)}
 .lfw-404 .lfw-search__form{max-width:560px}
 .lfw-404__links{display:flex;align-items:center;flex-wrap:wrap;gap:8px 20px;font:var(--type-body-sm);color:var(--text-muted)}
 .lfw-404 code{padding:1px 6px;border-radius:4px;background:rgba(193,220,228,.12);color:var(--foam-white);font-size:.85em}

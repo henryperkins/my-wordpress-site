@@ -50,7 +50,9 @@ if (toc) {
 		);
 		for (const target of targets) observer.observe(target);
 	}
-	const fromHash = decodeURIComponent(location.hash.slice(1));
+	// A malformed fragment (bad percent-encoding) starts at the first section instead of stopping the script.
+	let fromHash = "";
+	try { fromHash = decodeURIComponent(location.hash.slice(1)); } catch {}
 	setActive(targets.some((target) => target.id === fromHash) ? fromHash : (targets[0]?.id ?? ""));
 }
 
