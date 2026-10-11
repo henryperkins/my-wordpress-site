@@ -61,7 +61,7 @@ const CARD_TRIPLE = `calc(${column(1 / 3, 48)} - 2px)`;
 const LAYOUTS = {
 	hero: [stacked(900, 340), { width: column(0.54, 56), height: "clamp(420px, 44vw, 580px)" }],
 	about: [{ media: "(max-width: 960px)", width: ABOUT_STACKED, height: `calc(${ABOUT_STACKED} * 1.25)` }, { width: column(0.45, 64), height: "560px" }],
-	split: [stacked(960, 420), { width: column(0.5, 64), height: "500px" }],
+	split: [{ media: "(max-width: 600px)", width: CONTAINER_WIDTH, height: "200px" }, stacked(960, 260), { width: column(0.5, 64), height: "500px" }],
 	service: [stacked(900, 280), { width: column(1 / 2.05, 56), height: "520px" }],
 	product: [stacked(900, 240), { width: column(0.5, 56), height: "600px" }],
 	aside: [stacked(960, 280), { width: column(1 / 2.4, 48), height: "280px" }],

@@ -466,7 +466,7 @@ The system is structured and softly rounded, and the corner radius grows with th
 
 ### Named Rules
 **The Tall Panel Rule.** Photographs are tall panels that crop to fill:
-- **Heights:** the hero is clamp(420px, 44vw, 580px); about 560px, or a 4:5 frame up to 400px wide when stacked; service summary 600px; tab panels 520px; night media 500px.
+- **Heights:** the hero is clamp(420px, 44vw, 580px); about 560px, or a 4:5 frame up to 400px wide when stacked; service summary 600px; tab panels 520px; night media 500px, or a 260px strip when stacked (200px on phones).
 - **Corners:** 28px at page scale, and 20px inside tabs and asides.
 - **Full bleed:** only on night moments under navy protection, such as the 404 page and case-study results.
 
@@ -615,8 +615,9 @@ The system's signature wayfinding: short uppercase labels above headlines.
 - **The hosting band** adds the crest as a watermark at 6% opacity.
 - **The status card** floats on its photograph with the xl shadow. It has:
   - a head row with a title and a success badge with a status dot;
-  - label-and-value rows split by translucent rules.
-  - On phones it sits 12px in from the photo's edges with 16px padding, and its labels wrap before its values do.
+  - label-and-value rows split by translucent rules. On the home page they read as a care log: the label says when (every day, around the clock), the value says what happens.
+  - Side by side, it sits 28px in from the photo's edges. Stacked (960px and below), the photo becomes a 260px strip and the card overlaps its lower edge by 96px, then carries on over the navy, so a long card never hides the water.
+  - On phones the strip is 200px, the overlap 64px and the card 12px in from each side, with 16px padding. Each row's label sits above its value.
 - **Stat figures** are Sunset Coral Manrope 800, at clamp(40px, 4vw, 56px), over muted labels.
 
 ### Photo Panels and CTA Band

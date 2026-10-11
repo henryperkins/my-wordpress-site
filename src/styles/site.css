@@ -442,11 +442,13 @@ html:not(.js) [data-tabs] .lfw-specs+.lfw-specs{margin-top:32px}
 /* Split block: copy-first light layout, photo-first night layout, status card */
 .lfw-about:not(.lfw-about--flip){grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)}
 @media (min-width:961px){.lfw-split--flip>.lfw-night__media{order:-1}}
-@media (max-width:960px){.lfw-about:not(.lfw-about--flip){grid-template-columns:1fr}.lfw-night__media{height:420px}}
+@media (max-width:960px){.lfw-about:not(.lfw-about--flip){grid-template-columns:1fr}}
+/* Stacked, the photo becomes a strip and the status card overlaps its lower edge, then carries on over the navy, so a long card never hides the water */
+@media (max-width:960px){.lfw-night__media{height:auto;overflow:visible;border-radius:0}.lfw-night__media>img{height:260px;border-radius:var(--radius-2xl)}.lfw-night__panel{position:relative;left:auto;right:auto;bottom:auto;margin:-96px 28px 0}}
 .lfw-statuscard{box-shadow:var(--shadow-xl)}
 .lfw-statuscard dl{margin:0}
-/* Phones: the card takes more of the photo's width, and labels wrap before values do, so nothing is cut off at 360px and below */
-@media (max-width:600px){.lfw-night__panel{left:12px;right:12px;bottom:12px}.lfw-statuscard .lf-card__body{padding:16px}.lfw-panelhead{flex-wrap:wrap;row-gap:8px}.lfw-spec dt{flex:0 1 auto;min-width:0}.lfw-spec dd{flex:none;max-width:65%}}
+/* Phones: a shorter strip, a nearly full-width card, and each row's label above its value, read like a log entry */
+@media (max-width:600px){.lfw-night__media>img{height:200px}.lfw-night__panel{margin:-64px 12px 0}.lfw-statuscard .lf-card__body{padding:16px}.lfw-panelhead{flex-wrap:wrap;row-gap:8px}.lfw-statuscard .lfw-spec{flex-direction:column;align-items:flex-start;gap:2px}.lfw-statuscard .lfw-spec dd{text-align:left}}
 .lfw-tile--card{background:var(--surface-card)}
 
 /* Steps and stats adapt to how many items an editor adds */
