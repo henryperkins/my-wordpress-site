@@ -136,3 +136,32 @@ search-modal-snippet {
     min-height: var(--hit);
   }
 }
+
+/* Phones: a long editor-supplied button label wraps inside its button instead of pushing the page sideways. */
+@media (max-width: 480px) {
+  .lfw-hero__ctas .lf-btn {
+    height: auto;
+    min-height: calc(var(--space-10) + var(--space-1));
+    padding-block: var(--space-3);
+    line-height: 1.25;
+    white-space: normal;
+    text-wrap: balance;
+  }
+
+  .lfw-hero__ctas .lf-btn--lg {
+    min-height: calc(var(--space-12) + var(--space-1));
+  }
+
+  .lfw-hero__ctas .lf-btn__label {
+    text-align: center;
+  }
+}
+
+/* A heading word longer than its column (a domain name, a long compound) breaks instead of overflowing.
+   `anywhere`, not `break-word`, because the copy columns are flex items sized to their content. */
+h1,
+h2,
+h3,
+h4 {
+  overflow-wrap: anywhere;
+}

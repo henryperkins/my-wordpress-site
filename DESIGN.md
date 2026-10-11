@@ -357,8 +357,10 @@ The palette follows a water-texture progression, from Lake Navy through Deep Wat
 - **H3** (700, 26px, 1.2): the offer headline, and h2 inside article prose.
 - **H4** (700, 20px, 1.3, -0.01em): card titles, step titles, legal section headings and search-result titles.
 - **H5** (700, 17px, 1.35): feature names, the status-card head and fact values.
-- **Lead** (Source Sans 3, 400, 20px, 1.55): the paragraph under a page or section headline. It's set in Ink 500 at no more than 60ch.
+- **Lead** (Source Sans 3, 400, 20px, 1.55): the paragraph under a page or section headline. It's set in Ink 500 at no more than 60ch. On phones (600px and below) it steps down to 18px at 1.5, so it no longer matches the 20px titles and a line holds a few more words.
 - **Body** (400, 17px, 1.6): body and legal text, with prose capped at 720px. Card, list and feature text steps down to 16px.
+  - Body paragraphs are set in the body ink: Lake Navy on light grounds and Night text (#E3EEF1) on night-water. Ink 500 grey is for leads, card text and captions, so a section's argument never reads as a caption.
+  - A heading word longer than its column, such as a domain name, breaks rather than overflowing.
 - **Body small** (400, 15px, 1.5): footer lists, spec rows and meta lines.
 - **Caption** (400, 13px, 1.4): the footer base row and post meta. Field hints and errors use it at 14px.
 - **Label** (Manrope, 600, 15px, 1.2): nav links and tabs. Field labels and table-of-contents links use it at 14px.
@@ -491,7 +493,7 @@ Components are engineered and plainly labelled. Every control looks built rather
 - **Link:** a label with a 1.5px underline at 35% opacity that fills in on hover, plus a trailing arrow. It's used for "Learn more" on cards.
 - **Icon buttons:** 40px squares with 8px corners, transparent, with a teal wash on hover.
   - The outline version adds a Lake Mist border, as on the mobile menu button. That button is 44px square at 600px and below.
-- **Pairs on phones:** at 480px and below, a stacked primary and its partner run full width, so the two read as one decision. In the CTA band this starts at 560px, because a ghost partner that wraps under its coral button would sit indented by its own padding.
+- **Pairs on phones:** at 480px and below, a stacked primary and its partner run full width, so the two read as one decision. In the CTA band this starts at 560px, because a ghost partner that wraps under its coral button would sit indented by its own padding. At 480px and below a label too long for one line wraps inside its button, centred, and the button grows from its 44px or 52px minimum.
 - **Note under a pair:** one short line that answers the question before the click, such as "Your first consultation is free. We reply by email."
   - Body small (15px) in Ink 500, or Text inverse muted on night-water, capped at 52ch.
   - It takes its own line 12px under the buttons, inside the same group.
@@ -622,6 +624,15 @@ The system's signature wayfinding: short uppercase labels above headlines.
 - Steps are numbered 01 to 05 in Manrope 800 at 13px, spaced 0.16em, in the eyebrow colour: Deep Water, or Foam Aqua on night-water.
 - Each sits under a 2px Lake Mist rule, above an icon tile and an H4 title. On phones the number stays under the rule and the tile sits beside the title.
 - Four steps make a grid of deliverables; five make a row of preparation tips.
+- Each step can carry one plain sentence under its title, in card text (16px Ink 500). Keep it to one sentence, so the grid still scans as four parts.
+
+### Route Rows
+The signage form of a card grid (its "rows" layout), for sending visitors down the route that fits their situation, such as the home page's "Where are you starting from?".
+- **Anatomy, left to right:** a 48px icon tile, an H4 title naming the situation, one or two sentences of card text, and a link-style action naming where it goes, with a trailing arrow.
+- **Rules, not boxes:** each row sits under a 2px Lake Mist rule, and the list closes with one. The rows share one set of columns (CSS subgrid), so titles, text and actions line up down the list. Actions align right.
+- **The whole row is the target:** the action stretches over its row, so a tap anywhere follows it, while its accessible name stays the short destination ("Move your site to us"). On hover the title turns Deep Water and the arrow slides 3px; keyboard focus rings the whole row.
+- **At 960px and below** the tile sits beside the title, with the text and action under the title. **At 600px and below** the text and action run full width.
+- Use rows when each item is a different route the visitor chooses between; use cards for a set of comparable things.
 
 ### Legal Pages
 - **Table of contents:** 260px and sticky, with each entry numbered. The current entry is Deep Water, with a 2px Current Teal bar on its left.

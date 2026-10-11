@@ -181,7 +181,7 @@
 		{
 			"slug": "lf_card_grid",
 			"label": "Card grid",
-			"description": "Section heading and a grid of icon cards",
+			"description": "Section heading and a grid of icon cards, or rows that read like signage",
 			"category": "Lakefront",
 			"currentVersion": 1,
 			"versions": [
@@ -210,6 +210,18 @@
 							"slug": "lead",
 							"label": "Lead",
 							"type": "text"
+						},
+						{
+							"slug": "layout",
+							"label": "Layout (rows show the icon, title, text and link)",
+							"type": "select",
+							"defaultValue": "cards",
+							"validation": {
+								"options": [
+									"cards",
+									"rows"
+								]
+							}
 						},
 						{
 							"slug": "cards",
@@ -2003,7 +2015,7 @@
 							"eyebrow": "Chicago · Websites · Hosting · Growth",
 							"headline": "We build, host and",
 							"highlight": "look after your website",
-							"lead": "Whether it's a new site, a WordPress site someone else built or an app, we run it on infrastructure we manage and keep it updated, backed up and monitored. From Chicago, for small businesses across the US.",
+							"lead": "Whether it’s a new site, a WordPress site someone else built or an app, we run it on infrastructure we manage and keep it updated, backed up and monitored. From Chicago, for small businesses across the US.",
 							"primary_cta_label": "Book a consultation",
 							"primary_cta_url": "/consultation#enquiry",
 							"secondary_cta_label": "Start a project",
@@ -2029,7 +2041,7 @@
 							"photo": "glass",
 							"panel_title": "yourbusiness.com",
 							"panel_badge": "Online",
-							"panel_rows": "Uptime target | 99.9%\nSSL | Let's Encrypt\nCDN and DDoS protection | Cloudflare\nMonitoring | New Relic · 24/7",
+							"panel_rows": "Uptime target | 99.9%\nSSL | Let’s Encrypt\nCDN and DDoS protection | Cloudflare\nMonitoring | New Relic · 24/7",
 							"photo_first": false
 						},
 						{
@@ -2038,25 +2050,28 @@
 							"_key": "home-consultation",
 							"eyebrow": "Website Consultation",
 							"headline": "Know where your site stands and what to do next",
-							"lead": "We review your site and your goals, then give you recommendations and a roadmap for growing online.",
 							"cta_label": "Book a consultation",
 							"cta_url": "/consultation#enquiry",
 							"steps": [
 								{
 									"icon": "scan-search",
-									"title": "Detailed Website Analysis"
+									"title": "Website analysis",
+									"text": "We review how your site looks, performs and gets found today."
 								},
 								{
 									"icon": "clipboard-list",
-									"title": "Strategic Business Planning"
+									"title": "Business planning",
+									"text": "We work out what the site needs to do for your business."
 								},
 								{
 									"icon": "lightbulb",
-									"title": "Personalized Recommendations"
+									"title": "Recommendations for your goals",
+									"text": "Specific changes to make, matched to those goals."
 								},
 								{
 									"icon": "route",
-									"title": "Growth Roadmap"
+									"title": "Growth roadmap",
+									"text": "What to do next, and what can wait."
 								}
 							]
 						},
@@ -2066,50 +2081,36 @@
 							"_key": "home-services",
 							"anchor_id": "services",
 							"eyebrow": "Services",
-							"headline": "Build, improve and grow your site",
-							"lead": "WordPress design and development, plus the SEO, content, social and analytics work that helps customers find you.",
+							"headline": "Where are you starting from?",
+							"layout": "rows",
 							"cards": [
 								{
-									"icon": "gauge",
-									"title": "Website Performance Optimization",
-									"text": "Improve user experience, SEO rankings, and minimize security risks.",
-									"link_label": "Learn more",
-									"link_url": "/services#performance"
-								},
-								{
-									"icon": "share-2",
-									"title": "Social Media Integration",
-									"text": "Increase engagement, broaden reach, and drive more traffic.",
-									"link_label": "Learn more",
-									"link_url": "/services#social"
-								},
-								{
-									"icon": "chart-line",
-									"title": "Analytics Setup & Review",
-									"text": "Make informed decisions with insights on traffic and user interactions.",
-									"link_label": "Learn more",
-									"link_url": "/services#analytics"
-								},
-								{
 									"icon": "layout-template",
-									"title": "WordPress Website Design and Development",
-									"text": "Achieve optimal viewing on mobile and desktop devices.",
-									"link_label": "Learn more",
-									"link_url": "/services#wordpress"
+									"title": "No website yet",
+									"text": "We design and build it on WordPress, with WooCommerce if you sell online, then host it and look after it.",
+									"link_label": "Plan a new site",
+									"link_url": "/contact?service=wordpress#enquiry"
 								},
 								{
-									"icon": "search",
-									"title": "SEO (Search Engine Optimization)",
-									"text": "Increase traffic, brand visibility, and leads/sales.",
-									"link_label": "Learn more",
+									"icon": "refresh-cw",
+									"title": "A WordPress site someone else built",
+									"text": "We move it onto hosting we manage and take over the updates, backups and monitoring.",
+									"link_label": "Move your site to us",
+									"link_url": "/contact?service=hosting#enquiry"
+								},
+								{
+									"icon": "code-xml",
+									"title": "An app or a site on another platform",
+									"text": "We deploy it on infrastructure we manage and keep it running.",
+									"link_label": "Talk about your app",
+									"link_url": "/contact#enquiry"
+								},
+								{
+									"icon": "trending-up",
+									"title": "A site that needs more customers",
+									"text": "SEO, content, social media and analytics work that helps the right people find you.",
+									"link_label": "See growth services",
 									"link_url": "/services#seo"
-								},
-								{
-									"icon": "pen-line",
-									"title": "Content Creation and Management",
-									"text": "Drive engagement, establish authority, support SEO, and increase dwell time.",
-									"link_label": "Learn more",
-									"link_url": "/services#content"
 								}
 							]
 						},
@@ -2118,7 +2119,7 @@
 							"_version": 1,
 							"_key": "home-about",
 							"photo_first": true,
-							"eyebrow": "Who you'll work with",
+							"eyebrow": "Who you’ll work with",
 							"headline": "One person, accountable for your site",
 							"body": "Lakefront Digital is run by Henry Perkins in Chicago. Henry builds and looks after every client site personally, so the person you meet in your first consultation is the person who keeps your site running.\n\nWe work with small businesses across the US: new WordPress sites and stores, WordPress sites someone else built, and apps that need a reliable home. When something needs changing, you email the person who knows your site.",
 							"photo": "willis-fog",
@@ -2129,7 +2130,7 @@
 							"_version": 1,
 							"_key": "home-cta",
 							"eyebrow": "Two ways to start",
-							"headline": "Hand your site to someone who'll look after it",
+							"headline": "Hand your site to someone who’ll look after it",
 							"text": "Book a free first consultation to talk it through, or start a project if you already know what you need. Either way, we reply by email.",
 							"cta_label": "Book a consultation",
 							"cta_url": "/consultation#enquiry",

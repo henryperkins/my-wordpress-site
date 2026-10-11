@@ -50,6 +50,7 @@ export interface PageContentLfCardGridV1Block {
   "eyebrow"?: string | null;
   "headline"?: string | null;
   "lead"?: string | null;
+  "layout"?: "cards" | "rows" | null;
   "cards": { "icon": "activity" | "badge-check" | "binoculars" | "calendar" | "calendar-check" | "chart-column" | "chart-line" | "check" | "circle-check" | "clipboard-list" | "clock" | "cloud" | "cloud-upload" | "code-xml" | "cpu" | "credit-card" | "database" | "file-text" | "gauge" | "git-branch" | "globe" | "hard-drive" | "headset" | "history" | "key-round" | "layers" | "layout-template" | "life-buoy" | "lightbulb" | "link" | "lock" | "mail" | "map-pin" | "megaphone" | "message-square" | "monitor-smartphone" | "network" | "package" | "panels-top-left" | "pen-line" | "phone" | "refresh-cw" | "rocket" | "route" | "scan-search" | "search" | "send" | "server" | "settings" | "share-2" | "shield-check" | "shopping-bag" | "shopping-cart" | "sparkles" | "store" | "target" | "trending-up" | "users" | "waves" | "wrench" | "zap"; "title": string; "text"?: string | null; "benefit"?: string | null; "badge"?: string | null; "link_label"?: string | null; "link_url"?: string | null }[];
 }
 

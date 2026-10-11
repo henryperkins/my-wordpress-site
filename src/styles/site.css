@@ -28,7 +28,10 @@
 .lfw-h4{margin:0;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong)}
 .lfw-lead{margin:0;font:var(--type-lead);color:var(--text-muted);max-width:60ch;text-wrap:pretty}
 .lfw-lead strong{font-weight:600;color:var(--text-strong)}
-.lfw-p{margin:0;color:var(--text-muted);text-wrap:pretty}
+/* Body paragraphs read in the body ink (Lake Navy, or night text on night-water); grey is for leads, card text and captions */
+.lfw-p{margin:0;color:var(--text-body);text-wrap:pretty}
+/* Phones: the lead steps down to 18px so it no longer matches the 20px titles, and a phone line holds a few more words */
+@media (max-width:600px){.lfw-lead{font-size:18px;line-height:1.5}}
 
 /* Sections */
 .lfw-section{padding:var(--section-y) 0}
@@ -53,7 +56,7 @@
 .lfw-strip__label{margin-right:4px;font:700 11px/1 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}
 /* The strip comes before the photo in the markup: below the columns on wide screens, straight after the buttons once stacked */
 .lfw-hero__grid>.lfw-strip{grid-column:1/-1;margin-top:0}
-@media (max-width:900px){.lfw-hero__grid{grid-template-columns:1fr;gap:16px}.lfw-hero__copy,.lfw-hero__media{grid-column:auto;grid-row:auto}.lfw-hero__media{height:340px}.lfw-hero__grid>.lfw-strip{margin-bottom:16px}}
+@media (max-width:900px){.lfw-hero__grid{grid-template-columns:minmax(0,1fr);gap:16px}.lfw-hero__copy,.lfw-hero__media{grid-column:auto;grid-row:auto}.lfw-hero__media{height:340px}.lfw-hero__grid>.lfw-strip{margin-bottom:16px}}
 @media (max-width:760px){.lfw-hero{margin-bottom:var(--section-y-sm)}}
 /* Phones: a stacked pair of buttons runs full width, so the two read as one decision */
 @media (max-width:480px){.lfw-hero__ctas{align-self:stretch;flex-direction:column}.lfw-hero__ctas>.lf-btn{width:100%}.lfw-ctas__note{flex-basis:auto}}
@@ -75,6 +78,23 @@
 .lfw-card-text{margin:0;font:var(--type-body-sm);font-size:16px;line-height:1.55;color:var(--text-muted);flex:1}
 .lfw-card-benefit{margin:0;padding-top:12px;border-top:1px solid var(--border-subtle);font:var(--type-body-sm);color:var(--text-body)}
 .lfw-card-benefit b{display:block;margin-bottom:4px;font:700 11px/1.2 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:var(--text-eyebrow)}
+/* Route rows (a card grid's "rows" layout): rule-topped like steps, read across like a sign: where you are, what we do, where to go */
+/* The rows share one set of columns (subgrid), so titles, text and links line up down the list */
+.lfw-routes{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:48px minmax(0,4fr) minmax(0,5fr) auto;column-gap:32px;border-bottom:2px solid var(--border-default)}
+.lfw-route{position:relative;grid-column:1/-1;display:grid;grid-template-columns:subgrid;align-items:center;row-gap:12px;padding:24px 0;border-top:2px solid var(--border-default)}
+.lfw-route__title{margin:0;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong);text-wrap:balance;transition:color var(--dur-fast) var(--ease-current)}
+.lfw-route__text{margin:0;max-width:60ch;font:var(--type-body-sm);font-size:16px;line-height:1.55;color:var(--text-muted)}
+/* The link stretches over its row, so the whole row is the target while the link's name stays short */
+.lfw-route__go{position:static;justify-self:end}
+.lfw-route__go::after{content:"";position:absolute;inset:0;border-radius:var(--radius-md)}
+.lfw-route:hover .lfw-route__title{color:var(--text-link)}
+.lfw-route:hover .lfw-route__go .lf-btn__label{text-decoration-color:currentColor}
+.lfw-route:hover .lfw-route__go .lf-btn__icon-r{transform:translateX(3px)}
+.lfw-route__go:focus-visible{box-shadow:none}
+.lfw-route__go:focus-visible::after{outline:2px solid transparent;box-shadow:var(--ring-focus)}
+/* Stacked: the tile sits beside the title, the text and link follow under the title; on phones they run full width */
+@media (max-width:960px){.lfw-routes{display:block}.lfw-route{grid-template-columns:48px minmax(0,1fr);gap:8px 16px;padding:20px 0}.lfw-route>*{grid-column:2}.lfw-route>.lfw-tile{grid-column:1}.lfw-route__go{justify-self:start;margin-top:4px}}
+@media (max-width:600px){.lfw-route>.lfw-route__text,.lfw-route>.lfw-route__go{grid-column:1/-1}}
 .lfw-tags{display:flex;flex-wrap:wrap;gap:8px}
 
 /* Lists */

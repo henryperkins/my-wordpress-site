@@ -10,6 +10,9 @@ type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_card_gri
 
 const { value } = Astro.props;
 const cards = value.cards ?? [];
+// Rows read like signage: a situation, what we do about it, and where to go next. Each row's link
+// names only its destination and stretches over the row; the row's heading gives it context.
+const rows = value.layout === "rows";
 const roomy = cards.length <= 2;
 const grid = cards.length === 2 || cards.length === 4 ? "lfw-grid2" : "lfw-grid3";
 ---
@@ -17,39 +20,67 @@ const grid = cards.length === 2 || cards.length === 4 ? "lfw-grid2" : "lfw-grid3
 <section class="lfw-section" id={value.anchor_id || undefined}>
 	<div class="lfw-container">
 		<SectionHead eyebrow={value.eyebrow} headline={value.headline} lead={value.lead} />
-		<div class={grid}>
-			{
-				cards.map((card) => {
-					const url = href(card.link_url);
-					const Card = url ? "a" : "div";
-					return (
-						<Card href={url} class:list={["lf-card", roomy && "lf-card--pad-lg", url && "lf-card--interactive"]}>
-							<div class:list={["lf-card__body", !card.badge && "lfw-iconcard"]}>
-								<div class="lfw-spechead">
-									<span class="lfw-tile">
-										<Icon name={card.icon} size={24} />
-									</span>
-									{card.badge && <Badge>{card.badge}</Badge>}
-								</div>
-								<h3 class="lfw-card-title">{card.title}</h3>
-								{card.text && <p class="lfw-card-text">{card.text}</p>}
-								{card.benefit && (
-									<p class="lfw-card-benefit">
-										<b>Benefit</b>
-										{card.benefit}
-									</p>
-								)}
+		{
+			rows && (
+				<ul class="lfw-routes" role="list">
+					{cards.map((card) => {
+						const url = href(card.link_url);
+						return (
+							<li class="lfw-route">
+								<span class="lfw-tile">
+									<Icon name={card.icon} size={24} />
+								</span>
+								<h3 class="lfw-route__title">{card.title}</h3>
+								{card.text && <p class="lfw-route__text">{card.text}</p>}
 								{url && card.link_label && (
-									<span class="lf-btn lf-btn--link lf-btn--sm">
+									<a class="lf-btn lf-btn--link lfw-route__go" href={url}>
 										<span class="lf-btn__label">{card.link_label}</span>
 										<Icon name="arrow-right" size={16} class="lf-btn__icon-r" />
-									</span>
+									</a>
 								)}
-							</div>
-						</Card>
-					);
-				})
-			}
-		</div>
+							</li>
+						);
+					})}
+				</ul>
+			)
+		}
+		{
+			!rows && (
+				<div class={grid}>
+					{
+						cards.map((card) => {
+							const url = href(card.link_url);
+							const Card = url ? "a" : "div";
+							return (
+								<Card href={url} class:list={["lf-card", roomy && "lf-card--pad-lg", url && "lf-card--interactive"]}>
+									<div class:list={["lf-card__body", !card.badge && "lfw-iconcard"]}>
+										<div class="lfw-spechead">
+											<span class="lfw-tile">
+												<Icon name={card.icon} size={24} />
+											</span>
+											{card.badge && <Badge>{card.badge}</Badge>}
+										</div>
+										<h3 class="lfw-card-title">{card.title}</h3>
+										{card.text && <p class="lfw-card-text">{card.text}</p>}
+										{card.benefit && (
+											<p class="lfw-card-benefit">
+												<b>Benefit</b>
+												{card.benefit}
+											</p>
+										)}
+										{url && card.link_label && (
+											<span class="lf-btn lf-btn--link lf-btn--sm">
+												<span class="lf-btn__label">{card.link_label}</span>
+												<Icon name="arrow-right" size={16} class="lf-btn__icon-r" />
+											</span>
+										)}
+									</div>
+								</Card>
+							);
+						})
+					}
+				</div>
+			)
+		}
 	</div>
 </section>
