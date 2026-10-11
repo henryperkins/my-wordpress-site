@@ -58,6 +58,6 @@ Requests sent with `Accept: application/json` get JSON. Ordinary posts get a 303
 `withPublishedContent()` reads in a fresh request context with edit mode off, because EmDash overlays drafts during edit and preview requests. AI search is unavailable under `pnpm dev`, which has no remote bindings. See `docs/plugin-ai-search.md`.
 
 **Front end.**
-- Scripts in `src/scripts/` progressively enhance server-rendered markup: the header menu, tabs, the legal table of contents and enquiries. `ai-search-compat.ts` is an accessibility shim for `@cloudflare/ai-search-snippet`.
+- Scripts in `src/scripts/` progressively enhance server-rendered markup: the header menu, tabs, the legal table of contents and enquiries. `ai-search-compat.ts` adapts `@cloudflare/ai-search-snippet`: accessibility fixes, plus Lakefront styling (`src/styles/search-modal.css`, adopted into its shadow root), a close button, popular searches and recoverable states.
 - `Photo.astro` renders CMS images with `<Image>` from `emdash/ui`. Without one, it uses a bundled photo from `src/lib/photos.ts` with a `/cdn-cgi/image` `srcset` (Cloudflare Image Transformations). Locally, `src/pages/cdn-cgi/image/[...path].ts` redirects those URLs to the original files.
 - Icons are Lucide SVGs in `src/icons/`, inlined by `src/lib/icons.ts`. To offer a new icon in the admin, also add it to the icon options in `seed/seed.json`.

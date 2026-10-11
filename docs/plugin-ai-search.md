@@ -19,10 +19,29 @@ The header imports `src/scripts/ai-search-compat.ts` for the installed
 `@cloudflare/ai-search-snippet` 0.0.42. It supplies a valid dialog name, combobox
 and result-grid semantics (including favorite buttons), contains keyboard focus,
 restores the background on close and cancels pending searches on dismissal.
-Empty, loading and error states use status/alert semantics. Remove the adapter
-only after the installed snippet passes these states and the keyboard/reopen
-regressions in `tests/browser/accessibility.spec.ts` without it. The ordinary
-`/search` link remains the fallback when JavaScript or the custom element fails.
+Empty, loading and error states use status/alert semantics. Remove these
+compatibility fixes only after the installed snippet passes these states and the
+keyboard/reopen regressions in `tests/browser/accessibility.spec.ts` without them.
+The ordinary `/search` link remains the fallback when JavaScript or the custom
+element fails.
+
+The same script makes the modal Lakefront's, and that part stays when the
+compatibility fixes go:
+
+- `src/styles/search-modal.css` is adopted into the snippet's shadow root, which
+  page styles can't reach. `theme.css` maps the snippet's own CSS variables to the
+  site tokens, so its colours hold even without the adopted sheet.
+- The snippet's strings are replaced through its `translations` property, which
+  re-renders it once while closed.
+- `Header.astro` renders a close button, Lucide icons and the `search_popular`
+  menu into `#lfw-ai-search-parts`; the script copies them into the modal. The
+  layout loads `search_popular` with the other menus, so editing it purges cached
+  pages. A popular search that links to `/search?q=…` runs in the modal instead.
+- Failures name what happened (unavailable, offline, rate-limited) with Try again,
+  and offer the `/search` page, which uses the site's own full-text index. A search
+  still waiting after four seconds offers the same link. The snippet reports
+  failures only as text ("HTTP error! status: 503", or the browser's fetch
+  message), which the script reads; recheck that when upgrading the snippet.
 
 `/search` uses the same publication check. A native snippet that only repeats its heading falls back to the published summary/excerpt, or is omitted when no useful description exists. Text and search highlights are rendered as Astro text nodes and `<mark>` elements, rather than inserting CMS text as HTML. Successful search pages retain a one-minute edge lifetime and collection cache tags; query failures show an unavailable state with status 503 and no storage.
 

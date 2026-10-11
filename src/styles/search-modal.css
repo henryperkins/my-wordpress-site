@@ -1,0 +1,156 @@
+/*
+  search-modal.css: the inside of the header's AI search modal (Cloudflare's search-modal-snippet, rendered by
+  Header.astro). Page styles can't cross the snippet's shadow root, so scripts/ai-search-compat.ts adopts this sheet
+  there. Site tokens still arrive as inherited custom properties, and theme.css maps the snippet's own variables to
+  them, so its colours hold even if this sheet never loads. The close button, chips and links mirror .lf-iconbtn,
+  .lf-tag and .lf-btn from components.css.
+*/
+
+::selection{background:var(--lake-mist);color:var(--lake-navy)}
+
+.lf-icon{display:inline-flex;flex:none;width:20px;height:20px;line-height:0}
+.lf-icon>svg{display:block;width:100%;height:100%;overflow:visible}
+
+/* A navy scrim without blur: the header's is the only translucent surface. */
+.modal-backdrop{background:var(--scrim);-webkit-backdrop-filter:none;backdrop-filter:none}
+
+/* A panel floating under the header. It enters like a dropdown, rising 8px on the water curve. */
+.modal-container,.modal-container.open{transform:none}
+.modal-container{top:calc(var(--header-h) + var(--space-6));right:0;left:0;width:min(600px,calc(100% - 2 * var(--container-pad)));max-width:none;max-height:calc(100vh - var(--header-h) - var(--space-12));max-height:calc(100dvh - var(--header-h) - var(--space-12));margin-inline:auto;overflow:hidden}
+.modal-container.open{animation:lfw-enter var(--dur-slow) var(--ease-current)}
+@keyframes lfw-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* The search row. While the field has focus, its rule turns Current Teal, like a field's focus border. */
+.modal-header{gap:var(--space-3);min-height:64px;padding:var(--space-2) var(--space-3) var(--space-2) var(--space-5)}
+.modal-header:has(.modal-search-input:focus){border-bottom-color:var(--current-teal);box-shadow:inset 0 -1px 0 var(--current-teal)}
+.modal-search-icon{width:20px;height:20px;color:var(--text-muted)}
+.modal-search-input{min-width:0;padding:var(--space-2) 0;font:400 var(--fs-body)/1.4 var(--font-body);color:var(--text-strong);caret-color:var(--current-teal)}
+.modal-search-input::placeholder{color:var(--text-muted);opacity:1}
+
+.lfw-search-close{display:inline-flex;align-items:center;justify-content:center;flex:none;box-sizing:border-box;width:40px;height:40px;margin:0;padding:0;border:1.5px solid transparent;border-radius:var(--radius-md);background:transparent;color:var(--text-strong);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color var(--dur-fast) var(--ease-current),border-color var(--dur-fast) var(--ease-current),box-shadow var(--dur-fast) var(--ease-current),transform var(--dur-instant) var(--ease-current)}
+.lfw-search-close:hover{background:var(--action-ghost-bg-hover)}
+.lfw-search-close:active{transform:translateY(1px)}
+.lfw-search-close:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
+
+.modal-content{padding:var(--space-2);overscroll-behavior:contain;scrollbar-color:var(--lake-mist) transparent;scrollbar-width:thin}
+
+/* Results: an H5 title, card text and the path. The selected result takes a Teal 50 fill and a Current Teal edge. */
+.modal-results{gap:2px}
+a.modal-result-item{gap:var(--space-3);padding:var(--space-3) calc(36px + 2 * var(--space-3)) var(--space-3) 11px;border-radius:var(--radius-md)}
+a.modal-result-item:hover{background:var(--surface-sunken)}
+a.modal-result-item.active{border-color:var(--current-teal)}
+a.modal-result-item:hover .modal-result-title,a.modal-result-item.active .modal-result-title{color:var(--text-link)}
+a.modal-result-item:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
+.modal-result-content{gap:2px}
+.modal-result-title{font:700 var(--fs-h5)/1.35 var(--font-display);color:var(--text-strong);-webkit-line-clamp:2;overflow-wrap:anywhere;transition:color var(--dur-fast) var(--ease-current)}
+.modal-result-description{font:400 var(--fs-body-sm)/1.5 var(--font-body);color:var(--text-muted);overflow-wrap:anywhere}
+.modal-result-metadata{margin-top:2px}
+.modal-result-url{font:400 14px/1.4 var(--font-body);color:var(--text-muted)}
+.modal-result-url:hover{text-decoration:none}
+.modal-favorite-button{border-radius:var(--radius-full);color:var(--text-muted)}
+.modal-favorite-button:hover{background:var(--action-ghost-bg-hover);color:var(--text-link)}
+.modal-favorite-button:focus-visible{outline:2px solid transparent;background:transparent;color:var(--text-link);box-shadow:var(--ring-focus)}
+.modal-favorite-button.favorite{color:var(--text-link)}
+.modal-favorite-button svg{stroke-width:2}
+.modal-see-more{gap:var(--space-2);padding:var(--space-3) var(--space-3) var(--space-2);font:700 var(--fs-body-sm)/1.3 var(--font-display)}
+.modal-see-more:hover{background:none;color:var(--text-link-hover)}
+
+/* Section labels (Favorites, Recent, Popular searches) are the footer's micro labels. */
+.modal-initial-section+.modal-initial-section{margin-top:var(--space-2)}
+.modal-initial-section-title,.lfw-search-label{gap:var(--space-2);margin:0;padding:var(--space-3) var(--space-3) var(--space-2);font:700 12px/1.2 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}
+.modal-initial-section-title svg{width:14px;height:14px;stroke-width:2}
+
+/* States: plain text in the list's own column, not centred notices. Search failing isn't the visitor's error, so it
+   isn't painted as one. */
+.modal-loading,.modal-empty,.error{align-items:flex-start;justify-content:flex-start;gap:var(--space-1);padding:var(--space-4) var(--space-3);border-radius:0;background:none;color:var(--text-muted);font:400 var(--fs-body-sm)/1.5 var(--font-body);text-align:start}
+.modal-loading{flex-flow:row wrap;align-items:center;gap:var(--space-3)}
+.loading{width:20px;height:20px;color:var(--current-teal)}
+.loading-text{font:inherit;color:inherit}
+.loading-text-animate{animation:none}
+.modal-empty-icon{display:none}
+.modal-empty-title,.lfw-search-title{font:700 var(--fs-h5)/1.35 var(--font-display);color:var(--text-strong);overflow-wrap:anywhere}
+.modal-empty-description,.lfw-search-text{font:inherit;color:inherit}
+.modal-container[data-lfw-state="idle"][data-lfw-popular] .modal-empty{display:none}
+.lfw-search-slow{display:flex;flex:1 0 100%;flex-direction:column;align-items:flex-start;gap:var(--space-2)}
+.lfw-search-actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3) var(--space-5);margin-top:var(--space-3)}
+
+.lfw-search-retry{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:36px;margin:0;padding:0 14px;border:1.5px solid var(--text-strong);border-radius:var(--radius-sm);background:transparent;color:var(--text-strong);font:700 14px/1 var(--font-display);letter-spacing:.005em;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color var(--dur-fast) var(--ease-current),box-shadow var(--dur-fast) var(--ease-current),transform var(--dur-instant) var(--ease-current)}
+.lfw-search-retry:hover{background:var(--action-ghost-bg-hover)}
+.lfw-search-retry:active{transform:translateY(1px)}
+.lfw-search-retry:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
+
+.lfw-search-link{display:inline-flex;align-items:center;gap:var(--space-2);max-width:100%;padding:2px 0;border-radius:var(--radius-xs);color:var(--text-link);font:700 var(--fs-body-sm)/1.3 var(--font-display);text-decoration:none;-webkit-tap-highlight-color:transparent;transition:color var(--dur-fast) var(--ease-current)}
+.lfw-search-link>span:first-child{overflow-wrap:anywhere;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:.28em;text-decoration-color:color-mix(in srgb,currentColor 35%,transparent);transition:text-decoration-color var(--dur-fast) var(--ease-current)}
+.lfw-search-link:hover{color:var(--text-link-hover)}
+.lfw-search-link:hover>span:first-child{text-decoration-color:currentColor}
+.lfw-search-link .lf-icon{width:18px;height:18px;transition:transform var(--dur-fast) var(--ease-current)}
+.lfw-search-link:hover .lf-icon{transform:translateX(3px)}
+.lfw-search-link:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
+
+/* Popular searches (the search_popular menu) while the field is empty, and again after a search finds nothing,
+   with "Or ask us" under them. */
+.lfw-search-more{padding-bottom:var(--space-3)}
+.modal-container:not([data-lfw-state="idle"],[data-lfw-state="empty"]) .lfw-search-more,
+.modal-container:not([data-lfw-state="empty"]) .lfw-search-ask{display:none}
+.modal-container[data-lfw-state="empty"] .lfw-search-label{padding-top:var(--space-2)}
+.lfw-search-chips{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:0;padding:0 var(--space-3);list-style:none}
+.lfw-search-chips>li{display:flex;max-width:100%}
+.lfw-search-chip{display:inline-flex;align-items:center;box-sizing:border-box;max-width:100%;min-height:32px;padding:6px 12px;border:1px solid var(--border-default);border-radius:var(--radius-full);background:var(--surface-card);color:var(--text-strong);font:600 14px/18px var(--font-body);text-decoration:none;overflow-wrap:anywhere;-webkit-tap-highlight-color:transparent;transition:background-color var(--dur-fast) var(--ease-current),border-color var(--dur-fast) var(--ease-current),box-shadow var(--dur-fast) var(--ease-current)}
+.lfw-search-chip:hover{border-color:var(--teal-300);background:var(--surface-sunken)}
+.lfw-search-chip:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
+.lfw-search-ask{margin:var(--space-4) var(--space-3) 0}
+
+/* Keys (typed, so Source Sans 3) and the credit, without Cloudflare's orange cloud: coral is the page's only warm
+   colour. */
+.modal-footer{gap:var(--space-4);padding:var(--space-2) var(--space-5);font:400 var(--fs-caption)/1.4 var(--font-body)}
+.modal-kbd{min-width:22px;height:22px;padding:0 5px;border-color:var(--border-default);border-radius:var(--radius-xs);background:var(--surface-card);box-shadow:inset 0 -1px 0 var(--border-default);font:600 12px/1 var(--font-body);color:var(--text-muted)}
+.modal-footer .powered-by-inline{padding:0;font:inherit}
+.modal-footer .powered-by-inline svg{display:none}
+.modal-footer .powered-by-inline a{border-radius:var(--radius-xs);color:var(--text-muted);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em;text-decoration-color:color-mix(in srgb,currentColor 35%,transparent)}
+.modal-footer .powered-by-inline a:hover{color:var(--text-link);text-decoration-color:currentColor}
+.modal-footer .powered-by-inline a:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
+
+/* Touch screens, and the collapsed header's widths, answer a 44px target. Chips keep their 32px look and grow only
+   their hit area, as on /search. */
+@media (max-width:1080px),(any-pointer:coarse){
+  .lfw-search-close{width:44px;height:44px}
+  .modal-favorite-button{width:44px;height:44px}
+  a.modal-result-item{padding-right:calc(44px + 2 * var(--space-3))}
+  .lfw-search-chips{row-gap:var(--space-3)}
+  .lfw-search-chip{position:relative}
+  .lfw-search-chip::after{content:"";position:absolute;inset:calc((44px - var(--space-8)) / -2 - 1px) calc(var(--space-1) * -1 - 1px)}
+  .lfw-search-retry{height:44px}
+  .lfw-search-link{min-height:44px}
+}
+
+/* Key hints only help where there's a keyboard. */
+@media (pointer:coarse){
+  .modal-footer-hints{display:none}
+}
+
+/* Short screens (a landscape phone, 400% zoom) don't pin the header, so the panel uses the height instead. */
+@media (max-height:480px){
+  .modal-container{top:var(--space-3);max-height:calc(100vh - 2 * var(--space-3));max-height:calc(100dvh - 2 * var(--space-3))}
+}
+
+/* Phones: the search takes the whole screen. Its row stands where the header was, rule included, with the close
+   button in the menu button's place and outline. Results get the room the keyboard leaves. */
+@media (max-width:600px){
+  .modal-container{top:0;width:100%;height:100vh;height:100dvh;max-height:none;border:0;border-radius:0;box-shadow:none}
+  .modal-header{min-height:calc(var(--header-h) + 1px);padding:0 var(--container-pad)}
+  .modal-content{padding:var(--space-2) calc(var(--container-pad) - var(--space-3))}
+  .modal-footer{padding:var(--space-3) var(--container-pad) max(var(--space-3),env(safe-area-inset-bottom));border-radius:0}
+  .lfw-search-close{border-color:var(--border-default)}
+  .lfw-search-close:hover{background:var(--surface-sunken)}
+}
+
+@media (forced-colors:active){
+  .modal-container{border:1px solid CanvasText}
+  .modal-header:has(.modal-search-input:focus){border-bottom-color:Highlight}
+  a.modal-result-item.active{outline:2px solid Highlight;outline-offset:-2px}
+  .lfw-search-chip,.modal-kbd{border-color:ButtonText}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}

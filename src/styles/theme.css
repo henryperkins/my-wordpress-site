@@ -19,12 +19,28 @@
 :root {
 }
 
-/* AI search modal (Cloudflare's search-modal-snippet, rendered by Header.astro): brand type, the link colour
-   for its focus and URL accents (coral stays reserved for primary actions), and a layer above the header. */
+/* AI search modal (Cloudflare's search-modal-snippet, rendered by Header.astro): the snippet's own variables, mapped
+   to brand type, the Lakefront palette (Deep Water accents; coral stays reserved for primary actions), corners,
+   shadow and motion, and a layer above the header. Its layout and Lakefront parts are in search-modal.css. */
 search-modal-snippet {
   --search-snippet-font-family: var(--font-body);
   --search-snippet-text-color: var(--text-body);
+  --search-snippet-text-secondary: var(--text-muted);
+  --search-snippet-text-description: var(--text-muted);
   --search-snippet-primary-color: var(--text-link);
+  --search-snippet-primary-hover: var(--text-link-hover);
+  --search-snippet-background: var(--surface-card);
+  --search-snippet-surface: var(--surface-canvas);
+  --search-snippet-border-color: var(--border-default);
+  --search-snippet-hover-background: var(--surface-sunken);
+  /* The snippet fills its selected result with this. */
+  --search-snippet-focus-ring: var(--surface-sunken);
+  --search-snippet-error-color: var(--status-danger-fg);
+  --search-snippet-error-background: var(--status-danger-bg);
+  --search-snippet-border-radius: var(--radius-lg);
+  --search-snippet-shadow-lg: var(--shadow-lg);
+  --search-snippet-transition-fast: var(--dur-fast) var(--ease-current);
+  --search-snippet-transition: var(--dur-base) var(--ease-current);
   --search-snippet-z-modal: var(--z-overlay);
 }
 

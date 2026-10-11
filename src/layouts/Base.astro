@@ -83,7 +83,7 @@ const columns = [
 		<EmDashBodyStart page={pageCtx} />
 		<div class="lfw">
 			<a class="lfw-skip" href="#main">Skip to content</a>
-			<Header siteTitle={siteTitle} logo={logo} items={itemsOf(menus.primary)} cta={cta} admin={!!Astro.locals.user} />
+			<Header siteTitle={siteTitle} logo={logo} items={itemsOf(menus.primary)} cta={cta} popular={itemsOf(menus.search_popular)} admin={!!Astro.locals.user} />
 			<main id="main" class="lfw-page" tabindex="-1">
 				<slot />
 			</main>

@@ -10,6 +10,8 @@ import type { MenuItem, SiteLogo } from "../lib/types";
 // A menu item with children (Services › All services, SEO) opens a small panel; scripts/header.ts toggles it.
 // Same markup as the design system's SiteHeader (components/site/SiteHeader.jsx).
 // The search icon links to /search; with JavaScript it opens the AI search modal instead (also Cmd/Ctrl+K).
+// The modal's close button, icons and popular searches (the search_popular menu) wait in #lfw-ai-search-parts until
+// scripts/ai-search-compat.ts copies them into the modal's shadow root.
 // On phones the page owns the primary action; the header keeps search and ordinary navigation links.
 // The modal sits after <header>: the header's backdrop-filter would confine its fixed overlay to the bar.
 interface Props {
@@ -17,10 +19,11 @@ interface Props {
 	logo?: SiteLogo | null;
 	items: MenuItem[];
 	cta?: MenuItem;
+	popular?: MenuItem[];
 	admin?: boolean;
 }
 
-const { siteTitle, logo, items, cta, admin = false } = Astro.props;
+const { siteTitle, logo, items, cta, popular = [], admin = false } = Astro.props;
 const current = (url: string) => (isCurrent(url, Astro.url) ? "page" : undefined);
 const kids = (item: MenuItem): MenuItem[] => (item.children ?? []) as MenuItem[];
 const groupCurrent = (item: MenuItem) => isCurrent(item.url, Astro.url) || kids(item).some((child) => isCurrent(child.url, Astro.url));
@@ -119,7 +122,38 @@ if (cta && ctaAttrs && isCurrent(cta.url, Astro.url)) {
 	</nav>
 </header>
 
-<AISearchSnippet id="lfw-ai-search" placeholder="Search services, hosting, SEO…" theme="light" seeMore="/search?q=" />
+<AISearchSnippet id="lfw-ai-search" placeholder="Search services, hosting, SEO…" theme="light" seeMore="/search?q=" hideThumbnails />
+<template id="lfw-ai-search-parts">
+	<Icon name="search" class="modal-search-icon" />
+	<button type="button" class="lfw-search-close" aria-label="Close search"><Icon name="x" /></button>
+	<Icon name="arrow-right" size={18} class="lfw-search-arrow" />
+	<div class="lfw-search-more">
+		{
+			popular.length > 0 && (
+				<section aria-labelledby="lfw-search-popular-title">
+					<h2 class="lfw-search-label" id="lfw-search-popular-title">Popular searches</h2>
+					<ul class="lfw-search-chips">
+						{popular.map((item) => (
+							<li>
+								<a class="lfw-search-chip" {...linkAttrs(item)}>
+									{item.label}
+								</a>
+							</li>
+						))}
+					</ul>
+				</section>
+			)
+		}
+		{
+			cta && (
+				<a class="lfw-search-link lfw-search-ask" {...linkAttrs(cta)}>
+					<span>Or ask us</span>
+					<Icon name="arrow-right" size={18} />
+				</a>
+			)
+		}
+	</div>
+</template>
 
 <script>
 	import "../scripts/ai-search-compat";

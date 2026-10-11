@@ -40,7 +40,9 @@ test("AI search keeps named dialog and grid semantics across result states", asy
 	await expect(input).toHaveAttribute("aria-haspopup", "grid");
 	await expect(input).toHaveAttribute("aria-expanded", "false");
 	await expect(dialog.getByRole("grid")).toHaveCount(0);
-	await expect(dialog.getByRole("status")).toContainText("Start typing");
+	const popular = dialog.getByRole("region", { name: "Popular searches" });
+	await expect(popular.getByRole("link").first()).toBeVisible();
+	await expect(dialog.getByRole("link", { name: "Or ask us" })).toBeHidden();
 
 	await input.fill("hosting");
 	const grid = dialog.getByRole("grid", { name: "Search results" });
@@ -62,13 +64,18 @@ test("AI search keeps named dialog and grid semantics across result states", asy
 	await expect(input).toHaveAttribute("aria-expanded", "false");
 	await expect(input).not.toHaveAttribute("aria-activedescendant", /./);
 	releaseEmptyResults();
-	await expect(dialog.getByRole("status")).toContainText("No results found");
+	await expect(dialog.getByRole("status")).toContainText("No results for “nothing”");
+	await expect(dialog.getByRole("status")).toContainText("Check the spelling, or try a broader term.");
+	await expect(popular.getByRole("link").first()).toBeVisible();
+	await expect(dialog.getByRole("link", { name: "Or ask us" })).toBeVisible();
 	await expect(input).toHaveAttribute("aria-expanded", "false");
 	await expect(input).not.toHaveAttribute("aria-activedescendant", /./);
 	await expect(dialog.getByRole("grid")).toHaveCount(0);
 
 	await input.fill("failure");
-	await expect(dialog.getByRole("alert")).toContainText("503");
+	await expect(dialog.getByRole("alert")).toContainText("Search is temporarily unavailable");
+	await expect(dialog.getByRole("alert")).not.toContainText("503");
+	await expect(popular).toBeHidden();
 	await expect(input).toHaveAttribute("aria-expanded", "false");
 	await input.press("Escape");
 	await expect(dialog).toBeHidden();
@@ -200,7 +207,8 @@ test("closing search cancels its pending request and queued debounce", async ({ 
 	releasePending();
 	await expect(opener).toBeFocused();
 	await opener.press("Enter");
-	await expect(dialog.getByRole("status")).toContainText("Start typing");
+	await expect(dialog.getByRole("region", { name: "Popular searches" })).toBeVisible();
+	await expect(dialog.getByRole("status")).not.toContainText("Searching");
 	await expect(input).not.toHaveAttribute("aria-activedescendant", /./);
 	await input.fill("queued");
 	await input.press("Escape");
@@ -209,6 +217,115 @@ test("closing search cancels its pending request and queued debounce", async ({ 
 	await page.waitForTimeout(500);
 	expect(requests).toBe(1);
 	await expect(opener).toBeFocused();
+});
+
+for (const width of [390, 1440]) {
+	test(`search shows a close button at ${width}px`, async ({ page }) => {
+		await page.setViewportSize({ width, height: 844 });
+		await page.goto("/");
+		// Measured before opening: the scroll lock reserves a scrollbar gutter, which shifts the header in headless runs.
+		const menu = width <= 600 ? await page.locator("[data-menu-toggle]").boundingBox() : null;
+		const opener = page.locator("[data-ai-search-open]");
+		await opener.focus();
+		await opener.press("Enter");
+		const dialog = page.getByRole("dialog", { name: "Search", exact: true });
+		const close = dialog.getByRole("button", { name: "Close search" });
+		await expect(close).toBeVisible();
+		const box = (await close.boundingBox())!;
+		expect(box.width).toBeGreaterThanOrEqual(width <= 1080 ? 44 : 40);
+		if (menu) {
+			// On phones the search fills the screen, its close button where the menu button sat. Wait out the 8px rise.
+			await expect.poll(async () => (await dialog.boundingBox())!.y).toBe(0);
+			const sheet = (await dialog.boundingBox())!;
+			expect([sheet.x, sheet.width, sheet.height].map(Math.round)).toEqual([0, width, 844]);
+			const placed = (await close.boundingBox())!;
+			expect([placed.x, placed.y, placed.width, placed.height].map(Math.round)).toEqual([menu.x, menu.y, menu.width, menu.height].map(Math.round));
+		}
+		await close.click();
+		await expect(dialog).toBeHidden();
+		await expect(opener).toBeFocused();
+		await expect.poll(() => page.locator("[data-header]").evaluate((header) => (header as HTMLElement).inert)).toBe(false);
+	});
+}
+
+test("popular searches run in the modal, and a slow answer offers the search page", async ({ page }) => {
+	let releaseSlow!: () => void;
+	const slow = new Promise<void>((resolve) => { releaseSlow = resolve; });
+	const queries: string[] = [];
+	await page.route("**/api/ai-search/search", async (route) => {
+		const query = route.request().postDataJSON().messages[0].content;
+		queries.push(query);
+		if (queries.length === 2) await slow;
+		try { await route.fulfill({ json: { success: true, result: { chunks: resultChunks(2) } } }); }
+		catch { /* Superseded requests have been aborted. */ }
+	});
+	await page.goto("/");
+	await page.locator("[data-ai-search-open]").press("Enter");
+	const dialog = page.getByRole("dialog", { name: "Search", exact: true });
+	const input = dialog.getByRole("combobox", { name: "Search", exact: true });
+	const popular = dialog.getByRole("region", { name: "Popular searches" });
+	const chips = popular.getByRole("link");
+	const queryOf = async (index: number) => new URL((await chips.nth(index).getAttribute("href"))!, page.url()).searchParams.get("q")!;
+	const [first, second] = [await queryOf(0), await queryOf(1)];
+
+	// A pointer runs the search here rather than following the link to /search.
+	await chips.nth(0).click();
+	await expect(input).toHaveValue(first);
+	await expect(dialog.getByRole("grid", { name: "Search results" }).getByRole("row")).toHaveCount(2);
+	await expect(popular).toBeHidden();
+	await expect(page).not.toHaveURL(/\/search/);
+
+	// From the keyboard, focus returns to the field. A slow answer offers the /search page after four seconds.
+	await input.fill("");
+	await chips.nth(1).focus();
+	await page.keyboard.press("Enter");
+	await expect(input).toBeFocused();
+	await expect(input).toHaveValue(second);
+	await expect(dialog.getByRole("status")).toContainText("Searching");
+	const fallback = dialog.getByRole("link", { name: "See results on the search page" });
+	await expect(fallback).toBeHidden();
+	await expect(fallback).toHaveAttribute("href", `/search?q=${encodeURIComponent(second)}`, { timeout: 8000 });
+	await expect(dialog.getByRole("status")).toContainText("Taking longer than usual.");
+	releaseSlow();
+	await expect(dialog.getByRole("grid").getByRole("row")).toHaveCount(2);
+	expect(queries).toEqual([first, second]);
+});
+
+test("search failures say what happened and offer a way on", async ({ page, context }) => {
+	let mode: "unavailable" | "offline" | "working" = "unavailable";
+	let requests = 0;
+	await page.route("**/api/ai-search/search", (route) => {
+		requests++;
+		// Routes still answer while the context is offline, so fail the fetch as the network would.
+		if (mode === "offline") return route.abort("internetdisconnected");
+		return mode === "unavailable"
+			? route.fulfill({ status: 503, json: { success: false, error: "Search is temporarily unavailable" } })
+			: route.fulfill({ json: { success: true, result: { chunks: resultChunks(2) } } });
+	});
+	await page.goto("/");
+	await page.locator("[data-ai-search-open]").press("Enter");
+	const dialog = page.getByRole("dialog", { name: "Search", exact: true });
+	const input = dialog.getByRole("combobox", { name: "Search", exact: true });
+	await input.fill("hosting");
+	const alert = dialog.getByRole("alert");
+	await expect(alert).toContainText("Search is temporarily unavailable");
+	await expect(alert.getByRole("link", { name: "See results on the search page" })).toHaveAttribute("href", "/search?q=hosting");
+	mode = "working";
+	await alert.getByRole("button", { name: "Try again" }).click();
+	await expect(dialog.getByRole("grid").getByRole("row")).toHaveCount(2);
+	await expect(input).toHaveValue("hosting");
+	expect(requests).toBe(2);
+
+	mode = "offline";
+	await context.setOffline(true);
+	await input.fill("backups");
+	await expect(dialog.getByRole("alert")).toContainText("You’re offline");
+	await expect(dialog.getByRole("alert").getByRole("button", { name: "Try again" })).toBeVisible();
+	await expect(dialog.getByRole("alert").getByRole("link")).toHaveCount(0);
+	mode = "working";
+	await context.setOffline(false);
+	await dialog.getByRole("alert").getByRole("button", { name: "Try again" }).click();
+	await expect(dialog.getByRole("grid").getByRole("row")).toHaveCount(2);
 });
 
 for (const width of [390, 1440]) {

@@ -1,8 +1,9 @@
 import { getMenuWithCacheHint, sanitizeHref } from "emdash";
 import type { Menu, MenuItem } from "./types";
 
-// Every menu the layout renders. Editors manage them under Menus in the admin.
-export const MENUS = ["primary", "header_cta", "footer_services", "footer_hosting", "footer_company", "footer_contact", "footer_legal"] as const;
+// Every menu the layout renders, including search_popular for the header's search modal. Editors manage them under
+// Menus in the admin.
+export const MENUS = ["primary", "header_cta", "footer_services", "footer_hosting", "footer_company", "footer_contact", "footer_legal", "search_popular"] as const;
 export type MenuName = (typeof MENUS)[number];
 
 export async function loadMenus() {

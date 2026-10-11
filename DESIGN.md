@@ -591,6 +591,17 @@ Components are engineered and plainly labelled. Every control looks built rather
   - Links in body small that turn Foam Aqua on hover.
   - A base row with the legal links, contact details and a "Websites · Hosting · Growth" eyebrow.
 
+### Search
+The header's search opens a modal over the page. It's Cloudflare's search component, restyled from inside (see `docs/plugin-ai-search.md`).
+- **Panel:** a White panel under the header, 600px wide, with 14px corners, a Lake Mist border and the lg shadow, over a navy scrim with no blur. It rises 8px as it enters, like a dropdown.
+  - On phones (600px and below) it fills the screen. Its search row stands where the header was, and an outline close button takes the menu button's place.
+  - On short screens (480px tall or less) it starts 12px from the top and uses the height.
+- **Search row:** the search glyph, the field in Source Sans 3 at 17px, and a close button (an icon button, 44px on touch). While the field has focus, the row's rule turns Current Teal.
+- **Results:** H5 titles over a two-line summary at 15px and the page's path at 14px, both in Ink 500. The selected result takes a Teal 50 fill, a Current Teal edge and a Deep Water title. Favourite stars are round icon buttons in Ink 500.
+- **An empty field** shows popular searches from the `search_popular` menu as tags under a micro label; choosing one searches in place. After a search finds nothing, they return under "No results for “…”" and "Check the spelling, or try a broader term.", with "Or ask us →".
+- **Waiting and failing:** "Searching…" beside a Current Teal spinner; after four seconds, a link to the /search page, which runs on the site's own index. A failure names what happened ("Search is temporarily unavailable", "You’re offline") and offers Try again (a small outline button) and, where it can help, the /search page. States are plain text in the list's column, not coloured banners: a search failing isn't the visitor's mistake.
+- **Footer:** key hints (hidden on touch screens) and a text credit to Cloudflare AI Search, without its orange logo.
+
 ### Forced Colours
 Windows high-contrast mode swaps the palette for system colours and drops box-shadows and painted backgrounds, so every state keeps a mark that survives:
 - **Focus:** each focus ring sits over a transparent 2px outline, which becomes the visible ring. Tabs draw theirs inside.
