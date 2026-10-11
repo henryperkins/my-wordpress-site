@@ -77,6 +77,11 @@
 							}
 						},
 						{
+							"slug": "note",
+							"label": "Note under the buttons",
+							"type": "string"
+						},
+						{
 							"slug": "image",
 							"label": "Photo (upload)",
 							"type": "image"
@@ -1050,7 +1055,7 @@
 		{
 			"slug": "lf_cta_band",
 			"label": "Call-to-action band",
-			"description": "Photo band with headline and button",
+			"description": "Photo band with headline and buttons",
 			"category": "Lakefront",
 			"currentVersion": 1,
 			"versions": [
@@ -1083,12 +1088,25 @@
 						},
 						{
 							"slug": "cta_label",
-							"label": "Button label",
+							"label": "Primary button label",
 							"type": "string"
 						},
 						{
 							"slug": "cta_url",
-							"label": "Button URL",
+							"label": "Primary button URL",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
+							}
+						},
+						{
+							"slug": "secondary_cta_label",
+							"label": "Secondary button label",
+							"type": "string"
+						},
+						{
+							"slug": "secondary_cta_url",
+							"label": "Secondary button URL",
 							"type": "string",
 							"validation": {
 								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
@@ -1790,6 +1808,11 @@
 					"type": "custom",
 					"label": "Blog",
 					"url": "/blog"
+				},
+				{
+					"type": "custom",
+					"label": "Start a project",
+					"url": "/contact"
 				}
 			]
 		},
@@ -1970,34 +1993,81 @@
 				"data": {
 					"title": "Home",
 					"template": "blocks",
-					"summary": "Lakefront Digital provides small businesses with the tools and expertise they need to create an online presence that stands out from the competition.",
-					"keywords": "web design, WordPress, WooCommerce, hosting, SEO, content, analytics, social media, Chicago, small business",
+					"summary": "We build, host and look after small-business websites across the US, from new sites to WordPress sites someone else built. Your first consultation is free.",
+					"keywords": "web design, WordPress, WooCommerce, hosting, managed WordPress hosting, website management, website maintenance, SEO, content, analytics, social media, Chicago, small business",
 					"content": [
 						{
 							"_type": "lf_hero",
 							"_version": 1,
 							"_key": "home-hero",
 							"eyebrow": "Chicago · Websites · Hosting · Growth",
-							"headline": "Empower Your Business Online with",
-							"highlight": "Lakefront Digital",
-							"lead": "Lakefront Digital provides small businesses with the tools and expertise they need to create an online presence that stands out from the competition.",
+							"headline": "We build, host and",
+							"highlight": "look after your website",
+							"lead": "Whether it's a new site, a WordPress site someone else built or an app, we run it on infrastructure we manage and keep it updated, backed up and monitored. From Chicago, for small businesses across the US.",
 							"primary_cta_label": "Book a consultation",
-							"primary_cta_url": "/consultation",
-							"secondary_cta_label": "View services",
-							"secondary_cta_url": "/services",
-							"photo": "shore",
-							"goal": "Our goal is to offer a one-stop solution for all web development and hosting needs, empowering small businesses to succeed online.",
+							"primary_cta_url": "/consultation#enquiry",
+							"secondary_cta_label": "Start a project",
+							"secondary_cta_url": "/contact#enquiry",
+							"note": "Your first consultation is free. We reply by email.",
+							"photo": "el-night",
 							"stack_label": "Built on",
 							"stack": "WordPress, WooCommerce, AWS, Cloudflare"
+						},
+						{
+							"_type": "lf_split",
+							"_version": 1,
+							"_key": "home-hosting",
+							"night": true,
+							"eyebrow": "Hosting and management",
+							"headline": "Your site, looked after every day",
+							"lead": "It runs on infrastructure we manage. We keep WordPress and its plugins up to date, back it up every day and monitor it around the clock.",
+							"checklist": "Hosting on AWS\nCloudflare speed and protection\nFast pages with NGINX caching\nDaily backups with Jetpack\n24/7 monitoring with New Relic\nWooCommerce online stores",
+							"primary_cta_label": "View hosting details",
+							"primary_cta_url": "/hosting",
+							"secondary_cta_label": "Move your site to us",
+							"secondary_cta_url": "/contact?service=hosting#enquiry",
+							"photo": "glass",
+							"panel_title": "yourbusiness.com",
+							"panel_badge": "Online",
+							"panel_rows": "Uptime target | 99.9%\nSSL | Let's Encrypt\nCDN and DDoS protection | Cloudflare\nMonitoring | New Relic · 24/7",
+							"photo_first": false
+						},
+						{
+							"_type": "lf_steps",
+							"_version": 1,
+							"_key": "home-consultation",
+							"eyebrow": "Website Consultation",
+							"headline": "Know where your site stands and what to do next",
+							"lead": "We review your site and your goals, then give you recommendations and a roadmap for growing online.",
+							"cta_label": "Book a consultation",
+							"cta_url": "/consultation#enquiry",
+							"steps": [
+								{
+									"icon": "scan-search",
+									"title": "Detailed Website Analysis"
+								},
+								{
+									"icon": "clipboard-list",
+									"title": "Strategic Business Planning"
+								},
+								{
+									"icon": "lightbulb",
+									"title": "Personalized Recommendations"
+								},
+								{
+									"icon": "route",
+									"title": "Growth Roadmap"
+								}
+							]
 						},
 						{
 							"_type": "lf_card_grid",
 							"_version": 1,
 							"_key": "home-services",
 							"anchor_id": "services",
-							"eyebrow": "Services Overview",
-							"headline": "Tailored to Deliver Exceptional Results",
-							"lead": "Discover our range of services designed to elevate your small business's online presence.",
+							"eyebrow": "Services",
+							"headline": "Build, improve and grow your site",
+							"lead": "WordPress design and development, plus the SEO, content, social and analytics work that helps customers find you.",
 							"cards": [
 								{
 									"icon": "gauge",
@@ -2048,67 +2118,23 @@
 							"_version": 1,
 							"_key": "home-about",
 							"photo_first": true,
-							"eyebrow": "About Lakefront Digital",
-							"headline": "Expert WordPress Web Design, SEO, and Tech Consulting for Small Businesses",
-							"body": "At Lakefront Digital, we are experts in boosting your digital presence. We specialize in WordPress web design, custom SEO strategies, content strategy, and digital marketing. We are dedicated to empowering your small business to compete and excel online.\n\nLakefront Digital is a technology company specializing in web design, WordPress customization and management, web hosting, and application deployment. We create customized websites tailored to meet the specific needs of our clients, ensuring a seamless user experience and robust functionality.",
-							"checklist": "Responsive web design\nBespoke WordPress solutions\nReliable web hosting\nEfficient application deployment",
-							"photo": "window"
-						},
-						{
-							"_type": "lf_split",
-							"_version": 1,
-							"_key": "home-hosting",
-							"night": true,
-							"eyebrow": "Hosting and E-commerce",
-							"headline": "Comprehensive WordPress Hosting and E-commerce Solutions for Small Businesses",
-							"lead": "This environment is designed to empower small businesses by providing a reliable, secure, and high-performing platform to manage their online presence and e-commerce activities effectively.",
-							"checklist": "AWS hosting\nCloudflare security and CDN\nNGINX caching\nAutomated backups\nNew Relic monitoring\nWooCommerce for e-commerce",
-							"primary_cta_label": "View hosting details",
-							"primary_cta_url": "/hosting",
-							"secondary_cta_label": "E-commerce solutions",
-							"secondary_cta_url": "/hosting#e-commerce",
-							"photo": "glass",
-							"panel_title": "yourbusiness.com",
-							"panel_badge": "Online",
-							"panel_rows": "Uptime target | 99.9%\nSSL | Let's Encrypt\nCDN and DDoS protection | Cloudflare\nMonitoring | New Relic · 24/7"
-						},
-						{
-							"_type": "lf_steps",
-							"_version": 1,
-							"_key": "home-consultation",
-							"eyebrow": "Website Consultation",
-							"headline": "Transform Your Online Presence",
-							"lead": "A comprehensive website consultation and business plan service for growth and success.",
-							"cta_label": "Book a consultation",
-							"cta_url": "/consultation",
-							"steps": [
-								{
-									"icon": "scan-search",
-									"title": "Detailed Website Analysis"
-								},
-								{
-									"icon": "clipboard-list",
-									"title": "Strategic Business Planning"
-								},
-								{
-									"icon": "lightbulb",
-									"title": "Personalized Recommendations"
-								},
-								{
-									"icon": "route",
-									"title": "Growth Roadmap"
-								}
-							]
+							"eyebrow": "Who you'll work with",
+							"headline": "One person, accountable for your site",
+							"body": "Lakefront Digital is run by Henry Perkins in Chicago. Henry builds and looks after every client site personally, so the person you meet in your first consultation is the person who keeps your site running.\n\nWe work with small businesses across the US: new WordPress sites and stores, WordPress sites someone else built, and apps that need a reliable home. When something needs changing, you email the person who knows your site.",
+							"photo": "willis-fog",
+							"night": false
 						},
 						{
 							"_type": "lf_cta_band",
 							"_version": 1,
 							"_key": "home-cta",
-							"eyebrow": "Start a project",
-							"headline": "Your One-Stop Solution",
-							"text": "From custom website design to content creation, we will help you achieve your digital marketing goals quickly and efficiently.",
+							"eyebrow": "Two ways to start",
+							"headline": "Hand your site to someone who'll look after it",
+							"text": "Book a free first consultation to talk it through, or start a project if you already know what you need. Either way, we reply by email.",
 							"cta_label": "Book a consultation",
-							"cta_url": "/consultation",
+							"cta_url": "/consultation#enquiry",
+							"secondary_cta_label": "Start a project",
+							"secondary_cta_url": "/contact#enquiry",
 							"photo": "dock"
 						}
 					]

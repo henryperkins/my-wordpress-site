@@ -43,15 +43,16 @@ lakefrontdigital.io is the marketing site for Lakefront Digital (Lakefront Digit
 - **The core offer is the ongoing hosting and management relationship.**
   - Consultations, builds, migrations and growth services all lead into it.
   - The contrast is with anyone who stops at launch: a freelancer who hands over the keys, a DIY site builder, or an agency that leaves hosting to the client.
-- **The live copy still leads with "a one-stop solution".** The owner has confirmed that hosting and management is the real edge.
+- **The home page leads with the relationship:** "We build, host and look after your website." The owner retired the "one-stop solution" framing on 2026-10-11; hosting and management is the edge.
 - **Open:** the site doesn't yet describe the stack and routine for apps and non-WordPress sites.
 
 ## Operating Context
 
 - **Two ways to get in touch:**
   - "Book a consultation" goes to `/consultation#enquiry`. It is a desktop header button and an ordinary mobile menu link; the page owns the primary mobile action.
-  - "Start a project" goes to /contact.
-  - Service pages link to `/contact?service=<slug>#enquiry`, which pre-ticks that need.
+  - "Start a project" goes to /contact. It is in the main menu, and the home hero and closing band pair it with "Book a consultation"; those buttons go straight to each form's `#enquiry`.
+  - Service pages link to `/contact?service=<slug>#enquiry`, which pre-ticks that need. The home hosting section's "Move your site to us" uses `?service=hosting`.
+  - Under the home hero's buttons, a note says the first consultation is free and that we reply by email.
   - The footer also lists the email address and phone number.
 - **The consultation form** asks for name, work email, an optional phone number and notes.
 - **The project form** asks for:
@@ -149,10 +150,11 @@ lakefrontdigital.io is the marketing site for Lakefront Digital (Lakefront Digit
 - **Four SEO guide outlines** in `seed/seed.json`. They're drafts, too thin to publish, and wait for full articles.
 - **SEO page copy** in the design kit (`ui_kits/website/SeoScreen.jsx`), outside this repo.
 - **Assets:** 13 bundled photos in `public/images/`, and the brand files in `public/brand/`.
+- **The founder, Henry Perkins, is named in the home page's About section** (owner-approved 2026-10-11). A photo of the founder is to come; until then the section uses a Chicago photo.
 - **Nothing on this list exists. Don't invent any of it:**
   - testimonials or reviews
   - client logos
-  - team members or bios
+  - team members, or a bio beyond what the owner supplies
   - years in business
   - counts of clients or hosted sites
   - measured uptime

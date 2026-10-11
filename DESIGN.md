@@ -280,7 +280,7 @@ The palette follows a water-texture progression, from Lake Navy through Deep Wat
   - Step numbers and numbered-list counters.
   - It reaches 8.3:1 on Foam White.
 - **Current Teal** (#278891): for large type and graphics only.
-  - The hero's highlighted brand words.
+  - The hero headline's highlighted closing words.
   - Eyebrow rules, and the current-page and tab underline ink.
   - Check marks, legal section numbers (20px bold, which counts as large text) and prose bullet dashes.
   - The focus ring and the input focus border.
@@ -382,7 +382,7 @@ The page is a single 1200px column, padded clamp(20px, 4vw, 40px) at the sides. 
 
 **Splits:**
 - **Hero:** asymmetric split (left 46% copy beside 54% photo) with a 56px gap, and the "Built on" strip 48px below them. It stacks at 900px, with a 340px photo. Stacked, the strip comes straight after the buttons and the photo closes the hero.
-- **About split:** 1.1fr copy beside a 0.9fr photo, reversed when the photo leads, with a 64px gap. It stacks at 960px.
+- **About split:** 1.1fr copy beside a 0.9fr photo, reversed when the photo leads, with a 64px gap. It stacks at 960px. Its paragraphs cap at 65ch, so the stacked copy keeps a readable measure.
 - **Service tabs:** 1.05fr copy beside a 1fr photo, with a 56px gap. At 760px and below, a labelled native service selector replaces the tab strip.
 - **Consultation summary:** the explanation and action precede the photo in reading order. At 900px and below the photo follows the summary at 240px tall; the form comes before preparation material.
 - **Legal pages:** a 260px sticky table of contents beside a 720px body, with a 64px gap. They go to one column at 900px.
@@ -414,7 +414,7 @@ Depth comes from tone, not shadow. Surfaces separate as a Foam White canvas, Whi
 
 Photographs that carry text sit under navy protection, measured from the copy rather than the photo, so a narrower screen never thins the navy under the text:
 - a left-to-right gradient from 94% navy at the left edge:
-  - On the CTA band it reaches 78% at the end of the copy column and clears by 874px, 78% of the band's widest width.
+  - On the CTA band it reaches 85% at the end of the copy column, the strength the ghost button's 16px Foam Aqua label needs over the photo's bright middle at tablet widths, and clears 410px later (914px on the widest band).
   - On the 404 it reaches 85% at the end of the copy, where its small Foam Aqua links can reach, and clears 300px later.
 - on phones, a flat 88% navy scrim, the strength a 13px Foam Aqua eyebrow needs over a bright photo. The CTA band avoids the scrim on phones by moving its photo above the copy.
 
@@ -487,11 +487,15 @@ Components are engineered and plainly labelled. Every control looks built rather
   - It's the side action in a section head.
   - On night-water it inverts: Foam White with a navy label.
 - **Outline:** transparent, with a 1.5px Lake Navy border and label, and a teal wash on hover. It's the partner to a primary button on light grounds.
-- **Ghost:** transparent, with Deep Water text (Foam Aqua on night). It's the secondary action in night sections.
+- **Ghost:** transparent, with Deep Water text (Foam Aqua on night). It's the secondary action in night sections, including the CTA band.
 - **Link:** a label with a 1.5px underline at 35% opacity that fills in on hover, plus a trailing arrow. It's used for "Learn more" on cards.
 - **Icon buttons:** 40px squares with 8px corners, transparent, with a teal wash on hover.
   - The outline version adds a Lake Mist border, as on the mobile menu button. That button is 44px square at 600px and below.
-- **Pairs on phones:** at 480px and below, a stacked primary and its partner run full width, so the two read as one decision.
+- **Pairs on phones:** at 480px and below, a stacked primary and its partner run full width, so the two read as one decision. In the CTA band this starts at 560px, because a ghost partner that wraps under its coral button would sit indented by its own padding.
+- **Note under a pair:** one short line that answers the question before the click, such as "Your first consultation is free. We reply by email."
+  - Body small (15px) in Ink 500, or Text inverse muted on night-water, capped at 52ch.
+  - It takes its own line 12px under the buttons, inside the same group.
+  - Use it where the decision happens, such as the home hero, not under every button.
 - **Touch targets:** on touch screens, and at 1080px and below, the header and footer controls answer a 44px target, and so do these:
   - Controls that stay small by design keep their look and grow only their hit area: spec tips, search suggestions and breadcrumb links.
   - Segmented tabs, the Print button and the 404's quick links grow to 44px tall.
@@ -611,7 +615,7 @@ The system's signature wayfinding: short uppercase labels above headlines.
 - **The CTA band:**
   - A 28px-cornered navy band at least 380px tall.
   - Its photograph sits under the left-hand navy protection, which follows the copy column.
-  - The copy is capped at 520px, with 56px padding, and ends in a large coral button.
+  - The copy is capped at 560px, with 56px padding, and ends in a large coral button. When the band offers a second route, a ghost partner sits beside it; the 448px inside the padding fits both at their large size.
   - On phones (700px and below) the photograph becomes a strip across the top, clamp(170px, 50vw, 260px) tall, that fades into the navy. The copy follows on solid navy with 24px sides.
 
 ### Numbered Steps

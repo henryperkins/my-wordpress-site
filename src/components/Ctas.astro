@@ -7,9 +7,11 @@ interface Props {
 	secondary?: Cta;
 	size?: "md" | "lg";
 	secondaryVariant?: "outline" | "ghost" | "secondary";
+	/** One short line under the buttons that answers the question before the click, e.g. "Your first consultation is free." */
+	note?: string | null;
 }
 
-const { primary, secondary, size = "md", secondaryVariant = "outline" } = Astro.props;
+const { primary, secondary, size = "md", secondaryVariant = "outline", note } = Astro.props;
 ---
 
 {
@@ -25,6 +27,7 @@ const { primary, secondary, size = "md", secondaryVariant = "outline" } = Astro.
 					{secondary.label}
 				</Button>
 			)}
+			{note && <p class="lfw-ctas__note">{note}</p>}
 		</div>
 	)
 }

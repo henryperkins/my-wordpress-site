@@ -18,6 +18,7 @@ export interface PageContentLfHeroV1Block {
   "primary_cta_url"?: string | null;
   "secondary_cta_label"?: string | null;
   "secondary_cta_url"?: string | null;
+  "note"?: string | null;
   "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
   "photo"?: "shore" | "window" | "glass" | "ripple" | "dock" | "wave" | "aqua-tower" | "loop-night" | "el-night" | "willis-fog" | "brick-lane" | "alley-night" | "alley-dusk" | null;
   "goal"?: string | null;
@@ -142,6 +143,8 @@ export interface PageContentLfCtaBandV1Block {
   "text"?: string | null;
   "cta_label"?: string | null;
   "cta_url"?: string | null;
+  "secondary_cta_label"?: string | null;
+  "secondary_cta_url"?: string | null;
   "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
   "photo"?: "shore" | "window" | "glass" | "ripple" | "dock" | "wave" | "aqua-tower" | "loop-night" | "el-night" | "willis-fog" | "brick-lane" | "alley-night" | "alley-dusk" | null;
 }

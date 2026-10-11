@@ -26,7 +26,7 @@ const stack = list(value.stack);
 					{value.highlight && <Fragment>{" "}<span class="lfw-brandword">{value.highlight}</span></Fragment>}
 				</Heading>
 				{value.lead && <p class="lfw-lead">{value.lead}</p>}
-				<Ctas primary={cta(value.primary_cta_label, value.primary_cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} size="lg" />
+				<Ctas primary={cta(value.primary_cta_label, value.primary_cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} size="lg" note={value.note} />
 			</div>
 			{/* Before the photo in reading order: under both columns on wide screens, straight after the buttons once stacked */}
 			{

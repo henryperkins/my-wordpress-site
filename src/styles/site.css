@@ -43,6 +43,8 @@
 .lfw-hero__grid{display:grid;grid-template-columns:minmax(0,46fr) minmax(0,54fr);gap:48px 56px;align-items:center}
 .lfw-hero__copy{grid-column:1;grid-row:1;display:flex;flex-direction:column;align-items:flex-start;gap:24px;padding:24px 0}
 .lfw-hero__ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
+/* The note takes its own line under the buttons, inside the same group, so it reads with the click it reassures */
+.lfw-ctas__note{flex-basis:100%;margin:0;max-width:52ch;font:var(--type-body-sm);color:var(--text-muted)}
 .lfw-hero__media{grid-column:2;grid-row:1;position:relative;height:clamp(420px,44vw,580px);border-radius:var(--radius-2xl);overflow:hidden;background:var(--surface-sunken)}
 .lfw-hero__media img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 38%}
 .lfw-strip{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px 32px;margin-top:48px;padding:24px 0 0;border-top:1px solid var(--border-default)}
@@ -54,7 +56,9 @@
 @media (max-width:900px){.lfw-hero__grid{grid-template-columns:1fr;gap:16px}.lfw-hero__copy,.lfw-hero__media{grid-column:auto;grid-row:auto}.lfw-hero__media{height:340px}.lfw-hero__grid>.lfw-strip{margin-bottom:16px}}
 @media (max-width:760px){.lfw-hero{margin-bottom:var(--section-y-sm)}}
 /* Phones: a stacked pair of buttons runs full width, so the two read as one decision */
-@media (max-width:480px){.lfw-hero__ctas{align-self:stretch;flex-direction:column}.lfw-hero__ctas>.lf-btn{width:100%}}
+@media (max-width:480px){.lfw-hero__ctas{align-self:stretch;flex-direction:column}.lfw-hero__ctas>.lf-btn{width:100%}.lfw-ctas__note{flex-basis:auto}}
+/* A ghost partner that wraps under its coral button would sit indented by its own padding, so the band's pair fills each row instead */
+@media (max-width:560px){.lfw-band__copy>.lfw-hero__ctas{align-self:stretch}.lfw-band__copy>.lfw-hero__ctas>.lf-btn{flex:1 1 auto}}
 
 /* Grids & tiles */
 .lfw-grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--grid-gutter)}
@@ -108,6 +112,8 @@
 .lfw-about__media{height:560px;border-radius:var(--radius-2xl);overflow:hidden;background:var(--surface-sunken)}
 .lfw-about__media img{display:block;width:100%;height:100%;object-fit:cover;object-position:60% 50%}
 .lfw-about__copy{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+/* Stacked at 960px and below, the copy spans the container; cap the paragraphs at a readable measure */
+.lfw-about__copy>.lfw-p{max-width:65ch}
 @media (max-width:960px){.lfw-about{grid-template-columns:1fr;gap:32px}.lfw-about__media{height:320px}}
 
 /* Night hosting band */
@@ -140,12 +146,12 @@
 .lfw-offer .lfw-card-benefit{border-top:0;padding-top:4px}
 
 /* CTA band */
-.lfw-band{--copy-w:520px;--copy-pad:56px;position:relative;display:flex;align-items:center;min-height:380px;border-radius:var(--radius-2xl);overflow:hidden;background:var(--lake-navy)}
+.lfw-band{--copy-w:560px;--copy-pad:56px;position:relative;display:flex;align-items:center;min-height:380px;border-radius:var(--radius-2xl);overflow:hidden;background:var(--lake-navy)}
 .lfw-band>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 50%}
 /* Photo protection is measured from the copy, not the photo, so a narrower screen never thins the navy under the text: 94% navy at the left edge, --protect-hold at the end of the copy, clear --protect-fade later */
 .lfw-band__shade,.lfw-404__shade{position:absolute;inset:0;background:linear-gradient(90deg,color-mix(in srgb,var(--lake-navy) 94%,transparent) 0,color-mix(in srgb,var(--lake-navy) var(--protect-hold),transparent) var(--copy-end),transparent calc(var(--copy-end) + var(--protect-fade)))}
-/* The band's text ends at 464px; clearing 410px later keeps the desktop photo open from 874px, 78% of the widest band */
-.lfw-band__shade{--copy-end:calc(var(--copy-w) - var(--copy-pad));--protect-hold:78%;--protect-fade:410px}
+/* The band's copy is wide enough for a large button and its ghost partner side by side (448px inside the padding). The text ends at 504px; 85% navy there keeps the ghost's 16px label at 4.5:1 over the bright middle of the photo at tablet widths, and clearing 410px later keeps the desktop photo open from 914px */
+.lfw-band__shade{--copy-end:calc(var(--copy-w) - var(--copy-pad));--protect-hold:85%;--protect-fade:410px}
 .lfw-band__copy{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:18px;max-width:var(--copy-w);padding:var(--copy-pad)}
 /* Phones: the photo becomes a strip across the top that fades into the navy, and the copy sits below it on solid navy */
 @media (max-width:700px){.lfw-band{--band-photo-h:clamp(170px,50vw,260px);flex-direction:column;align-items:stretch;min-height:0}.lfw-band>img{position:relative;inset:auto;height:var(--band-photo-h)}.lfw-band__shade{inset:0 0 auto;height:var(--band-photo-h);background:linear-gradient(0deg,var(--lake-navy),transparent 55%)}.lfw-band__copy{max-width:none;padding:4px 24px 32px}.lfw-band__copy>.lfw-p{max-width:60ch}}
