@@ -471,7 +471,7 @@
 		{
 			"slug": "lf_steps",
 			"label": "Numbered steps",
-			"description": "Numbered icon steps with an optional button",
+			"description": "Numbered steps, with optional icons and an optional button",
 			"category": "Lakefront",
 			"currentVersion": 1,
 			"versions": [
