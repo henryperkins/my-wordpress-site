@@ -46,14 +46,6 @@ search-modal-snippet {
   overflow-wrap: anywhere;
 }
 
-.lfw-product__summary .lf-btn {
-  height: auto;
-  min-height: calc(var(--space-12) + var(--space-1));
-  padding-block: var(--space-3);
-  line-height: 1.35;
-  white-space: normal;
-}
-
 /* The effective date keeps its pill styling and can grow to more than one line. */
 .lfw-legal-meta .lf-badge {
   height: auto;
@@ -197,6 +189,12 @@ h4,
 .lfw-route__go,
 .lf-card .lf-btn--link {
   white-space: normal;
+}
+
+/* Text links take the 4px corners DESIGN.md gives link focus, and the focus outline follows them. Buttons, nav items
+   and other classed links keep their own radius. */
+:where(a:not([class])):focus-visible {
+  border-radius: var(--radius-xs);
 }
 
 @media (forced-colors: active) {

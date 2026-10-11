@@ -63,6 +63,8 @@
 @media (max-width:760px){.lfw-hero{margin-bottom:var(--section-y-sm)}}
 /* Phones: a stacked pair of buttons runs full width, so the two read as one decision */
 @media (max-width:480px){.lfw-hero__ctas{align-self:stretch;flex-direction:column}.lfw-hero__ctas>.lf-btn{width:100%}.lfw-ctas__note{flex-basis:auto}}
+/* From 901 to 1080px the hero's copy column is too narrow for both large buttons side by side, so its pair stacks full width there too, rather than wrapping into two odd widths */
+@media (min-width:901px) and (max-width:1080px){.lfw-hero__copy>.lfw-hero__ctas{align-self:stretch;flex-direction:column}.lfw-hero__copy>.lfw-hero__ctas>.lf-btn{width:100%}.lfw-hero__copy .lfw-ctas__note{flex-basis:auto}}
 /* A ghost partner that wraps under its coral button would sit indented by its own padding, so the band's pair fills each row instead */
 @media (max-width:560px){.lfw-band__copy>.lfw-hero__ctas{align-self:stretch}.lfw-band__copy>.lfw-hero__ctas>.lf-btn{flex:1 1 auto}}
 
@@ -102,7 +104,8 @@
 
 /* Lists */
 .lfw-checks{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.lfw-checks--2{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 24px}
+/* Two columns only while each is at least 250px, enough for the longest item on one line; narrower, one column. The 50% term caps it at two columns (with a pixel of slack for subpixel widths). */
+.lfw-checks--2{align-self:stretch;grid-template-columns:repeat(auto-fit,minmax(max(250px,calc(50% - 13px)),1fr));gap:14px 24px}
 .lfw-checks li{display:flex;align-items:flex-start;gap:10px;font:var(--type-body);font-size:16px;line-height:1.45;color:var(--text-body)}
 .lfw-checks li>.lf-icon{margin-top:2px;color:var(--current-teal)}
 [data-theme="night"] .lfw-checks li>.lf-icon{color:var(--foam-aqua)}
@@ -127,6 +130,8 @@
 .lfw-tips{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px}
 @media (max-width:960px){.lfw-steps,.lfw-deliv{grid-template-columns:repeat(2,minmax(0,1fr))}.lfw-tips{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:600px){.lfw-steps,.lfw-deliv,.lfw-tips{grid-template-columns:1fr}}
+/* Above phones the steps share the grid's rows (subgrid), so a title that wraps doesn't push its sentence below its neighbours'; a step without a sentence spans one row fewer */
+@media (min-width:601px){.lfw-step{display:grid;grid-row:span 4;grid-template-rows:subgrid;row-gap:12px;justify-items:start}.lfw-step:not(:has(>.lfw-card-text)){grid-row:span 3}}
 /* Phones: each step keeps its number under the rule, with the tile beside the title */
 @media (max-width:600px){.lfw-step{display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px 16px;align-items:center}.lfw-step>*{grid-column:1/-1}.lfw-step>.lfw-tile{grid-column:1}.lfw-step>h3,.lfw-step>.lfw-card-text{grid-column:2}}
 

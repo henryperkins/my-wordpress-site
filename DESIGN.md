@@ -381,6 +381,7 @@ The page is a single 1200px column, padded clamp(20px, 4vw, 40px) at the sides. 
 **Grids:**
 - A 24px gutter throughout.
 - Card grids run three across, drop to two at 960px, and to one at 600px. Grids of two or four cards use two columns.
+- A split's checklist runs two columns only while each column (at least 250px) holds an item on one line; narrower, it runs one column.
 
 **Splits:**
 - **Hero:** asymmetric split (left 46% copy beside 54% photo) with a 56px gap, and the "Built on" strip 48px below them. It stacks at 900px, with a 340px photo. Stacked, the strip comes straight after the buttons and the photo closes the hero.
@@ -495,7 +496,7 @@ Components are engineered and plainly labelled. Every control looks built rather
 - **Link:** a label with a 1.5px underline at 35% opacity that fills in on hover, plus a trailing arrow. It's used for "Learn more" on cards.
 - **Icon buttons:** 40px squares with 8px corners, transparent, with a teal wash on hover.
   - The outline version adds a Lake Mist border, as on the mobile menu button. That button is 44px square at 600px and below.
-- **Pairs on phones:** at 480px and below, a stacked primary and its partner run full width, so the two read as one decision. In the CTA band this starts at 560px, because a ghost partner that wraps under its coral button would sit indented by its own padding.
+- **Pairs on phones:** at 480px and below, a stacked primary and its partner run full width, so the two read as one decision. In the CTA band this starts at 560px, because a ghost partner that wraps under its coral button would sit indented by its own padding. The hero's pair also stacks full width from 901 to 1080px, where its copy column is too narrow for both large buttons side by side.
 - **Long labels:** a label too long for its line wraps inside its button, centred, and the button grows from its 44px or 52px minimum. This holds at any width for button pairs and the button beside a section heading. Link-style actions in route rows and cards wrap the same way, with the arrow at the end.
 - **Note under a pair:** one short line that answers the question before the click, such as "Your first consultation is free. We reply by email."
   - Body small (15px) in Ink 500, or Text inverse muted on night-water, capped at 52ch.
@@ -631,6 +632,7 @@ The system's signature wayfinding: short uppercase labels above headlines.
 - Each sits under a 2px Lake Mist rule, above an icon tile and an H4 title. On phones the number stays under the rule and the tile sits beside the title.
 - Four steps make a grid of deliverables; five make a row of preparation tips.
 - Each step can carry one plain sentence under its title, in card text (16px Ink 500). Keep it to one sentence, so the grid still scans as four parts.
+- Above phones, the steps share the grid's rows (subgrid), so a title that wraps to two lines doesn't push its sentence below its neighbours'.
 
 ### Route Rows
 The signage form of a card grid (its "rows" layout), for sending visitors down the route that fits their situation, such as the home page's "Where are you starting from?".
