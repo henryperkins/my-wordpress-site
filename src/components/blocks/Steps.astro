@@ -22,9 +22,11 @@ const grid = count >= 5 ? "lfw-tips" : count === 4 ? "lfw-deliv" : "lfw-deliv lf
 				steps.map((step, i) => (
 					<li class="lfw-step">
 						<span class="lfw-step__n" aria-hidden="true">{pad2(i + 1)}</span>
-						<span class="lfw-tile">
-							<Icon name={step.icon} size={22} />
-						</span>
+						{step.icon && (
+							<span class="lfw-tile">
+								<Icon name={step.icon} size={22} />
+							</span>
+						)}
 						<h3 class="lfw-h4">{step.title}</h3>
 						{step.text && <p class="lfw-card-text">{step.text}</p>}
 					</li>

@@ -528,7 +528,7 @@
 										"slug": "icon",
 										"label": "Icon",
 										"type": "select",
-										"required": true,
+										"required": false,
 										"options": [
 											"activity",
 											"badge-check",
@@ -2015,15 +2015,13 @@
 							"eyebrow": "Chicago · Websites · Hosting · Growth",
 							"headline": "We build, host and",
 							"highlight": "look after your website",
-							"lead": "Whether it’s a new site, a WordPress site someone else built or an app, we run it on infrastructure we manage and keep it updated, backed up and monitored. From Chicago, for small businesses across the US.",
+							"lead": "We keep it updated, backed up and monitored. From Chicago, for small businesses across the US.",
 							"primary_cta_label": "Book a consultation",
 							"primary_cta_url": "/consultation#enquiry",
 							"secondary_cta_label": "Start a project",
 							"secondary_cta_url": "/contact#enquiry",
 							"note": "Not sure what you need? Your first consultation is free. Either way, we reply by email.",
-							"photo": "el-night",
-							"stack_label": "Built on",
-							"stack": "WordPress, WooCommerce, AWS, Cloudflare"
+							"photo": "el-night"
 						},
 						{
 							"_type": "lf_card_grid",
@@ -2071,7 +2069,7 @@
 							"photo_first": true,
 							"eyebrow": "Who you’ll work with",
 							"headline": "One person, accountable for your site",
-							"body": "Lakefront Digital is run by Henry Perkins in Chicago. Henry builds and looks after every client site personally, so the person you meet in your first consultation is the person who keeps your site running.\n\nWe work with small businesses across the US: new WordPress sites and stores, WordPress sites someone else built, and apps that need a reliable home. When something needs changing, you email the person who knows your site.",
+							"body": "Lakefront Digital is run by Henry Perkins in Chicago. Henry builds and looks after every client site personally, so the person you meet in your first consultation is the person who keeps your site running.",
 							"primary_cta_label": "Book a consultation",
 							"primary_cta_url": "/consultation#enquiry",
 							"photo": "willis-fog",
@@ -2102,26 +2100,20 @@
 							"eyebrow": "Website Consultation",
 							"headline": "Know where your site stands and what to do next",
 							"lead": "Your first consultation is a free conversation about your site and your goals. Everything after that is quoted.",
-							"cta_label": "Book a consultation",
-							"cta_url": "/consultation#enquiry",
 							"steps": [
 								{
-									"icon": "scan-search",
 									"title": "Website analysis",
 									"text": "We review how your site looks, performs and gets found today."
 								},
 								{
-									"icon": "clipboard-list",
 									"title": "Business planning",
 									"text": "We work out what the site needs to do for your business."
 								},
 								{
-									"icon": "lightbulb",
 									"title": "Recommendations for your goals",
 									"text": "Specific changes to make, matched to those goals."
 								},
 								{
-									"icon": "route",
 									"title": "Growth roadmap",
 									"text": "What to do next, and what can wait."
 								}
@@ -2536,23 +2528,18 @@
 							"headline": "Preparation tips",
 							"steps": [
 								{
-									"icon": "target",
 									"title": "Identify goals"
 								},
 								{
-									"icon": "database",
 									"title": "Gather data"
 								},
 								{
-									"icon": "users",
 									"title": "Know your audience"
 								},
 								{
-									"icon": "message-square",
 									"title": "Prepare questions"
 								},
 								{
-									"icon": "binoculars",
 									"title": "Review competitors"
 								}
 							]

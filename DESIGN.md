@@ -384,7 +384,7 @@ The page is a single 1200px column, padded clamp(20px, 4vw, 40px) at the sides. 
 - A split's checklist runs two columns only while each column (at least 250px) holds an item on one line; narrower, it runs one column.
 
 **Splits:**
-- **Hero:** asymmetric split (left 46% copy beside 54% photo) with a 56px gap, and the "Built on" strip 48px below them. It stacks at 900px, with a 340px photo. Stacked, the strip comes straight after the buttons and the photo closes the hero.
+- **Hero:** asymmetric split (left 46% copy beside 54% photo) with a 56px gap, and an optional "Built on" strip 48px below them. The home page doesn't use the strip. It stacks at 900px, with a 340px photo. Stacked, the strip comes straight after the buttons and the photo closes the hero.
 - **About split:** 1.1fr copy beside a 0.9fr photo, with a 64px gap. When the photo leads, it moves to the left, but only while the two sit side by side. It stacks at 960px with the copy and its button first, then the photo in a 4:5 frame up to 400px wide, sized for the founder's portrait. Its paragraphs cap at 65ch, so the stacked copy keeps a readable measure. An uploaded photo crops around its upper centre, where a face sits.
 - **Service tabs:** 1.05fr copy beside a 1fr photo, with a 56px gap. At 760px and below, a labelled native service selector replaces the tab strip.
 - **Consultation summary:** the explanation and action precede the photo in reading order. At 900px and below the photo follows the summary at 240px tall; the form comes before preparation material.
@@ -509,7 +509,7 @@ Components are engineered and plainly labelled. Every control looks built rather
 - **Unused variant:** a Deep Water brand button exists in the kit but not on the site.
 
 ### Chips
-- **Tags:** name real tools, such as AWS, Cloudflare and Jetpack, in spec cards and the hero's "Built on" strip.
+- **Tags:** name real tools, such as AWS, Cloudflare and Jetpack, in spec cards and the hero's optional "Built on" strip.
   - A White pill with a 1px Lake Mist border.
   - Lake Navy Source Sans 3 at 600 and 14px, 32px tall. The small size is 26px tall with 13px text.
   - Linked tags take a Foam Aqua border and a Teal 50 fill on hover.
@@ -630,7 +630,7 @@ The system's signature wayfinding: short uppercase labels above headlines.
 
 ### Numbered Steps
 - Steps are numbered 01 to 05 in Manrope 800 at 13px, spaced 0.16em, in the eyebrow colour: Deep Water, or Foam Aqua on night-water.
-- Each sits under a 2px Lake Mist rule, above an icon tile and an H4 title. On phones the number stays under the rule and the tile sits beside the title.
+- Each sits under a 2px Lake Mist rule, above an H4 title, and the number and rule carry the sequence on their own. An icon tile is optional, and the site's steps go without one. When a step has a tile, it sits between the number and the title, or beside the title on phones.
 - Four steps make a grid of deliverables; five make a row of preparation tips.
 - Each step can carry one plain sentence under its title, in card text (16px Ink 500). Keep it to one sentence, so the grid still scans as four parts.
 - Above phones, the steps share the grid's rows (subgrid), so a title that wraps to two lines doesn't push its sentence below its neighbours'.
