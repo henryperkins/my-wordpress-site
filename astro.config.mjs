@@ -30,7 +30,9 @@ export default defineConfig({
 	integrations: [
 		react(),
 		emdash({
-			database: d1({ binding: "DB", session: "auto" }),
+			// coalesce (experimental) batches SELECTs started together into one D1 round trip. A write started in
+			// the same turn as a read may run first, so await any read a write depends on before issuing the write.
+			database: d1({ binding: "DB", session: "auto", coalesce: true }),
 			storage: r2({ binding: "MEDIA" }),
 			sandboxRunner,
 			// Site search: Cloudflare AI Search through the AI_SEARCH namespace binding in wrangler.jsonc.
