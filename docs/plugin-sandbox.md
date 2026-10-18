@@ -10,6 +10,10 @@ limits to the runner, and the upstream fixes below have not shipped in the
 installed registry plugins. The production verification recorded here remains
 specific to 1.0.1; the follow-up verification below records the 1.2.0 checks.
 
+Retained again for the 2026-10-18 upgrade to EmDash and `@emdash-cms/cloudflare`
+1.3.0. The 1.3.0 runtime still creates the runner without limits, the runner
+still defaults to 10 subrequests, and #3383 and #3616 are both still open.
+
 The Cloudflare runner defaults to 10 subrequests per plugin invocation. EmDash
 1.0.1 does not pass resource limits when it creates the runner, so raising the
 parent Worker's `limits.subrequests` does not change that plugin budget.
