@@ -14,6 +14,13 @@ Retained again for the 2026-10-18 upgrade to EmDash and `@emdash-cms/cloudflare`
 1.3.0. The 1.3.0 runtime still creates the runner without limits, the runner
 still defaults to 10 subrequests, and #3383 and #3616 are both still open.
 
+Retained again for the 2026-11-05 upgrade to 1.4.0, for the same reasons: the
+runtime still passes no limits, the default is still 10, and #3383 and #3616
+are still open. 1.4.0 adds a per-invocation runtime bridge for sandboxed
+content, taxonomy and comment writes ([#4394](https://github.com/emdash-cms/emdash/pull/4394)).
+The runner creates it inside `invokeRoute()` and `invokeHook()`, beneath the
+adapter, and the adapter forwards the runner's other options unchanged.
+
 The Cloudflare runner defaults to 10 subrequests per plugin invocation. EmDash
 1.0.1 does not pass resource limits when it creates the runner, so raising the
 parent Worker's `limits.subrequests` does not change that plugin budget.

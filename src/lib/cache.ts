@@ -30,4 +30,7 @@ export async function cachePage(Astro: AstroGlobal, options: EdgeCache = { maxAg
 	Astro.cache.set(settings.cacheHint);
 	for (const hint of hints) Astro.cache.set(hint);
 	Astro.cache.set(options);
+	// Only the edge copy is purged on change, so browsers must ask again on every visit. Astro used to add this beside
+	// EmDash's Last-Modified, which EmDash 1.4 dropped because it missed settings, menu and deletion changes.
+	Astro.response.headers.set("Cache-Control", "no-cache");
 }
