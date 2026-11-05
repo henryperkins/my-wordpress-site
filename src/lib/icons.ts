@@ -3,7 +3,8 @@
 const files = import.meta.glob<string>("../icons/*.svg", { query: "?raw", import: "default", eager: true });
 
 // Icons are inlined, so drop any embedded metadata (provenance manifests, editor data) at build time.
-const clean = (svg: string) =>
+// The source files keep it. lib/waves.ts cleans the decorative wave drawings the same way.
+export const cleanSvg = (svg: string) =>
 	svg
 		.replace(/<metadata[\s\S]*?<\/metadata>/g, "")
 		.replace(/\s+xmlns:[a-z0-9]+="[^"]*"/gi, "")
@@ -11,7 +12,7 @@ const clean = (svg: string) =>
 
 const icons = new Map<string, string>();
 for (const [path, svg] of Object.entries(files)) {
-	icons.set(path.slice(path.lastIndexOf("/") + 1, -4), clean(svg));
+	icons.set(path.slice(path.lastIndexOf("/") + 1, -4), cleanSvg(svg));
 }
 
 export const iconSvg = (name?: string | null): string => (name ? icons.get(name) ?? "" : "");

@@ -2,6 +2,8 @@
 import type { BlockComponentProps } from "emdash/ui";
 import type { PageContentBlock } from "../../../emdash-env";
 import Badge from "../Badge.astro";
+import Eyebrow from "../Eyebrow.astro";
+import GoLink from "../GoLink.astro";
 import Icon from "../Icon.astro";
 import SectionHead from "../SectionHead.astro";
 import { href } from "../../lib/text";
@@ -13,74 +15,118 @@ const cards = value.cards ?? [];
 // Rows read like signage: a situation, what we do about it, and where to go next. Each row's link
 // names only its destination and stretches over the row; the row's heading gives it context.
 const rows = value.layout === "rows";
+// Columns (the home page's starting points): two columns of routes, each led by a round icon, split by hairlines that
+// stop short of every crossing. Each route's padding and rules follow its place in the grid (site.css), so any number
+// of cards works, and an odd last card sits alone in the left column. Badges and benefits aren't shown here.
+const columns = value.layout === "columns";
 const roomy = cards.length <= 2;
 const grid = cards.length === 2 || cards.length === 4 ? "lfw-grid2" : "lfw-grid3";
 ---
 
-<section class="lfw-section" id={value.anchor_id || undefined}>
-	<div class="lfw-container">
-		<SectionHead eyebrow={value.eyebrow} headline={value.headline} lead={value.lead} />
-		{
-			rows && (
-				<ul class="lfw-routes" role="list">
+{
+	columns ? (
+		<section class="lfw-section lfw-section--paths" id={value.anchor_id || undefined}>
+			<div class="lfw-container">
+				{(value.eyebrow || value.headline || value.lead) && (
+					<div class="lfw-pathhead">
+						{/* An eyebrow brings its own short rule; without one, a longer rule leads the heading */}
+						{value.eyebrow ? <Eyebrow rule="leading">{value.eyebrow}</Eyebrow> : <span class="lfw-pathhead__rule" aria-hidden="true" />}
+						{value.headline && <h2 class="lfw-h2 lfw-h2--tight">{value.headline}</h2>}
+						{value.lead && <p class="lfw-lead">{value.lead}</p>}
+					</div>
+				)}
+				<ul class="lfw-paths" role="list">
 					{cards.map((card) => {
 						const url = href(card.link_url);
+						// The link names only its destination and stretches over the route, so the whole route is the target
+						const go = url && card.link_label ? url : undefined;
 						return (
-							<li class="lfw-route">
-								<span class="lfw-tile">
-									<Icon name={card.icon} size={24} />
+							<li class:list={["lfw-path", go && "lfw-path--go"]}>
+								<span class="lfw-path__icon" aria-hidden="true">
+									<Icon name={card.icon} size={32} />
 								</span>
-								<h3 class="lfw-route__title">{card.title}</h3>
-								{card.text && <p class="lfw-route__text">{card.text}</p>}
-								{url && card.link_label && (
-									<a class="lf-btn lf-btn--link lfw-route__go" href={url}>
-										<span class="lf-btn__label">{card.link_label}</span>
-										<Icon name="arrow-right" size={16} class="lf-btn__icon-r" />
-									</a>
-								)}
+								<div class="lfw-path__copy">
+									<h3 class="lfw-path__title">{card.title}</h3>
+									{card.text && <p class="lfw-path__text">{card.text}</p>}
+									{go && (
+										<GoLink href={go} stretch class="lfw-path__go">
+											{card.link_label}
+										</GoLink>
+									)}
+								</div>
 							</li>
 						);
 					})}
 				</ul>
-			)
-		}
-		{
-			!rows && (
-				<div class={grid}>
-					{
-						cards.map((card) => {
-							const url = href(card.link_url);
-							const Card = url ? "a" : "div";
-							return (
-								<Card href={url} class:list={["lf-card", roomy && "lf-card--pad-lg", url && "lf-card--interactive"]}>
-									<div class:list={["lf-card__body", !card.badge && "lfw-iconcard"]}>
-										<div class="lfw-spechead">
-											<span class="lfw-tile">
-												<Icon name={card.icon} size={24} />
-											</span>
-											{card.badge && <Badge>{card.badge}</Badge>}
-										</div>
-										<h3 class="lfw-card-title">{card.title}</h3>
-										{card.text && <p class="lfw-card-text">{card.text}</p>}
-										{card.benefit && (
-											<p class="lfw-card-benefit">
-												<b>Benefit</b>
-												{card.benefit}
-											</p>
-										)}
+			</div>
+		</section>
+	) : (
+		<section class="lfw-section" id={value.anchor_id || undefined}>
+			<div class="lfw-container">
+				<SectionHead eyebrow={value.eyebrow} headline={value.headline} lead={value.lead} />
+				{
+					rows && (
+						<ul class="lfw-routes" role="list">
+							{cards.map((card) => {
+								const url = href(card.link_url);
+								return (
+									<li class="lfw-route">
+										<span class="lfw-tile">
+											<Icon name={card.icon} size={24} />
+										</span>
+										<h3 class="lfw-route__title">{card.title}</h3>
+										{card.text && <p class="lfw-route__text">{card.text}</p>}
 										{url && card.link_label && (
-											<span class="lf-btn lf-btn--link lf-btn--sm">
+											<a class="lf-btn lf-btn--link lfw-route__go" href={url}>
 												<span class="lf-btn__label">{card.link_label}</span>
 												<Icon name="arrow-right" size={16} class="lf-btn__icon-r" />
-											</span>
+											</a>
 										)}
-									</div>
-								</Card>
-							);
-						})
-					}
-				</div>
-			)
-		}
-	</div>
-</section>
+									</li>
+								);
+							})}
+						</ul>
+					)
+				}
+				{
+					!rows && (
+						<div class={grid}>
+							{
+								cards.map((card) => {
+									const url = href(card.link_url);
+									const Card = url ? "a" : "div";
+									return (
+										<Card href={url} class:list={["lf-card", roomy && "lf-card--pad-lg", url && "lf-card--interactive"]}>
+											<div class:list={["lf-card__body", !card.badge && "lfw-iconcard"]}>
+												<div class="lfw-spechead">
+													<span class="lfw-tile">
+														<Icon name={card.icon} size={24} />
+													</span>
+													{card.badge && <Badge>{card.badge}</Badge>}
+												</div>
+												<h3 class="lfw-card-title">{card.title}</h3>
+												{card.text && <p class="lfw-card-text">{card.text}</p>}
+												{card.benefit && (
+													<p class="lfw-card-benefit">
+														<b>Benefit</b>
+														{card.benefit}
+													</p>
+												)}
+												{url && card.link_label && (
+													<span class="lf-btn lf-btn--link lf-btn--sm">
+														<span class="lf-btn__label">{card.link_label}</span>
+														<Icon name="arrow-right" size={16} class="lf-btn__icon-r" />
+													</span>
+												)}
+											</div>
+										</Card>
+									);
+								})
+							}
+						</div>
+					)
+				}
+			</div>
+		</section>
+	)
+}

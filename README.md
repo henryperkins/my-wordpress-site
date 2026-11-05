@@ -8,8 +8,8 @@ The Lakefront Digital marketing site as an [EmDash](https://docs.emdashcms.com/t
 - **Contact and Website Consultation** with enquiries saved in the EmDash Forms inbox and emailed through Cloudflare Email Sending (no checkout; commerce is out of scope for now)
 - **Terms and Conditions** and **Privacy Policy** on the legal layout: numbered sections, table of contents, print
 - **Blog** with the copy book's four SEO guides: index with a featured post and category chips, category archives, articles with a help card and related posts, and an RSS feed
-- **Search** (pages and posts): an AI search modal in the header (Cloudflare AI Search, Cmd/Ctrl+K) and full-text search at `/search`; and a **404** page
-- Header and footer from CMS menus; logo, title and tagline from Site Settings
+- **Search** (pages and posts): an AI search modal opened with Cmd/Ctrl+K (Cloudflare AI Search) and full-text search at `/search`, linked from the footer; and a **404** page
+- Header and footer from CMS menus (the footer repeats the primary menu); logo, title and tagline from Site Settings (the tagline is the footer's line under the logo)
 - Vector logo (SVG) in `public/brand/`, Manrope + Source Sans 3 (Astro fonts), Lucide icons, 13 bundled photos
 
 ## Routes
@@ -72,7 +72,7 @@ The sending subdomain does not provide a webmail inbox. Each CMS user's email mu
 
 ## AI search (Cloudflare AI Search)
 
-The header's search icon opens a search modal served by EmDash's first-party `aiSearch()` plugin through the `AI_SEARCH` namespace binding. No API token is involved.
+Cmd/Ctrl+K opens a search modal served by EmDash's first-party `aiSearch()` plugin through the `AI_SEARCH` namespace binding; the header has no search button, and `/search` is the linked fallback. No API token is involved.
 
 1. Create the namespace named in `wrangler.jsonc` before deploying: `pnpm wrangler ai-search namespace create emdash`. The plugin creates its instance (`instanceName` in `astro.config.mjs`) on first use if it doesn't exist.
 2. `pnpm deploy`, then open **Cloudflare AI Search** in the admin: select **Fix metadata** if it asks, keep Posts and Pages selected, and select **Sync Content**. After that, content is indexed when it's published and removed when it's unpublished or deleted.

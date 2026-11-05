@@ -1,0 +1,19 @@
+---
+import Icon from "./Icon.astro";
+
+// A text action with a trailing arrow: the link colour, underlined in its own colour, darkening on hover while the
+// arrow moves 3px on. Deep Water on light grounds, Foam Aqua on night-water. With `stretch`, its hit area spreads over
+// the nearest positioned ancestor, so a whole route item is the target while the link's name stays short.
+interface Props {
+	href: string;
+	stretch?: boolean;
+	class?: string;
+}
+
+const { href, stretch = false, class: className } = Astro.props;
+---
+
+<a href={href} class:list={["lfw-go", stretch && "lfw-go--stretch", className]}>
+	<span class="lfw-go__label"><slot /></span>
+	<Icon name="arrow-right" size={18} class="lfw-go__arrow" />
+</a>

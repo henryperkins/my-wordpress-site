@@ -5,7 +5,7 @@ import { createPublicPageContext } from "emdash/page";
 import { Font } from "astro:assets";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
-import { itemsOf, loadMenus, menuHeading } from "../lib/menus";
+import { itemsOf, loadMenus } from "../lib/menus";
 import type { SiteLogo } from "../lib/types";
 import "../styles/tokens.css";
 import "../styles/components.css";
@@ -61,12 +61,10 @@ const pageCtx = createPublicPageContext({
 	siteName: siteTitle,
 });
 
+// The header and the footer both list the primary menu; the footer takes its top-level links only. The page root
+// carries id="top" for the footer's "Back to top" link.
+const primary = itemsOf(menus.primary);
 const cta = itemsOf(menus.header_cta)[0];
-const columns = [
-	{ heading: menuHeading(menus.footer_services, "Services"), items: itemsOf(menus.footer_services) },
-	{ heading: menuHeading(menus.footer_hosting, "Hosting"), items: itemsOf(menus.footer_hosting) },
-	{ heading: menuHeading(menus.footer_company, "Company"), items: itemsOf(menus.footer_company) },
-];
 ---
 
 <!doctype html>
@@ -95,13 +93,13 @@ const columns = [
 	</head>
 	<body>
 		<EmDashBodyStart page={pageCtx} />
-		<div class="lfw">
+		<div class="lfw" id="top">
 			<a class="lfw-skip" href="#main">Skip to content</a>
-			<Header siteTitle={siteTitle} logo={logo} items={itemsOf(menus.primary)} cta={cta} popular={itemsOf(menus.search_popular)} admin={!!Astro.locals.user} />
+			<Header siteTitle={siteTitle} logo={logo} items={primary} cta={cta} popular={itemsOf(menus.search_popular)} admin={!!Astro.locals.user} />
 			<main id="main" class="lfw-page" tabindex="-1">
 				<slot />
 			</main>
-			<Footer siteTitle={siteTitle} tagline={tagline} columns={columns} legal={itemsOf(menus.footer_legal)} contact={itemsOf(menus.footer_contact)} />
+			<Footer siteTitle={siteTitle} logo={logo} tagline={tagline} items={primary} legal={itemsOf(menus.footer_legal)} contact={itemsOf(menus.footer_contact)} />
 		</div>
 		<EmDashBodyEnd page={pageCtx} />
 	</body>

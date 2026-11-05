@@ -1,17 +1,21 @@
 ---
 import Button from "./Button.astro";
 import Eyebrow from "./Eyebrow.astro";
+import { splitHeadline } from "../lib/headline";
 import type { Cta } from "../lib/text";
 
 interface Props {
 	eyebrow?: string | null;
 	headline?: string | null;
+	/** Optional words to set in the brand colour: inside the headline, or added after it (see splitHeadline). */
+	highlight?: string | null;
 	lead?: string | null;
 	/** Optional button beside the heading (e.g. "Book a consultation"). */
 	action?: Cta;
 }
 
-const { eyebrow, headline, lead, action } = Astro.props;
+const { eyebrow, headline, highlight, lead, action } = Astro.props;
+const title = splitHeadline(headline, highlight);
 ---
 
 {
@@ -19,7 +23,14 @@ const { eyebrow, headline, lead, action } = Astro.props;
 		<div class:list={["lfw-sechead", action && "lfw-sechead--row"]}>
 			<div class="lfw-sechead__text">
 				{eyebrow && <Eyebrow rule="leading">{eyebrow}</Eyebrow>}
-				{headline && <h2 class="lfw-h2">{headline}</h2>}
+				{headline &&
+					(title.highlight ? (
+						<h2 class="lfw-h2">
+							{title.before}<span class="lfw-brandword">{title.highlight}</span>{title.after}
+						</h2>
+					) : (
+						<h2 class="lfw-h2">{headline}</h2>
+					))}
 				{lead && <p class="lfw-lead">{lead}</p>}
 			</div>
 			{action && (

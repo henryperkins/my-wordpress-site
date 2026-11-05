@@ -10,6 +10,7 @@ export interface PageContentLfHeroV1Block {
   _version: 1;
   _key: string;
   "anchor_id"?: string | null;
+  "layout"?: "panel" | "wave" | null;
   "eyebrow"?: string | null;
   "headline": string;
   "highlight"?: string | null;
@@ -50,7 +51,7 @@ export interface PageContentLfCardGridV1Block {
   "eyebrow"?: string | null;
   "headline"?: string | null;
   "lead"?: string | null;
-  "layout"?: "cards" | "rows" | null;
+  "layout"?: "cards" | "rows" | "columns" | null;
   "cards": { "icon": "activity" | "badge-check" | "binoculars" | "calendar" | "calendar-check" | "chart-column" | "chart-line" | "check" | "circle-check" | "clipboard-list" | "clock" | "cloud" | "cloud-upload" | "code-xml" | "cpu" | "credit-card" | "database" | "file-text" | "gauge" | "git-branch" | "globe" | "hard-drive" | "headset" | "history" | "key-round" | "layers" | "layout-template" | "life-buoy" | "lightbulb" | "link" | "lock" | "mail" | "map-pin" | "megaphone" | "message-square" | "monitor-smartphone" | "network" | "package" | "panels-top-left" | "pen-line" | "phone" | "refresh-cw" | "rocket" | "route" | "scan-search" | "search" | "send" | "server" | "settings" | "share-2" | "shield-check" | "shopping-bag" | "shopping-cart" | "sparkles" | "store" | "target" | "trending-up" | "users" | "waves" | "wrench" | "zap"; "title": string; "text"?: string | null; "benefit"?: string | null; "badge"?: string | null; "link_label"?: string | null; "link_url"?: string | null }[];
 }
 
@@ -63,10 +64,13 @@ export interface PageContentLfSplitV1Block {
   "anchor_id"?: string | null;
   "night"?: boolean | null;
   "photo_first"?: boolean | null;
+  "no_photo"?: boolean | null;
   "eyebrow"?: string | null;
   "headline": string;
   "lead"?: string | null;
   "body"?: string | null;
+  "person_name"?: string | null;
+  "person_detail"?: string | null;
   "checklist"?: string | null;
   "primary_cta_label"?: string | null;
   "primary_cta_url"?: string | null;
@@ -74,6 +78,7 @@ export interface PageContentLfSplitV1Block {
   "secondary_cta_url"?: string | null;
   "image"?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
   "photo"?: "shore" | "window" | "glass" | "ripple" | "dock" | "wave" | "aqua-tower" | "loop-night" | "el-night" | "willis-fog" | "brick-lane" | "alley-night" | "alley-dusk" | null;
+  "panel_label"?: string | null;
   "panel_title"?: string | null;
   "panel_badge"?: string | null;
   "panel_rows"?: string | null;
@@ -86,12 +91,16 @@ export interface PageContentLfStepsV1Block {
   _version: 1;
   _key: string;
   "anchor_id"?: string | null;
+  "layout"?: "grid" | "split" | null;
   "eyebrow"?: string | null;
   "headline": string;
+  "highlight"?: string | null;
   "lead"?: string | null;
   "cta_label"?: string | null;
   "cta_url"?: string | null;
-  "steps": { "icon": "activity" | "badge-check" | "binoculars" | "calendar" | "calendar-check" | "chart-column" | "chart-line" | "check" | "circle-check" | "clipboard-list" | "clock" | "cloud" | "cloud-upload" | "code-xml" | "cpu" | "credit-card" | "database" | "file-text" | "gauge" | "git-branch" | "globe" | "hard-drive" | "headset" | "history" | "key-round" | "layers" | "layout-template" | "life-buoy" | "lightbulb" | "link" | "lock" | "mail" | "map-pin" | "megaphone" | "message-square" | "monitor-smartphone" | "network" | "package" | "panels-top-left" | "pen-line" | "phone" | "refresh-cw" | "rocket" | "route" | "scan-search" | "search" | "send" | "server" | "settings" | "share-2" | "shield-check" | "shopping-bag" | "shopping-cart" | "sparkles" | "store" | "target" | "trending-up" | "users" | "waves" | "wrench" | "zap"; "title": string; "text"?: string | null }[];
+  "note"?: string | null;
+  "list_title"?: string | null;
+  "steps": { "icon"?: "activity" | "badge-check" | "binoculars" | "calendar" | "calendar-check" | "chart-column" | "chart-line" | "check" | "circle-check" | "clipboard-list" | "clock" | "cloud" | "cloud-upload" | "code-xml" | "cpu" | "credit-card" | "database" | "file-text" | "gauge" | "git-branch" | "globe" | "hard-drive" | "headset" | "history" | "key-round" | "layers" | "layout-template" | "life-buoy" | "lightbulb" | "link" | "lock" | "mail" | "map-pin" | "megaphone" | "message-square" | "monitor-smartphone" | "network" | "package" | "panels-top-left" | "pen-line" | "phone" | "refresh-cw" | "rocket" | "route" | "scan-search" | "search" | "send" | "server" | "settings" | "share-2" | "shield-check" | "shopping-bag" | "shopping-cart" | "sparkles" | "store" | "target" | "trending-up" | "users" | "waves" | "wrench" | "zap" | null; "title": string; "text"?: string | null }[];
 }
 
 export type PageContentLfStepsBlock = PageContentLfStepsV1Block;
@@ -146,6 +155,7 @@ export interface PageContentLfCtaBandV1Block {
   "cta_url"?: string | null;
   "secondary_cta_label"?: string | null;
   "secondary_cta_url"?: string | null;
+  "no_photo"?: boolean | null;
   "image"?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
   "photo"?: "shore" | "window" | "glass" | "ripple" | "dock" | "wave" | "aqua-tower" | "loop-night" | "el-night" | "willis-fog" | "brick-lane" | "alley-night" | "alley-dusk" | null;
 }

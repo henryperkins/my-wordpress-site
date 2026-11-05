@@ -1,0 +1,13 @@
+---
+import { waveSvg, type WaveName } from "../lib/waves";
+
+// A decorative wave drawing (lib/waves), inlined. Size and place it with CSS through `class`; it never sits behind text.
+interface Props {
+	name: WaveName;
+	class?: string;
+}
+
+const { name, class: className } = Astro.props;
+---
+
+<Fragment set:html={waveSvg(name, className)} />

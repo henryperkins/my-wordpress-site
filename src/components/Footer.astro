@@ -1,55 +1,89 @@
 ---
-import Eyebrow from "./Eyebrow.astro";
+import Icon from "./Icon.astro";
 import Logo from "./Logo.astro";
 import { linkAttrs } from "../lib/menus";
-import type { MenuItem } from "../lib/types";
+import type { MenuItem, SiteLogo } from "../lib/types";
 
-// Night footer. Columns come from the footer_* menus; the reversed lockup lives in public/brand.
+// Light footer, on every page. The top row holds the logo and the Site Settings tagline beside the primary menu's
+// top-level links; the base row holds the copyright and the footer_legal links, then the footer_contact links and
+// "Back to top" (#top, the page root in Base.astro).
+// A tagline with a "·" splits at the first one into the place, a dot drawn in CSS and the rest, which wraps inside its
+// own box, so the place never ends a line on its own ("Chicago · Serving small businesses across the US").
 interface Props {
 	siteTitle: string;
+	logo?: SiteLogo | null;
 	tagline?: string;
-	columns: { heading: string; items: MenuItem[] }[];
+	items: MenuItem[];
 	legal: MenuItem[];
 	contact: MenuItem[];
 }
 
-const { siteTitle, tagline, columns, legal, contact } = Astro.props;
+const { siteTitle, logo, tagline = "", items, legal, contact } = Astro.props;
 const year = new Date().getFullYear();
+const line = tagline.trim();
+const dot = line.indexOf("·");
+const place = dot > 0 ? line.slice(0, dot).trim() : "";
+const rest = dot > 0 ? line.slice(dot + 1).trim() : "";
 ---
 
-<footer class="lfw-footer" data-theme="night">
-	<div class="lfw-container">
-		<div class="lfw-footer__grid">
+<footer class="lfw-footer">
+	<div class="lfw-container lfw-footer__in">
+		<div class="lfw-footer__top">
 			<div class="lfw-footer__brand">
 				<a href="/" class="lfw-logo-link" aria-label={`${siteTitle}, home`}>
-					<Logo height={44} tone="reversed" alt={siteTitle} loading="lazy" />
+					<Logo height={44} logo={logo} alt={siteTitle} loading="lazy" />
 				</a>
-				{tagline && <p>{tagline}</p>}
+				{
+					line && (
+						<p class="lfw-footer__place">
+							{place && rest ? (
+								<>
+									<span class="lfw-footer__city">{place}</span>
+									<span class="lfw-dot" aria-hidden="true" />
+									<span class="lfw-footer__reach">{rest}</span>
+								</>
+							) : (
+								line
+							)}
+						</p>
+					)
+				}
 			</div>
 			{
-				columns
-					.filter((column) => column.items.length > 0)
-					.map((column) => (
-						<div>
-							<h2 class="lfw-footer__h">{column.heading}</h2>
-							<ul>
-								{column.items.map((item) => (
-									<li>
-										<a {...linkAttrs(item)}>{item.label}</a>
-									</li>
-								))}
-							</ul>
-						</div>
-					))
+				items.length > 0 && (
+					<nav class="lfw-footer__nav" aria-label="Footer">
+						<ul role="list">
+							{items.map((item) => (
+								<li>
+									<a {...linkAttrs(item)}>{item.label}</a>
+								</li>
+							))}
+						</ul>
+					</nav>
+				)
 			}
 		</div>
 		<div class="lfw-footer__base">
-			<span class="lfw-footer__row">
-				<span>© {year} {siteTitle}</span>
-				{legal.map((item) => <a {...linkAttrs(item)}>{item.label}</a>)}
-			</span>
-			{contact.length > 0 && <span class="lfw-footer__row">{contact.map((item) => <a {...linkAttrs(item)}>{item.label}</a>)}</span>}
-			<Eyebrow size="sm" as="span" items={["Websites", "Hosting", "Growth"]} />
+			<div class="lfw-footer__group">
+				<p class="lfw-footer__copy">© {year} {siteTitle}</p>
+				{
+					legal.map((item) => (
+						<a class="lfw-footer__link" {...linkAttrs(item)}>
+							{item.label}
+						</a>
+					))
+				}
+			</div>
+			<div class="lfw-footer__group">
+				{
+					contact.map((item) => (
+						<a class="lfw-footer__link" {...linkAttrs(item)}>
+							{item.label}
+						</a>
+					))
+				}
+				<a class="lfw-footer__totop" href="#top">Back to top<Icon name="arrow-up" size={16} /></a>
+			</div>
 		</div>
 	</div>
 </footer>

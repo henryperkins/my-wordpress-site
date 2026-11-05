@@ -6,9 +6,13 @@ import Ctas from "../Ctas.astro";
 import Eyebrow from "../Eyebrow.astro";
 import Icon from "../Icon.astro";
 import Photo from "../Photo.astro";
-import { cta, lines, pairs, paragraphs } from "../../lib/text";
+import Wave from "../Wave.astro";
+import { cta, eyebrowItems, lines, pairs, paragraphs } from "../../lib/text";
 
 // Light: the About layout (copy beside a tall photo). Night: the hosting band, with the crest watermark.
+// "Leave out the photo" (no_photo) gives the home page's plain bands instead. Night: the copy beside an example status
+// card. Light: a full-bleed pale teal band with a name under the text and a wave curl in its corner. Content that keeps
+// the photo renders exactly as before.
 type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_split" }>>;
 
 const { value } = Astro.props;
@@ -18,62 +22,147 @@ const body = paragraphs(value.body);
 const checks = lines(value.checklist);
 const rows = pairs(value.panel_rows);
 const panel = !!value.panel_title || rows.length > 0;
+
+const withPhoto = !value.no_photo;
+// Without the photo, the status card stands beside the copy, on night only. A label, a title or rows make a card; a
+// badge alone doesn't.
+const card = night && (!!value.panel_label || panel);
+const details = eyebrowItems(value.person_detail);
 ---
 
-<section class:list={["lfw-section", night && "lfw-night"]} data-theme={night ? "night" : undefined} id={value.anchor_id || undefined}>
-	{night && <img class="lfw-watermark" src="/brand/lakefront-crest.svg" alt="" aria-hidden="true" width="720" height="713" loading="lazy" decoding="async" />}
-	<div class="lfw-container">
-		<div class:list={[night ? "lfw-split" : "lfw-about", flip && (night ? "lfw-split--flip" : "lfw-about--flip")]}>
-			<div class={night ? "lfw-col" : "lfw-about__copy"}>
-				{value.eyebrow && <Eyebrow rule="leading">{value.eyebrow}</Eyebrow>}
-				<h2 class="lfw-h2">{value.headline}</h2>
-				{value.lead && <p class="lfw-lead">{value.lead}</p>}
-				{body.map((text) => <p class="lfw-p">{text}</p>)}
-				{
-					checks.length > 0 && (
-						<ul class="lfw-checks lfw-checks--2">
-							{checks.map((item) => (
-								<li>
-									<Icon name="check" size={18} />
-									{item}
-								</li>
-							))}
-						</ul>
-					)
-				}
-				<Ctas primary={cta(value.primary_cta_label, value.primary_cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} secondaryVariant={night ? "ghost" : "outline"} />
+{
+	withPhoto ? (
+		<section class:list={["lfw-section", night && "lfw-night"]} data-theme={night ? "night" : undefined} id={value.anchor_id || undefined}>
+			{night && <img class="lfw-watermark" src="/brand/lakefront-crest.svg" alt="" aria-hidden="true" width="720" height="713" loading="lazy" decoding="async" />}
+			<div class="lfw-container">
+				<div class:list={[night ? "lfw-split" : "lfw-about", flip && (night ? "lfw-split--flip" : "lfw-about--flip")]}>
+					<div class={night ? "lfw-col" : "lfw-about__copy"}>
+						{value.eyebrow && <Eyebrow rule="leading">{value.eyebrow}</Eyebrow>}
+						<h2 class="lfw-h2">{value.headline}</h2>
+						{value.lead && <p class="lfw-lead">{value.lead}</p>}
+						{body.map((text) => <p class="lfw-p">{text}</p>)}
+						{
+							checks.length > 0 && (
+								<ul class="lfw-checks lfw-checks--2">
+									{checks.map((item) => (
+										<li>
+											<Icon name="check" size={18} />
+											{item}
+										</li>
+									))}
+								</ul>
+							)
+						}
+						<Ctas primary={cta(value.primary_cta_label, value.primary_cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} secondaryVariant={night ? "ghost" : "outline"} />
+					</div>
+					<div class={night ? "lfw-night__media" : "lfw-about__media"}>
+						<Photo image={value.image} photo={value.photo} fallback={night ? "glass" : "window"} layout={night ? "split" : "about"} />
+						{
+							panel && (
+								<div class="lfw-night__panel">
+									<div class="lf-card lfw-statuscard">
+										<div class="lf-card__body">
+											<div class="lfw-panelhead">
+												<span>{value.panel_title}</span>
+												{value.panel_badge && (
+													<Badge tone="success" dot>
+														{value.panel_badge}
+													</Badge>
+												)}
+											</div>
+											{rows.length > 0 && (
+												<dl>
+													{rows.map(([label, detail]) => (
+														<div class="lfw-spec">
+															<dt>{label}</dt>
+															<dd>{detail}</dd>
+														</div>
+													))}
+												</dl>
+											)}
+										</div>
+									</div>
+								</div>
+							)
+						}
+					</div>
+				</div>
 			</div>
-			<div class={night ? "lfw-night__media" : "lfw-about__media"}>
-				<Photo image={value.image} photo={value.photo} fallback={night ? "glass" : "window"} layout={night ? "split" : "about"} />
-				{
-					panel && (
-						<div class="lfw-night__panel">
-							<div class="lf-card lfw-statuscard">
-								<div class="lf-card__body">
-									<div class="lfw-panelhead">
-										<span>{value.panel_title}</span>
+		</section>
+	) : (
+		<section class:list={["lfw-plainsplit", night ? "lfw-section lfw-plainsplit--night" : "lfw-plainsplit--light"]} data-theme={night ? "night" : undefined} id={value.anchor_id || undefined}>
+			{!night && <Wave name="wave-curl-outline" class="lfw-plainsplit__curl" />}
+			<div class="lfw-container">
+				<div class:list={["lfw-plainsplit__grid", card && "lfw-plainsplit__grid--card"]}>
+					<div class="lfw-plainsplit__copy">
+						{value.eyebrow && <Eyebrow rule={night ? "leading" : "none"}>{value.eyebrow}</Eyebrow>}
+						<h2 class="lfw-h2 lfw-h2--tight">{value.headline}</h2>
+						{value.lead && <p class="lfw-lead">{value.lead}</p>}
+						{body.map((text) => <p class="lfw-p">{text}</p>)}
+						{/* Two columns that read down each column, so the list keeps its order; one column on phones */}
+						{
+							checks.length > 0 && (
+								<ul role="list" class="lfw-plainsplit__checks" style={`--rows:${Math.ceil(checks.length / 2)}`}>
+									{checks.map((item) => (
+										<li>
+											<Icon name="check" size={20} />
+											<span>{item}</span>
+										</li>
+									))}
+								</ul>
+							)
+						}
+						{
+							(value.person_name || details.length > 0) && (
+								<div class="lfw-plainsplit__person">
+									{value.person_name && <p class="lfw-plainsplit__name">{value.person_name}</p>}
+									{details.length > 0 && (
+										<p class="lfw-plainsplit__detail">
+											{/* Each detail leads with its own dot (the CSS hides the one that starts a line); screen readers hear a comma */}
+											{details.map((item, i) => (
+												<span class="lfw-plainsplit__item">
+													{i > 0 && <span class="lfw-vh">, </span>}
+													<span class="lfw-dot" aria-hidden="true" />
+													{item}
+												</span>
+											))}
+										</p>
+									)}
+								</div>
+							)
+						}
+						{/* The coral button's partner is a text link with an arrow, on light and night alike */}
+						<Ctas primary={cta(value.primary_cta_label, value.primary_cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} size="lg" secondaryVariant="go" class="lfw-plainsplit__actions" />
+					</div>
+					{
+						card && (
+							<figure class="lfw-plainsplit__card">
+								{(value.panel_label || value.panel_badge) && (
+									<figcaption class="lfw-plainsplit__label">
+										{value.panel_label && <span>{value.panel_label}</span>}
 										{value.panel_badge && (
 											<Badge tone="success" dot>
 												{value.panel_badge}
 											</Badge>
 										)}
-									</div>
-									{rows.length > 0 && (
-										<dl>
-											{rows.map(([label, detail]) => (
-												<div class="lfw-spec">
-													<dt>{label}</dt>
-													<dd>{detail}</dd>
-												</div>
-											))}
-										</dl>
-									)}
-								</div>
-							</div>
-						</div>
-					)
-				}
+									</figcaption>
+								)}
+								{value.panel_title && <p class="lfw-plainsplit__title">{value.panel_title}</p>}
+								{rows.length > 0 && (
+									<dl class="lfw-plainsplit__rows">
+										{rows.map(([label, detail]) => (
+											<div>
+												<dt>{label}</dt>
+												<dd>{detail}</dd>
+											</div>
+										))}
+									</dl>
+								)}
+							</figure>
+						)
+					}
+				</div>
 			</div>
-		</div>
-	</div>
-</section>
+		</section>
+	)
+}

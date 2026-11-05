@@ -34,12 +34,14 @@
 .lf-btn:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
 .lf-btn__icon-r{transition:transform var(--dur-base) var(--ease-current)}
 .lf-btn:hover .lf-btn__icon-r{transform:translateX(3px)}
+/* Reduced motion: a trailing arrow stays put however its button, card or row is hovered (the global rule only shortens the move) */
+@media (prefers-reduced-motion:reduce){.lf-btn__icon-r{transform:none!important}}
 .lf-btn--secondary{background:var(--action-secondary-bg);color:var(--action-secondary-fg)}
 .lf-btn--secondary:hover{background:var(--action-secondary-bg-hover);color:var(--action-secondary-fg)}
 .lf-btn--brand{background:var(--action-brand-bg);color:var(--white)}
 .lf-btn--brand:hover{background:var(--action-brand-bg-hover);color:var(--white)}
-.lf-btn--outline{background:transparent;color:var(--text-strong);border-color:var(--text-strong)}
-.lf-btn--outline:hover{background:var(--action-ghost-bg-hover);color:var(--text-strong)}
+.lf-btn--outline{background:transparent;color:var(--action-outline-fg);border-color:var(--action-outline-fg)}
+.lf-btn--outline:hover{background:var(--action-ghost-bg-hover);color:var(--action-outline-fg)}
 .lf-btn--ghost{background:transparent;color:var(--text-link)}
 .lf-btn--ghost:hover{background:var(--action-ghost-bg-hover);color:var(--text-link)}
 .lf-btn--link{height:auto;padding:2px 0;border:0;border-radius:var(--radius-xs);background:transparent;color:var(--text-link)}
@@ -215,4 +217,4 @@ select.lf-input.is-placeholder{color:var(--text-muted)}
 [data-theme="night"] .lf-tabs--segmented .lf-tabs__ink{background:var(--navy-700)}
 
 /* Forced colours (Windows high contrast) drop box-shadows and painted backgrounds: the transparent outlines above become the focus rings, and system colours redraw the state marks */
-@media (forced-colors:active){.lf-eyebrow__item::before{background:CanvasText}.lf-choice--radio .lf-choice__box::after{background:CanvasText}.lf-switch__track{border:1px solid CanvasText}.lf-switch__thumb{background:CanvasText}.lf-switch>input:checked+.lf-switch__track{border-color:Highlight;background:Highlight}.lf-switch>input:checked+.lf-switch__track .lf-switch__thumb{background:HighlightText}.lf-tag.is-selected,button.lf-tag.is-selected:hover{border-color:Highlight;background:Highlight;color:HighlightText}.lf-tabs .lf-tabs__ink{background:Highlight}.lf-tabs--segmented .lf-tabs__ink{border:2px solid Highlight;background:Canvas}}
+@media (forced-colors:active){.lf-eyebrow__rule{background:CanvasText}.lf-eyebrow__item::before{background:CanvasText}.lf-choice--radio .lf-choice__box::after{background:CanvasText}.lf-switch__track{border:1px solid CanvasText}.lf-switch__thumb{background:CanvasText}.lf-switch>input:checked+.lf-switch__track{border-color:Highlight;background:Highlight}.lf-switch>input:checked+.lf-switch__track .lf-switch__thumb{background:HighlightText}.lf-tag.is-selected,button.lf-tag.is-selected:hover{border-color:Highlight;background:Highlight;color:HighlightText}.lf-tabs .lf-tabs__ink{background:Highlight}.lf-tabs--segmented .lf-tabs__ink{border:2px solid Highlight;background:Canvas}}

@@ -63,13 +63,14 @@ For new blocks or breaking block versions, inspect the existing schema, add the 
 | Category | `/blog/category/[slug]` | Posts in one category |
 | Article | `/blog/[slug]` | Breadcrumb, title, byline, hero photo, Portable Text body, help card, related posts |
 | RSS | `/rss.xml` | 20 newest posts |
-| Search | `/search?q=` | Full-text search over published pages and posts, popular searches and browse cards. The header's search icon and Cmd/Ctrl+K open the AI search modal; this page is its no-JS fallback and "see more" target |
+| Search | `/search?q=` | Full-text search over published pages and posts, popular searches and browse cards. Cmd/Ctrl+K opens the AI search modal (the header has no search button); this page is its no-JS fallback and "see more" target, linked from the footer and the 404 page |
 | 404 | fallback | Night photo, search, quick links |
 
 ## Schema
 
 - Block text conventions: lists are one item per line; pairs are `label | value`; eyebrow items are separated with `·`.
-- Menus: `primary`, `header_cta` (first item is the header button), `footer_services`, `footer_hosting`, `footer_company` (column headings come from the menu label minus `Footer:`), `footer_contact`, `footer_legal`, `search_popular`.
+- Menus: `primary` (the header's links, repeated in the footer), `header_cta` (first item is the header button), `footer_legal` and `footer_contact` (the footer's bottom row), `search_popular`. The footer's line under the logo is the Site Settings tagline; its first `·` sets the dot.
+- Home page variants: the concept sections are opt-in fields on existing blocks — hero `layout: wave`, card grid `layout: columns`, split and CTA band `no_photo`, steps `layout: split`. Content that doesn't set them renders the original layouts.
 - Blocks aren't searchable (in full-text or AI search), so `summary` and `keywords` carry each page's search terms.
 
 ## Runtime and integrations

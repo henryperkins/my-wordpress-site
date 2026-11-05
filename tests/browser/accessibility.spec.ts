@@ -1,4 +1,4 @@
-import { expect, test, type Locator } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 
 const resultChunks = (count: number) => Array.from({ length: count }, (_, index) => ({
 	id: `result-${index}`,
@@ -7,6 +7,10 @@ const resultChunks = (count: number) => Array.from({ length: count }, (_, index)
 		description: "Website services",
 	} },
 }));
+
+// The header has no search button: Ctrl/Cmd+K opens the modal from wherever focus is, and closing it returns focus
+// there. These tests open it from the header's home link.
+const homeLink = (page: Page) => page.getByRole("banner").getByRole("link", { name: /home/ });
 
 const focusableControls = (dialog: Locator) => dialog.locator("a[href], button, input, select, textarea, [tabindex]");
 const visibleControlIndexes = async (dialog: Locator) => focusableControls(dialog).evaluateAll((elements) =>
@@ -29,9 +33,9 @@ test("AI search keeps named dialog and grid semantics across result states", asy
 		} });
 	});
 	await page.goto("/");
-	const opener = page.locator("[data-ai-search-open]");
+	const opener = homeLink(page);
 	await opener.focus();
-	await opener.press("Enter");
+	await page.keyboard.press("Control+k");
 	const dialog = page.getByRole("dialog", { name: "Search", exact: true });
 	const input = dialog.getByRole("combobox", { name: "Search", exact: true });
 	await expect(dialog).toBeVisible();
@@ -95,12 +99,12 @@ test("search contains Tab and Escape across every control including favourites a
 		success: true, result: { chunks: resultChunks(11) },
 	} }));
 	await page.goto("/");
-	const opener = page.locator("[data-ai-search-open]");
+	const opener = homeLink(page);
 	const dialog = page.getByRole("dialog", { name: "Search", exact: true });
 	const input = dialog.getByRole("combobox", { name: "Search", exact: true });
 	const openWithResults = async () => {
 		await opener.focus();
-		await opener.press("Enter");
+		await page.keyboard.press("Control+k");
 		await expect(input).toBeFocused();
 		await input.fill("many");
 		await expect(dialog.getByRole("grid").getByRole("row")).toHaveCount(11);
@@ -147,7 +151,7 @@ test("search preserves favourite and recent result groups without changing their
 		localStorage.setItem("search-snippet:recent-results", JSON.stringify([result("services", "Services", "/services")]));
 	});
 	await page.goto("/");
-	await page.locator("[data-ai-search-open]").press("Enter");
+	await page.keyboard.press("Control+k");
 	const dialog = page.getByRole("dialog", { name: "Search", exact: true });
 	const grid = dialog.getByRole("grid", { name: "Search results" });
 	await expect(grid.getByRole("rowgroup")).toHaveCount(2);
@@ -182,6 +186,20 @@ test("search preserves favourite and recent result groups without changing their
 	await dialog.getByRole("combobox").press("Escape");
 });
 
+for (const [width, role, name] of [[1440, "link", /home/], [390, "button", "Open menu"]] as const) {
+	test(`search opened with nothing focused returns focus to the header at ${width}px`, async ({ page }) => {
+		await page.setViewportSize({ width, height: 844 });
+		await page.goto("/");
+		await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
+		await page.keyboard.press("Control+k");
+		const dialog = page.getByRole("dialog", { name: "Search", exact: true });
+		await expect(dialog).toBeVisible();
+		await page.keyboard.press("Escape");
+		await expect(dialog).toBeHidden();
+		await expect(page.getByRole("banner").getByRole(role, { name })).toBeFocused();
+	});
+}
+
 test("closing search cancels its pending request and queued debounce", async ({ page }) => {
 	let releasePending!: () => void;
 	const pending = new Promise<void>((resolve) => { releasePending = resolve; });
@@ -193,8 +211,9 @@ test("closing search cancels its pending request and queued debounce", async ({ 
 		catch { /* A dismissed request has already been aborted by the browser. */ }
 	});
 	await page.goto("/");
-	const opener = page.locator("[data-ai-search-open]");
-	await opener.press("Enter");
+	const opener = homeLink(page);
+	await opener.focus();
+	await page.keyboard.press("Control+k");
 	const dialog = page.getByRole("dialog", { name: "Search", exact: true });
 	const input = dialog.getByRole("combobox", { name: "Search", exact: true });
 	await input.fill("pending");
@@ -206,7 +225,7 @@ test("closing search cancels its pending request and queued debounce", async ({ 
 	await expect(page.locator("#lfw-ai-search .modal-container")).toHaveJSProperty("inert", true);
 	releasePending();
 	await expect(opener).toBeFocused();
-	await opener.press("Enter");
+	await page.keyboard.press("Control+k");
 	await expect(dialog.getByRole("region", { name: "Popular searches" })).toBeVisible();
 	await expect(dialog.getByRole("status")).not.toContainText("Searching");
 	await expect(input).not.toHaveAttribute("aria-activedescendant", /./);
@@ -225,9 +244,9 @@ for (const width of [390, 1440]) {
 		await page.goto("/");
 		// Measured before opening: the scroll lock reserves a scrollbar gutter, which shifts the header in headless runs.
 		const menu = width <= 600 ? await page.locator("[data-menu-toggle]").boundingBox() : null;
-		const opener = page.locator("[data-ai-search-open]");
+		const opener = homeLink(page);
 		await opener.focus();
-		await opener.press("Enter");
+		await page.keyboard.press("Control+k");
 		const dialog = page.getByRole("dialog", { name: "Search", exact: true });
 		const close = dialog.getByRole("button", { name: "Close search" });
 		await expect(close).toBeVisible();
@@ -260,7 +279,7 @@ test("popular searches run in the modal, and a slow answer offers the search pag
 		catch { /* Superseded requests have been aborted. */ }
 	});
 	await page.goto("/");
-	await page.locator("[data-ai-search-open]").press("Enter");
+	await page.keyboard.press("Control+k");
 	const dialog = page.getByRole("dialog", { name: "Search", exact: true });
 	const input = dialog.getByRole("combobox", { name: "Search", exact: true });
 	const popular = dialog.getByRole("region", { name: "Popular searches" });
@@ -303,7 +322,7 @@ test("search failures say what happened and offer a way on", async ({ page, cont
 			: route.fulfill({ json: { success: true, result: { chunks: resultChunks(2) } } });
 	});
 	await page.goto("/");
-	await page.locator("[data-ai-search-open]").press("Enter");
+	await page.keyboard.press("Control+k");
 	const dialog = page.getByRole("dialog", { name: "Search", exact: true });
 	const input = dialog.getByRole("combobox", { name: "Search", exact: true });
 	await input.fill("hosting");
@@ -376,7 +395,7 @@ test("search and legal section links remain available without JavaScript", async
 	const targetId = await link.getAttribute("data-toc-link");
 	await link.press("Enter");
 	await expect(page).toHaveURL(new RegExp(`#${targetId}$`));
-	await page.locator("[data-ai-search-open]").press("Enter");
+	await page.getByRole("contentinfo").getByRole("link", { name: "Search", exact: true }).press("Enter");
 	await expect(page).toHaveURL(/\/search$/);
 	await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 	await context.close();

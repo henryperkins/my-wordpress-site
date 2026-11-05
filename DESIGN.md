@@ -37,21 +37,21 @@ colors:
 typography:
   display:
     fontFamily: "Manrope, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(38px, 4.3vw, 56px)"
+    fontSize: "clamp(38px, calc(3.2vw + 26px), 76px)"
     fontWeight: 800
-    lineHeight: 1.05
+    lineHeight: 1.03
     letterSpacing: "-0.03em"
   h1:
     fontFamily: "Manrope, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(32px, 3.6vw, 46px)"
-    fontWeight: 700
-    lineHeight: 1.1
+    fontSize: "clamp(34px, calc(2.6vw + 22px), 60px)"
+    fontWeight: 800
+    lineHeight: 1.06
     letterSpacing: "-0.022em"
   h2:
     fontFamily: "Manrope, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(26px, 2.8vw, 34px)"
-    fontWeight: 700
-    lineHeight: 1.16
+    fontSize: "clamp(30px, calc(2.2vw + 20px), 52px)"
+    fontWeight: 800
+    lineHeight: 1.08
     letterSpacing: "-0.018em"
   h3:
     fontFamily: "Manrope, ui-sans-serif, system-ui, sans-serif"
@@ -156,14 +156,14 @@ components:
     textColor: "{colors.foam-white}"
   button-outline:
     backgroundColor: "transparent"
-    textColor: "{colors.lake-navy}"
+    textColor: "{colors.deep-water}"
     typography: "{typography.button}"
     rounded: "{rounded.md}"
     padding: "0 20px"
     height: "44px"
   button-outline-hover:
     backgroundColor: "rgba(39,136,145,0.10)"
-    textColor: "{colors.lake-navy}"
+    textColor: "{colors.deep-water}"
   button-ghost:
     backgroundColor: "transparent"
     textColor: "{colors.deep-water}"
@@ -351,9 +351,9 @@ The palette follows a water-texture progression, from Lake Navy through Deep Wat
 **Character:** Manrope is the engineered voice. It's geometric and contemporary, tightly tracked at display sizes, and used for everything that names, directs or acts. Source Sans 3 is the service voice. It's plain and readable, and used for everything a visitor reads or types.
 
 ### Hierarchy
-- **Display** (800, clamp(38px, 4.3vw, 56px), 1.05, -0.03em): the home hero headline only. Its closing words can switch to Current Teal as the brand highlight.
-- **H1** (700, clamp(32px, 3.6vw, 46px), 1.1, -0.022em): page intros, service-summary titles and article titles.
-- **H2** (700, clamp(26px, 2.8vw, 34px), 1.16, -0.018em): section headlines, service-tab titles and the CTA band headline.
+- **Display** (800, clamp(38px, calc(3.2vw + 26px), 76px), 1.03, -0.03em): the home hero headline, and the 404's title. Its highlighted words can switch to Current Teal as the brand highlight. Article titles are H1.
+- **H1** (800, clamp(34px, calc(2.6vw + 22px), 60px), 1.06, -0.022em): page intros, service-summary titles and article titles.
+- **H2** (800, clamp(30px, calc(2.2vw + 20px), 52px), 1.08, -0.018em): section headlines, service-tab titles and the CTA band headline.
 - **H3** (700, 26px, 1.2): the offer headline, and h2 inside article prose.
 - **H4** (700, 20px, 1.3, -0.01em): card titles, step titles, legal section headings and search-result titles.
 - **H5** (700, 17px, 1.35): feature names, the status-card head and fact values.
@@ -384,7 +384,7 @@ The page is a single 1200px column, padded clamp(20px, 4vw, 40px) at the sides. 
 - A split's checklist runs two columns only while each column (at least 250px) holds an item on one line; narrower, it runs one column.
 
 **Splits:**
-- **Hero:** asymmetric split (left 46% copy beside 54% photo) with a 56px gap, and an optional "Built on" strip 48px below them. The home page doesn't use the strip. It stacks at 900px, with a 340px photo. Stacked, the strip comes straight after the buttons and the photo closes the hero.
+- **Hero:** asymmetric split (left 46% copy beside 54% photo) with a 56px gap, and an optional "Built on" strip 48px below them. The home page uses the wave layout instead (see Wave Hero), where the strip's tags become its tools line. It stacks at 900px, with a 340px photo. Stacked, the strip comes straight after the buttons and the photo closes the hero.
 - **About split:** 1.1fr copy beside a 0.9fr photo, with a 64px gap. When the photo leads, it moves to the left, but only while the two sit side by side. It stacks at 960px with the copy and its button first, then the photo in a 4:5 frame up to 400px wide, sized for the founder's portrait. Its paragraphs cap at 65ch, so the stacked copy keeps a readable measure. An uploaded photo crops around its upper centre, where a face sits.
 - **Service tabs:** 1.05fr copy beside a 1fr photo, with a 56px gap. At 760px and below, a labelled native service selector replaces the tab strip.
 - **Consultation summary:** the explanation and action precede the photo in reading order. At 900px and below the photo follows the summary at 240px tall; the form comes before preparation material.
@@ -394,24 +394,24 @@ The page is a single 1200px column, padded clamp(20px, 4vw, 40px) at the sides. 
 - Sections sit 96px apart, or 64px at 760px and below.
 - Section heads sit 48px above their content, or 32px on phones.
 - Page intros start 72px below the header, and night intros 80px, with 72px below.
-- The hero keeps the same 96px (64px on phones) before whatever follows it, so a night section can come straight after it.
+- The panel hero keeps the same 96px (64px on phones) before whatever follows it, so a night section can come straight after it. The wave hero keeps 72px (56px at 760px and below).
 
 **The header:**
 - A sticky 76px bar.
 - Anything scrolled to below the pinned bar stops clear of it: a focused control 8px under it, the enquiry form 16px, legal and article headings 24px, and a tab panel 72px. The bar's own controls carry no offset, so focusing one never scrolls the page.
 - On short screens (480px tall or less, such as a landscape phone or 400% zoom) the header scrolls with the page instead of pinning, because a pinned bar would cover a fifth to a third of the view.
 - At 1080px, or whenever its menu would overflow, the links collapse into a menu button and the coral header button leaves the bar.
-- The collapsed bar keeps the full logo, search and menu. Booking becomes an ordinary menu link; the page owns the primary action.
+- The collapsed bar keeps the full logo and the menu button. Booking becomes an ordinary menu link; the page owns the primary action.
 - Without JavaScript the menu panel is always open, so the header scrolls with the page instead of pinning it.
 
-**Breakpoints in use:** 1080px, 960px, 900px, 860px (the footer goes to two columns), 760px, 700px, 600px and 480px (full-width button pairs).
+**Breakpoints in use:** 1080px, 1000px (the wave hero's button pair, and the accountability band's curl), 960px, 900px, 760px, 700px, 600px and 480px (full-width button pairs).
 
 **Stacking order:** header 100, dropdown 500, overlay 1000, toast 1100, tooltip 1200.
 
 ### Named Rules
 **The Collapsing Margin Rule.** Light sections are spaced with vertical margins (96px, or 64px on phones), which collapse, so any two blocks stack cleanly without doubling up. Only night sections use padding, inside their own navy background.
 
-**The Night Pacing Rule.** A night-water section (`data-theme="night"`) is a pacing device. Use one wherever a long page needs a change of pace, whatever the topic. The footer is always night.
+**The Night Pacing Rule.** A night-water section (`data-theme="night"`) is a pacing device. Use one wherever a long page needs a change of pace, whatever the topic. The footer is light (owner's choice, 2026-11-05), so a navy band that closes a page stays a band of its own above it.
 
 ## Elevation & Depth
 
@@ -447,7 +447,7 @@ The system is structured and softly rounded, and the corner radius grows with th
 - **6px:** small buttons, and the focus on a tab.
 - **8px:** buttons, inputs, nav items and tooltips.
 - **12px:** icon tiles, and the numbered tiles in prose lists.
-- **14px:** cards, dropdowns, benefit boxes and choice cards.
+- **14px:** cards, dropdowns, benefit boxes and choice cards, the example status card, and the focus ring around a whole route column.
 - **20px:** photos in tab panels and asides, and images in prose.
 - **28px:** hero, about and service-summary photos, the CTA band, and featured-post and article-hero images.
 - **Full pill:** tags, chips, badges, switches and round icon buttons.
@@ -455,11 +455,13 @@ The system is structured and softly rounded, and the corner radius grows with th
 **Borders:**
 - 1px Lake Mist on cards and containers.
 - 1px Ink 400 on inputs.
-- 1.5px Lake Navy on outline buttons. Every button reserves a 1.5px border, transparent unless it's the outline style.
+- 1.5px Deep Water on outline buttons (Foam White on night-water). Every button reserves a 1.5px border, transparent unless it's the outline style.
 - Steps and case-study rows are marked by a 2px Lake Mist rule along the top, not by a box.
+- 1px Lake Mist hairlines split route columns and split steps, without boxes, and stop 16px short of any crossing.
 
 **Small geometry:**
-- Icon tiles are 48px squares, or 64px with 16px corners for the offer.
+- Icon tiles are 48px squares, or 64px with 16px corners for the offer. Route columns use circles instead (80px; 64px at 960px and below; 56px at 760px and below), the one round exception.
+- A 44 × 2px Current Teal rule with rounded ends leads the route columns' heading.
 - The eyebrow rule is 28 × 2px with rounded ends.
 - Eyebrow separators are 5px coral circles.
 - The current-page underline is a 2px rounded bar, inset 14px.
@@ -491,12 +493,16 @@ Components are engineered and plainly labelled. Every control looks built rather
 - **Secondary:** Lake Navy with a Foam White label, turning Deep Water on hover.
   - It's the side action in a section head.
   - On night-water it inverts: Foam White with a navy label.
-- **Outline:** transparent, with a 1.5px Lake Navy border and label, and a teal wash on hover. It's the partner to a primary button on light grounds.
-- **Ghost:** transparent, with Deep Water text (Foam Aqua on night). It's the secondary action in night sections, including the CTA band.
+- **Outline:** transparent, with a 1.5px Deep Water border and label (Foam White on night-water), and a teal wash on hover. It's the partner to a primary button on light grounds, and on night-water in the closing invitation.
+- **Ghost:** transparent, with Deep Water text (Foam Aqua on night). It's the secondary action in night sections over a photograph, including the photo CTA band.
 - **Link:** a label with a 1.5px underline at 35% opacity that fills in on hover, plus a trailing arrow. It's used for "Learn more" on cards.
+- **Go link:** a text action for the home concept. A Manrope 700 label at 16px in the link colour, underlined by a 1.5px rule in its own colour, with an 18px trailing arrow 10px away.
+  - It darkens on hover (Deep Water to Lake Navy, or Foam Aqua to Foam White on night-water) while the arrow moves 3px. Under reduced motion the arrow stays put.
+  - Its focus ring takes 2px corners.
+  - It's the secondary action beside a coral button in the hosting band, the accountability band's link, and each route column's action, where it stretches over its route.
 - **Icon buttons:** 40px squares with 8px corners, transparent, with a teal wash on hover.
   - The outline version adds a Lake Mist border, as on the mobile menu button. That button is 44px square at 600px and below.
-- **Pairs on phones:** at 480px and below, a stacked primary and its partner run full width, so the two read as one decision. In the CTA band this starts at 560px, because a ghost partner that wraps under its coral button would sit indented by its own padding. The hero's pair also stacks full width from 901 to 1080px, where its copy column is too narrow for both large buttons side by side.
+- **Pairs on phones:** at 480px and below, a stacked primary and its partner run full width, so the two read as one decision. In the CTA band this starts at 560px, because a ghost partner that wraps under its coral button would sit indented by its own padding. The hero's pair also stacks full width from 901 to 1080px, where its copy column is too narrow for both large buttons side by side. The wave hero's pair stacks from 901 to 1000px instead.
 - **Long labels:** a label too long for its line wraps inside its button, centred, and the button grows from its 44px or 52px minimum. This holds at any width for button pairs and the button beside a section heading. Link-style actions in route rows and cards wrap the same way, with the arrow at the end.
 - **Note under a pair:** a line or two that answers the question before the click, such as "Not sure what you need? Your first consultation is free. Either way, we reply by email."
   - Body small (15px) in Ink 500, or Text inverse muted on night-water, capped at 52ch.
@@ -559,25 +565,28 @@ Components are engineered and plainly labelled. Every control looks built rather
 ### Navigation
 - **Header:**
   - A sticky 76px bar at 90% Foam White with a light blur, or solid Foam White where the browser can't blur. A Lake Mist hairline appears once the page scrolls.
-  - The order runs: the 40px horizontal logo, the links, the search icon, then the coral header button.
+  - The order runs: the 40px horizontal logo, the links, then the coral header button.
+  - There's no search button (owner's choice, 2026-11-05): Cmd/Ctrl+K opens search from anywhere, and the footer links to /search.
+  - Signed-in editors also get an admin icon before the coral button.
+  - The logo takes the bar's free space, so whatever follows it keeps to the right edge: the links and the button, the admin icon, or the menu button.
 - **Links:**
   - Manrope 600 at 15px, 40px tall, with 14px sides and 8px corners, and a teal wash on hover.
   - The current page shows Deep Water text over a 2px Current Teal bar, sitting 2px above the bottom and inset 14px.
+  - A link to part of a page (a URL with a #fragment, such as Growth → /services#seo or About → /#about) is never marked as the current page.
 - **Groups:**
   - A button with a chevron that turns 180° when open.
   - The dropdown is a White panel at least 220px wide, with 14px corners, a Lake Mist border and the lg shadow. It rises 8px as it enters.
   - The current item takes a Teal 50 fill and Deep Water text.
 - **Mobile, at 1080px or whenever the menu would overflow:**
-  - The links collapse into an outline menu button that toggles between menu and close icons. Search stays in the bar; the coral header action leaves it.
+  - The links collapse into an outline menu button that toggles between menu and close icons. The coral header action leaves the bar.
   - A panel of links in Manrope 700 at 18px, on a solid Foam White ground.
-  - The current page is Deep Water, underlined by a 2px Current Teal line 6px below the text. The search icon uses Deep Water on /search.
+  - The current page is Deep Water, underlined by a 2px Current Teal line 6px below the text.
   - Child links indent 16px behind a 2px Lake Mist rule.
   - The consultation action is an ordinary text link. On its destination page it uses a fragment link, preserving query parameters and entered enquiry details.
   - The panel closes on Escape, on a tap or click outside it, when focus leaves the header, and when search opens over the page. The tap that closes it does nothing else: closing moves the page under the finger, so a tap let through could land on the wrong link.
   - Closing it while the header is pinned keeps the page where it was, and a menu taller than the screen scrolls inside its panel.
 - **Phones, at 600px and below:**
-  - The bar keeps the full horizontal logo, search icon and 44px menu button, with 8px gaps.
-  - Search opens the AI search modal and returns focus to its opener when closed. Without JavaScript it links to /search.
+  - The bar keeps the full horizontal logo and the 44px menu button.
   - The page owns the coral primary action, including while the menu is expanded.
 - **Tabs:**
   - Underline tabs: Manrope 600 at 15px and 48px tall, turning from Ink 500 to Lake Navy when selected, over a 2px Current Teal ink bar that slides in 360ms.
@@ -585,14 +594,26 @@ Components are engineered and plainly labelled. Every control looks built rather
   - A strip that doesn't fit scrolls sideways by swipe, trackpad or arrow keys. Its clipped edge fades over 40px, and selecting a tab scrolls it into view, clear of the fade.
   - Service tabs become a labelled, full-width native select at 760px and below. Every service remains discoverable; the selected option, panel and URL anchor stay synchronized when resizing or following deep links.
   - Without JavaScript, the panels simply stack.
-- **Footer:** always night-water.
-  - The reversed lockup at 44px, beside the tagline.
-  - Column heads in Manrope 700 at 12px, spaced 0.16em and in capitals.
-  - Links in body small that turn Foam Aqua on hover.
-  - A base row with the legal links, contact details and a "Websites · Hosting · Growth" eyebrow.
+- **Footer:** light, on Foam White, on every page (owner's choice, 2026-11-05: it replaced the night footer and its three link columns).
+  - It's the only footer. A navy band that closes a page stays a band of its own above it, and no rule separates them.
+  - **Spacing:** 48px above and 32px below, inside the 1200px container (40px and 28px at 760px and below).
+  - **Top row:** two sides, 48px apart, that wrap. When they don't fit side by side, the links drop under the logo, left-aligned.
+    - Left, 12px apart: the 44px colour lockup linking home, then the Site Settings tagline in body small, Ink 500.
+    - The tagline's first "·" is drawn as a 4px dot, 10px from its neighbours and raised 0.14em. The place before it stays whole and the rest wraps in its own box, so "Chicago ·" never ends a line. A tagline without a "·" is plain text.
+    - Right: the primary menu's top-level links in `<nav aria-label="Footer">`, 40px apart. Manrope 600 at 15px in Deep Water, with 6px above and below. On hover they turn Lake Navy with an underline 4px below.
+  - **Rule:** 1px Lake Mist, 28px under the top row.
+  - **Bottom row,** 12px under the rule: two groups, 32px apart (4px when they wrap), with 24px between items.
+    - Left: "© year" and the site title in body small, Ink 500, then the `footer_legal` links (Terms and Conditions, Privacy Policy, Search).
+    - Right: the `footer_contact` links (email, phone), then "Back to top" with a 16px arrow-up, in Manrope 600 at 15px, Deep Water, turning Lake Navy.
+    - Legal and contact links are body small in Ink 500 with a hidden underline 3px below. On hover they turn Deep Water and the underline shows.
+    - "Back to top" goes to #top, the page root. It scrolls smoothly, or jumps under reduced motion.
+  - **States:** colours change over 140ms on the water curve, and nothing moves. Keyboard focus shows the focus ring with 4px corners, drawn over a transparent outline.
+  - **Touch:** on touch screens, and at 1080px and below, each footer link grows to a 44px target with its type unchanged. Wrapped rows then sit 44px apart.
+  - **Forced colours:** links take the system link colour and show their underline. The dot takes the text colour.
+  - **Content:** menus and Site Settings supply every link and line; "Back to top" is the only fixed label. Print hides the footer.
 
 ### Search
-The header's search opens a modal over the page. It's Cloudflare's search component, restyled from inside (see `docs/plugin-ai-search.md`).
+Cmd/Ctrl+K opens search in a modal over the page. When it closes, focus returns to whatever had it. If nothing did, or that control is now hidden, focus goes to a visible header control: the menu button while the menu is collapsed, otherwise the logo's home link. It's Cloudflare's search component, restyled from inside (see `docs/plugin-ai-search.md`). Without JavaScript, the footer's Search link leads to /search.
 - **Panel:** a White panel under the header, 600px wide, with 14px corners, a Lake Mist border and the lg shadow, over a navy scrim with no blur. It rises 8px as it enters, like a dropdown.
   - On phones (600px and below) it fills the screen. Its search row stands where the header was, and an outline close button takes the menu button's place.
   - On short screens (480px tall or less) it starts 12px from the top and uses the height.
@@ -612,9 +633,26 @@ Windows high-contrast mode swaps the palette for system colours and drops box-sh
 ### Eyebrows
 The system's signature wayfinding: short uppercase labels above headlines.
 - Manrope 700 at 13px, spaced 0.24em, in Deep Water (Foam Aqua on night-water).
-- A single eyebrow leads with a 28 × 2px Current Teal rule.
+- A single eyebrow leads with a 28 × 2px Current Teal rule. The home page's consultation and accountability eyebrows go without one, and the hosting band's rule is Foam Aqua, like its text.
 - A list, such as "Chicago · Websites · Hosting · Growth", separates its items with 5px Sunset Coral dots. Editors type the list with `·`.
 - A list wraps between items into balanced lines, and no line starts or ends on a dot. An item longer than a whole line wraps inside itself.
+
+### Wave Hero
+The hero block's "wave" layout, for the home page: the copy beside a photo that runs to the page's right edge behind a wave. The rounded photo panel stays the default.
+- **Grid:** four tracks, outside the container: minmax(pad, 1fr), minmax(0, 540px), minmax(0, 580px), minmax(pad, 1fr). The copy sits in track 2 and the photo spans tracks 3–4, straight under the header.
+- **Copy, in reading order:** the eyebrow list, the Display headline, the lead (capped at 34em), the button pair with its note, an optional goal sentence, and the tools line. It's a column with 24px gaps, padded 64px 32px 48px 0.
+- **Highlighted words:** Current Teal. They stay on one line when they fit the headline's narrowest line (about 7em, at 320 and 901px), as "look after" does. Longer highlights wrap with the rest of the headline. A kept phrase is an inline block, not nowrap, so with enlarged text it still wraps inside itself rather than running off the page.
+- **Button pair:** a large coral button with its arrow and a large outline partner, 8px below the lead, 12px apart vertically and 16px across. The note always takes its own line, capped at 52ch.
+- **Tools line:** the platforms we build and host on, as a list that screen readers name from the block's strip label. Body small in body ink, split by 4px Current Teal dots, under a 1px Lake Mist rule at most 440px wide. No line starts on a dot, and a wrapped name lines up under the first.
+- **Photo:** at least 600px tall, and as tall as the copy. Cover-cropped on a Teal 50 placeholder. As the first block it loads first, at the width it renders.
+- **Wave edge:** three bands over the photo's left edge, clamp(170px, 18vw, 260px) wide: Foam Aqua, Lake Mist, then Foam White, which merges into the page. It's decorative and hidden from assistive technology.
+- **Spacing:** the next section starts 72px below (56px at 760px and below), not 96px.
+- **1000px:** from 901 to 1000px the copy column is too narrow for two large buttons, so the pair stacks full width and the note follows it.
+- **900px:** the hero stacks. The photo becomes a full-width strip above the copy, clamp(200px, 46vw, 340px) tall, and the wave runs along its bottom edge, clamp(56px, 14vw, 96px) tall. The copy stays first in reading order, 8px below the strip.
+- **600px:** the lead drops to 18px and keeps its 1.55 leading.
+- **480px:** the pair stacks full width.
+- **States:** buttons hover, press and focus as everywhere. Under reduced motion the arrow stays put. In forced colours the wave takes the page colour, so the photo keeps its shaped edge, and the dots take the text colour.
+- Use it once, as the home page's first block. Other pages open with the panel hero or a page intro.
 
 ### Night-water Sections
 - **`data-theme="night"` switches any section to the navy canvas:**
@@ -623,13 +661,55 @@ The system's signature wayfinding: short uppercase labels above headlines.
   - Navy 800 cards and Navy 950 fields.
   - Translucent mist borders.
   - Coral buttons, unchanged.
-- **The hosting band** adds the crest as a watermark at 6% opacity.
-- **The status card** floats on its photograph with the xl shadow. It has:
+- **The hosting band with its photo** adds the crest as a watermark at 6% opacity. Without the photo, as on the home page, it has no watermark (see Split Without a Photo).
+- **The status card,** in the photo layout, floats on its photograph with the xl shadow. It has:
   - a head row with a title and a success badge with a status dot;
   - label-and-value rows split by translucent rules. On the home page they read as a care log: the label says when (every day, around the clock), the value says what happens.
   - Side by side, it sits 28px in from the photo's edges. Stacked (960px and below), the photo becomes a 260px strip and the card overlaps its lower edge by 96px, then carries on over the navy, so a long card never hides the water.
   - On phones the strip is 200px, the overlap 64px and the card 12px in from each side, with 16px padding. Each row's label sits above its value.
 - **Stat figures** are Sunset Coral Manrope 800, at clamp(40px, 4vw, 56px), over muted labels.
+
+### Split Without a Photo
+The split block's "Leave out the photo" option (`no_photo`) sets its copy as a plain band. The home page uses it twice: the hosting band on night-water and the accountability band on Teal 50. Use it when a photograph adds nothing to the section's argument. Content that keeps the photo renders the About split and the photo hosting band described above.
+
+**Hosting band (night)**
+- A night-water section on the night rhythm: 96px of padding inside (64px at 760px and below) and no outer margin.
+- The copy sits beside an example status card, in columns of `minmax(0,1fr)` and `minmax(0,400px)` with a 40px × 72px gap, centred vertically.
+- At 960px and below it stacks, copy first, 40px apart, and the card caps at 560px.
+- Without a card label, title or rows there is no card, and the copy is one column at every width.
+- The copy runs 24px apart:
+  - an eyebrow with a leading rule, rule and text in Foam Aqua;
+  - the H2 in the section-title type at −0.025em;
+  - a lead up to 34em;
+  - body paragraphs, if any, in body type up to 65ch;
+  - the checklist;
+  - the actions.
+- The checklist is a list in two columns that reads down each column, three rows for six items, with 14px × 32px gaps. Each item is a 20px Foam Aqua check beside a 17px/1.45 label in the body ink. It's one column at 600px and below.
+- The actions sit 12px further down: the large coral button and a go link, 32px apart. At 480px and below they stack and the button runs full width.
+
+**The example status card**
+- A figure on Navy 800 with a 1px translucent mist border, 14px corners and 28px padding (20px at 600px and below). It has no shadow.
+- Its caption is the label in small capitals (Manrope 700, 12px, 0.2em, Foam Aqua) with a rule below.
+- Then come the title in Manrope 700 at 22px, and label-and-value rows split by translucent rules.
+- Values are 600 weight and right-aligned. A label takes at most half its row, so a long one wraps instead of squeezing its value.
+- A badge, if an editor sets one, ends the caption row.
+- The card is an illustration. Its caption says it's an example, and nothing in it reads as a live status. Write "Uptime target", never a bare uptime figure.
+
+**Accountability band (light)**
+- A full-bleed Teal 50 band with 88px of padding (64px at 760px and below) and no outer margin. The section before it gives the space above.
+- One column up to 620px, 24px apart: an eyebrow without a rule, the H2, a lead if set, then paragraphs at lead size in Lake Navy up to 27em (18px at 600px and below).
+- A name block follows, 8px further down: the name in Manrope 700 at 20px, then its details in Ink 500 at 15px.
+  - Editors type the details with `·`.
+  - 4px dots separate them, and no line starts or ends on a dot.
+  - Screen readers hear commas.
+- Buttons are optional: the large coral button and a go link, as in the hosting band. "About Henry" waits for an /about page.
+- A Foam Aqua wave curl sits in the bottom-right corner and runs off the band's edges. It's hidden at 1000px and below, before it can reach the text.
+- The band has no status card. The card fields apply to the night band only, and "Photo on the left" does nothing without a photo.
+
+**States**
+- Hover: the coral button deepens to Coral 600, and the go link darkens (Deep Water to Lake Navy, or Foam Aqua to Foam White on night-water).
+- Both arrows move 3px on hover, except under reduced motion.
+- Focus is keyboard only: the standard ring over a transparent outline, which neither band clips.
 
 ### Photo Panels and CTA Band
 - **Photo panels** follow the Tall Panel Rule, with a Teal 50 placeholder while they load. Each photo loads at the width it renders, resized at the edge and sent as AVIF or WebP.
@@ -638,13 +718,45 @@ The system's signature wayfinding: short uppercase labels above headlines.
   - Its photograph sits under the left-hand navy protection, which follows the copy column.
   - The copy is capped at 560px, with 56px padding, and ends in a large coral button. When the band offers a second route, a ghost partner sits beside it; the 448px inside the padding fits both at their large size.
   - On phones (700px and below) the photograph becomes a strip across the top, clamp(170px, 50vw, 260px) tall, that fades into the navy. The copy follows on solid navy with 24px sides.
+  - Without its photo it becomes the closing invitation (see Closing Invitation).
+
+### Closing Invitation
+The CTA band without its photo ("Leave out the photo"): a full-width navy band that ends the home page with the two ways to begin.
+- **Band:** night-water from edge to edge, with no radius and no photo. 80px padding top and bottom, 56px at 760px and below. Like any night section, it has no margin.
+- **Lines:** nine Current Teal strokes at 80% opacity fill the right 48% of the band, full height, behind nothing. They're decorative and hidden from assistive technology.
+- **Copy:** a column capped at 600px, with 20px gaps: an optional eyebrow with its leading rule, the H2 in Foam White, a 20px paragraph in night body ink (#E3EEF1) capped at 34em, and the button pair.
+- **Buttons:** a large coral button and a large outline partner, Foam White on navy, 8px below the paragraph, 12px apart vertically and 16px across. The outline takes its night wash on hover.
+- **900px:** the copy drops its cap, and the lines become a strip across the bottom, 120px tall (104px at 760px and below), in bottom padding grown to 160px (144px). They never meet the buttons.
+- **600px:** the paragraph drops to 18px.
+- **480px:** the pair stacks full width.
+- Use it as a page's last section, before the footer, where the page ends on a decision. The photo band remains for pages that want a photograph, such as the blog.
 
 ### Numbered Steps
 - Steps are numbered 01 to 05 in Manrope 800 at 13px, spaced 0.16em, in the eyebrow colour: Deep Water, or Foam Aqua on night-water.
 - Each sits under a 2px Lake Mist rule, above an H4 title, and the number and rule carry the sequence on their own. An icon tile is optional, and the site's steps go without one. When a step has a tile, it sits between the number and the title, or beside the title on phones.
+- Steps have two layouts: the grid described here, and split (see Split Steps). In the grid, a heading's highlighted words are Current Teal too.
 - Four steps make a grid of deliverables; five make a row of preparation tips.
 - Each step can carry one plain sentence under its title, in card text (16px Ink 500). Keep it to one sentence, so the grid still scans as four parts.
 - Above phones, the steps share the grid's rows (subgrid), so a title that wraps to two lines doesn't push its sentence below its neighbours'.
+
+### Split Steps
+The split form of numbered steps (its "split" layout), such as the home page's Website Consultation. The offer and its button sit on the left; what the offer covers sits on the right.
+- **Left column**, items 24px apart:
+  - an eyebrow without a rule;
+  - the H2, with its highlighted words in Current Teal;
+  - a lead capped at 30em;
+  - 8px further down, the large coral button with a trailing arrow over a one-line note (body small, Ink 500), 14px apart.
+- At 480px and below the button runs full width.
+- The highlighted words stay on one line when they fit the heading's narrowest line (about 9.3em, at 320px and again at 961px). A longer phrase wraps with the rest of the heading, and a kept one still wraps inside itself when enlarged text needs it.
+- **Right column:** an H3 list heading (Manrope 700, 20px/1.3, tracked −0.01em), 8px above an ordered list.
+  - Each step has its number in a 72px column (52px at 600px and below). The column sits 16px from the step's H4 title and one sentence of card text (17px at 1.5, Ink 500, at most 40ch). The title and text are 6px apart.
+  - Numbers run 01, 02… in Manrope 600 at 36px (30px at 600px and below), tracked −0.02em, with tabular figures, in Current Teal. Screen readers skip them: the list carries the order.
+  - 1px Lake Mist rules split the steps. The first step pads 12px above and 22px below, the others 22px on each side, and the last ends flush.
+  - Without a list heading the step titles are H3, so no level is skipped.
+  - Step icons aren't shown in this layout.
+- **Between the columns:** a 1px Lake Mist hairline the full height of the row, 56px from each column. At 960px and below the columns stack 40px apart and the hairline goes.
+- The section follows the light section rhythm: 96px, or 64px at 760px and below.
+- Use the split layout for one offer and its parts. Use the grid for parallel deliverables or tips.
 
 ### Route Rows
 The signage form of a card grid (its "rows" layout), for sending visitors down the route that fits their situation, such as the home page's "Where are you starting from?".
@@ -652,7 +764,30 @@ The signage form of a card grid (its "rows" layout), for sending visitors down t
 - **Rules, not boxes:** each row sits under a 2px Lake Mist rule, and the list closes with one. The rows share one set of columns (CSS subgrid), so titles, text and actions line up down the list. Actions align right.
 - **The whole row is the target:** the action stretches over its row, so a tap anywhere follows it, while its accessible name stays the short destination ("Move your site to us"). On hover the row's rule turns Current Teal, the title Deep Water, and the arrow slides 3px; keyboard focus rings the whole row.
 - **At 960px and below** the tile sits beside the title, with the text and action under the title. **At 600px and below** the text and action run full width.
-- Use rows when each item is a different route the visitor chooses between; use cards for a set of comparable things.
+- Use rows when each item is a different route the visitor chooses between and there are more than a few. Use columns for a short set that opens a page (see Route Columns), and cards for a set of comparable things.
+
+### Route Columns
+The starting-points form of a card grid (its "columns" layout), such as the home page's "Where are you starting from?". Each route names a situation the visitor recognises and the way in.
+- **Head:** a 44 × 2px Current Teal rule with rounded ends over the H2, 20px apart. The head sits 48px above the routes (32px at 760px and below).
+  - An eyebrow, when set, replaces the rule; it brings its own 28px rule.
+  - A lead, when set, follows the H2.
+- **Anatomy:** a round icon beside a column holding an H3 title, one sentence of card text and a go link.
+  - The icon is a Teal 50 circle with a Deep Water glyph: 80px with a 32px glyph. At 960px and below it's 64px with a 28px glyph, and at 760px and below 56px with a 24px glyph.
+  - The title is Manrope 700 at clamp(19px, 0.5vw + 15px, 22px), with a line height of 1.25, tracked −0.01em.
+  - The text is 17px at 1.5 in Ink 500, at most 40ch. The link sits 6px under it.
+  - The circle and the text are 28px apart (20px at 960px and below).
+  - The text column starts 10px down (6px at 960px and below, 2px at 760px and below) and stacks with 10px gaps.
+- **Grid:** two equal columns, filled left to right; one column at 760px and below. An odd last route sits alone in the left column.
+- **Rules, not boxes:** 1px Lake Mist hairlines split the routes and stop 16px short of every crossing.
+  - A left route with a neighbour has a vertical rule along its right edge, flush with the grid's top and bottom.
+  - Every route above the last row has a rule under it.
+  - Routes pad 40px towards each rule (32px at 960px and below), and 8px at the grid's top and bottom edges.
+  - At 760px and below the vertical rules go. Every route but the last has a full-width rule under it, with 24px above and below.
+- **The whole route is the target:** its link stretches over it, and the link's accessible name stays the short destination ("Move your site to us").
+  - On hover the circle turns Teal 100, the title Deep Water and the link Lake Navy, and the arrow slides 3px. Colours change in 140ms and the arrow moves in 220ms; under reduced motion it doesn't move.
+  - Keyboard focus rings the whole route, with 14px corners.
+  - A route without a link has no hover state.
+- Use columns for a short set of routes (two to six) that opens a page. Use rows for a longer list, and cards for comparable things.
 
 ### Legal Pages
 - **Table of contents:** 260px and sticky, with each entry numbered. The current entry is Deep Water, with a 2px Current Teal bar on its left.
@@ -672,6 +807,7 @@ The signage form of a card grid (its "rows" layout), for sending visitors down t
 - **Icons:** Lucide line glyphs.
   - A 2px stroke with round caps and joins, drawn in the current text colour.
   - 20px by default: 16px on small buttons, 18px on standard buttons, and 22–24px inside tiles.
+- **Wave drawings** (`src/waves/`): the hero photo's edge (vertical, or horizontal once stacked), the accountability band's curl and the closing band's lines. They were drawn for the home concept and stand in until a designer redraws one canonical wave from the logo crest. They're inlined without their provenance metadata, hidden from assistive technology, and never sit behind text.
 - **The logo:** a horizontal lockup of crest, rule and wordmark.
   - 40px in the header and 44px in the footer.
   - The reversed files are for navy grounds. There, the crest sits on a white disc, because its foam and sky are transparent.
@@ -680,10 +816,10 @@ The signage form of a card grid (its "rows" layout), for sending visitors down t
 ## Do's and Don'ts
 
 ### Do:
-- **Do** put every primary action on Sunset Coral with a Lake Navy label and a trailing arrow. Pair it with an outline button on light grounds, or a ghost button on night-water.
+- **Do** put every primary action on Sunset Coral with a Lake Navy label and a trailing arrow. Pair it with an outline button (Foam White on night-water, as in the closing invitation), or with a ghost button over a photograph.
 - **Do** open sections with the eyebrow, headline, lead stack: an eyebrow with a 28px teal rule, then an H2, then a 20px Ink 500 lead no wider than 60ch.
 - **Do** name the machinery. Use spec cards with tool tags, label-and-value status rows, numbered steps and stat figures, set crisply and labelled plainly.
-- **Do** use a night-water section wherever a long page needs a change of pace, whatever the topic. The footer is always night.
+- **Do** use a night-water section wherever a long page needs a change of pace, whatever the topic.
 - **Do** choose photography from three subjects: lake-water textures, Chicago architecture, and real work. Real work means people working and, on /work, real client sites shown as screenshots.
 - **Do** space light sections with the collapsing 96px/64px margins, and pad only night sections.
 - **Do** tint every shadow and scrim Lake Navy, and keep cards flat unless they're interactive and hovered.

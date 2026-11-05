@@ -4,12 +4,31 @@ test("mobile header leaves the primary action to the page", async ({ page }) => 
 	await page.setViewportSize({ width: 390, height: 844 });
 	await page.goto("/");
 	await expect(page.locator(".lfw-header__cta")).toBeHidden();
-	await expect(page.locator(".lfw-tools [data-ai-search-open]")).toBeVisible();
+	// The bar has no search button: search opens with Ctrl/Cmd+K, and the footer links to the /search page.
+	await expect(page.getByRole("banner").getByRole("link", { name: "Search" })).toHaveCount(0);
+	await expect(page.getByRole("contentinfo").getByRole("link", { name: "Search", exact: true })).toHaveAttribute("href", "/search");
 	await page.getByRole("button", { name: "Open menu" }).click();
 	const menu = page.getByRole("navigation", { name: "Menu", exact: true });
 	await expect(menu.getByRole("link", { name: "Book a consultation" })).toBeVisible();
 	await expect(menu.locator(".lf-btn")).toHaveCount(0);
 	await expect(page.locator(".lfw-hero").getByRole("link", { name: "Book a consultation" })).toHaveCount(1);
+});
+
+test("menu links to part of a page are never marked as the current page", async ({ page }) => {
+	await page.setViewportSize({ width: 1440, height: 900 });
+	for (const path of ["/", "/services", "/consultation"]) {
+		await page.goto(path);
+		// The desktop links and the mobile panel (hidden here, but rendered) share the rule.
+		const links = await page.locator('nav[aria-label="Primary"] a, nav[aria-label="Menu"] a').evaluateAll((elements) =>
+			elements.map((a) => ({ href: a.getAttribute("href") ?? "", current: a.getAttribute("aria-current") })));
+		expect(links.length).toBeGreaterThan(0);
+		for (const { href, current } of links) {
+			const target = new URL(href, page.url());
+			const label = `${href} on ${path}`;
+			if (target.hash) expect(current, label).toBeNull();
+			else if (target.pathname.replace(/\/+$/, "") === path.replace(/\/+$/, "")) expect(current, label).toBe("page");
+		}
+	}
 });
 
 test("pages without their own image share the built-in card", async ({ page, request }) => {

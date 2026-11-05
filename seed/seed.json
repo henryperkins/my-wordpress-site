@@ -8,7 +8,7 @@
 	},
 	"settings": {
 		"title": "Lakefront Digital",
-		"tagline": "Lakefront Digital is a technology company specializing in web design, WordPress customization and management, web hosting, and application deployment."
+		"tagline": "Chicago · Serving small businesses across the US"
 	},
 	"blockTypes": [
 		{
@@ -30,6 +30,18 @@
 							}
 						},
 						{
+							"slug": "layout",
+							"label": "Layout (panel: a rounded photo beside the copy; wave: the photo runs to the page edge behind a wave)",
+							"type": "select",
+							"defaultValue": "panel",
+							"validation": {
+								"options": [
+									"panel",
+									"wave"
+								]
+							}
+						},
+						{
 							"slug": "eyebrow",
 							"label": "Eyebrow (separate items with ·)",
 							"type": "string"
@@ -42,7 +54,7 @@
 						},
 						{
 							"slug": "highlight",
-							"label": "Highlighted words after the headline",
+							"label": "Highlighted words (inside the headline, or added after it)",
 							"type": "string"
 						},
 						{
@@ -116,7 +128,7 @@
 						},
 						{
 							"slug": "stack_label",
-							"label": "Strip label",
+							"label": "Strip label (the wave layout reads it to screen readers)",
 							"type": "string",
 							"defaultValue": "Built on"
 						},
@@ -213,13 +225,14 @@
 						},
 						{
 							"slug": "layout",
-							"label": "Layout (rows show the icon, title, text and link)",
+							"label": "Layout (rows: one route per row; columns: two columns of routes with round icons)",
 							"type": "select",
 							"defaultValue": "cards",
 							"validation": {
 								"options": [
 									"cards",
-									"rows"
+									"rows",
+									"columns"
 								]
 							}
 						},
@@ -370,6 +383,12 @@
 							"defaultValue": false
 						},
 						{
+							"slug": "no_photo",
+							"label": "Leave out the photo (night: the status card sits beside the copy; light: a pale teal band)",
+							"type": "boolean",
+							"defaultValue": false
+						},
+						{
 							"slug": "eyebrow",
 							"label": "Eyebrow",
 							"type": "string"
@@ -389,6 +408,16 @@
 							"slug": "body",
 							"label": "Body (blank line between paragraphs)",
 							"type": "text"
+						},
+						{
+							"slug": "person_name",
+							"label": "Name under the text (e.g. the person accountable)",
+							"type": "string"
+						},
+						{
+							"slug": "person_detail",
+							"label": "Details under the name (separate items with ·)",
+							"type": "string"
 						},
 						{
 							"slug": "checklist",
@@ -450,6 +479,11 @@
 							}
 						},
 						{
+							"slug": "panel_label",
+							"label": "Status card label (small capitals above its title, without the photo)",
+							"type": "string"
+						},
+						{
 							"slug": "panel_title",
 							"label": "Status card title",
 							"type": "string"
@@ -487,6 +521,18 @@
 							}
 						},
 						{
+							"slug": "layout",
+							"label": "Layout (grid: the steps in columns; split: the heading and button beside a numbered list)",
+							"type": "select",
+							"defaultValue": "grid",
+							"validation": {
+								"options": [
+									"grid",
+									"split"
+								]
+							}
+						},
+						{
 							"slug": "eyebrow",
 							"label": "Eyebrow",
 							"type": "string"
@@ -496,6 +542,11 @@
 							"label": "Headline",
 							"type": "string",
 							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Highlighted words (inside the headline, or added after it)",
+							"type": "string"
 						},
 						{
 							"slug": "lead",
@@ -514,6 +565,16 @@
 							"validation": {
 								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
 							}
+						},
+						{
+							"slug": "note",
+							"label": "Note under the button (split layout)",
+							"type": "string"
+						},
+						{
+							"slug": "list_title",
+							"label": "Heading above the list (split layout)",
+							"type": "string"
 						},
 						{
 							"slug": "steps",
@@ -1123,6 +1184,12 @@
 							"validation": {
 								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
 							}
+						},
+						{
+							"slug": "no_photo",
+							"label": "Leave out the photo (a full-width navy band with wave lines)",
+							"type": "boolean",
+							"defaultValue": false
 						},
 						{
 							"slug": "image",
@@ -1792,19 +1859,7 @@
 				{
 					"type": "custom",
 					"label": "Services",
-					"url": "/services",
-					"children": [
-						{
-							"type": "custom",
-							"label": "All services",
-							"url": "/services"
-						},
-						{
-							"type": "custom",
-							"label": "SEO",
-							"url": "/seo"
-						}
-					]
+					"url": "/services"
 				},
 				{
 					"type": "custom",
@@ -1813,18 +1868,13 @@
 				},
 				{
 					"type": "custom",
-					"label": "Work",
-					"url": "/work"
+					"label": "Growth",
+					"url": "/services#seo"
 				},
 				{
 					"type": "custom",
-					"label": "Blog",
-					"url": "/blog"
-				},
-				{
-					"type": "custom",
-					"label": "Start a project",
-					"url": "/contact"
+					"label": "About",
+					"url": "/#about"
 				}
 			]
 		},
@@ -1836,89 +1886,6 @@
 					"type": "custom",
 					"label": "Book a consultation",
 					"url": "/consultation#enquiry"
-				}
-			]
-		},
-		{
-			"name": "footer_services",
-			"label": "Footer: Services",
-			"items": [
-				{
-					"type": "custom",
-					"label": "Performance",
-					"url": "/services#performance"
-				},
-				{
-					"type": "custom",
-					"label": "Social media",
-					"url": "/services#social"
-				},
-				{
-					"type": "custom",
-					"label": "Analytics",
-					"url": "/services#analytics"
-				},
-				{
-					"type": "custom",
-					"label": "WordPress",
-					"url": "/services#wordpress"
-				},
-				{
-					"type": "custom",
-					"label": "SEO",
-					"url": "/seo"
-				},
-				{
-					"type": "custom",
-					"label": "Content",
-					"url": "/services#content"
-				}
-			]
-		},
-		{
-			"name": "footer_hosting",
-			"label": "Footer: Hosting",
-			"items": [
-				{
-					"type": "custom",
-					"label": "Technical specifications",
-					"url": "/hosting#specs"
-				},
-				{
-					"type": "custom",
-					"label": "Site management",
-					"url": "/hosting#management"
-				},
-				{
-					"type": "custom",
-					"label": "E-commerce solutions",
-					"url": "/hosting#e-commerce"
-				}
-			]
-		},
-		{
-			"name": "footer_company",
-			"label": "Footer: Company",
-			"items": [
-				{
-					"type": "custom",
-					"label": "Website Consultation",
-					"url": "/consultation"
-				},
-				{
-					"type": "custom",
-					"label": "Work",
-					"url": "/work"
-				},
-				{
-					"type": "custom",
-					"label": "Blog",
-					"url": "/blog"
-				},
-				{
-					"type": "custom",
-					"label": "Start a project",
-					"url": "/contact"
 				}
 			]
 		},
@@ -2012,51 +1979,53 @@
 							"_type": "lf_hero",
 							"_version": 1,
 							"_key": "home-hero",
+							"layout": "wave",
 							"eyebrow": "Chicago · Websites · Hosting · Growth",
-							"headline": "We build, host and",
-							"highlight": "look after your website",
-							"lead": "We keep it updated, backed up and monitored. From Chicago, for small businesses across the US.",
+							"headline": "We build, host and look after your website.",
+							"highlight": "look after",
+							"lead": "New websites, existing WordPress sites, and apps—hosted on infrastructure we manage. Updates, backups, and monitoring, from Chicago for small businesses across the US.",
 							"primary_cta_label": "Book a consultation",
 							"primary_cta_url": "/consultation#enquiry",
 							"secondary_cta_label": "Start a project",
 							"secondary_cta_url": "/contact#enquiry",
-							"note": "Not sure what you need? Your first consultation is free. Either way, we reply by email.",
-							"photo": "el-night"
+							"note": "First consultation free. Have a clear brief? Start a project. We reply by email.",
+							"photo": "ripple",
+							"stack_label": "What we build and host on",
+							"stack": "WordPress, WooCommerce, AWS, Cloudflare"
 						},
 						{
 							"_type": "lf_card_grid",
 							"_version": 1,
 							"_key": "home-services",
 							"anchor_id": "services",
-							"eyebrow": "Services",
 							"headline": "Where are you starting from?",
-							"layout": "rows",
+							"layout": "columns",
 							"cards": [
 								{
-									"icon": "layout-template",
-									"title": "No website yet",
-									"text": "We design and build it on WordPress, with WooCommerce if you sell online, then host it and look after it.",
+									"icon": "panels-top-left",
+									"title": "A new website or store",
+									"text": "WordPress and WooCommerce, with hosting and ongoing care.",
 									"link_label": "Plan a new site",
 									"link_url": "/contact?service=wordpress#enquiry"
 								},
 								{
-									"icon": "refresh-cw",
-									"title": "A WordPress site someone else built",
-									"text": "We move it onto hosting we manage and take over the updates, backups and monitoring.",
+									"icon": "settings",
+									"title": "An existing WordPress site",
+									"text": "Move to managed hosting, with updates, backups and monitoring.",
 									"link_label": "Move your site to us",
 									"link_url": "/contact?service=hosting#enquiry"
 								},
 								{
 									"icon": "code-xml",
-									"title": "An app or a site on another platform",
-									"text": "We deploy it on infrastructure we manage and keep it running.",
+									"title": "An app or another platform",
+									"text": "Deploy on infrastructure we manage and keep it running.",
 									"link_label": "Talk about your app",
 									"link_url": "/contact?service=hosting#enquiry"
 								},
 								{
-									"icon": "trending-up",
+									"icon": "chart-column",
 									"title": "A site that needs more customers",
-									"text": "SEO, content, social media and analytics work that helps the right people find you.",
+									"text": "SEO, content, social media and analytics to help people find you.",
 									"link_label": "See growth services",
 									"link_url": "/services#seo"
 								}
@@ -2065,66 +2034,78 @@
 						{
 							"_type": "lf_split",
 							"_version": 1,
-							"_key": "home-about",
-							"photo_first": true,
-							"eyebrow": "Who you’ll work with",
-							"headline": "One person, accountable for your site",
-							"body": "Lakefront Digital is run by Henry Perkins in Chicago. Henry builds and looks after every client site personally, so the person you meet in your first consultation is the person who keeps your site running.",
-							"primary_cta_label": "Book a consultation",
-							"primary_cta_url": "/consultation#enquiry",
-							"photo": "willis-fog",
-							"night": false
-						},
-						{
-							"_type": "lf_split",
-							"_version": 1,
 							"_key": "home-hosting",
+							"anchor_id": "hosting",
 							"night": true,
+							"no_photo": true,
 							"eyebrow": "Hosting and management",
-							"headline": "Your site, looked after every day",
-							"lead": "Plenty of people will build you a site and hand over the keys. We keep yours running after launch, on infrastructure we manage.",
+							"headline": "Your site, looked after every day.",
+							"lead": "Managed hosting, WordPress updates, daily backups and round-the-clock monitoring.",
+							"checklist": "AWS hosting\nCloudflare protection\nNGINX caching\nJetpack daily backups\nNew Relic monitoring\nWooCommerce stores",
 							"primary_cta_label": "View hosting details",
 							"primary_cta_url": "/hosting",
 							"secondary_cta_label": "Move your site to us",
 							"secondary_cta_url": "/contact?service=hosting#enquiry",
 							"photo": "ripple",
+							"panel_label": "Example hosting setup",
 							"panel_title": "yourbusiness.com",
-							"panel_badge": "Online",
-							"panel_rows": "Every visit | Sped up and protected by Cloudflare\nEvery day | Backed up with Jetpack\nAround the clock | Watched by New Relic, with alerts\nWhen updates ship | WordPress and plugins kept current\nWhen you need a change | Email the person who knows your site",
+							"panel_rows": "Uptime target | 99.9%\nSSL | Let’s Encrypt\nCDN | Cloudflare\nMonitoring | New Relic · 24/7",
 							"photo_first": false
 						},
 						{
 							"_type": "lf_steps",
 							"_version": 1,
 							"_key": "home-consultation",
+							"anchor_id": "consultation",
+							"layout": "split",
 							"eyebrow": "Website Consultation",
-							"headline": "Know where your site stands and what to do next",
-							"lead": "Your first consultation is a free conversation about your site and your goals. Everything after that is quoted.",
+							"headline": "Know where your site stands and what to do next.",
+							"highlight": "what to do next.",
+							"lead": "A practical conversation about your website and what your business needs next.",
+							"cta_label": "Book a consultation",
+							"cta_url": "/consultation#enquiry",
+							"note": "First consultation free.",
+							"list_title": "What we can work through",
 							"steps": [
 								{
 									"title": "Website analysis",
-									"text": "We review how your site looks, performs and gets found today."
+									"text": "Review how the site looks, performs and gets found today."
 								},
 								{
 									"title": "Business planning",
-									"text": "We work out what the site needs to do for your business."
+									"text": "Work out what the site needs to do for the business."
 								},
 								{
 									"title": "Recommendations for your goals",
-									"text": "Specific changes to make, matched to those goals."
+									"text": "Identify specific changes matched to those goals."
 								},
 								{
 									"title": "Growth roadmap",
-									"text": "What to do next, and what can wait."
+									"text": "Explain what to do next and what can wait."
 								}
 							]
+						},
+						{
+							"_type": "lf_split",
+							"_version": 1,
+							"_key": "home-about",
+							"anchor_id": "about",
+							"night": false,
+							"no_photo": true,
+							"photo_first": true,
+							"eyebrow": "One point of contact",
+							"headline": "One person, accountable for your site.",
+							"body": "Lakefront Digital is run by Henry Perkins in Chicago. Henry is your point of contact for planning, delivery, and ongoing care, so the person you speak with at the start stays connected to the work.",
+							"person_name": "Henry Perkins",
+							"person_detail": "Lakefront Digital · Chicago",
+							"photo": "willis-fog"
 						},
 						{
 							"_type": "lf_cta_band",
 							"_version": 1,
 							"_key": "home-cta",
-							"eyebrow": "Two ways to start",
-							"headline": "Hand your site to someone who’ll look after it",
+							"no_photo": true,
+							"headline": "Hand your site to someone who’ll look after it.",
 							"text": "Book a free first consultation to talk it through, or start a project if you already know what you need. Either way, we reply by email.",
 							"cta_label": "Book a consultation",
 							"cta_url": "/consultation#enquiry",

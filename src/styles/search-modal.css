@@ -153,4 +153,7 @@ a.modal-result-item:focus-visible{outline:2px solid transparent;box-shadow:var(-
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  /* Even a .01ms visibility transition leaves the panel hidden when the snippet focuses its field, and WebKit then
+     ignores the focus: Cmd/Ctrl+K, now the only way in, would open search without a cursor. Visibility flips at once. */
+  .modal-container{transition-property:opacity,transform}
 }

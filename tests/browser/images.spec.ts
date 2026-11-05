@@ -26,7 +26,8 @@ async function expectSuitableSource(image: Locator) {
 for (const [width, density] of [[390, 1], [700, 1], [930, 1], [1440, 1], [930, 2], [1440, 2]] as const) {
 	test(`photos preserve crop detail without oversized sources at ${width}px and ${density}x`, async ({ browser, baseURL }) => {
 		for (const [path, selectors] of [
-			["/", [".lfw-hero__media img", ".lfw-about__media img", ".lfw-night__media img", ".lfw-band img"]],
+			// The home concept has one photo, the hero's; its other sections are photo-free variants.
+			["/", [".lfw-hero img"]],
 			["/services", [".lfw-panel.is-active .lfw-panel__media img"]],
 			["/consultation", [".lfw-product__media img"]],
 			["/contact", [".lfw-aside__img img"]],
@@ -53,22 +54,20 @@ for (const [width, density] of [[390, 1], [700, 1], [930, 1], [1440, 1], [930, 2
 
 
 for (const javaScriptEnabled of [true, false]) {
-	test(`footer brand images ${javaScriptEnabled ? "load when approaching the footer" : "render through the native no-JavaScript path"}`, async ({ browser, baseURL }) => {
+	test(`footer logo renders ${javaScriptEnabled ? "with" : "without"} JavaScript`, async ({ browser, baseURL }) => {
+		// The light footer uses the colour artwork, the same files the header loads first.
 		const context = await browser.newContext({ javaScriptEnabled, viewport: { width: 390, height: 844 } });
 		try {
 			const page = await context.newPage();
-			const requests: string[] = [];
-			page.on("request", (request) => { if (/\/brand\/.*-reversed\.svg$/.test(request.url())) requests.push(request.url()); });
 			await page.goto(`${baseURL}/`);
 			await page.evaluate(() => document.fonts.ready);
 			const footer = page.locator(".lfw-footer__brand");
 			expect(await footer.evaluate((element) => element.getBoundingClientRect().top)).toBeGreaterThan(3 * 844);
-			// HTML disables native lazy loading when scripting is disabled.
-			if (javaScriptEnabled) expect(requests).toEqual([]);
-			else await expect.poll(() => requests.length).toBe(2);
 			await footer.evaluate((element) => element.scrollIntoView({ behavior: "instant" }));
-			await expect.poll(() => requests.length).toBe(2);
-			for (const image of await footer.locator("img").all()) {
+			const images = await footer.locator("img").all();
+			expect(images).toHaveLength(2);
+			for (const image of images) {
+				await expect(image).toHaveAttribute("src", /^\/brand\/lakefront-(crest|wordmark)\.svg$/);
 				await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true);
 			}
 			await expect(footer.getByRole("link", { name: /home/ })).toBeVisible();

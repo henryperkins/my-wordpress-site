@@ -60,6 +60,13 @@ const CARD_TRIPLE = `calc(${column(1 / 3, 48)} - 2px)`;
 // subtract their 1px borders; auto-fill changes columns at 624/948px of content.
 const LAYOUTS = {
 	hero: [stacked(900, 340), { width: column(0.54, 56), height: "clamp(420px, 44vw, 580px)" }],
+	// The wave hero's photo spans the last two of its four tracks, to the page's right edge: half the view while the
+	// copy and photo tracks share the space (to 1160px), then the 580px track plus the right-hand margin (50vw + 20px
+	// from 1200px). It's as tall as the copy beside it, about 700px. Stacked, it's a full-width strip.
+	heroWave: [
+		{ media: "(max-width: 900px)", width: "100vw", height: "clamp(200px, 46vw, 340px)" },
+		{ width: "max(50vw, min(100vw - 580px, 50vw + 20px))", height: "700px" },
+	],
 	about: [{ media: "(max-width: 960px)", width: ABOUT_STACKED, height: `calc(${ABOUT_STACKED} * 1.25)` }, { width: column(0.45, 64), height: "560px" }],
 	split: [{ media: "(max-width: 600px)", width: CONTAINER_WIDTH, height: "200px" }, stacked(960, 260), { width: column(0.5, 64), height: "500px" }],
 	service: [stacked(900, 280), { width: column(1 / 2.05, 56), height: "520px" }],

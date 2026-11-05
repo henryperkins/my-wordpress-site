@@ -44,11 +44,10 @@ search-modal-snippet {
   --search-snippet-z-modal: var(--z-overlay);
 }
 
-/* Let enlarged text reflow inside the consultation and footer grid tracks. */
+/* Let enlarged text reflow inside the consultation grid tracks and the footer's links. */
 .lfw-product__summary,
 .lfw-product__summary > *,
-.lfw-product__summary .lfw-features li > div,
-.lfw-footer__grid > * {
+.lfw-product__summary .lfw-features li > div {
   min-width: 0;
 }
 
@@ -85,13 +84,24 @@ search-modal-snippet {
     height: var(--hit);
   }
 
-  .lfw-footer ul {
-    gap: 0;
+  /* The header's home link, and on wide touch screens its menu links, answer the same target; the 76px bar has room. */
+  .lfw-header .lfw-logo-link {
+    min-height: var(--hit);
+    align-items: center;
   }
 
-  .lfw-footer ul a,
+  .lfw-nav a {
+    height: var(--hit);
+  }
+
+  /* Footer links keep their type and colours and grow to the 44px target; the taller links space the footer's
+     wrapped rows, so its link list drops its 4px row gap. */
+  .lfw-footer__nav ul {
+    row-gap: 0;
+  }
+
+  .lfw-footer__nav a,
   .lfw-footer__base a {
-    display: inline-flex;
     align-items: center;
     min-width: var(--hit);
     min-height: var(--hit);

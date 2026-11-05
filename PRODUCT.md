@@ -50,10 +50,11 @@ lakefrontdigital.io is the marketing site for Lakefront Digital (Lakefront Digit
 
 - **Two ways to get in touch:**
   - "Book a consultation" goes to `/consultation#enquiry`. It is a desktop header button and an ordinary mobile menu link; the page owns the primary mobile action.
-  - "Start a project" goes to /contact. It is in the main menu, and the home hero and closing band pair it with "Book a consultation"; those buttons go straight to each form's `#enquiry`. Each form carries its own heading, so the jump lands on it; /contact has no separate intro.
+  - "Start a project" goes to `/contact#enquiry`. The home hero and closing band pair it with "Book a consultation"; those buttons go straight to each form's `#enquiry`. Each form carries its own heading, so the jump lands on it; /contact has no separate intro. Since the November 2026 home concept it's no longer in the main menu.
   - Service pages link to `/contact?service=<slug>#enquiry`, which pre-ticks that need. On the home page, "Move your site to us" and the app route's "Talk about your app" use `?service=hosting`.
-  - Under the home hero's buttons, a note tells visitors who aren't sure what they need that the first consultation is free, and that either way we reply by email.
+  - Under the home hero's buttons, a note says the first consultation is free, sends visitors with a clear brief to "Start a project", and says we reply by email.
   - The footer also lists the email address and phone number.
+- **Main menu:** Services · Hosting · Growth · About (owner-approved 2026-11-05, from the home concept). Growth goes to `/services#seo`. About goes to the home page's accountability section (`/#about`) until an /about page exists.
 - **The consultation form** asks for name, work email, an optional phone number and notes.
 - **The project form** asks for:
   - current website
@@ -67,8 +68,8 @@ lakefrontdigital.io is the marketing site for Lakefront Digital (Lakefront Digit
   - The founder works in the admin at `/_emdash/admin`.
   - Agents change content through the site's MCP server, and only with the owner's approval.
 - **Search:**
-  - The header's search opens an AI search modal (Cloudflare AI Search).
-  - `/search` is the full-text fallback, and it works without JavaScript.
+  - The header has no search button, by the owner's choice (2026-11-05, from the home concept). Cmd/Ctrl+K still opens the AI search modal (Cloudflare AI Search).
+  - `/search` is the full-text fallback, and it works without JavaScript. The footer links to it, and so does the 404 page.
   - Blocks aren't indexed, so each page's summary and keywords carry its search terms.
 - **Menus link only to pages that exist,** by the owner's choice.
   - Three destinations are waiting on content:
@@ -121,7 +122,7 @@ lakefrontdigital.io is the marketing site for Lakefront Digital (Lakefront Digit
   - Site: lakefrontdigital.io.
   - Contact: hello@lakefrontdigital.io and (773) 231-8020.
   - Home base: Chicago, Illinois.
-- **Tagline:** "Empower Your Business Online". The owner chose it, and it's set in Site Settings.
+- **Tagline:** "Chicago · Serving small businesses across the US". The owner chose it on 2026-11-05 (it replaced "Empower Your Business Online"), and it's set in Site Settings. It's the footer's line under the logo, and articles' help cards and the RSS feed use it too.
 - **Voice:**
   - "We" is the business voice. One founder does all the client work, so never claim a team, staff or colleagues.
   - Use "we" for descriptions and form messages; do not imply employees or a team.
@@ -150,7 +151,7 @@ lakefrontdigital.io is the marketing site for Lakefront Digital (Lakefront Digit
 - **Four SEO guide outlines** in `seed/seed.json`. They're drafts, too thin to publish, and wait for full articles.
 - **SEO page copy** in the design kit (`ui_kits/website/SeoScreen.jsx`), outside this repo.
 - **Assets:** 13 bundled photos in `public/images/`, and the brand files in `public/brand/`.
-- **The founder, Henry Perkins, is named in the home page's About section** (owner-approved 2026-10-11). A photo of the founder is to come; until then the section uses a Chicago photo.
+- **The founder, Henry Perkins, is named in the home page's accountability section**, "One person, accountable for your site" (owner-approved 2026-10-11, reworded in the 2026-11-05 home concept: Henry is the point of contact for planning, delivery and ongoing care). The section has no photo. Add a portrait only when the owner supplies a real one; never a stand-in.
 - **Nothing on this list exists. Don't invent any of it:**
   - testimonials or reviews
   - client logos

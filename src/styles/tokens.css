@@ -121,6 +121,7 @@
   --action-brand-bg:var(--deep-water);
   --action-brand-bg-hover:var(--teal-700);
   --action-ghost-bg-hover:rgba(39,136,145,.10);
+  --action-outline-fg:var(--deep-water);
   --focus-ring-color:var(--current-teal);
 
   /* ── Semantic: status ──────────────────────── */
@@ -170,6 +171,7 @@
   --action-secondary-bg-hover:var(--lake-mist);
   --action-secondary-fg:var(--lake-navy);
   --action-ghost-bg-hover:rgba(115,175,188,.14);
+  --action-outline-fg:var(--foam-white);
   --focus-ring-color:var(--foam-aqua);
   --status-success-fg:#9FD3BA;
   --status-success-bg:rgba(121,184,156,.16);
@@ -229,6 +231,13 @@
   --type-display:800 56px/1.05 var(--font-display);
   --type-h1:700 44px/1.1 var(--font-display);
   --type-h2:700 34px/1.15 var(--font-display);
+  /* Fluid page headings: hero > page title > section title at every width. --type-h2 stays for headings inside content. */
+  --fs-hero:clamp(38px,calc(3.2vw + 26px),76px); /* @kind font */
+  --fs-page-title:clamp(34px,calc(2.6vw + 22px),60px); /* @kind font */
+  --fs-section-title:clamp(30px,calc(2.2vw + 20px),52px); /* @kind font */
+  --type-hero:800 var(--fs-hero)/1.03 var(--font-display);
+  --type-page-title:800 var(--fs-page-title)/1.06 var(--font-display);
+  --type-section-title:800 var(--fs-section-title)/1.08 var(--font-display);
   --type-h3:700 26px/1.2 var(--font-display);
   --type-h4:700 20px/1.3 var(--font-display);
   --type-h5:700 17px/1.35 var(--font-display);

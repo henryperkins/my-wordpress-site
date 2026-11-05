@@ -4,6 +4,7 @@ import type { PageContentBlock } from "../../../emdash-env";
 import Ctas from "../Ctas.astro";
 import Eyebrow from "../Eyebrow.astro";
 import Photo from "../Photo.astro";
+import Wave from "../Wave.astro";
 import { cta } from "../../lib/text";
 
 type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_cta_band" }>>;
@@ -11,18 +12,36 @@ type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_cta_band
 const { value } = Astro.props;
 ---
 
-<section class="lfw-section" id={value.anchor_id || undefined}>
-	<div class="lfw-container">
-		<div class="lfw-band" data-theme="night">
-			<Photo image={value.image} photo={value.photo} fallback="dock" class="lfw-band__img" layout="band" />
-			<div class="lfw-band__shade"></div>
-			<div class="lfw-band__copy">
-				{value.eyebrow && <Eyebrow rule="leading">{value.eyebrow}</Eyebrow>}
-				<h2 class="lfw-h2">{value.headline}</h2>
-				{value.text && <p class="lfw-p">{value.text}</p>}
-				{/* A night section's partner to the coral button is the ghost button */}
-				<Ctas primary={cta(value.cta_label, value.cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} size="lg" secondaryVariant="ghost" />
+{
+	value.no_photo ? (
+		<section class="lfw-closing" data-theme="night" id={value.anchor_id || undefined}>
+			{/* Beside the copy on wide screens; stacked, a strip in the extra space under the buttons */}
+			<Wave name="wave-lines" class="lfw-closing__lines" />
+			<div class="lfw-container lfw-closing__in">
+				<div class="lfw-closing__copy">
+					{value.eyebrow && <Eyebrow rule="leading">{value.eyebrow}</Eyebrow>}
+					<h2 class="lfw-h2 lfw-h2--tight">{value.headline}</h2>
+					{value.text && <p class="lfw-closing__text">{value.text}</p>}
+					{/* Without a photo behind it, the partner to the coral button is the outline button (Foam White on navy) */}
+					<Ctas primary={cta(value.cta_label, value.cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} size="lg" secondaryVariant="outline" class="lfw-closing__pair" />
+				</div>
 			</div>
-		</div>
-	</div>
-</section>
+		</section>
+	) : (
+		<section class="lfw-section" id={value.anchor_id || undefined}>
+			<div class="lfw-container">
+				<div class="lfw-band" data-theme="night">
+					<Photo image={value.image} photo={value.photo} fallback="dock" class="lfw-band__img" layout="band" />
+					<div class="lfw-band__shade"></div>
+					<div class="lfw-band__copy">
+						{value.eyebrow && <Eyebrow rule="leading">{value.eyebrow}</Eyebrow>}
+						<h2 class="lfw-h2">{value.headline}</h2>
+						{value.text && <p class="lfw-p">{value.text}</p>}
+						{/* A night section's partner to the coral button is the ghost button */}
+						<Ctas primary={cta(value.cta_label, value.cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} size="lg" secondaryVariant="ghost" />
+					</div>
+				</div>
+			</div>
+		</section>
+	)
+}

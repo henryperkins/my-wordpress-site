@@ -1,32 +1,39 @@
 ---
 import Button from "./Button.astro";
+import GoLink from "./GoLink.astro";
 import type { Cta } from "../lib/text";
 
 interface Props {
 	primary?: Cta;
 	secondary?: Cta;
 	size?: "md" | "lg";
-	secondaryVariant?: "outline" | "ghost" | "secondary";
+	/** "go" sets the secondary action as a text link with an arrow (GoLink) instead of a button. */
+	secondaryVariant?: "outline" | "ghost" | "secondary" | "go";
 	/** One short line under the buttons that answers the question before the click, e.g. "Your first consultation is free." */
 	note?: string | null;
+	/** Extra classes on the group, so a block variant can lay out its own pair. */
+	class?: string;
 }
 
-const { primary, secondary, size = "md", secondaryVariant = "outline", note } = Astro.props;
+const { primary, secondary, size = "md", secondaryVariant = "outline", note, class: className } = Astro.props;
 ---
 
 {
 	(primary || secondary) && (
-		<div class="lfw-hero__ctas">
+		<div class:list={["lfw-hero__ctas", className]}>
 			{primary && (
 				<Button href={primary.url} size={size} iconRight="arrow-right">
 					{primary.label}
 				</Button>
 			)}
-			{secondary && (
-				<Button href={secondary.url} size={size} variant={secondaryVariant}>
-					{secondary.label}
-				</Button>
-			)}
+			{secondary &&
+				(secondaryVariant === "go" ? (
+					<GoLink href={secondary.url}>{secondary.label}</GoLink>
+				) : (
+					<Button href={secondary.url} size={size} variant={secondaryVariant}>
+						{secondary.label}
+					</Button>
+				))}
 			{note && <p class="lfw-ctas__note">{note}</p>}
 		</div>
 	)

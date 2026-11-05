@@ -1,5 +1,5 @@
-// Header: scrolled border, the mobile menu, menu groups (Services › SEO), and collapsing the nav into the menu
-// whenever a long CMS menu would overflow.
+// Header: scrolled border, the mobile menu, menu groups (Services › SEO), collapsing the nav into the menu whenever a
+// long CMS menu would overflow, and returning focus when the search modal closes.
 const header = document.querySelector<HTMLElement>("[data-header]");
 const inner = header?.querySelector<HTMLElement>(".lfw-header__in");
 const toggle = header?.querySelector<HTMLButtonElement>("[data-menu-toggle]");
@@ -78,7 +78,7 @@ if (header && inner) {
 		const next = event.relatedTarget;
 		if (isOpen() && menuShown() && next instanceof Node && !header.contains(next)) setOpen(false);
 	});
-	// So does the search dialog opening over the page (its icon, or Ctrl/Cmd+K from anywhere), before any press in it.
+	// So does the search dialog opening over the page (Ctrl/Cmd+K from anywhere), before any press in it.
 	document.getElementById("lfw-ai-search")?.addEventListener("open", () => {
 		if (isOpen()) setOpen(false);
 	});
@@ -114,34 +114,22 @@ if (header && inner) {
 	syncScrolled();
 }
 
-// The bar's search icon opens the AI search modal (Header.astro)
-// instead of navigating. Modified clicks, and visitors whose modal never loads, still get the /search page.
-type SearchModal = HTMLElement & { open?: () => void };
-const searchLinks = [...(header?.querySelectorAll<HTMLAnchorElement>("[data-ai-search-open]") ?? [])];
-const searchModal = document.getElementById("lfw-ai-search") as SearchModal | null;
-if (searchLinks.length > 0 && searchModal) {
+// The AI search modal (Header.astro) has no button in the bar: it opens with Ctrl/Cmd+K from anywhere, and the
+// footer and the 404 page link to /search. The modal leaves focus on the page body when it closes (Escape, the
+// backdrop, a result), so hand it back to the element that had focus when the modal opened. If nothing had focus, or
+// responsive navigation has since hidden that element, focus goes to a visible header control: the menu button while
+// the menu is collapsed, otherwise the first control in the bar (the logo's home link).
+const searchModal = document.getElementById("lfw-ai-search");
+if (searchModal) {
 	const shown = (el: HTMLElement) => el.isConnected && el.getClientRects().length > 0;
-	customElements.whenDefined("search-modal-snippet").then(() => {
-		for (const link of searchLinks) link.setAttribute("aria-haspopup", "dialog");
-	});
-	for (const link of searchLinks) {
-		link.addEventListener("click", (event) => {
-			if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-			if (typeof searchModal.open !== "function") return;
-			event.preventDefault();
-			searchModal.open();
-		});
-	}
-	// The modal leaves focus on the page body when it closes (Escape, the backdrop, a result), so hand it back to
-	// whatever opened it: a search link, or the element that had focus when the Ctrl/Cmd+K shortcut was used.
-	// If responsive navigation hides the opener, focus falls back to a visible header control.
 	let opener: HTMLElement | null = null;
 	searchModal.addEventListener("open", () => {
 		const active = document.activeElement;
 		opener = active instanceof HTMLElement && active !== document.body ? active : null;
 	});
 	searchModal.addEventListener("close", () => {
-		const fallback = [toggle, ...searchLinks].find((el) => !!el && shown(el));
+		const controls = [toggle, ...(inner?.querySelectorAll<HTMLElement>("a[href], button") ?? [])];
+		const fallback = controls.find((el): el is HTMLElement => !!el && shown(el));
 		(opener && shown(opener) ? opener : fallback)?.focus();
 		opener = null;
 	});

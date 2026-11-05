@@ -3,16 +3,18 @@ import AISearchSnippet from "@emdash-cms/cloudflare/plugins/ai-search/astro";
 import Button from "./Button.astro";
 import Icon from "./Icon.astro";
 import Logo from "./Logo.astro";
-import { isCurrent, linkAttrs } from "../lib/menus";
+import { isCurrent, isCurrentPage, linkAttrs } from "../lib/menus";
 import type { MenuItem, SiteLogo } from "../lib/types";
 
 // Primary nav comes from the "primary" menu; the button is the first item of "header_cta".
 // A menu item with children (Services › All services, SEO) opens a small panel; scripts/header.ts toggles it.
 // Same markup as the design system's SiteHeader (components/site/SiteHeader.jsx).
-// The search icon links to /search; with JavaScript it opens the AI search modal instead (also Cmd/Ctrl+K).
+// The bar has no search button: the AI search modal opens with Cmd/Ctrl+K, and /search is linked from the footer and
+// the 404 page. Signed-in editors get an admin icon where the search button stood.
 // The modal's close button, icons and popular searches (the search_popular menu) wait in #lfw-ai-search-parts until
 // scripts/ai-search-compat.ts copies them into the modal's shadow root.
-// On phones the page owns the primary action; the header keeps search and ordinary navigation links.
+// On phones the page owns the primary action; the header keeps ordinary navigation links.
+// Menu links that point at part of a page (/#about, /services#seo) are never marked as the current page.
 // The modal sits after <header>: the header's backdrop-filter would confine its fixed overlay to the bar.
 interface Props {
 	siteTitle: string;
@@ -24,9 +26,9 @@ interface Props {
 }
 
 const { siteTitle, logo, items, cta, popular = [], admin = false } = Astro.props;
-const current = (url: string) => (isCurrent(url, Astro.url) ? "page" : undefined);
+const current = (url: string) => (isCurrentPage(url, Astro.url) ? "page" : undefined);
 const kids = (item: MenuItem): MenuItem[] => (item.children ?? []) as MenuItem[];
-const groupCurrent = (item: MenuItem) => isCurrent(item.url, Astro.url) || kids(item).some((child) => isCurrent(child.url, Astro.url));
+const groupCurrent = (item: MenuItem) => isCurrentPage(item.url, Astro.url) || kids(item).some((child) => isCurrentPage(child.url, Astro.url));
 const pathOf = (url: string) => {
 	try {
 		return new URL(url, Astro.url).pathname.replace(/\/+$/, "") || "/";
@@ -77,10 +79,13 @@ if (cta && ctaAttrs && isCurrent(cta.url, Astro.url)) {
 				</nav>
 			)
 		}
-		<div class="lfw-tools">
-			<a class="lf-iconbtn" href="/search" aria-label="Search" aria-current={current("/search")} data-ai-search-open><Icon name="search" /></a>
-			{admin && <a class="lf-iconbtn" href="/_emdash/admin" aria-label="Admin"><Icon name="settings" /></a>}
-		</div>
+		{
+			admin && (
+				<div class="lfw-tools">
+					<a class="lf-iconbtn" href="/_emdash/admin" aria-label="Admin"><Icon name="settings" /></a>
+				</div>
+			)
+		}
 		{
 			cta && (
 				<Button {...ctaAttrs} class="lfw-header__cta" iconRight="arrow-right">

@@ -1,8 +1,11 @@
 ---
 import type { BlockComponentProps } from "emdash/ui";
 import type { PageContentBlock } from "../../../emdash-env";
+import Ctas from "../Ctas.astro";
+import Eyebrow from "../Eyebrow.astro";
 import Icon from "../Icon.astro";
 import SectionHead from "../SectionHead.astro";
+import { keepsTogether, splitHeadline } from "../../lib/headline";
 import { cta, pad2 } from "../../lib/text";
 
 type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_steps" }>>;
@@ -12,26 +15,71 @@ const steps = value.steps ?? [];
 const count = steps.length;
 // Four steps: the consultation deliverables grid. Five or more: the preparation-tips grid.
 const grid = count >= 5 ? "lfw-tips" : count === 4 ? "lfw-deliv" : "lfw-deliv lfw-deliv--n";
+// Split (the home page's consultation): the heading, lead and button on the left, a hairline, and the numbered list on
+// the right. Step icons aren't shown here. The steps take the level under the list's heading, so none is skipped.
+const split = value.layout === "split";
+const title = splitHeadline(value.headline, value.highlight);
+// The highlight keeps to one line (nowrap) only when it fits the narrowest line the heading gets: about 9.3em, at 320px
+// and again at 961px. A longer phrase wraps instead of running off a phone.
+const keepTogether = keepsTogether(title.highlight, 9.2);
+const action = cta(value.cta_label, value.cta_url);
+const StepTitle = value.list_title ? "h4" : "h3";
 ---
 
-<section class="lfw-section" id={value.anchor_id || undefined}>
-	<div class="lfw-container">
-		<SectionHead eyebrow={value.eyebrow} headline={value.headline} lead={value.lead} action={cta(value.cta_label, value.cta_url)} />
-		<ol class={grid} style={count < 4 ? `--n:${count}` : undefined}>
-			{
-				steps.map((step, i) => (
-					<li class="lfw-step">
-						<span class="lfw-step__n" aria-hidden="true">{pad2(i + 1)}</span>
-						{step.icon && (
-							<span class="lfw-tile">
-								<Icon name={step.icon} size={22} />
-							</span>
-						)}
-						<h3 class="lfw-h4">{step.title}</h3>
-						{step.text && <p class="lfw-card-text">{step.text}</p>}
-					</li>
-				))
-			}
-		</ol>
-	</div>
-</section>
+{
+	split ? (
+		<section class="lfw-section lfw-stepsplit" id={value.anchor_id || undefined}>
+			<div class="lfw-container">
+				<div class:list={["lfw-stepsplit__grid", count === 0 && "lfw-stepsplit__grid--solo"]}>
+					<div class="lfw-stepsplit__copy">
+						{value.eyebrow && <Eyebrow>{value.eyebrow}</Eyebrow>}
+						<h2 class="lfw-h2 lfw-h2--tight">
+							{title.before}{title.highlight && <span class:list={["lfw-brandword", keepTogether && "lfw-stepsplit__mark"]}>{title.highlight}</span>}{title.after}
+						</h2>
+						{value.lead && <p class="lfw-lead">{value.lead}</p>}
+						{action ? <Ctas primary={action} size="lg" note={value.note} class="lfw-stepsplit__ctas" /> : value.note && <p class="lfw-ctas__note">{value.note}</p>}
+					</div>
+					{count > 0 && <span class="lfw-stepsplit__rule" aria-hidden="true" />}
+					{count > 0 && (
+						<div class="lfw-stepsplit__list">
+							{value.list_title && <h3 class="lfw-stepsplit__h">{value.list_title}</h3>}
+							<ol class="lfw-stepsplit__steps" role="list">
+								{steps.map((step, i) => (
+									<li class="lfw-stepsplit__step">
+										<span class="lfw-stepsplit__n" aria-hidden="true">{pad2(i + 1)}</span>
+										<div class="lfw-stepsplit__body">
+											<StepTitle class="lfw-stepsplit__title">{step.title}</StepTitle>
+											{step.text && <p class="lfw-stepsplit__text">{step.text}</p>}
+										</div>
+									</li>
+								))}
+							</ol>
+						</div>
+					)}
+				</div>
+			</div>
+		</section>
+	) : (
+		<section class="lfw-section" id={value.anchor_id || undefined}>
+			<div class="lfw-container">
+				<SectionHead eyebrow={value.eyebrow} headline={value.headline} highlight={value.highlight} lead={value.lead} action={cta(value.cta_label, value.cta_url)} />
+				<ol class={grid} style={count < 4 ? `--n:${count}` : undefined}>
+					{
+						steps.map((step, i) => (
+							<li class="lfw-step">
+								<span class="lfw-step__n" aria-hidden="true">{pad2(i + 1)}</span>
+								{step.icon && (
+									<span class="lfw-tile">
+										<Icon name={step.icon} size={22} />
+									</span>
+								)}
+								<h3 class="lfw-h4">{step.title}</h3>
+								{step.text && <p class="lfw-card-text">{step.text}</p>}
+							</li>
+						))
+					}
+				</ol>
+			</div>
+		</section>
+	)
+}

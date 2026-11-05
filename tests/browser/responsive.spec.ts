@@ -80,3 +80,26 @@ test("consultation summary, legal date and footer reflow with enlarged text", as
 		}
 	}
 });
+
+test("the home page reflows with enlarged text", async ({ page }) => {
+	for (const width of [320, 390]) {
+		await page.setViewportSize({ width, height: 844 });
+		await page.goto("/");
+		await page.evaluate(() => document.fonts.ready);
+		// The same text-size stress check as above, over the whole page: highlighted heading words and step numbers
+		// must wrap or grow instead of running off the side.
+		await page.evaluate(() => {
+			const elements = [...document.querySelectorAll<HTMLElement>("main *")].filter((element) => !element.closest("svg"));
+			const originalSizes = elements.map((element) => ({ element, size: parseFloat(getComputedStyle(element).fontSize) }));
+			for (const { element, size } of originalSizes) element.style.fontSize = `${size * 2}px`;
+		});
+		const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
+		expect(overflow, `the home page at ${width}px with text at 200% needs no horizontal scrolling`).toBeLessThanOrEqual(1);
+		const collisions = await page.locator(".lfw-stepsplit__step").evaluateAll((steps) => steps.flatMap((step) => {
+			const number = step.querySelector(".lfw-stepsplit__n")?.getBoundingClientRect();
+			const title = step.querySelector(".lfw-stepsplit__title")?.getBoundingClientRect();
+			return number && title && number.right > title.left ? [step.textContent?.trim().slice(0, 30)] : [];
+		}));
+		expect(collisions, "step numbers stay clear of their titles").toEqual([]);
+	}
+});

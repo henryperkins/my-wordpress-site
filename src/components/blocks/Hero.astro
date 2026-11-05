@@ -5,6 +5,8 @@ import Ctas from "../Ctas.astro";
 import Eyebrow from "../Eyebrow.astro";
 import Photo from "../Photo.astro";
 import Tag from "../Tag.astro";
+import Wave from "../Wave.astro";
+import { keepsTogether, splitHeadline } from "../../lib/headline";
 import { cta, eyebrowItems, list } from "../../lib/text";
 
 type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_hero" }>>;
@@ -13,38 +15,83 @@ const { value, index } = Astro.props;
 const Heading = index === 0 ? "h1" : "h2";
 const eyebrow = eyebrowItems(value.eyebrow);
 const stack = list(value.stack);
+const title = splitHeadline(value.headline, value.highlight);
+// "wave": the photo runs to the page's right edge behind a wave. Anything else, including older content without the
+// field, keeps the rounded photo panel.
+const wave = value.layout === "wave";
+// The wave layout keeps its highlighted words on one line when they fit the headline's narrowest line (about 7em, at
+// 320 and 901px), such as "look after". Longer highlights, such as older content's "look after your website", wrap
+// like the rest of the headline instead of running off the page.
+const keepTogether = keepsTogether(title.highlight, 6.9);
+// A closed-up em dash ("apps—hosted") may otherwise start a line, where it reads as a stray list mark. A word joiner
+// binds it to the word before, so the break falls after the dash.
+const lead = value.lead?.replace(/(\S)—(?=\S)/g, "$1⁠—");
 ---
 
-<section class="lfw-hero" id={value.anchor_id || undefined}>
-	<div class="lfw-container">
-		<div class="lfw-hero__grid">
-			<div class="lfw-hero__copy">
+{
+	wave ? (
+		<section class="lfw-hero lfw-hero--wave" id={value.anchor_id || undefined}>
+			{/* The copy comes first in reading order; stacked, the grid shows the photo above it */}
+			<div class="lfw-hero__body">
 				{eyebrow.length > 1 && <Eyebrow items={eyebrow} />}
 				{eyebrow.length === 1 && <Eyebrow rule="leading">{eyebrow[0]}</Eyebrow>}
-				<Heading class="lfw-display">
-					{value.headline}
-					{value.highlight && <Fragment>{" "}<span class="lfw-brandword">{value.highlight}</span></Fragment>}
-				</Heading>
-				{value.lead && <p class="lfw-lead">{value.lead}</p>}
-				<Ctas primary={cta(value.primary_cta_label, value.primary_cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} size="lg" note={value.note} />
+				<Heading class="lfw-display">{title.before}{title.highlight && <span class:list={["lfw-brandword", keepTogether && "lfw-hero__keep"]}>{title.highlight}</span>}{title.after}</Heading>
+				{lead && <p class="lfw-lead">{lead}</p>}
+				<Ctas primary={cta(value.primary_cta_label, value.primary_cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} size="lg" note={value.note} class="lfw-hero__pair" />
+				{value.goal && <p class="lfw-hero__goal">{value.goal}</p>}
+				{
+					stack.length > 0 && (
+						<ul role="list" class="lfw-hero__tools" aria-label={value.stack_label || undefined}>
+							{stack.map((item, i) => (
+								<li>
+									{i > 0 && <span class="lfw-dot" aria-hidden="true" />}
+									{item}
+								</li>
+							))}
+						</ul>
+					)
+				}
 			</div>
-			{/* Before the photo in reading order: under both columns on wide screens, straight after the buttons once stacked */}
-			{
-				(value.goal || stack.length > 0) && (
-					<div class="lfw-strip">
-						{value.goal && <p class="lfw-strip__goal">{value.goal}</p>}
-						{stack.length > 0 && (
-							<div class="lfw-strip__stack">
-								{value.stack_label && <span class="lfw-strip__label">{value.stack_label}</span>}
-								{stack.map((item) => <Tag size="sm">{item}</Tag>)}
-							</div>
-						)}
+			<div class="lfw-hero__bleed">
+				<Photo image={value.image} photo={value.photo} fallback="shore" priority={index === 0} layout="heroWave" />
+				<Wave name="wave-edge-vertical" class="lfw-hero__edge lfw-hero__edge--v" />
+				<Wave name="wave-edge-horizontal" class="lfw-hero__edge lfw-hero__edge--h" />
+			</div>
+		</section>
+	) : (
+		<section class="lfw-hero" id={value.anchor_id || undefined}>
+			<div class="lfw-container">
+				<div class="lfw-hero__grid">
+					<div class="lfw-hero__copy">
+						{eyebrow.length > 1 && <Eyebrow items={eyebrow} />}
+						{eyebrow.length === 1 && <Eyebrow rule="leading">{eyebrow[0]}</Eyebrow>}
+						<Heading class="lfw-display">
+							{title.before}
+							{title.highlight && <span class="lfw-brandword">{title.highlight}</span>}
+							{title.after}
+						</Heading>
+						{value.lead && <p class="lfw-lead">{value.lead}</p>}
+						<Ctas primary={cta(value.primary_cta_label, value.primary_cta_url)} secondary={cta(value.secondary_cta_label, value.secondary_cta_url)} size="lg" note={value.note} />
 					</div>
-				)
-			}
-			<div class="lfw-hero__media">
-				<Photo image={value.image} photo={value.photo} fallback="shore" priority={index === 0} layout="hero" />
+					{/* Before the photo in reading order: under both columns on wide screens, straight after the buttons once stacked */}
+					{
+						(value.goal || stack.length > 0) && (
+							<div class="lfw-strip">
+								{value.goal && <p class="lfw-strip__goal">{value.goal}</p>}
+								{stack.length > 0 && (
+									<div class="lfw-strip__stack">
+										{value.stack_label && <span class="lfw-strip__label">{value.stack_label}</span>}
+										{stack.map((item) => <Tag size="sm">{item}</Tag>)}
+									</div>
+								)}
+							</div>
+						)
+					}
+					<div class="lfw-hero__media">
+						<Photo image={value.image} photo={value.photo} fallback="shore" priority={index === 0} layout="hero" />
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
-</section>
+		</section>
+	)
+}

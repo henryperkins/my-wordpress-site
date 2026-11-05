@@ -12,7 +12,7 @@
 .lfw-header.is-scrolled{border-bottom-color:var(--border-default)}
 /* --header-cover is how much of the top of the view the pinned header covers (0 where it scrolls with the page). A focused control or an anchor target outside the header stops below it instead of under it. The header's own controls get no margin: they never need scrolling to, and a root scroll-padding would scroll the page whenever one took focus. */
 :root{--header-cover:var(--header-h)}
-:where(main,footer) :where(a[href],button,input,select,textarea,summary,[tabindex]){scroll-margin-top:calc(var(--header-cover) + 8px)}
+:where(main,footer) :where(a[href],button,input,select,textarea,summary,[tabindex]){scroll-margin-top:calc(var(--header-cover) + 8px);scroll-margin-bottom:8px}
 .lfw-header__in{display:flex;align-items:center;gap:24px;height:var(--header-h)}
 .lfw-logo-link{display:inline-flex;border-radius:6px;text-decoration:none}
 .lfw-nav{display:flex;align-items:center;gap:4px;margin-left:auto}
@@ -25,10 +25,10 @@
 @media (max-width:1080px){.lfw-nav{display:none!important}.lfw-logo-link{margin-right:auto}.lfw-menu{display:inline-flex!important}.lfw-mobile{display:flex;flex-direction:column;gap:4px;padding:8px var(--container-pad) 20px;border-top:1px solid var(--border-default);background:var(--surface-canvas)}.lfw-mobile a{padding:12px 0;font:700 18px/1.2 var(--font-display);color:var(--text-strong);text-decoration:none}.lfw-mobile .lf-btn{margin-top:8px}}
 
 /* Type helpers */
-.lfw-display{margin:0;font:800 clamp(38px,4.3vw,56px)/1.05 var(--font-display);letter-spacing:-.03em;color:var(--text-strong);text-wrap:balance}
+.lfw-display{margin:0;font:var(--type-hero);letter-spacing:-.03em;color:var(--text-strong);text-wrap:balance}
 .lfw-brandword{color:var(--text-brand)}
-.lfw-h1{margin:0;font:700 clamp(32px,3.6vw,46px)/1.1 var(--font-display);letter-spacing:-.022em;color:var(--text-strong);text-wrap:balance}
-.lfw-h2{margin:0;font:700 clamp(26px,2.8vw,34px)/1.16 var(--font-display);letter-spacing:var(--ls-heading);color:var(--text-strong);text-wrap:balance}
+.lfw-h1{margin:0;font:var(--type-page-title);letter-spacing:-.022em;color:var(--text-strong);text-wrap:balance}
+.lfw-h2{margin:0;font:var(--type-section-title);letter-spacing:var(--ls-heading);color:var(--text-strong);text-wrap:balance}
 .lfw-h3{margin:0;font:var(--type-h3);letter-spacing:var(--ls-heading);color:var(--text-strong);text-wrap:balance}
 .lfw-h4{margin:0;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong)}
 .lfw-lead{margin:0;font:var(--type-lead);color:var(--text-muted);max-width:60ch;text-wrap:pretty}
@@ -171,6 +171,8 @@
 /* Specs */
 .lfw-sectop{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-bottom:32px}
 .lfw-sectop .lfw-sechead{margin-bottom:0}
+/* The section-title heading would otherwise take its whole 760px and push the tabs onto a row of their own */
+.lfw-sectop>.lfw-sechead{flex:1 1 400px}
 .lfw-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--grid-gutter)}
 @media (max-width:760px){.lfw-specs{grid-template-columns:1fr}}
 .lfw-spechead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
@@ -245,24 +247,11 @@
 .lfw-contact-list small{display:block;font:var(--type-caption);font-size:14px;color:var(--text-muted)}
 .lfw-done{display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:8px 0;overflow-wrap:anywhere}
 
-/* Footer */
-.lfw-footer{padding:72px 0 32px;margin-top:var(--section-y)}
-.lfw-footer__grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:40px}
-.lfw-footer__brand{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
-.lfw-footer__brand p{margin:0;max-width:40ch;font:var(--type-body-sm);color:var(--text-muted)}
-.lfw-footer h5{margin:0 0 14px;font:700 12px/1 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}
-.lfw-footer ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font:var(--type-body-sm);color:var(--text-body)}
-.lfw-footer ul a{color:var(--text-body);text-decoration:none}
-.lfw-footer ul a:hover{color:var(--foam-aqua)}
-.lfw-footer__base{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:56px;padding-top:24px;border-top:1px solid var(--border-default);font:var(--type-caption);color:var(--text-muted)}
-@media (max-width:860px){.lfw-footer__grid{grid-template-columns:1fr 1fr}.lfw-footer__brand{grid-column:1/-1}}
+/* Footer: the light footer is in the home concept block below (@chrome) */
 
-/* Header tools (search) */
+/* Header tools: the admin icon for signed-in editors */
 .lfw-tools{display:flex;align-items:center;gap:2px}
-@media (max-width:1080px){.lfw-tools{margin-left:auto}.lfw-header .lfw-menu{margin-left:4px}}
-.lfw-footer__row{display:flex;align-items:center;flex-wrap:wrap;gap:6px 20px}
-.lfw-footer__base a{color:var(--text-body);text-decoration:none}
-.lfw-footer__base a:hover{color:var(--foam-aqua)}
+@media (max-width:1080px){.lfw-header .lfw-menu{margin-left:4px}}
 
 /* Legal */
 .lfw-legal-meta{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
@@ -317,7 +306,6 @@
 .lfw-404 .lfw-search__form{max-width:560px}
 .lfw-404__links{display:flex;align-items:center;flex-wrap:wrap;gap:8px 20px;font:var(--type-body-sm);color:var(--text-muted)}
 .lfw-404 code{padding:1px 6px;border-radius:4px;background:rgba(193,220,228,.12);color:var(--foam-white);font-size:.85em}
-.lfw:has(.lfw-404) .lfw-footer{margin-top:0;border-top:1px solid var(--border-inverse)}
 @media (max-width:700px){.lfw-404__shade{background:var(--protect-full)}}
 
 /* Empty states, success tile, notes */
@@ -346,13 +334,10 @@ a.lf-card{color:inherit;text-decoration:none}
 .lfw-search{padding:56px 0 0}
 .lfw-product-sec{margin-top:40px}
 @media (max-width:760px){.lfw-section{margin:var(--section-y-sm) 0}.lfw-section[data-theme="night"]{margin:0;padding:var(--section-y-sm) 0}.lfw-intro{padding-top:48px}.lfw-intro--night{padding:56px 0 48px}}
-.lfw-footer{margin-top:0;border-top:1px solid var(--border-inverse)}
-.lfw-footer .lfw-footer__h{margin:0 0 14px;font:700 12px/1 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}
 
 /* Header: CMS menus can be any length, so the nav also collapses whenever it would overflow (data-collapsed, set by scripts/header.ts) */
 .lfw-nav,.lfw-header__cta{flex:none}
 .lfw-nav a{white-space:nowrap}
-.lfw-tools .lf-iconbtn[aria-current="page"]{color:var(--deep-water)}
 .lfw-sitelogo{display:block;width:auto;max-width:none}
 .lfw-mobile{display:flex;flex-direction:column;gap:4px;padding:8px var(--container-pad) 20px;border-top:1px solid var(--border-default);background:var(--surface-canvas)}
 .lfw-mobile[hidden]{display:none!important}
@@ -361,12 +346,11 @@ a.lf-card{color:inherit;text-decoration:none}
 .lfw-mobile .lf-btn{margin-top:8px}
 .lfw-header[data-collapsed] .lfw-nav,.lfw-header[data-collapsed] .lfw-header__cta{display:none!important}
 .lfw-header[data-collapsed] .lfw-menu{display:inline-flex!important}
-.lfw-header[data-collapsed] .lfw-tools{margin-left:auto}
 @media (min-width:1081px){.lfw-header:not([data-collapsed]) .lfw-mobile{display:none!important}}
 @media (max-width:1080px){html:not(.js) .lfw-mobile[hidden]{display:flex!important}html:not(.js) .lfw-menu{display:none!important}}
 /* Without JavaScript that panel is always open, so the header scrolls with the page instead of pinning it */
 @media (max-width:1080px){html:not(.js) .lfw-header{position:relative}html:not(.js){--header-cover:0px}}
-/* Collapsed navigation leaves the primary action to the page and keeps the full brand and search visible. */
+/* Collapsed navigation leaves the primary action to the page and keeps the full brand visible. */
 @media (max-width:1080px){.lfw-header__cta{display:none!important}}
 @media (max-width:600px){.lfw-header__in{gap:8px}.lfw-tools{gap:4px}.lfw-menu{width:44px;height:44px}}
 /* Short screens (a landscape phone, 400% zoom): a pinned 76px bar would cover a fifth to a third of the view, so the header scrolls away with the page, and the enquiry aside, taller than the view, stops sticking */
@@ -434,7 +418,6 @@ html:not(.js) [data-tabs] .lfw-specs+.lfw-specs{margin-top:32px}
 
 /* Layout, header and section spacing for the theme's routes */
 .lfw main:focus{outline:none}
-.lfw-header--nonav .lfw-tools{margin-left:auto}
 .lfw-menu .lfw-menu__close,.lfw-menu[aria-expanded="true"] .lfw-menu__open{display:none}
 .lfw-menu[aria-expanded="true"] .lfw-menu__close{display:inline-flex}
 .lfw-sechead__text{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
@@ -625,6 +608,244 @@ html:not(.js) .lfw-subnav::before{content:"";position:absolute;left:0;right:0;bo
 .lfw-case-stack>div:first-child{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
 .lfw-case-stack .lfw-tags{max-width:640px;justify-content:flex-end}
 @media (max-width:900px){.lfw-case-hero__grid,.lfw-case-story,.lfw-case-approach,.lfw-quote{grid-template-columns:1fr;gap:32px}.lfw-case-hero__media{height:340px}.lfw-case-approach__media{position:relative;top:0;height:320px}.lfw-facts{grid-template-columns:repeat(2,minmax(0,1fr))}.lfw-metrics{grid-template-columns:1fr}.lfw-case-stack .lfw-tags{justify-content:flex-start}}
+
+
+/* ── Home concept (November 2026) ─────────────────────────
+   The home page's sections are opt-in variants of the existing blocks, chosen in the CMS: the hero's "wave" layout,
+   the card grid's "columns" layout, the split's and CTA band's "Leave out the photo", and the steps' "split" layout.
+   Every other page, and content that doesn't choose them, renders exactly as before. */
+
+/* Go links: a text action with a trailing arrow (GoLink.astro), in the link colour and underlined in it */
+.lfw-go{display:inline-flex;align-items:center;gap:10px;max-width:100%;padding:2px 0 5px;border-bottom:1.5px solid currentColor;font:700 16px/1.2 var(--font-display);color:var(--text-link);text-decoration:none;transition:color var(--dur-fast) var(--ease-current)}
+.lfw-go:hover{color:var(--text-link-hover)}
+/* The 2px corners are the focus ring's: on the bottom-only underline they would mark its ends */
+.lfw-go:focus-visible{outline:2px solid transparent;border-radius:2px;box-shadow:var(--ring-focus)}
+.lfw-go__label{min-width:0;overflow-wrap:anywhere}
+.lfw-go__arrow{flex:none;transition:transform var(--dur-base) var(--ease-current)}
+.lfw-go:hover .lfw-go__arrow{transform:translateX(3px)}
+/* Stretched: the whole positioned ancestor (a route item) is the target, and it carries the focus ring, the only one in forced colours too */
+.lfw-go--stretch::after{content:"";position:absolute;inset:0;border-radius:var(--radius-lg)}
+.lfw-go--stretch:focus-visible{outline:none;box-shadow:none}
+.lfw-go--stretch:focus-visible::after{outline:2px solid transparent;box-shadow:var(--ring-focus)}
+/* Reduced motion: the arrow stays put whatever is hovered, the link or the item it stretches over */
+@media (prefers-reduced-motion:reduce){.lfw-go__arrow{transition:none;transform:none!important}}
+/* The concept's section headings track a little tighter than content h2s */
+.lfw-h2--tight{letter-spacing:-.025em;overflow-wrap:anywhere}
+/* A 4px dot between short items (the hero's tools, a name's details, the footer's place line), drawn in CSS so screen readers don't hear it */
+.lfw-dot{flex:none;width:4px;height:4px;border-radius:50%;background:currentColor}
+/* Forced colours paint backgrounds as the canvas, which would hide every dot */
+@media (forced-colors:active){.lfw-dot{background:CanvasText}}
+
+/* @home:hero:start (Hero.astro, layout "wave") */
+/* The wave hero is a four-track grid of its own, not a container: the copy sits in track 2 and the photo spans tracks 3–4,
+   so it runs to the page's right edge, straight under the header. Tracks 2 and 3 grow equally to 540 and 580px, and
+   the side tracks take the rest. */
+.lfw-hero.lfw-hero--wave{position:relative;display:grid;grid-template-columns:minmax(var(--container-pad),1fr) minmax(0,540px) minmax(0,580px) minmax(var(--container-pad),1fr);padding:0;margin-bottom:72px}
+.lfw-hero__body{grid-column:2;grid-row:1;display:flex;flex-direction:column;align-items:flex-start;gap:24px;min-width:0;padding:64px 32px 48px 0}
+/* Short highlights (Hero.astro sets the class) move to a new line whole rather than splitting. As an inline block, not
+   nowrap, the phrase still wraps inside itself when enlarged text makes it wider than the line (WCAG 1.4.4) */
+.lfw-hero--wave .lfw-hero__keep{display:inline-block;max-width:100%}
+.lfw-hero--wave .lfw-lead{max-width:34em}
+.lfw-hero--wave .lfw-hero__pair{gap:12px 16px;margin-top:8px}
+/* The note always takes its own line: a max-width would let a 52ch note fit beside the buttons wherever the pair is wider
+   than both (886–900px), so its 100% basis stays whole and end padding holds the text to 52ch instead */
+.lfw-hero--wave .lfw-ctas__note{max-width:none;padding-right:max(0px,calc(100% - 52ch));text-wrap:pretty}
+.lfw-hero__goal{margin:0;max-width:440px;font:var(--type-body);color:var(--text-body);text-wrap:pretty}
+/* The tools line: 4px Current Teal dots, drawn in CSS so screen readers don't hear them, between the names. As in the
+   eyebrow list, no line starts on a dot: the list reaches 16px (a dot and its gap) past the column's edge, under a clip,
+   so the dot of an item that starts a line hides there and its name lines up with the first. The rule shows 440px. */
+.lfw-hero__tools{align-self:stretch;display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;max-width:456px;margin:8px 0 0 -16px;padding:20px 0 0;border-top:1px solid var(--border-default);list-style:none;font:var(--type-body-sm);color:var(--text-body);clip-path:inset(-8px -8px -8px 16px)}
+.lfw-hero__tools>li{display:flex;align-items:center;gap:12px;min-width:0;overflow-wrap:anywhere}
+.lfw-hero__tools>li:first-child{margin-left:16px}
+.lfw-hero__tools .lfw-dot{color:var(--current-teal)}
+.lfw-hero__bleed{grid-column:3/5;grid-row:1;position:relative;min-width:0;min-height:600px;overflow:hidden;background:var(--surface-sunken)}
+/* Absolutely positioned, so it's a block without display:block, which would override EmDash's hidden dark or light variant */
+.lfw-hero__bleed img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* The wave covers the photo's left edge, its palest band merging into the page; stacked, it runs along the bottom */
+.lfw-hero__edge{position:absolute;display:block;pointer-events:none}
+.lfw-hero__edge--v{left:-1px;top:-1px;width:clamp(170px,18vw,260px);height:calc(100% + 2px)}
+.lfw-hero__edge--h{display:none;left:0;bottom:-1px;width:100%;height:clamp(56px,14vw,96px)}
+/* What follows starts 72px below (56px on phones), not at its own 96px */
+.lfw-hero--wave+.lfw-section{margin-top:0}
+/* From 901 to 1000px the copy column is too narrow for both large buttons side by side, so the pair stacks full width, as on phones.
+   The range starts at 900.02px so a fractional width between the two layouts (browser zoom, display scaling) still gets it */
+@media (min-width:900.02px) and (max-width:1000px),(max-width:480px){.lfw-hero--wave .lfw-hero__pair{align-self:stretch;flex-direction:column}.lfw-hero--wave .lfw-hero__pair>.lf-btn{width:100%}.lfw-hero--wave .lfw-ctas__note{flex-basis:auto}}
+/* Stacked: the photo becomes a full-width strip above the copy */
+@media (max-width:900px){.lfw-hero.lfw-hero--wave{grid-template-columns:var(--container-pad) minmax(0,1fr) var(--container-pad)}.lfw-hero__body{grid-row:2;padding:8px 0 0}.lfw-hero__bleed{grid-column:1/-1;min-height:0;height:clamp(200px,46vw,340px)}.lfw-hero__edge--v{display:none}.lfw-hero__edge--h{display:block}}
+@media (max-width:760px){.lfw-hero.lfw-hero--wave{margin-bottom:56px}}
+/* Phones: the concept's leads keep their 1.55 leading when they step down to 18px (the hero, hosting and consultation) */
+@media (max-width:600px){.lfw-hero--wave .lfw-lead,.lfw-plainsplit__copy>.lfw-lead,.lfw-stepsplit__copy>.lfw-lead{line-height:1.55}}
+/* The tagline sits on one line above phones, so it takes the eyebrow's 1.2 leading; a wrapped phone tagline keeps the list's 1.4 */
+@media (min-width:601px){.lfw-hero--wave .lf-eyebrow--list .lf-eyebrow__text{line-height:1.2}}
+/* Forced colours: the wave edge takes the page's own colour, so the photo keeps its wave-shaped edge and no pale band
+   shows on a dark canvas (the dots are handled with .lfw-dot) */
+@media (forced-colors:active){.lfw-hero__edge path{fill:Canvas}}
+/* @home:hero:end */
+
+/* @home:routes:start (CardGrid.astro, layout "columns") */
+/* Starting points: a 44px rule and the heading over two columns of routes, each led by a round icon. Hairlines split
+   the routes and stop 16px short of every crossing. Each route's padding and rules follow its place in the grid, so any
+   number of cards works; an odd last card sits alone in the left column. One column at 760px and below. */
+.lfw-section--paths{scroll-margin-top:calc(var(--header-cover) + 16px)}
+.lfw-pathhead{display:flex;flex-direction:column;align-items:flex-start;gap:20px;margin-bottom:48px}
+.lfw-pathhead__rule{display:block;width:44px;height:2px;border-radius:2px;background:var(--rule-brand)}
+.lfw-paths{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.lfw-path{--path-ic:80px;--path-p:40px;position:relative;display:grid;grid-template-columns:var(--path-ic) minmax(0,1fr);column-gap:28px;align-items:start}
+/* The round icon is a sanctioned exception to the 48px tiles, for this layout only */
+.lfw-path__icon{display:inline-flex;align-items:center;justify-content:center;width:var(--path-ic);height:var(--path-ic);border-radius:50%;background:var(--surface-sunken);color:var(--deep-water);transition:background-color var(--dur-fast) var(--ease-current)}
+.lfw-path__copy{display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:0;padding-top:10px}
+.lfw-path__title{margin:0;font:700 clamp(19px,calc(.5vw + 15px),22px)/1.25 var(--font-display);letter-spacing:var(--ls-tight);color:var(--text-strong);text-wrap:balance;overflow-wrap:anywhere;transition:color var(--dur-fast) var(--ease-current)}
+.lfw-path__text{margin:0;max-width:40ch;font:var(--type-body);line-height:1.5;color:var(--text-muted);text-wrap:pretty;overflow-wrap:anywhere}
+/* Focus scrolls the link into view, not the route it rings, so it keeps room below for the route's bottom padding and the ring */
+.lfw-path__go{margin-top:6px;scroll-margin-bottom:calc(var(--path-p) + 8px);scroll-margin-top:calc(var(--header-cover) + 8px + 12em)}
+/* The link stretches over its route, so hovering anywhere on a linked route answers: Teal 100 circle, Deep Water title, Lake Navy link, the arrow 3px on */
+.lfw-path--go:hover .lfw-path__icon{background:var(--teal-100)}
+.lfw-path--go:hover .lfw-path__title{color:var(--text-link)}
+.lfw-path--go:hover .lfw-path__go{color:var(--text-link-hover)}
+.lfw-path--go:hover .lfw-go__arrow{transform:translateX(3px)}
+/* The rules are borders on the route's pseudo-elements, so they print and keep a system colour in forced colours: ::before is the vertical rule, ::after the horizontal one (the link's own ::after is the stretched target) */
+.lfw-path::before,.lfw-path::after{content:"";position:absolute;display:none;pointer-events:none}
+.lfw-path::before{border-left:1px solid var(--border-default)}
+.lfw-path::after{border-top:1px solid var(--border-default)}
+/* Two columns (everything above 760px). Odd routes sit on the left and pad on the right; even ones pad on the left. The first row starts 8px down and the last row ends 8px up: the last route, and a left route with one route after it */
+@media not all and (max-width:760px){.lfw-path{padding:var(--path-p) var(--path-p) var(--path-p) 0}.lfw-path:nth-child(even){padding:var(--path-p) 0 var(--path-p) var(--path-p)}.lfw-path:nth-child(-n+2){padding-top:8px}.lfw-path:last-child,.lfw-path:nth-child(odd):nth-last-child(2){padding-bottom:8px}}
+/* A vertical rule on each left route with a right neighbour, 16px short of each crossing and flush with the grid's top and bottom edges */
+@media not all and (max-width:760px){.lfw-path::before{top:16px;right:0;bottom:16px}.lfw-path:nth-child(odd):not(:last-child)::before{display:block}.lfw-path:first-child::before{top:0}.lfw-path:nth-child(odd):nth-last-child(2)::before{bottom:0}}
+/* A horizontal rule under each route above the last row, 16px short of the column line */
+@media not all and (max-width:760px){.lfw-path::after{display:block;left:0;right:16px;bottom:0}.lfw-path:nth-child(even)::after{left:16px;right:0}.lfw-path:last-child::after,.lfw-path:nth-child(odd):nth-last-child(2)::after{display:none}}
+@media (max-width:960px){.lfw-path{--path-ic:64px;--path-p:32px;column-gap:20px}.lfw-path__copy{padding-top:6px}.lfw-path__icon>.lf-icon{width:28px!important;height:28px!important}}
+/* One column: full-width rules between routes, none beside them */
+@media (max-width:760px){.lfw-pathhead{margin-bottom:32px}.lfw-paths{grid-template-columns:minmax(0,1fr)}.lfw-path{--path-ic:56px;padding:24px 0}.lfw-path:first-child{padding-top:0}.lfw-path:last-child{padding-bottom:0}.lfw-path:not(:last-child)::after{display:block;left:0;right:0;bottom:0}.lfw-path__copy{padding-top:2px}.lfw-path__icon>.lf-icon{width:24px!important;height:24px!important}}
+/* Forced colours paint backgrounds as the canvas, so the heading's rule is redrawn in the text colour */
+@media (forced-colors:active){.lfw-pathhead__rule{background:CanvasText}}
+/* @home:routes:end */
+
+/* @home:split:start (Split.astro, "Leave out the photo": the night hosting band and the light accountability band) */
+/* The split without its photo. Night: the copy beside an example status card, on the night section rhythm. Light: a
+   full-bleed pale teal band; its wave curl drops out at 1000px and below, before it can reach the words. */
+.lfw-plainsplit{scroll-margin-top:var(--header-cover)}
+.lfw-plainsplit__grid{display:grid;grid-template-columns:minmax(0,1fr);gap:40px 72px;align-items:center}
+.lfw-plainsplit__grid--card{grid-template-columns:minmax(0,1fr) minmax(0,400px)}
+.lfw-plainsplit__copy{display:flex;flex-direction:column;align-items:flex-start;gap:24px;min-width:0}
+.lfw-plainsplit__copy>.lfw-lead{max-width:34em}
+.lfw-plainsplit__copy>.lfw-p{max-width:65ch}
+/* On night-water the eyebrow's leading rule turns Foam Aqua with its text */
+.lfw-plainsplit--night .lf-eyebrow__rule{background:var(--text-eyebrow)}
+/* Checklist: two columns that read down each column (--rows, set inline, is half the items rounded up); one on phones */
+.lfw-plainsplit__checks{align-self:stretch;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(var(--rows,3),auto);grid-auto-flow:column;gap:14px 32px;margin:4px 0 0;padding:0;list-style:none}
+.lfw-plainsplit__checks li{display:flex;align-items:flex-start;gap:12px;min-width:0;font:var(--type-body);line-height:1.45;color:var(--text-body)}
+.lfw-plainsplit__checks .lf-icon{margin-top:2px;color:var(--text-brand)}
+.lfw-plainsplit__checks li>span:last-child{min-width:0;overflow-wrap:anywhere}
+/* The name under the text, then its details split by 4px dots. Each detail leads with its dot; the row starts 14px
+   left of the column and a clip hides that strip, so the dot that would start a line is never seen, and no line ends
+   on one either */
+.lfw-plainsplit__person{align-self:stretch;display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin-top:8px}
+.lfw-plainsplit__name{margin:0;font:700 20px/1.3 var(--font-display);letter-spacing:var(--ls-tight);color:var(--text-strong);overflow-wrap:anywhere}
+.lfw-plainsplit__detail{display:flex;align-items:center;flex-wrap:wrap;gap:4px 10px;margin:0 0 0 -14px;font:var(--type-body-sm);color:var(--text-muted);clip-path:inset(-4px -4px -4px 14px)}
+.lfw-plainsplit__item{display:inline-flex;align-items:center;gap:10px;min-width:0;overflow-wrap:anywhere}
+/* Actions: the coral button and its go link side by side; phones stack them and run the button full width */
+.lfw-plainsplit__copy>.lfw-plainsplit__actions{align-items:center;gap:20px 32px;margin-top:12px}
+/* The example status card: a caption in small capitals, a title, then label and value rows */
+.lfw-plainsplit__card{box-sizing:border-box;width:100%;min-width:0;margin:0;padding:28px;border:1px solid var(--border-default);border-radius:var(--radius-lg);background:var(--surface-card)}
+.lfw-plainsplit__label{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 12px;margin:0;padding-bottom:16px;border-bottom:1px solid var(--border-default);font:700 12px/1.2 var(--font-display);letter-spacing:.2em;text-transform:uppercase;color:var(--text-eyebrow)}
+.lfw-plainsplit__label>span{min-width:0;overflow-wrap:anywhere}
+.lfw-plainsplit__title{margin:0;padding:18px 0 16px;font:700 22px/1.25 var(--font-display);letter-spacing:var(--ls-tight);color:var(--text-strong);overflow-wrap:anywhere}
+.lfw-plainsplit__title:first-child{padding-top:0}
+.lfw-plainsplit__rows{margin:0}
+.lfw-plainsplit__rows>div{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid var(--border-default)}
+.lfw-plainsplit__rows>div:last-child{padding-bottom:0}
+/* Without a title the caption's rule already divides the first row; without a caption either, the rows start at the top */
+.lfw-plainsplit__label+.lfw-plainsplit__rows>div:first-child{border-top:0}
+.lfw-plainsplit__rows:first-child>div:first-child{padding-top:0;border-top:0}
+/* A label keeps its width, up to half the row, so a long one wraps instead of squeezing its value */
+.lfw-plainsplit__rows dt{flex:none;max-width:50%;font:var(--type-body-sm);color:var(--text-muted);overflow-wrap:anywhere}
+.lfw-plainsplit__rows dd{min-width:0;margin:0;font:600 15px/1.35 var(--font-body);color:var(--text-strong);text-align:right;overflow-wrap:anywhere}
+/* Light: a full-bleed Teal 50 band. The previous section's margin gives the space above it */
+.lfw-plainsplit--light{position:relative;overflow:hidden;margin:0;padding:88px 0;background:var(--surface-sunken)}
+.lfw-plainsplit--light>.lfw-container{position:relative}
+.lfw-plainsplit--light .lfw-plainsplit__copy{max-width:620px}
+/* The band's paragraphs are its argument, so they read at lead size in the body ink */
+.lfw-plainsplit--light .lfw-plainsplit__copy>.lfw-p{max-width:27em;font:var(--type-lead)}
+.lfw-plainsplit__curl{position:absolute;right:-40px;bottom:-56px;width:clamp(420px,46vw,640px);height:auto;aspect-ratio:600/520;pointer-events:none}
+@media (max-width:1000px){.lfw-plainsplit__curl{display:none}}
+@media (max-width:960px){.lfw-plainsplit__grid--card{grid-template-columns:minmax(0,1fr);gap:40px}.lfw-plainsplit__card{max-width:560px}}
+@media (max-width:760px){.lfw-plainsplit--light{padding:64px 0}}
+@media (max-width:600px){.lfw-plainsplit__checks{grid-template-columns:minmax(0,1fr);grid-template-rows:none;grid-auto-flow:row}.lfw-plainsplit__card{padding:20px}.lfw-plainsplit--light .lfw-plainsplit__copy>.lfw-p{font-size:18px}}
+@media (max-width:480px){.lfw-plainsplit__copy>.lfw-plainsplit__actions{flex-direction:column;align-items:flex-start;align-self:stretch}.lfw-plainsplit__copy>.lfw-plainsplit__actions>.lf-btn{width:100%}}
+/* @home:split:end */
+
+/* @home:steps:start (Steps.astro, layout "split") */
+/* Split steps (the home page's consultation): the heading, lead and button on the left, a hairline, and the numbered
+   list on the right. One column with no hairline at 960px and below. */
+.lfw-stepsplit{scroll-margin-top:calc(var(--header-cover) + 16px)}
+.lfw-stepsplit__grid{display:grid;grid-template-columns:minmax(0,1fr) 1px minmax(0,1fr);column-gap:56px;align-items:start}
+.lfw-stepsplit__grid--solo{grid-template-columns:minmax(0,1fr)}
+.lfw-stepsplit__copy{display:flex;flex-direction:column;align-items:flex-start;gap:24px;min-width:0}
+.lfw-stepsplit__copy>.lfw-lead{max-width:30em}
+.lfw-stepsplit__mark{display:inline-block;max-width:100%}
+/* The button and its note stack, the note in its own 15px line (the button runs full width at 480px and below, as every pair does) */
+.lfw-hero__ctas.lfw-stepsplit__ctas{flex-direction:column;flex-wrap:nowrap;align-items:flex-start;gap:14px;margin-top:8px}
+.lfw-stepsplit__ctas>.lfw-ctas__note{flex-basis:auto}
+/* The hairline is the middle track's border, so it runs the row's full height, prints, and survives forced colours */
+.lfw-stepsplit__rule{align-self:stretch;border-left:1px solid var(--border-default)}
+.lfw-stepsplit__list{display:flex;flex-direction:column;gap:8px;min-width:0}
+.lfw-stepsplit__h{margin:0;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong);text-wrap:balance;overflow-wrap:anywhere}
+.lfw-stepsplit__steps{list-style:none;margin:0;padding:0}
+.lfw-stepsplit__step{display:grid;grid-template-columns:minmax(72px,auto) minmax(0,1fr);column-gap:16px;align-items:start;padding:22px 0;border-top:1px solid var(--border-default)}
+.lfw-stepsplit__step:first-child{padding-top:12px;border-top:0}
+.lfw-stepsplit__step:last-child{padding-bottom:0}
+/* The number is decoration (aria-hidden): the ordered list carries the sequence */
+.lfw-stepsplit__n{font:600 36px/1 var(--font-display);letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--text-brand)}
+.lfw-stepsplit__body{display:flex;flex-direction:column;gap:6px;min-width:0}
+.lfw-stepsplit__title{margin:0;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong);text-wrap:balance;overflow-wrap:anywhere}
+.lfw-stepsplit__text{margin:0;max-width:40ch;font:var(--type-body);line-height:1.5;color:var(--text-muted);text-wrap:pretty;overflow-wrap:anywhere}
+@media (max-width:960px){.lfw-stepsplit__grid{grid-template-columns:minmax(0,1fr);gap:40px}.lfw-stepsplit__rule{display:none}}
+@media (max-width:600px){.lfw-stepsplit__step{grid-template-columns:minmax(52px,auto) minmax(0,1fr)}.lfw-stepsplit__n{font-size:30px}}
+/* @home:steps:end */
+
+/* @home:band:start (CtaBand.astro, "Leave out the photo") */
+/* The closing invitation: a full-bleed navy band with no photo. Its wave lines fill the right half, behind nothing; at
+   900px and below they become a strip in the extra bottom padding, under the buttons. */
+.lfw-closing{position:relative;overflow:hidden;margin:0;padding:80px 0}
+.lfw-closing__lines{position:absolute;right:0;bottom:0;display:block;width:48%;height:100%;pointer-events:none}
+.lfw-closing__in{position:relative}
+.lfw-closing__copy{display:flex;flex-direction:column;align-items:flex-start;gap:20px;max-width:600px}
+.lfw-closing__text{margin:0;max-width:34em;font:var(--type-lead);color:var(--text-body);text-wrap:pretty;overflow-wrap:anywhere}
+.lfw-closing .lfw-closing__pair{gap:12px 16px;margin-top:8px}
+@media (max-width:900px){.lfw-closing{padding-bottom:160px}.lfw-closing__lines{width:100%;height:120px}.lfw-closing__copy{max-width:none}}
+@media (max-width:760px){.lfw-closing{padding:56px 0 144px}.lfw-closing__lines{height:104px}}
+@media (max-width:600px){.lfw-closing__text{font-size:18px}}
+@media (max-width:480px){.lfw-closing .lfw-closing__pair{align-self:stretch;flex-direction:column}.lfw-closing .lfw-closing__pair>.lf-btn{width:100%}}
+/* @home:band:end */
+
+/* @chrome:start (Header.astro without search, Footer.astro light) */
+/* Header: the bar has no search button, so the logo takes the free space and whatever follows it (the links and header button, the admin icon, the menu button) keeps to the right edge, collapsed or not */
+.lfw-header__in>.lfw-logo-link{margin-right:auto}
+/* Footer: light, on every page. The logo and the place line beside the primary links, over a Lake Mist rule; then the copyright and legal links, and the contact links with "Back to top" */
+.lfw-footer{background:var(--surface-canvas)}
+.lfw-footer__in{padding-top:48px;padding-bottom:32px}
+.lfw-footer__top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px 48px;padding-bottom:28px;border-bottom:1px solid var(--border-default)}
+.lfw-footer__brand{display:flex;flex-direction:column;align-items:flex-start;gap:12px;min-width:0}
+/* The place stays whole beside its dot and the rest wraps inside its own box, so "Chicago ·" never ends a line on its own */
+.lfw-footer__place{display:flex;align-items:baseline;gap:10px;margin:0;font:var(--type-body-sm);color:var(--text-muted);overflow-wrap:anywhere}
+.lfw-footer__city{flex:none}
+.lfw-footer__place .lfw-dot{transform:translateY(-.14em)}
+.lfw-footer__reach{min-width:0}
+.lfw-footer__nav{min-width:0}
+.lfw-footer__nav ul{display:flex;flex-wrap:wrap;gap:4px 40px;margin:0;padding:0;list-style:none}
+.lfw-footer__nav a{display:inline-flex;padding:6px 0;border-radius:var(--radius-xs);font:600 15px/1.3 var(--font-display);color:var(--text-link);text-decoration:none;text-underline-offset:4px}
+.lfw-footer__nav a:hover{color:var(--text-link-hover);text-decoration:underline}
+.lfw-footer__base{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px 32px;padding-top:12px}
+.lfw-footer__group{display:flex;align-items:center;flex-wrap:wrap;gap:0 24px;min-width:0}
+.lfw-footer__copy{margin:0;padding:6px 0;font:var(--type-body-sm);color:var(--text-muted)}
+/* Legal and contact links: muted, with an underline that waits, transparent, until hover */
+.lfw-footer__link{display:inline-flex;padding:6px 0;border-radius:var(--radius-xs);font:var(--type-body-sm);color:var(--text-muted);text-decoration:underline transparent;text-underline-offset:3px}
+.lfw-footer__link:hover{color:var(--text-link);text-decoration-color:currentColor}
+.lfw-footer__totop{display:inline-flex;align-items:center;gap:6px;padding:6px 0;border-radius:var(--radius-xs);font:600 15px/1.3 var(--font-display);color:var(--text-link);text-decoration:none}
+.lfw-footer__totop:hover{color:var(--text-link-hover)}
+.lfw-footer__nav a:focus-visible,.lfw-footer__link:focus-visible,.lfw-footer__totop:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
+@media (max-width:760px){.lfw-footer__in{padding-top:40px;padding-bottom:28px}}
+/* @chrome:end */
 
 
 /* Forced colours (Windows high contrast) paint every background as the canvas and every border solid, so the current-page, selection and list marks are redrawn in system colours */
