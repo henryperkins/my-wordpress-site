@@ -1,0 +1,14 @@
+---
+import { alexAgentId } from "../lib/elevenlabs";
+---
+
+<elevenlabs-convai agent-id={alexAgentId}></elevenlabs-convai>
+<script is:inline async src="https://elevenlabs.io/convai-widget/index.js"></script>
+
+<style>
+	@media print {
+		elevenlabs-convai {
+			display: none !important;
+		}
+	}
+</style>

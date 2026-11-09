@@ -845,6 +845,8 @@ html:not(.js) .lfw-subnav::before{content:"";position:absolute;left:0;right:0;bo
 .lfw-footer__totop:hover{color:var(--text-link-hover)}
 .lfw-footer__nav a:focus-visible,.lfw-footer__link:focus-visible,.lfw-footer__totop:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
 @media (max-width:760px){.lfw-footer__in{padding-top:40px;padding-bottom:28px}}
+/* Leave room for Alex's fixed launcher below the last footer links. */
+@media screen{html:has(elevenlabs-convai:defined) .lfw-footer__in{padding-bottom:calc(6.5rem + env(safe-area-inset-bottom,0px))}}
 /* @chrome:end */
 
 
