@@ -1,0 +1,7 @@
+[paths]
+extra_skill_dirs = ["/home/ubuntu/my-wordpress-site/.claude/skills"]
+
+[mcp_servers.emdash-docs]
+url = "https://docs.emdashcms.com/mcp"
+type = "http"
+enabled = true

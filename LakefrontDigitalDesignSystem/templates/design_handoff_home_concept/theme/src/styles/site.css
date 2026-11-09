@@ -1,0 +1,631 @@
+/* Lakefront Digital site layout (prefix lfw-). Master copy: the design system's components/site/site.css. The EmDash theme ships an identical copy in src/styles/site.css; change the master, then copy it over. */
+.lfw{min-height:100vh;display:flex;flex-direction:column;background:var(--surface-canvas)}
+.lfw main{flex:1}
+/* The page itself has no entrance: its first screen paints at once, so nothing hides the hero, the largest paint. Panels and dropdowns enter with lfw-enter when they open. */
+@keyframes lfw-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.lfw-container{width:100%;max-width:var(--container-max);margin:0 auto;padding:0 var(--container-pad);box-sizing:border-box}
+
+/* Header */
+.lfw-header{position:sticky;top:0;z-index:var(--z-header);background:rgba(247,250,249,.9);-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid transparent;transition:border-color var(--dur-base) var(--ease-current)}
+/* Without the blur, 10% of a night section's text would read through the bar, so it goes solid. */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.lfw-header{background:var(--foam-white)}}
+.lfw-header.is-scrolled{border-bottom-color:var(--border-default)}
+/* --header-cover is how much of the top of the view the pinned header covers (0 where it scrolls with the page). A focused control or an anchor target outside the header stops below it instead of under it. The header's own controls get no margin: they never need scrolling to, and a root scroll-padding would scroll the page whenever one took focus. */
+:root{--header-cover:var(--header-h)}
+:where(main,footer) :where(a[href],button,input,select,textarea,summary,[tabindex]){scroll-margin-top:calc(var(--header-cover) + 8px)}
+.lfw-header__in{display:flex;align-items:center;gap:24px;height:var(--header-h)}
+.lfw-logo-link{display:inline-flex;border-radius:6px;text-decoration:none}
+.lfw-nav{display:flex;align-items:center;gap:4px;margin-left:auto}
+.lfw-nav a{position:relative;display:inline-flex;align-items:center;height:40px;padding:0 14px;border-radius:8px;font:600 15px/1 var(--font-display);color:var(--text-strong);text-decoration:none;transition:background-color var(--dur-fast) var(--ease-current),color var(--dur-fast) var(--ease-current)}
+.lfw-nav a:hover{background:var(--action-ghost-bg-hover);color:var(--text-strong)}
+.lfw-nav a[aria-current="page"]{color:var(--deep-water)}
+.lfw-nav a[aria-current="page"]::after{content:"";position:absolute;left:14px;right:14px;bottom:2px;height:2px;border-radius:2px;background:var(--current-teal)}
+.lfw-menu{display:none!important}
+.lfw-mobile{display:none}
+@media (max-width:1080px){.lfw-nav{display:none!important}.lfw-logo-link{margin-right:auto}.lfw-menu{display:inline-flex!important}.lfw-mobile{display:flex;flex-direction:column;gap:4px;padding:8px var(--container-pad) 20px;border-top:1px solid var(--border-default);background:var(--surface-canvas)}.lfw-mobile a{padding:12px 0;font:700 18px/1.2 var(--font-display);color:var(--text-strong);text-decoration:none}.lfw-mobile .lf-btn{margin-top:8px}}
+
+/* Type helpers */
+.lfw-display{margin:0;font:var(--type-hero);letter-spacing:-.03em;color:var(--text-strong);text-wrap:balance}
+.lfw-brandword{color:var(--text-brand)}
+.lfw-h1{margin:0;font:var(--type-page-title);letter-spacing:-.022em;color:var(--text-strong);text-wrap:balance}
+.lfw-h2{margin:0;font:var(--type-section-title);letter-spacing:var(--ls-heading);color:var(--text-strong);text-wrap:balance}
+.lfw-h3{margin:0;font:var(--type-h3);letter-spacing:var(--ls-heading);color:var(--text-strong);text-wrap:balance}
+.lfw-h4{margin:0;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong)}
+.lfw-lead{margin:0;font:var(--type-lead);color:var(--text-muted);max-width:60ch;text-wrap:pretty}
+.lfw-lead strong{font-weight:600;color:var(--text-strong)}
+/* Body paragraphs read in the body ink (Lake Navy, or night text on night-water); grey is for leads, card text and captions */
+.lfw-p{margin:0;color:var(--text-body);text-wrap:pretty}
+/* Phones: the lead steps down to 18px so it no longer matches the 20px titles, and a phone line holds a few more words */
+@media (max-width:600px){.lfw-lead{font-size:18px;line-height:1.5}}
+
+/* Sections */
+.lfw-section{padding:var(--section-y) 0}
+.lfw-section--tight{padding-top:0}
+.lfw-sechead{display:flex;flex-direction:column;align-items:flex-start;gap:14px;max-width:760px;margin-bottom:48px}
+.lfw-sechead--row{display:flex;flex-direction:row;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:24px 40px;max-width:none}
+.lfw-sechead--row>div{display:flex;flex-direction:column;align-items:flex-start;gap:14px;max-width:720px}
+@media (max-width:760px){.lfw-section{padding:var(--section-y-sm) 0}.lfw-sechead{margin-bottom:32px}}
+
+/* Hero */
+.lfw-hero{padding:32px 0 0;margin-bottom:var(--section-y)}
+.lfw-hero__grid{display:grid;grid-template-columns:minmax(0,46fr) minmax(0,54fr);gap:48px 56px;align-items:center}
+.lfw-hero__copy{grid-column:1;grid-row:1;display:flex;flex-direction:column;align-items:flex-start;gap:24px;padding:24px 0}
+.lfw-hero__ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
+/* The note takes its own line under the buttons, inside the same group, so it reads with the click it reassures */
+.lfw-ctas__note{flex-basis:100%;margin:0;max-width:52ch;font:var(--type-body-sm);color:var(--text-muted)}
+.lfw-hero__media{grid-column:2;grid-row:1;position:relative;height:clamp(420px,44vw,580px);border-radius:var(--radius-2xl);overflow:hidden;background:var(--surface-sunken)}
+.lfw-hero__media img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 38%}
+.lfw-strip{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px 32px;margin-top:48px;padding:24px 0 0;border-top:1px solid var(--border-default)}
+.lfw-strip__goal{margin:0;max-width:58ch;font:var(--type-body);color:var(--text-body)}
+.lfw-strip__stack{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.lfw-strip__label{margin-right:4px;font:700 11px/1 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}
+/* The strip comes before the photo in the markup: below the columns on wide screens, straight after the buttons once stacked */
+.lfw-hero__grid>.lfw-strip{grid-column:1/-1;margin-top:0}
+@media (max-width:900px){.lfw-hero__grid{grid-template-columns:minmax(0,1fr);gap:16px}.lfw-hero__copy,.lfw-hero__media{grid-column:auto;grid-row:auto}.lfw-hero__media{height:340px}.lfw-hero__grid>.lfw-strip{margin-bottom:16px}}
+@media (max-width:760px){.lfw-hero{margin-bottom:var(--section-y-sm)}}
+/* Phones: a stacked pair of buttons runs full width, so the two read as one decision */
+@media (max-width:480px){.lfw-hero__ctas{align-self:stretch;flex-direction:column}.lfw-hero__ctas>.lf-btn{width:100%}.lfw-ctas__note{flex-basis:auto}}
+/* From 901 to 1080px the hero's copy column is too narrow for both large buttons side by side, so its pair stacks full width there too, rather than wrapping into two odd widths */
+@media (min-width:901px) and (max-width:1080px){.lfw-hero__copy>.lfw-hero__ctas{align-self:stretch;flex-direction:column}.lfw-hero__copy>.lfw-hero__ctas>.lf-btn{width:100%}.lfw-hero__copy .lfw-ctas__note{flex-basis:auto}}
+/* A ghost partner that wraps under its coral button would sit indented by its own padding, so the band's pair fills each row instead */
+@media (max-width:560px){.lfw-band__copy>.lfw-hero__ctas{align-self:stretch}.lfw-band__copy>.lfw-hero__ctas>.lf-btn{flex:1 1 auto}}
+
+/* Grids & tiles */
+.lfw-grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--grid-gutter)}
+.lfw-grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--grid-gutter)}
+.lfw-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:center}
+@media (max-width:960px){.lfw-grid3{grid-template-columns:repeat(2,minmax(0,1fr))}.lfw-split{grid-template-columns:1fr;gap:40px}}
+@media (max-width:600px){.lfw-grid2,.lfw-grid3{grid-template-columns:1fr}}
+/* Phones: a card's tile sits beside its title rather than above it (cards without a badge), so a stack of cards scans as a list */
+@media (max-width:600px){.lfw-iconcard{display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px 16px;align-items:center}.lfw-iconcard>*{grid-column:1/-1}.lfw-iconcard>.lfw-spechead{grid-column:1}.lfw-iconcard>.lfw-card-title{grid-column:2;margin:0}.lfw-iconcard>.lf-btn{justify-self:start}}
+.lfw-tile{display:inline-flex;align-items:center;justify-content:center;flex:none;width:48px;height:48px;border-radius:12px;background:var(--surface-sunken);color:var(--deep-water)}
+.lfw-tile--lg{width:64px;height:64px;border-radius:16px}
+[data-theme="night"] .lfw-tile{background:rgba(115,175,188,.14);color:var(--foam-aqua)}
+.lfw-card-title{margin:4px 0 0;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong);text-wrap:balance}
+.lfw-card-text{margin:0;font:var(--type-body-sm);font-size:16px;line-height:1.55;color:var(--text-muted);flex:1}
+.lfw-card-benefit{margin:0;padding-top:12px;border-top:1px solid var(--border-subtle);font:var(--type-body-sm);color:var(--text-body)}
+.lfw-card-benefit b{display:block;margin-bottom:4px;font:700 11px/1.2 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:var(--text-eyebrow)}
+/* Route rows (a card grid's "rows" layout): rule-topped like steps, read across like a sign: where you are, what we do, where to go */
+/* The rows share one set of columns (subgrid), so titles, text and links line up down the list */
+.lfw-routes{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:48px minmax(0,4fr) minmax(0,5fr) auto;column-gap:32px;border-bottom:2px solid var(--border-default)}
+.lfw-route{position:relative;grid-column:1/-1;display:grid;grid-template-columns:subgrid;align-items:center;row-gap:12px;padding:24px 0;border-top:2px solid var(--border-default);transition:border-color var(--dur-fast) var(--ease-current)}
+.lfw-route__title{margin:0;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong);text-wrap:balance;transition:color var(--dur-fast) var(--ease-current)}
+.lfw-route__text{margin:0;max-width:60ch;font:var(--type-body-sm);font-size:16px;line-height:1.55;color:var(--text-muted)}
+/* The link stretches over its row, so the whole row is the target while the link's name stays short */
+.lfw-route__go{position:static;justify-self:end}
+.lfw-route__go::after{content:"";position:absolute;inset:0;border-radius:var(--radius-md)}
+.lfw-route:hover{border-top-color:var(--current-teal)}
+.lfw-route:hover .lfw-route__title{color:var(--text-link)}
+.lfw-route:hover .lfw-route__go .lf-btn__label{text-decoration-color:currentColor}
+.lfw-route:hover .lfw-route__go .lf-btn__icon-r{transform:translateX(3px)}
+.lfw-route__go:focus-visible{box-shadow:none}
+.lfw-route__go:focus-visible::after{outline:2px solid transparent;box-shadow:var(--ring-focus)}
+/* Stacked: the tile sits beside the title, the text and link follow under the title; on phones they run full width */
+@media (max-width:960px){.lfw-routes{display:block}.lfw-route{grid-template-columns:48px minmax(0,1fr);gap:8px 16px;padding:20px 0}.lfw-route>*{grid-column:2}.lfw-route>.lfw-tile{grid-column:1}.lfw-route__go{justify-self:start;margin-top:4px}}
+@media (max-width:600px){.lfw-route>.lfw-route__text,.lfw-route>.lfw-route__go{grid-column:1/-1}}
+.lfw-tags{display:flex;flex-wrap:wrap;gap:8px}
+
+/* Lists */
+.lfw-checks{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+/* Two columns only while each is at least 250px, enough for the longest item on one line; narrower, one column. The 50% term caps it at two columns (with a pixel of slack for subpixel widths). */
+.lfw-checks--2{align-self:stretch;grid-template-columns:repeat(auto-fit,minmax(max(250px,calc(50% - 13px)),1fr));gap:14px 24px}
+.lfw-checks li{display:flex;align-items:flex-start;gap:10px;font:var(--type-body);font-size:16px;line-height:1.45;color:var(--text-body)}
+.lfw-checks li>.lf-icon{margin-top:2px;color:var(--current-teal)}
+[data-theme="night"] .lfw-checks li>.lf-icon{color:var(--foam-aqua)}
+.lfw-checkgrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 32px}
+@media (max-width:760px){.lfw-checks--2,.lfw-checkgrid{grid-template-columns:1fr}}
+.lfw-features{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.lfw-features li{display:flex;align-items:flex-start;gap:12px}
+.lfw-features li>.lf-icon{margin-top:2px;color:var(--current-teal)}
+.lfw-features b{display:block;font:var(--type-h5);color:var(--text-strong)}
+.lfw-features span{display:block;margin-top:2px;font:var(--type-body-sm);font-size:16px;color:var(--text-muted)}
+.lfw-benefit{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:18px 20px;border-radius:var(--radius-lg);background:var(--surface-sunken)}
+.lfw-benefit p{margin:0;font:var(--type-body);font-size:16px;line-height:1.5;color:var(--text-body)}
+
+/* Steps */
+.lfw-step{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding-top:20px;border-top:2px solid var(--border-default)}
+.lfw-step__n{font:800 13px/1 var(--font-display);letter-spacing:.16em;color:var(--text-eyebrow)}
+.lfw-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.lfw-steps--2{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px}
+.lfw-stepcell{display:flex;flex-direction:column;gap:10px;padding-top:16px;border-top:2px solid var(--border-default)}
+.lfw-stepcell__t{font:var(--type-h5);color:var(--text-strong);text-wrap:balance}
+.lfw-deliv{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.lfw-tips{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px}
+@media (max-width:960px){.lfw-steps,.lfw-deliv{grid-template-columns:repeat(2,minmax(0,1fr))}.lfw-tips{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:600px){.lfw-steps,.lfw-deliv,.lfw-tips{grid-template-columns:1fr}}
+/* Above phones the steps share the grid's rows (subgrid), so a title that wraps doesn't push its sentence below its neighbours'; a step without a tile or a sentence spans one row fewer for each */
+@media (min-width:601px){.lfw-step{display:grid;grid-row:span 4;grid-template-rows:subgrid;row-gap:12px;justify-items:start}.lfw-step:not(:has(>.lfw-card-text)),.lfw-step:not(:has(>.lfw-tile)){grid-row:span 3}.lfw-step:not(:has(>.lfw-card-text)):not(:has(>.lfw-tile)){grid-row:span 2}}
+/* Phones: each step keeps its number under the rule, with any tile beside the title; without one, the title and sentence run full width */
+@media (max-width:600px){.lfw-step{display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px 16px;align-items:center}.lfw-step>*{grid-column:1/-1}.lfw-step>.lfw-tile{grid-column:1}.lfw-step>h3,.lfw-step>.lfw-card-text{grid-column:2}.lfw-step:not(:has(>.lfw-tile)){grid-template-columns:minmax(0,1fr)}.lfw-step:not(:has(>.lfw-tile))>*{grid-column:1}}
+
+/* About */
+.lfw-about{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:64px;align-items:center}
+.lfw-about__media{height:560px;border-radius:var(--radius-2xl);overflow:hidden;background:var(--surface-sunken)}
+/* An uploaded photo (the founder's portrait) crops around the upper centre, where a face sits; bundled photos carry their own focus */
+.lfw-about__media img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.lfw-about__copy{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+/* Stacked at 960px and below, the copy spans the container; cap the paragraphs at a readable measure */
+.lfw-about__copy>.lfw-p{max-width:65ch}
+/* Stacked, the words lead and the photo follows in a 4:5 portrait frame, not a wide strip that would crop a face */
+@media (max-width:960px){.lfw-about{grid-template-columns:1fr;gap:32px}.lfw-about__media{width:100%;max-width:400px;height:auto;aspect-ratio:4/5}}
+
+/* Night hosting band */
+.lfw-night{position:relative;overflow:hidden}
+.lfw-col{display:flex;flex-direction:column;align-items:flex-start;gap:22px}
+.lfw-night__media{position:relative;height:500px;border-radius:var(--radius-2xl);overflow:hidden}
+.lfw-night__media>img{display:block;width:100%;height:100%;object-fit:cover}
+.lfw-night__panel{position:absolute;left:28px;right:28px;bottom:28px}
+.lfw-panelhead{display:flex;align-items:center;justify-content:space-between;gap:12px;font:var(--type-h5);color:var(--text-strong)}
+.lfw-spec{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:0;padding:12px 0;border-bottom:1px solid var(--border-default);font:var(--type-body-sm);color:var(--text-muted)}
+.lfw-spec:last-child{border-bottom:0;padding-bottom:0}
+.lfw-spec b,.lfw-spec dd{margin:0;font:600 15px/1.35 var(--font-body);color:var(--text-strong);text-align:right}
+.lfw-spec dt{flex:none}
+.lfw-watermark{position:absolute;right:-180px;top:-120px;width:720px;opacity:.06;pointer-events:none}
+
+/* Stats (night intro) */
+.lfw-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;width:100%;margin-top:16px;padding-top:28px;border-top:1px solid var(--border-default)}
+.lfw-stat b{display:block;font:800 clamp(40px,4vw,56px)/1 var(--font-display);letter-spacing:-.03em;color:var(--sunset-coral)}
+.lfw-stat span{display:block;margin-top:10px;font:var(--type-body-sm);color:var(--text-muted)}
+@media (max-width:600px){.lfw-stats{grid-template-columns:1fr}}
+
+/* Specs */
+.lfw-sectop{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-bottom:32px}
+.lfw-sectop .lfw-sechead{margin-bottom:0}
+.lfw-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--grid-gutter)}
+@media (max-width:760px){.lfw-specs{grid-template-columns:1fr}}
+.lfw-spechead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.lfw-offer{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.lfw-offer__copy{display:flex;flex-direction:column;gap:8px;flex:1;min-width:260px}
+.lfw-offer .lfw-card-benefit{border-top:0;padding-top:4px}
+
+/* CTA band */
+.lfw-band{--copy-w:560px;--copy-pad:56px;position:relative;display:flex;align-items:center;min-height:380px;border-radius:var(--radius-2xl);overflow:hidden;background:var(--lake-navy)}
+.lfw-band>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 50%}
+/* Photo protection is measured from the copy, not the photo, so a narrower screen never thins the navy under the text: 94% navy at the left edge, --protect-hold at the end of the copy, clear --protect-fade later */
+.lfw-band__shade,.lfw-404__shade{position:absolute;inset:0;background:linear-gradient(90deg,color-mix(in srgb,var(--lake-navy) 94%,transparent) 0,color-mix(in srgb,var(--lake-navy) var(--protect-hold),transparent) var(--copy-end),transparent calc(var(--copy-end) + var(--protect-fade)))}
+/* The band's copy is wide enough for a large button and its ghost partner side by side (448px inside the padding). The text ends at 504px; 85% navy there keeps the ghost's 16px label at 4.5:1 over the bright middle of the photo at tablet widths, and clearing 410px later keeps the desktop photo open from 914px */
+.lfw-band__shade{--copy-end:calc(var(--copy-w) - var(--copy-pad));--protect-hold:85%;--protect-fade:410px}
+.lfw-band__copy{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:18px;max-width:var(--copy-w);padding:var(--copy-pad)}
+/* Phones: the photo becomes a strip across the top that fades into the navy, and the copy sits below it on solid navy */
+@media (max-width:700px){.lfw-band{--band-photo-h:clamp(170px,50vw,260px);flex-direction:column;align-items:stretch;min-height:0}.lfw-band>img{position:relative;inset:auto;height:var(--band-photo-h)}.lfw-band__shade{inset:0 0 auto;height:var(--band-photo-h);background:linear-gradient(0deg,var(--lake-navy),transparent 55%)}.lfw-band__copy{max-width:none;padding:4px 24px 32px}.lfw-band__copy>.lfw-p{max-width:60ch}}
+
+/* Page intro */
+.lfw-intro{padding:72px 0 56px}
+.lfw-intro__in{display:flex;flex-direction:column;align-items:flex-start;gap:18px;max-width:860px}
+.lfw-intro--night{padding:80px 0 72px}
+
+/* Tab panels */
+.lfw-panel{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:56px;align-items:start;padding-top:48px}
+.lfw-panel__copy{display:flex;flex-direction:column;align-items:flex-start;gap:22px}
+.lfw-panel__media{height:520px;border-radius:var(--radius-xl);overflow:hidden;background:var(--surface-sunken)}
+.lfw-panel__media img{display:block;width:100%;height:100%;object-fit:cover}
+@media (max-width:900px){.lfw-panel{grid-template-columns:1fr;gap:32px}.lfw-panel__media{height:280px}}
+.lfw-seopanel{display:flex;flex-direction:column;gap:36px;padding-top:48px}
+.lfw-seopanel__head{display:flex;flex-direction:column;gap:12px;max-width:720px}
+.lfw-two{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:48px;align-items:start}
+.lfw-two>div{display:flex;flex-direction:column;gap:18px}
+@media (max-width:900px){.lfw-two{grid-template-columns:1fr}}
+
+/* Service summary */
+.lfw-crumbs{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:28px;font:var(--type-body-sm);color:var(--text-muted)}
+.lfw-crumbs a{color:var(--text-link)}
+.lfw-crumbs [aria-current]{color:var(--text-strong);font-weight:600}
+.lfw-product{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start}
+.lfw-product__media{order:-1;height:600px;border-radius:var(--radius-2xl);overflow:hidden;background:var(--surface-sunken)}
+.lfw-product__media img{display:block;width:100%;height:100%;object-fit:cover;object-position:55% 50%}
+.lfw-product__summary{display:flex;flex-direction:column;align-items:flex-start;gap:22px;padding-top:8px}
+.lfw-product__intro{margin:0;font:var(--type-label);font-size:16px;color:var(--text-strong)}
+.lfw-product .lfw-features li>.lf-icon{color:var(--deep-water)}
+.lfw-booked{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+@media (max-width:900px){.lfw-product{grid-template-columns:1fr;gap:32px}.lfw-product__media{order:0;height:240px}}
+
+/* Contact */
+/* Booking and project buttons jump to #enquiry; land the form below the pinned header, not under it */
+[data-enquiry]{scroll-margin-top:calc(var(--header-cover) + 16px)}
+.lfw-contact{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:48px;align-items:start}
+@media (max-width:960px){.lfw-contact{grid-template-columns:1fr}}
+.lfw-form{display:flex;flex-direction:column;gap:22px}
+.lfw-form__row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media (max-width:600px){.lfw-form__row{grid-template-columns:1fr}}
+.lfw-fieldset{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;border:0;min-width:0}
+.lfw-fieldset legend{padding:0;margin-bottom:10px;font:var(--type-label);font-size:14px;color:var(--text-strong)}
+/* Choice cards take as many columns as fit, up to --choice-cols, and are never narrower than --choice-min, so the longest word in a label ("Performance") still fits beside its box */
+.lfw-choices{--choice-cols:3;--choice-min:168px;--choice-gap:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(max(min(100%,var(--choice-min)),calc((100% - (var(--choice-cols) - 1) * var(--choice-gap)) / var(--choice-cols))),1fr));gap:var(--choice-gap)}
+.lfw-choices--2{--choice-cols:2;--choice-min:120px}
+.lfw-choices--4{--choice-cols:4;--choice-min:120px}
+.lfw-inline{display:flex;flex-wrap:wrap;gap:12px 24px}
+.lfw-form__foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding-top:6px}
+.lfw-form__foot>span{font:var(--type-body-sm);color:var(--text-muted)}
+.lfw-aside{display:flex;flex-direction:column;gap:24px;position:sticky;top:calc(var(--header-cover) + 24px)}
+.lfw-aside__img{height:280px;border-radius:var(--radius-xl);overflow:hidden}
+.lfw-aside__img img{display:block;width:100%;height:100%;object-fit:cover;object-position:60% 50%}
+.lfw-contact-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
+.lfw-contact-list li{display:flex;gap:12px;align-items:flex-start;font:var(--type-body);font-size:16px;color:var(--text-body)}
+.lfw-contact-list li>.lf-icon{margin-top:2px;color:var(--deep-water)}
+.lfw-contact-list small{display:block;font:var(--type-caption);font-size:14px;color:var(--text-muted)}
+.lfw-done{display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:8px 0;overflow-wrap:anywhere}
+
+/* Footer */
+.lfw-footer{padding:72px 0 32px;margin-top:var(--section-y)}
+.lfw-footer__grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:40px}
+.lfw-footer__brand{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.lfw-footer__brand p{margin:0;max-width:40ch;font:var(--type-body-sm);color:var(--text-muted)}
+.lfw-footer h5{margin:0 0 14px;font:700 12px/1 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}
+.lfw-footer ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font:var(--type-body-sm);color:var(--text-body)}
+.lfw-footer ul a{color:var(--text-body);text-decoration:none}
+.lfw-footer ul a:hover{color:var(--foam-aqua)}
+.lfw-footer__base{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:56px;padding-top:24px;border-top:1px solid var(--border-default);font:var(--type-caption);color:var(--text-muted)}
+@media (max-width:860px){.lfw-footer__grid{grid-template-columns:1fr 1fr}.lfw-footer__brand{grid-column:1/-1}}
+
+/* Header tools (search) */
+.lfw-tools{display:flex;align-items:center;gap:2px}
+@media (max-width:1080px){.lfw-tools{margin-left:auto}.lfw-header .lfw-menu{margin-left:4px}}
+.lfw-footer__row{display:flex;align-items:center;flex-wrap:wrap;gap:6px 20px}
+.lfw-footer__base a{color:var(--text-body);text-decoration:none}
+.lfw-footer__base a:hover{color:var(--foam-aqua)}
+
+/* Legal */
+.lfw-legal-meta{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+.lfw-legal{display:grid;grid-template-columns:260px minmax(0,1fr);gap:64px;align-items:start}
+.lfw-toc{position:sticky;top:calc(var(--header-cover) + 24px);max-height:calc(100vh - var(--header-cover) - 48px);overflow:auto}
+.lfw-toc__label{margin:0 0 12px;font:700 11px/1.2 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}
+.lfw-toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px;border-left:1px solid var(--border-default)}
+.lfw-toc a{display:flex;gap:10px;margin-left:-1px;padding:7px 12px 7px 16px;border-left:2px solid transparent;font:600 14px/1.35 var(--font-display);color:var(--text-muted);text-decoration:none;transition:color var(--dur-fast) var(--ease-current),border-color var(--dur-fast) var(--ease-current)}
+.lfw-toc a span{min-width:18px;font-weight:800}
+.lfw-toc a:hover{color:var(--text-strong)}
+.lfw-toc a[aria-current]{color:var(--deep-water);border-left-color:var(--current-teal)}
+.lfw-toc__mobile{display:none}
+.lfw-legal__body{display:flex;flex-direction:column;max-width:720px}
+.lfw-legal__sec{padding:26px 0;border-top:1px solid var(--border-subtle)}
+.lfw-legal__sec:first-child{padding-top:0;border-top:0}
+.lfw-legal__sec h2{display:flex;gap:12px;margin:0 0 10px;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong)}
+.lfw-legal__sec h2 span{min-width:28px;color:var(--current-teal)}
+.lfw-legal__sec p{margin:0 0 0 40px;font:var(--type-body);color:var(--text-body)}
+.lfw-legal__help{margin-top:24px}
+@media (max-width:900px){.lfw-legal{grid-template-columns:1fr;gap:28px}.lfw-toc{position:relative;top:0;max-height:none;overflow:visible}.lfw-toc ol,.lfw-toc__label{display:none}.lfw-toc__mobile{display:block}.lfw-legal__sec p{margin-left:0}}
+@media print{.lfw-header,.lfw-footer,.lfw-toc,.lfw-legal-meta .lf-btn,.lf-toast{display:none!important}.lfw-legal{display:block}}
+
+/* Search + 404 */
+.lfw-search{padding:56px 0 32px}
+.lfw-search .lfw-container{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.lfw-search__form{display:flex;align-items:flex-start;gap:12px;width:100%;max-width:760px}
+.lfw-search__form .lf-field{flex:1}
+.lfw-search__form .lf-input{height:52px;font-size:17px}
+.lfw-suggest{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.lfw-suggest>span{margin-right:4px;font:700 11px/1 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}
+.lfw-results{display:flex;flex-direction:column;max-width:880px}
+.lfw-results__bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px 24px;margin-bottom:8px}
+.lfw-results__meta{margin:0;font:var(--type-body);font-size:16px;color:var(--text-muted)}
+.lfw-results__meta strong{color:var(--text-strong)}
+.lfw-result{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:22px 0;border-bottom:1px solid var(--border-default)}
+.lfw-result__path{display:flex;align-items:center;flex-wrap:wrap;gap:10px;font:var(--type-caption);font-size:14px;color:var(--text-muted)}
+.lfw-result__title{padding:0;border:0;background:none;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-link);text-align:left;cursor:pointer;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:.2em;transition:text-decoration-color var(--dur-fast) var(--ease-current)}
+.lfw-result__title:hover{text-decoration-color:currentColor}
+.lfw-result__title:focus-visible{outline:2px solid transparent;border-radius:4px;box-shadow:var(--ring-focus)}
+.lfw-result p{margin:0;max-width:72ch;font:var(--type-body);font-size:16px;color:var(--text-muted)}
+.lfw mark{padding:0 2px;border-radius:3px;background:var(--lake-mist);color:var(--lake-navy)}
+.lfw-browse{display:flex;flex-direction:column;gap:18px}
+.lfw-browse__row{display:flex;align-items:center;gap:14px}
+.lfw-browse__row b{display:block;font:var(--type-h5);color:var(--text-strong)}
+.lfw-browse__row>div>span{display:block;font:var(--type-body-sm);font-size:14px;color:var(--text-muted)}
+.lfw-404{--copy-w:620px;position:relative;display:flex;align-items:center;min-height:calc(100vh - var(--header-h));overflow:hidden}
+.lfw-404>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 50%}
+/* The copy column sits wherever the container places it. 85% holds to its end, where the 14px Foam Aqua quick links can reach */
+.lfw-404__shade{--copy-end:calc(max(0px,(100% - var(--container-max)) / 2) + var(--container-pad) + var(--copy-w));--protect-hold:85%;--protect-fade:300px}
+.lfw-404__in{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:22px;padding-top:88px;padding-bottom:88px}
+.lfw-404__in>*{max-width:var(--copy-w)}
+.lfw-404 .lfw-search__form{max-width:560px}
+.lfw-404__links{display:flex;align-items:center;flex-wrap:wrap;gap:8px 20px;font:var(--type-body-sm);color:var(--text-muted)}
+.lfw-404 code{padding:1px 6px;border-radius:4px;background:rgba(193,220,228,.12);color:var(--foam-white);font-size:.85em}
+.lfw:has(.lfw-404) .lfw-footer{margin-top:0;border-top:1px solid var(--border-inverse)}
+@media (max-width:700px){.lfw-404__shade{background:var(--protect-full)}}
+
+/* Empty states, success tile, notes */
+.lfw-note{display:flex;align-items:flex-start;gap:8px;margin:0;font:var(--type-caption);font-size:14px;color:var(--status-warning-fg)}
+.lfw-note .lf-icon{margin-top:1px}
+.lfw-empty{display:flex;flex-direction:column;align-items:center;gap:16px;max-width:560px;margin:0 auto;padding:40px 0;text-align:center;overflow-wrap:anywhere}
+.lfw-empty .lfw-hero__ctas{justify-content:center}
+.lfw-empty--left{align-items:flex-start;margin:0;text-align:left}
+.lfw-inlinelink{padding:0;border:0;background:none;font:inherit;color:var(--text-link);text-decoration:underline;text-underline-offset:.2em;cursor:pointer}
+.lfw-inlinelink:hover{color:var(--text-link-hover)}
+.lfw-busy .lf-icon{animation:lfw-spin .9s linear infinite}
+@keyframes lfw-spin{to{transform:rotate(360deg)}}
+.lfw-tile--ok{background:var(--status-success-bg);color:var(--status-success-fg)}
+
+/* ── EmDash theme additions ─────────────────────────────── */
+a.lf-card{color:inherit;text-decoration:none}
+.lfw-skip{position:absolute;left:12px;top:-64px;z-index:calc(var(--z-header) + 1);padding:10px 14px;border-radius:var(--radius-md);background:var(--lake-navy);color:var(--foam-white);font:var(--type-label);text-decoration:none;transition:top var(--dur-fast) var(--ease-current)}
+.lfw-skip:focus{top:12px;color:var(--foam-white)}
+.lfw-vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* Section rhythm: light sections space with collapsing margins, so stacked blocks never double up; night sections pad inside their own background */
+.lfw-section{padding:0;margin:var(--section-y) 0}
+.lfw-section[data-theme="night"]{margin:0;padding:var(--section-y) 0}
+.lfw-intro{padding:72px 0 0}
+.lfw-intro--night{padding:80px 0 72px}
+.lfw-search{padding:56px 0 0}
+.lfw-product-sec{margin-top:40px}
+@media (max-width:760px){.lfw-section{margin:var(--section-y-sm) 0}.lfw-section[data-theme="night"]{margin:0;padding:var(--section-y-sm) 0}.lfw-intro{padding-top:48px}.lfw-intro--night{padding:56px 0 48px}}
+.lfw-footer{margin-top:0;border-top:1px solid var(--border-inverse)}
+.lfw-footer .lfw-footer__h{margin:0 0 14px;font:700 12px/1 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}
+
+/* Header: CMS menus can be any length, so the nav also collapses whenever it would overflow (data-collapsed, set by scripts/header.ts) */
+.lfw-nav,.lfw-header__cta{flex:none}
+.lfw-nav a{white-space:nowrap}
+.lfw-tools .lf-iconbtn[aria-current="page"]{color:var(--deep-water)}
+.lfw-sitelogo{display:block;width:auto;max-width:none}
+.lfw-mobile{display:flex;flex-direction:column;gap:4px;padding:8px var(--container-pad) 20px;border-top:1px solid var(--border-default);background:var(--surface-canvas)}
+.lfw-mobile[hidden]{display:none!important}
+.lfw-mobile a{padding:12px 0;font:700 18px/1.2 var(--font-display);color:var(--text-strong);text-decoration:none}
+.lfw-mobile a[aria-current="page"]{color:var(--deep-water);text-decoration-line:underline;text-decoration-color:var(--current-teal);text-decoration-thickness:2px;text-underline-offset:6px}
+.lfw-mobile .lf-btn{margin-top:8px}
+.lfw-header[data-collapsed] .lfw-nav,.lfw-header[data-collapsed] .lfw-header__cta{display:none!important}
+.lfw-header[data-collapsed] .lfw-menu{display:inline-flex!important}
+.lfw-header[data-collapsed] .lfw-tools{margin-left:auto}
+@media (min-width:1081px){.lfw-header:not([data-collapsed]) .lfw-mobile{display:none!important}}
+@media (max-width:1080px){html:not(.js) .lfw-mobile[hidden]{display:flex!important}html:not(.js) .lfw-menu{display:none!important}}
+/* Without JavaScript that panel is always open, so the header scrolls with the page instead of pinning it */
+@media (max-width:1080px){html:not(.js) .lfw-header{position:relative}html:not(.js){--header-cover:0px}}
+/* Collapsed navigation leaves the primary action to the page and keeps the full brand and search visible. */
+@media (max-width:1080px){.lfw-header__cta{display:none!important}}
+@media (max-width:600px){.lfw-header__in{gap:8px}.lfw-tools{gap:4px}.lfw-menu{width:44px;height:44px}}
+/* Short screens (a landscape phone, 400% zoom): a pinned 76px bar would cover a fifth to a third of the view, so the header scrolls away with the page, and the enquiry aside, taller than the view, stops sticking */
+@media (max-height:480px){.lfw-header{position:relative}:root{--header-cover:0px}.lfw-aside{position:static}}
+/* While the header is pinned, a long menu scrolls inside its panel instead of running off the bottom of the screen */
+@media (min-height:481px){.js .lfw-mobile{max-height:calc(100vh - var(--header-h));max-height:calc(100dvh - var(--header-h));overflow-y:auto;overscroll-behavior:contain}}
+
+/* Photos: uploaded (EmDash Image) or bundled */
+.lfw-about__media,.lfw-panel__media,.lfw-product__media,.lfw-aside__img{position:relative}
+.lfw-hero__media img,.lfw-about__media img,.lfw-panel__media img,.lfw-product__media img,.lfw-aside__img img,.lfw-night__media img{display:block;width:100%;height:100%;object-fit:cover}
+/* Like the night split, a leading photo moves left only side by side; stacked, the copy and its action come first */
+@media (min-width:961px){.lfw-about--flip .lfw-about__media{order:-1}}
+.lfw-band__img,.lfw-404__img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
+.lfw-band__img{object-position:70% 50%}
+.lfw-404__img{object-position:60% 50%}
+
+/* Tabs: every panel renders server-side; without JavaScript they simply stack */
+.lfw-service-select{display:none;font:var(--type-label);color:var(--text-strong)}
+.lfw-service-select .lf-control{margin-top:10px}
+@media (max-width:760px){.js .lfw-service-select{display:block}.js .lfw-service-tabs{display:none}}
+html:not(.js) [data-tabs] [role="tablist"]{display:none}
+.js [data-tabs] [role="tabpanel"]:not(.is-active){display:none}
+/* A panel enters when a visitor switches to it (tabs.ts sets data-switched), not on page load, so the first panel paints with the page */
+[data-tabs][data-switched] [role="tabpanel"].is-active{animation:lfw-enter var(--dur-slow) var(--ease-current) both}
+html:not(.js) [data-tabs] .lfw-panel+.lfw-panel{margin-top:48px;border-top:1px solid var(--border-default)}
+html:not(.js) [data-tabs] .lfw-specs+.lfw-specs{margin-top:32px}
+[data-tabs] [role="tabpanel"]{scroll-margin-top:calc(var(--header-cover) + 72px)}
+[data-tabs] [role="tabpanel"]:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus);border-radius:var(--radius-lg)}
+.lfw-specs__group{grid-column:1/-1;margin:8px 0 0;font:var(--type-h4);color:var(--text-strong)}
+.js .lfw-specs__group{display:none}
+
+/* Spec card tips */
+.lfw-tip{position:relative;flex:none}
+.lfw-tip>summary{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;color:var(--text-muted);list-style:none;cursor:pointer;transition:background-color var(--dur-fast) var(--ease-current),color var(--dur-fast) var(--ease-current)}
+.lfw-tip>summary::-webkit-details-marker{display:none}
+.lfw-tip>summary:hover,.lfw-tip[open]>summary{background:var(--action-ghost-bg-hover);color:var(--text-strong)}
+.lfw-tip>summary:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
+.lfw-tip__bubble{position:absolute;right:0;top:calc(100% + 8px);z-index:5;width:min(280px,70vw);margin:0;padding:12px 14px;border-radius:var(--radius-md);background:var(--lake-navy);color:var(--foam-white);font:var(--type-body-sm);box-shadow:var(--shadow-lg);animation:lfw-enter var(--dur-base) var(--ease-current) both}
+.lfw-tip__bubble b{display:block;margin-bottom:4px;font:700 13px/1.3 var(--font-display);color:var(--foam-white)}
+
+/* Legal layout: Portable Text body, numbered h2 sections */
+.lfw-legal__col{display:flex;flex-direction:column;min-width:0;max-width:720px}
+.lfw-legal__body{counter-reset:legal}
+.lfw-legal__body h2{display:flex;gap:12px;margin:0;padding:26px 0 10px;border-top:1px solid var(--border-subtle);font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong);counter-increment:legal;scroll-margin-top:calc(var(--header-cover) + 24px)}
+.lfw-legal__body h2::before{content:counter(legal) ".";flex:none;min-width:28px;color:var(--current-teal)}
+.lfw-legal__body h2:first-of-type{padding-top:0;border-top:0}
+.lfw-legal__body p,.lfw-legal__body ul,.lfw-legal__body ol{margin:0 0 12px 40px;font:var(--type-body);color:var(--text-body)}
+.lfw-legal__body ul,.lfw-legal__body ol{padding-left:20px}
+.lfw-legal__body h3{margin:16px 0 8px 40px;font:var(--type-h5);color:var(--text-strong)}
+@media (max-width:900px){.lfw-legal__body p,.lfw-legal__body ul,.lfw-legal__body ol,.lfw-legal__body h3{margin-left:0}}
+@media print{.lfw-legal__help,.lfw-skip{display:none!important}}
+
+/* Enquiry form */
+.lfw-contact--solo{grid-template-columns:minmax(0,1fr);max-width:880px}
+.lfw-formerror{display:flex;align-items:flex-start;gap:10px;margin:0;padding:12px 14px;border-radius:var(--radius-md);background:var(--status-danger-bg);color:var(--status-danger-fg);font:var(--type-body-sm)}
+.lfw-formerror .lf-icon{margin-top:1px}
+.lfw-formerror[hidden],.lfw-done[hidden],.lfw-form[hidden],.lf-field__error[hidden]{display:none}
+.lfw-hp{position:absolute!important;left:-10000px!important;width:1px;height:1px;overflow:hidden}
+.lfw-done:focus{outline:none}
+.lf-input.is-placeholder{color:var(--text-muted)}
+.lfw-form [aria-busy="true"]{opacity:.72;cursor:progress}
+
+/* Search + browse */
+.lfw-browse a.lf-card{height:100%}
+
+/* Layout, header and section spacing for the theme's routes */
+.lfw main:focus{outline:none}
+.lfw-header--nonav .lfw-tools{margin-left:auto}
+.lfw-menu .lfw-menu__close,.lfw-menu[aria-expanded="true"] .lfw-menu__open{display:none}
+.lfw-menu[aria-expanded="true"] .lfw-menu__close{display:inline-flex}
+.lfw-sechead__text{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.lfw-intro+.lfw-section{margin-top:56px}
+.lfw-search+.lfw-section{margin-top:32px}
+.lfw-intro--solo:not(.lfw-intro--night),.lfw-intro:last-child:not(.lfw-intro--night){padding-bottom:var(--section-y)}
+
+/* Split block: copy-first light layout, photo-first night layout, status card */
+.lfw-about:not(.lfw-about--flip){grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)}
+@media (min-width:961px){.lfw-split--flip>.lfw-night__media{order:-1}}
+@media (max-width:960px){.lfw-about:not(.lfw-about--flip){grid-template-columns:1fr}}
+/* Stacked, the photo becomes a strip and the status card overlaps its lower edge, then carries on over the navy, so a long card never hides the water */
+@media (max-width:960px){.lfw-night__media{height:auto;overflow:visible;border-radius:0}.lfw-night__media>img{height:260px;border-radius:var(--radius-2xl)}.lfw-night__panel{position:relative;left:auto;right:auto;bottom:auto;margin:-96px 28px 0}}
+.lfw-statuscard{box-shadow:var(--shadow-xl)}
+.lfw-statuscard dl{margin:0}
+/* Phones: a shorter strip, a nearly full-width card, and each row's label above its value, read like a log entry */
+@media (max-width:600px){.lfw-night__media>img{height:200px}.lfw-night__panel{margin:-64px 12px 0}.lfw-statuscard .lf-card__body{padding:16px}.lfw-panelhead{flex-wrap:wrap;row-gap:8px}.lfw-statuscard .lfw-spec{flex-direction:column;align-items:flex-start;gap:2px}.lfw-statuscard .lfw-spec dd{text-align:left}}
+.lfw-tile--card{background:var(--surface-card)}
+
+/* Steps and stats adapt to how many items an editor adds */
+.lfw-deliv--n{grid-template-columns:repeat(var(--n,3),minmax(0,1fr))}
+.lfw-stats{grid-template-columns:repeat(var(--n,3),minmax(0,1fr))}
+@media (max-width:760px){.lfw-deliv--n{grid-template-columns:1fr}}
+@media (max-width:600px){.lfw-stats{grid-template-columns:1fr}}
+
+/* Spec tips open below the icon; keep them from being clipped by the card */
+.lfw-specs .lf-card{overflow:visible}
+
+/* Legal: single column when there's no table of contents; plain list instead of the select without JavaScript */
+.lfw-legal--solo{grid-template-columns:minmax(0,1fr)}
+html:not(.js) [data-print]{display:none}
+@media (max-width:900px){html:not(.js) .lfw-toc__mobile{display:none}html:not(.js) .lfw-toc ol{display:flex}html:not(.js) .lfw-toc__label{display:block}}
+
+/* Search results and suggestion links */
+.lfw-result__heading{margin:0}
+a.lf-tag:hover{border-color:var(--teal-300);background:var(--surface-sunken);color:var(--text-strong)}
+a.lf-tag:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
+
+/* Blog index: category chips, featured post, post grid, paging */
+.lfw-chips{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding-bottom:32px;border-bottom:1px solid var(--border-default)}
+.lfw-chip{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 16px;border:1px solid var(--border-default);border-radius:var(--radius-full);background:var(--surface-card);font:600 14px/1 var(--font-display);color:var(--text-strong);text-decoration:none;transition:background var(--dur-fast) ease,border-color var(--dur-fast) ease,color var(--dur-fast) ease}
+.lfw-chip b{font-weight:800;color:var(--text-muted)}
+.lfw-chip:hover{border-color:var(--teal-300);color:var(--text-strong)}
+.lfw-chip[aria-current]{background:var(--lake-navy);border-color:var(--lake-navy);color:var(--foam-white)}
+.lfw-chip[aria-current] b{color:var(--foam-aqua)}
+.lfw-chip:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
+.lfw-chips__rss{margin-left:auto}
+.lfw-intro+.lfw-container .lfw-chips{margin-top:40px}
+.lfw-bloglist-sec{padding-top:48px}
+.lfw-bloglist{display:flex;flex-direction:column;gap:56px}
+.lfw-featured{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:32px 56px;align-items:center;color:inherit;text-decoration:none;border-radius:var(--radius-2xl)}
+.lfw-featured:hover{color:inherit}
+.lfw-featured:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
+.lfw-featured__media{aspect-ratio:4/3;border-radius:var(--radius-2xl);overflow:hidden;background:var(--lake-navy)}
+.lfw-featured__media img{display:block;width:100%;height:100%;object-fit:cover;transition:transform var(--dur-tide) var(--ease-current)}
+.lfw-featured:hover .lfw-featured__media img{transform:scale(1.02)}
+.lfw-featured__copy{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.lfw-featured__title{margin:0;font:700 clamp(28px,3vw,40px)/1.12 var(--font-display);letter-spacing:-.022em;color:var(--text-strong);text-wrap:balance;transition:color var(--dur-fast) ease}
+.lfw-featured:hover .lfw-featured__title{color:var(--deep-water)}
+.lfw-readmore{display:inline-flex;align-items:center;gap:8px;margin-top:4px;font:700 16px/1 var(--font-display);color:var(--text-link)}
+.lfw-postgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:var(--grid-gutter)}
+.lfw-postcard{height:100%}
+.lfw-postcard .lf-card__body{align-items:flex-start}
+.lfw-postmeta{display:inline-flex;align-items:center;gap:6px;padding-top:4px;font:var(--type-caption);color:var(--text-muted)}
+.lfw-postmeta--lg{padding-top:0;font:var(--type-body-sm)}
+.lfw-pager{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.lfw-bloglist-sec+.lfw-blocks>.lfw-section:first-child{padding-top:0}
+
+/* Article */
+.lfw-article__head{padding:56px 0 40px}
+.lfw-article__intro{display:flex;flex-direction:column;align-items:flex-start;gap:20px;max-width:860px}
+.lfw-article__intro .lfw-crumbs{margin:0}
+.lfw-article__intro .lfw-lead{max-width:62ch}
+.lfw-article__meta{display:flex;align-items:center;flex-wrap:wrap;gap:12px 20px;padding-top:4px;font:var(--type-body-sm);color:var(--text-muted)}
+.lfw-article__meta>span,.lfw-article__meta>time{display:inline-flex;align-items:center;gap:6px}
+.lfw-article__sep{width:1px;height:28px;background:var(--border-default)}
+.lfw-byline{gap:12px!important}
+.lfw-byline__avatars{display:flex}
+.lfw-byline__avatar{display:inline-flex;align-items:center;justify-content:center;flex:none;width:44px;height:44px;border-radius:50%;overflow:hidden;background:var(--surface-sunken);box-shadow:0 0 0 2px var(--surface-canvas);font:800 14px/1 var(--font-display);color:var(--deep-water)}
+.lfw-byline__avatar+.lfw-byline__avatar{margin-left:-10px}
+.lfw-byline__avatar img{width:100%;height:100%;object-fit:cover}
+.lfw-byline__names b{font:700 15px/1.2 var(--font-display);color:var(--text-strong)}
+.lfw-article__hero{width:100%;aspect-ratio:21/9;min-height:260px;border-radius:var(--radius-2xl);overflow:hidden;background:var(--lake-navy)}
+.lfw-article__hero img{display:block;width:100%;height:100%;object-fit:cover}
+.lfw-article__main{padding-top:56px}
+.lfw-article__grid{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:48px 64px}
+.lfw-article__grid>.lfw-prose{flex:1 1 520px}
+.lfw-help{position:sticky;top:calc(var(--header-h) + 24px);flex:0 1 320px;display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:28px;box-sizing:border-box;border-radius:var(--radius-lg);background:var(--surface-sunken)}
+.lfw-help .lfw-card-text{flex:none}
+@media (max-width:960px){.lfw-help{position:static;flex-basis:100%}}
+.lfw-related{background:var(--surface-sunken)}
+.lfw-related .lfw-sechead{margin-bottom:32px}
+
+/* Prose: Portable Text in articles */
+.lfw-prose{min-width:0;max-width:720px;font:var(--type-body);color:var(--text-body)}
+.lfw-prose>*{margin:0}
+.lfw-prose>*+*{margin-top:18px}
+.lfw-prose h2{margin-top:56px;font:var(--type-h3);letter-spacing:var(--ls-heading);color:var(--text-strong);text-wrap:balance;scroll-margin-top:calc(var(--header-cover) + 24px)}
+.lfw-prose h3{margin-top:36px;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong);scroll-margin-top:calc(var(--header-cover) + 24px)}
+.lfw-prose>h2:first-child,.lfw-prose>h3:first-child{margin-top:0}
+.lfw-prose p{text-wrap:pretty}
+.lfw-prose strong{font-weight:600;color:var(--text-strong)}
+.lfw-prose a{color:var(--text-link);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.lfw-prose a:hover{color:var(--text-link-hover);text-decoration-thickness:2px}
+.lfw-prose ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:14px}
+.lfw-prose ul>li{position:relative;padding-left:30px}
+.lfw-prose ul>li::before{content:"";position:absolute;left:0;top:.75em;width:14px;height:2px;border-radius:1px;background:var(--current-teal)}
+.lfw-prose ol{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:10px;counter-reset:lfw-ol}
+.lfw-prose ol>li{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:12px;background:var(--surface-sunken);font:600 16px/1.35 var(--font-display);color:var(--text-strong);counter-increment:lfw-ol}
+.lfw-prose ol>li::before{content:counter(lfw-ol,decimal-leading-zero);flex:none;min-width:22px;font:800 13px/1 var(--font-display);color:var(--text-eyebrow)}
+.lfw-prose li ul,.lfw-prose li ol{margin-top:12px}
+.lfw-prose blockquote{padding:4px 0 4px 24px;border-left:3px solid var(--current-teal);font:var(--type-lead);color:var(--text-strong)}
+.lfw-prose img{display:block;max-width:100%;height:auto;border-radius:var(--radius-xl)}
+.lfw-prose figure{margin:32px 0 0}
+.lfw-prose figcaption{margin-top:10px;font:var(--type-caption);color:var(--text-muted)}
+.lfw-prose hr{margin:40px 0;border:0;border-top:1px solid var(--border-default)}
+.lfw-prose code{padding:.15em .4em;border-radius:6px;background:var(--surface-sunken);font:.9em var(--font-mono)}
+.lfw-prose pre{overflow-x:auto;padding:18px 20px;border-radius:12px;background:var(--lake-navy);color:var(--foam-white);font:14px/1.6 var(--font-mono)}
+.lfw-prose pre code{padding:0;background:none;color:inherit}
+
+/* Header: a menu item with children (Services › SEO) opens a small panel; on mobile the children indent under their parent */
+.lfw-navgroup{position:relative;display:flex}
+.lfw-nav__btn{position:relative;display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 10px 0 14px;border:0;border-radius:8px;background:none;font:600 15px/1 var(--font-display);color:var(--text-strong);white-space:nowrap;cursor:pointer;transition:background-color var(--dur-fast) var(--ease-current),color var(--dur-fast) var(--ease-current)}
+.lfw-nav__btn:hover,.lfw-nav__btn[aria-expanded="true"]{background:var(--action-ghost-bg-hover)}
+.lfw-nav__btn:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
+.lfw-nav__btn>.lf-icon{color:var(--text-muted);transition:transform var(--dur-fast) var(--ease-current)}
+.lfw-nav__btn[aria-expanded="true"]>.lf-icon{transform:rotate(180deg)}
+.lfw-nav__btn.is-current{color:var(--deep-water)}
+.lfw-nav__btn.is-current::after{content:"";position:absolute;left:14px;right:32px;bottom:2px;height:2px;border-radius:2px;background:var(--current-teal)}
+.lfw-subnav{position:absolute;left:0;top:calc(100% + 8px);z-index:calc(var(--z-header) + 1);display:flex;flex-direction:column;gap:2px;min-width:220px;padding:8px;border:1px solid var(--border-default);border-radius:var(--radius-lg);background:var(--surface-card);box-shadow:var(--shadow-lg);animation:lfw-enter var(--dur-base) var(--ease-current) both}
+.lfw-subnav[hidden]{display:none}
+.lfw-nav .lfw-subnav a{height:auto;padding:11px 12px;font:600 15px/1.3 var(--font-display)}
+.lfw-nav .lfw-subnav a[aria-current="page"]{background:var(--surface-sunken);color:var(--deep-water)}
+.lfw-nav .lfw-subnav a[aria-current="page"]::after{display:none}
+.lfw-mobile__sub{display:flex;flex-direction:column;margin:-4px 0 4px;padding-left:16px;border-left:2px solid var(--border-default)}
+.lfw-mobile .lfw-mobile__sub a{padding:10px 0;font:600 16px/1.2 var(--font-display)}
+html:not(.js) .lfw-navgroup:is(:hover,:focus-within)>.lfw-subnav[hidden]{display:flex}
+/* Without JavaScript the panel opens on hover, so bridge the gap above it to keep it open on the way down */
+html:not(.js) .lfw-subnav::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:10px}
+
+/* Case study (from the website kit; used by the Work page) */
+.lfw-dialogform{display:flex;flex-direction:column;gap:18px}
+.lfw-sample{background:var(--gold-100);border-bottom:1px solid rgba(138,100,20,.2)}
+.lfw-sample__in{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;padding-top:12px;padding-bottom:12px;font:var(--type-body-sm);color:var(--lake-navy)}
+.lfw-ph{font-style:italic}
+.lfw-case-hero{padding:40px 0 0}
+.lfw-case-hero__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+.lfw-case-hero__copy{display:flex;flex-direction:column;align-items:flex-start;gap:22px}
+.lfw-case-hero__media{height:clamp(420px,42vw,560px);border-radius:var(--radius-2xl);overflow:hidden;background:var(--surface-sunken)}
+.lfw-case-hero__media img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 58%}
+.lfw-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin:48px 0 0;padding:24px 0 0;border-top:1px solid var(--border-default)}
+.lfw-facts dt,.lfw-mini{margin:0;font:700 11px/1.2 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}
+.lfw-facts dd{margin:8px 0 0;font:var(--type-h5);color:var(--text-strong)}
+.lfw-case-story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:48px}
+.lfw-case-story__body{display:flex;flex-direction:column;gap:18px;max-width:720px}
+.lfw-case-approach{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:64px;align-items:start}
+.lfw-case-approach__media{position:sticky;top:calc(var(--header-h) + 24px);height:640px;border-radius:var(--radius-2xl);overflow:hidden;background:var(--lake-navy)}
+.lfw-case-approach__media img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.lfw-case-approach__copy{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.lfw-case-steps{list-style:none;margin:8px 0 0;padding:0;width:100%}
+.lfw-case-steps li{display:grid;grid-template-columns:48px minmax(0,1fr);gap:20px;padding:24px 0;border-top:1px solid var(--border-default)}
+.lfw-case-steps li>div{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.lfw-case-steps p{margin:0;font:var(--type-body);font-size:16px;color:var(--text-muted)}
+.lfw-case-results{position:relative;overflow:hidden}
+.lfw-case-results__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.lfw-case-results__shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,42,58,.97) 0%,rgba(8,42,58,.9) 45%,rgba(8,42,58,.74) 100%)}
+.lfw-case-results>.lfw-container{position:relative}
+.lfw-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.lfw-metric{display:flex;flex-direction:column;gap:10px;padding:24px;border:1.5px dashed var(--border-inverse-strong);border-radius:var(--radius-lg);background:rgba(5,32,44,.45)}
+.lfw-metric b{font:800 clamp(30px,3vw,40px)/1 var(--font-display);letter-spacing:-.02em;color:var(--text-inverse-muted)}
+.lfw-metric span{font:var(--type-h5);color:var(--text-strong)}
+.lfw-metric small{font:var(--type-body-sm);color:var(--text-muted)}
+.lfw-quote{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+.lfw-video{position:relative;display:block;width:100%;aspect-ratio:4/3;padding:0;border:0;border-radius:var(--radius-2xl);overflow:hidden;background:var(--lake-navy);cursor:pointer}
+.lfw-video img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.78;transition:transform var(--dur-tide) var(--ease-current)}
+.lfw-video:hover img{transform:scale(1.03)}
+.lfw-video:focus-visible{outline:2px solid transparent;box-shadow:var(--ring-focus)}
+.lfw-video__play{position:absolute;inset:0;margin:auto;display:flex;align-items:center;justify-content:center;width:76px;height:76px;border-radius:50%;background:var(--sunset-coral);color:var(--lake-navy);box-shadow:var(--shadow-lg);transition:transform var(--dur-base) var(--ease-current)}
+.lfw-video:hover .lfw-video__play{transform:scale(1.06)}
+.lfw-video__msg{position:absolute;inset:0;margin:auto;display:flex;align-items:center;gap:10px;width:max-content;height:max-content;padding:12px 16px;border-radius:var(--radius-md);background:var(--foam-white);color:var(--lake-navy);font:var(--type-label);animation:lfw-enter var(--dur-base) var(--ease-current) both}
+.lfw-video__label{position:absolute;left:16px;bottom:16px;padding:6px 10px;border-radius:6px;background:rgba(8,42,58,.84);color:var(--foam-white);font:700 12px/1.2 var(--font-display)}
+.lfw-quote__text{display:flex;flex-direction:column;gap:20px;margin:0}
+.lfw-quote__text>.lf-icon{color:var(--current-teal)}
+.lfw-quote blockquote{margin:0;font:600 clamp(22px,2.2vw,28px)/1.35 var(--font-display);letter-spacing:-.01em;color:var(--text-strong);text-wrap:pretty}
+.lfw-quote figcaption b{display:block;font:var(--type-h5);color:var(--text-strong)}
+.lfw-quote figcaption span{font:var(--type-body-sm);color:var(--text-muted)}
+.lfw-case-stack{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:24px 48px;padding-top:40px;border-top:1px solid var(--border-default)}
+.lfw-case-stack>div:first-child{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.lfw-case-stack .lfw-tags{max-width:640px;justify-content:flex-end}
+@media (max-width:900px){.lfw-case-hero__grid,.lfw-case-story,.lfw-case-approach,.lfw-quote{grid-template-columns:1fr;gap:32px}.lfw-case-hero__media{height:340px}.lfw-case-approach__media{position:relative;top:0;height:320px}.lfw-facts{grid-template-columns:repeat(2,minmax(0,1fr))}.lfw-metrics{grid-template-columns:1fr}.lfw-case-stack .lfw-tags{justify-content:flex-start}}
+
+
+/* Forced colours (Windows high contrast) paint every background as the canvas and every border solid, so the current-page, selection and list marks are redrawn in system colours */
+@media (forced-colors:active){.lfw-nav a[aria-current="page"]::after,.lfw-nav__btn.is-current::after{background:Highlight}.lfw-nav .lfw-subnav a[aria-current="page"]::after{display:block}.lfw-toc ol,.lfw-toc a{border-left-color:Canvas}.lfw-toc a[aria-current]{border-left-color:Highlight}.lfw-chip[aria-current]{border-color:Highlight;background:Highlight;color:HighlightText}.lfw-chip[aria-current] b{color:HighlightText}.lfw-prose ul>li::before{background:CanvasText}}

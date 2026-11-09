@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- Design reference copy for the handoff. Live template: templates/home-concept/HomeConcept.dc.html -->
+<helmet><script src="./ds-base.js"></script></helmet>
+<div id="top" style="min-height:100vh;background:var(--surface-canvas);color:var(--text-body)">
+<div ref="{{ varsRef }}" style="display:contents">
+<x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.SiteHeader" items="{{ nav }}" search-href="{{ noSearch }}" style="position:sticky;top:0;z-index:100" hint-size="100%,76px"></x-import>
+<main>
+<section data-screen-label="Hero" style="position:relative;display:grid;grid-template-columns:var(--hc-hero-cols,minmax(var(--container-pad),1fr) minmax(0,540px) minmax(0,580px) minmax(var(--container-pad),1fr));margin-bottom:var(--hc-hero-mb,72px)">
+<div style="grid-column:2;grid-row:var(--hc-copy-row,1);display:flex;flex-direction:column;align-items:flex-start;gap:24px;min-width:0;padding:var(--hc-copy-pad,64px 32px 48px 0)">
+<x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Eyebrow" items="{{ tagline }}" hint-size="340px,16px"></x-import>
+<h1 style="margin:0;font:var(--type-hero);letter-spacing:var(--ls-display);color:var(--text-strong);text-wrap:balance">We build, host and <span style="color:var(--text-brand);white-space:nowrap">look after</span> your website.</h1>
+<p style="margin:0;max-width:34em;font:var(--type-lead);font-size:var(--hc-lead-fs,20px);color:var(--text-muted);text-wrap:pretty">New websites, existing WordPress sites, and apps—hosted on infrastructure we manage. Updates, backups, and monitoring, from Chicago for small businesses across the US.</p>
+<div style="display:flex;flex-direction:var(--hc-pair-dir,row);flex-wrap:wrap;align-self:var(--hc-pair-self,auto);gap:12px 16px;margin-top:8px">
+<x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Button" href="/consultation#enquiry" size="lg" icon-right="arrow-right" block="{{ L.heroBlock }}" hint-size="250px,52px">Book a consultation</x-import>
+<x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Button" href="/contact#enquiry" variant="outline" size="lg" block="{{ L.heroBlock }}" hint-size="190px,52px">Start a project</x-import>
+<p style="flex-basis:var(--hc-note-basis,100%);margin:0;max-width:52ch;font:var(--type-body-sm);color:var(--text-muted);text-wrap:pretty">First consultation free. Have a clear brief? Start a project. We reply by email.</p>
+</div>
+<ul role="list" aria-label="What we build and host on" style="align-self:stretch;max-width:440px;list-style:none;margin:8px 0 0;padding:20px 0 0;display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;border-top:1px solid var(--border-default);font:var(--type-body-sm);color:var(--text-body)">
+<li>WordPress</li>
+<li style="display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="width:4px;height:4px;border-radius:50%;background:var(--current-teal)"></span>WooCommerce</li>
+<li style="display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="width:4px;height:4px;border-radius:50%;background:var(--current-teal)"></span>AWS</li>
+<li style="display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="width:4px;height:4px;border-radius:50%;background:var(--current-teal)"></span>Cloudflare</li>
+</ul>
+</div>
+<div style="grid-column:var(--hc-photo-col,3 / 5);grid-row:1;position:relative;min-width:0;min-height:var(--hc-photo-minh,600px);height:var(--hc-photo-h,auto);margin:var(--hc-photo-m,0px);border-radius:var(--hc-photo-rad,0px);overflow:hidden;background:var(--surface-sunken)">
+<img src="{{ hero.src }}" alt="{{ hero.alt }}" style="position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:var(--hc-hero-pos,50% 50%)">
+<img src="{{ img.waveV }}" alt="" aria-hidden="true" style="display:var(--hc-wave-v,block);position:absolute;left:-1px;top:-1px;width:clamp(170px,18vw,260px);height:calc(100% + 2px);pointer-events:none">
+<img src="{{ img.waveH }}" alt="" aria-hidden="true" style="display:var(--hc-wave-h,none);position:absolute;left:0;bottom:-1px;width:100%;height:clamp(56px,14vw,96px);pointer-events:none">
+</div>
+</section>
+<section id="services" data-screen-label="Starting points" style="margin:0 0 var(--hc-sec,96px);scroll-margin-top:calc(var(--header-cover,76px) + 16px)">
+<div style="max-width:var(--container-max);margin:0 auto;padding:0 var(--container-pad);box-sizing:border-box">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:20px;margin-bottom:var(--hc-head-mb,48px)">
+<span aria-hidden="true" style="display:block;width:44px;height:2px;border-radius:2px;background:var(--rule-brand)"></span>
+<h2 style="margin:0;font:var(--type-section-title);letter-spacing:-.025em;color:var(--text-strong);text-wrap:balance;overflow-wrap:anywhere">Where are you starting from?</h2>
+</div>
+<ul role="list" style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:var(--hc-paths-cols,repeat(2,minmax(0,1fr)))">
+<li style="position:relative;display:grid;grid-template-columns:var(--hc-ic,80px) minmax(0,1fr);column-gap:var(--hc-ic-gap,28px);align-items:start;padding:var(--hc-p1,8px 40px 40px 0)" style-hover="--hc-t:var(--text-link);--hc-lc:var(--text-link-hover);--hc-a:translateX(3px);--hc-ib:var(--teal-100)">
+<span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:var(--hc-ic,80px);height:var(--hc-ic,80px);border-radius:50%;background:var(--hc-ib,var(--surface-sunken));color:var(--deep-water);transition:background-color var(--dur-fast) var(--ease-current)"><x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="panels-top-left" size="{{ L.icon }}" hint-size="32px,32px"></x-import></span>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:0;padding-top:var(--hc-txt-pt,10px)">
+<h3 style="margin:0;font:700 clamp(19px,calc(.5vw + 15px),22px)/1.25 var(--font-display);letter-spacing:var(--ls-tight);color:var(--hc-t,var(--text-strong));text-wrap:balance;overflow-wrap:anywhere;transition:color var(--dur-fast) var(--ease-current)">A new website or store</h3>
+<p style="margin:0;max-width:40ch;font:var(--type-body);line-height:1.5;color:var(--text-muted);text-wrap:pretty;overflow-wrap:anywhere">WordPress and WooCommerce, with hosting and ongoing care.</p>
+<a href="/contact?service=wordpress#enquiry" style="display:inline-flex;align-items:center;gap:10px;margin-top:6px;padding:2px 0 5px;border-bottom:1.5px solid currentColor;font:700 16px/1.2 var(--font-display);color:var(--hc-lc,var(--text-link));text-decoration:none;outline:none;transition:color var(--dur-fast) var(--ease-current)" style-focus-visible="--hc-ring:var(--ring-focus)">Plan a new site<span style="display:inline-flex;transform:var(--hc-a,none);transition:transform var(--dur-base) var(--ease-current)"><x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="arrow-right" size="{{ 18 }}" hint-size="18px,18px"></x-import></span><span aria-hidden="true" style="position:absolute;inset:0;border-radius:var(--radius-lg);box-shadow:var(--hc-ring,none)"></span></a>
+</div>
+<span aria-hidden="true" style="display:var(--hc-vl,block);position:absolute;top:0;right:0;bottom:16px;width:1px;background:var(--border-default)"></span>
+<span aria-hidden="true" style="position:absolute;left:0;right:var(--hc-hl-in,16px);bottom:0;height:1px;background:var(--border-default)"></span>
+</li>
+<li style="position:relative;display:grid;grid-template-columns:var(--hc-ic,80px) minmax(0,1fr);column-gap:var(--hc-ic-gap,28px);align-items:start;padding:var(--hc-p2,8px 0 40px 40px)" style-hover="--hc-t:var(--text-link);--hc-lc:var(--text-link-hover);--hc-a:translateX(3px);--hc-ib:var(--teal-100)">
+<span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:var(--hc-ic,80px);height:var(--hc-ic,80px);border-radius:50%;background:var(--hc-ib,var(--surface-sunken));color:var(--deep-water);transition:background-color var(--dur-fast) var(--ease-current)"><x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="settings" size="{{ L.icon }}" hint-size="32px,32px"></x-import></span>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:0;padding-top:var(--hc-txt-pt,10px)">
+<h3 style="margin:0;font:700 clamp(19px,calc(.5vw + 15px),22px)/1.25 var(--font-display);letter-spacing:var(--ls-tight);color:var(--hc-t,var(--text-strong));text-wrap:balance;overflow-wrap:anywhere;transition:color var(--dur-fast) var(--ease-current)">An existing WordPress site</h3>
+<p style="margin:0;max-width:40ch;font:var(--type-body);line-height:1.5;color:var(--text-muted);text-wrap:pretty;overflow-wrap:anywhere">Move to managed hosting, with updates, backups and monitoring.</p>
+<a href="/contact?service=hosting#enquiry" style="display:inline-flex;align-items:center;gap:10px;margin-top:6px;padding:2px 0 5px;border-bottom:1.5px solid currentColor;font:700 16px/1.2 var(--font-display);color:var(--hc-lc,var(--text-link));text-decoration:none;outline:none;transition:color var(--dur-fast) var(--ease-current)" style-focus-visible="--hc-ring:var(--ring-focus)">Move your site to us<span style="display:inline-flex;transform:var(--hc-a,none);transition:transform var(--dur-base) var(--ease-current)"><x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="arrow-right" size="{{ 18 }}" hint-size="18px,18px"></x-import></span><span aria-hidden="true" style="position:absolute;inset:0;border-radius:var(--radius-lg);box-shadow:var(--hc-ring,none)"></span></a>
+</div>
+<span aria-hidden="true" style="position:absolute;left:var(--hc-hl-in,16px);right:0;bottom:0;height:1px;background:var(--border-default)"></span>
+</li>
+<li style="position:relative;display:grid;grid-template-columns:var(--hc-ic,80px) minmax(0,1fr);column-gap:var(--hc-ic-gap,28px);align-items:start;padding:var(--hc-p3,40px 40px 8px 0)" style-hover="--hc-t:var(--text-link);--hc-lc:var(--text-link-hover);--hc-a:translateX(3px);--hc-ib:var(--teal-100)">
+<span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:var(--hc-ic,80px);height:var(--hc-ic,80px);border-radius:50%;background:var(--hc-ib,var(--surface-sunken));color:var(--deep-water);transition:background-color var(--dur-fast) var(--ease-current)"><x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="code-xml" size="{{ L.icon }}" hint-size="32px,32px"></x-import></span>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:0;padding-top:var(--hc-txt-pt,10px)">
+<h3 style="margin:0;font:700 clamp(19px,calc(.5vw + 15px),22px)/1.25 var(--font-display);letter-spacing:var(--ls-tight);color:var(--hc-t,var(--text-strong));text-wrap:balance;overflow-wrap:anywhere;transition:color var(--dur-fast) var(--ease-current)">An app or another platform</h3>
+<p style="margin:0;max-width:40ch;font:var(--type-body);line-height:1.5;color:var(--text-muted);text-wrap:pretty;overflow-wrap:anywhere">Deploy on infrastructure we manage and keep it running.</p>
+<a href="/contact?service=hosting#enquiry" style="display:inline-flex;align-items:center;gap:10px;margin-top:6px;padding:2px 0 5px;border-bottom:1.5px solid currentColor;font:700 16px/1.2 var(--font-display);color:var(--hc-lc,var(--text-link));text-decoration:none;outline:none;transition:color var(--dur-fast) var(--ease-current)" style-focus-visible="--hc-ring:var(--ring-focus)">Talk about your app<span style="display:inline-flex;transform:var(--hc-a,none);transition:transform var(--dur-base) var(--ease-current)"><x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="arrow-right" size="{{ 18 }}" hint-size="18px,18px"></x-import></span><span aria-hidden="true" style="position:absolute;inset:0;border-radius:var(--radius-lg);box-shadow:var(--hc-ring,none)"></span></a>
+</div>
+<span aria-hidden="true" style="display:var(--hc-vl,block);position:absolute;top:16px;right:0;bottom:0;width:1px;background:var(--border-default)"></span>
+<span aria-hidden="true" style="display:var(--hc-hl3,none);position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--border-default)"></span>
+</li>
+<li style="position:relative;display:grid;grid-template-columns:var(--hc-ic,80px) minmax(0,1fr);column-gap:var(--hc-ic-gap,28px);align-items:start;padding:var(--hc-p4,40px 0 8px 40px)" style-hover="--hc-t:var(--text-link);--hc-lc:var(--text-link-hover);--hc-a:translateX(3px);--hc-ib:var(--teal-100)">
+<span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:var(--hc-ic,80px);height:var(--hc-ic,80px);border-radius:50%;background:var(--hc-ib,var(--surface-sunken));color:var(--deep-water);transition:background-color var(--dur-fast) var(--ease-current)"><x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="chart-column" size="{{ L.icon }}" hint-size="32px,32px"></x-import></span>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:0;padding-top:var(--hc-txt-pt,10px)">
+<h3 style="margin:0;font:700 clamp(19px,calc(.5vw + 15px),22px)/1.25 var(--font-display);letter-spacing:var(--ls-tight);color:var(--hc-t,var(--text-strong));text-wrap:balance;overflow-wrap:anywhere;transition:color var(--dur-fast) var(--ease-current)">A site that needs more customers</h3>
+<p style="margin:0;max-width:40ch;font:var(--type-body);line-height:1.5;color:var(--text-muted);text-wrap:pretty;overflow-wrap:anywhere">SEO, content, social media and analytics to help people find you.</p>
+<a href="/services#seo" style="display:inline-flex;align-items:center;gap:10px;margin-top:6px;padding:2px 0 5px;border-bottom:1.5px solid currentColor;font:700 16px/1.2 var(--font-display);color:var(--hc-lc,var(--text-link));text-decoration:none;outline:none;transition:color var(--dur-fast) var(--ease-current)" style-focus-visible="--hc-ring:var(--ring-focus)">See growth services<span style="display:inline-flex;transform:var(--hc-a,none);transition:transform var(--dur-base) var(--ease-current)"><x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="arrow-right" size="{{ 18 }}" hint-size="18px,18px"></x-import></span><span aria-hidden="true" style="position:absolute;inset:0;border-radius:var(--radius-lg);box-shadow:var(--hc-ring,none)"></span></a>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<section id="hosting" data-theme="night" data-screen-label="Hosting (night)" style="padding:var(--hc-sec,96px) 0;background:var(--surface-canvas);color:var(--text-body);scroll-margin-top:var(--header-cover,76px)">
+<div style="max-width:var(--container-max);margin:0 auto;padding:0 var(--container-pad);box-sizing:border-box">
+<div style="display:grid;grid-template-columns:var(--hc-host-cols,minmax(0,1fr) minmax(0,400px));gap:var(--hc-host-gap,40px 72px);align-items:center">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:24px;min-width:0">
+<x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Eyebrow" rule="leading" hint-size="260px,16px">Hosting and management</x-import>
+<h2 style="margin:0;font:var(--type-section-title);letter-spacing:-.025em;color:var(--text-strong);text-wrap:balance;overflow-wrap:anywhere">Your site, looked after every day.</h2>
+<p style="margin:0;max-width:34em;font:var(--type-lead);font-size:var(--hc-lead-fs,20px);color:var(--text-muted);text-wrap:pretty">Managed hosting, WordPress updates, daily backups and round-the-clock monitoring.</p>
+<ul role="list" style="align-self:stretch;list-style:none;margin:4px 0 0;padding:0;display:grid;grid-template-columns:var(--hc-checks-cols,repeat(2,minmax(0,1fr)));grid-template-rows:var(--hc-checks-rows,repeat(3,auto));grid-auto-flow:var(--hc-checks-flow,column);gap:14px 32px">
+<li style="display:flex;align-items:flex-start;gap:12px;font:var(--type-body);line-height:1.45;color:var(--text-body)"><span style="display:inline-flex;flex:none;margin-top:2px;color:var(--foam-aqua)"><x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="check" size="{{ 20 }}" hint-size="20px,20px"></x-import></span><span>AWS hosting</span></li>
+<li style="display:flex;align-items:flex-start;gap:12px;font:var(--type-body);line-height:1.45;color:var(--text-body)"><span style="display:inline-flex;flex:none;margin-top:2px;color:var(--foam-aqua)"><x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="check" size="{{ 20 }}" hint-size="20px,20px"></x-import></span><span>Cloudflare protection</span></li>
+<li style="display:flex;align-items:flex-start;gap:12px;font:var(--type-body);line-height:1.45;color:var(--text-body)"><span style="display:inline-flex;flex:none;margin-top:2px;color:var(--foam-aqua)"><x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="check" size="{{ 20 }}" hint-size="20px,20px"></x-import></span><span>NGINX caching</span></li>
+<li style="display:flex;align-items:flex-start;gap:12px;font:var(--type-body);line-height:1.45;color:var(--text-body)"><span style="display:inline-flex;flex:none;margin-top:2px;color:var(--foam-aqua)"><x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="check" size="{{ 20 }}" hint-size="20px,20px"></x-import></span><span>Jetpack daily backups</span></li>
+<li style="display:flex;align-items:flex-start;gap:12px;font:var(--type-body);line-height:1.45;color:var(--text-body)"><span style="display:inline-flex;flex:none;margin-top:2px;color:var(--foam-aqua)"><x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="check" size="{{ 20 }}" hint-size="20px,20px"></x-import></span><span>New Relic monitoring</span></li>
+<li style="display:flex;align-items:flex-start;gap:12px;font:var(--type-body);line-height:1.45;color:var(--text-body)"><span style="display:inline-flex;flex:none;margin-top:2px;color:var(--foam-aqua)"><x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="check" size="{{ 20 }}" hint-size="20px,20px"></x-import></span><span>WooCommerce stores</span></li>
+</ul>
+<div style="display:flex;flex-direction:var(--hc-pp-dir,row);align-items:var(--hc-pp-align,center);flex-wrap:wrap;align-self:var(--hc-pp-self,auto);gap:20px 32px;margin-top:12px">
+<x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Button" href="/hosting" size="lg" icon-right="arrow-right" block="{{ L.pairBlock }}" hint-size="250px,52px">View hosting details</x-import>
+<a href="/contact?service=hosting#enquiry" style="display:inline-flex;align-items:center;gap:10px;padding:2px 0 5px;border-bottom:1.5px solid currentColor;border-radius:2px;font:700 16px/1.2 var(--font-display);color:var(--hc-nl,var(--text-link));text-decoration:none;outline:none;transition:color var(--dur-fast) var(--ease-current)" style-hover="--hc-nl:var(--text-link-hover);--hc-na:translateX(3px)" style-focus-visible="box-shadow:var(--ring-focus)">Move your site to us<span style="display:inline-flex;transform:var(--hc-na,none);transition:transform var(--dur-base) var(--ease-current)"><x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="arrow-right" size="{{ 18 }}" hint-size="18px,18px"></x-import></span></a>
+</div>
+</div>
+<sc-if value="{{ showExample }}" hint-placeholder-val="{{ true }}">
+<figure style="margin:0;min-width:0;width:100%;max-width:var(--hc-panel-max,none);box-sizing:border-box;padding:var(--hc-panel-pad,28px);border:1px solid var(--border-default);border-radius:var(--radius-lg);background:var(--surface-card)">
+<figcaption style="margin:0;padding-bottom:16px;border-bottom:1px solid var(--border-default);font:700 12px/1.2 var(--font-display);letter-spacing:.2em;text-transform:uppercase;color:var(--text-eyebrow)">Example hosting setup</figcaption>
+<p style="margin:0;padding:18px 0 16px;font:700 22px/1.25 var(--font-display);letter-spacing:var(--ls-tight);color:var(--text-strong);overflow-wrap:anywhere">yourbusiness.com</p>
+<dl style="margin:0">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid var(--border-default)"><dt style="flex:none;font:var(--type-body-sm);color:var(--text-muted)">Uptime target</dt><dd style="margin:0;font:600 15px/1.35 var(--font-body);color:var(--text-strong);text-align:right">99.9%</dd></div>
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid var(--border-default)"><dt style="flex:none;font:var(--type-body-sm);color:var(--text-muted)">SSL</dt><dd style="margin:0;font:600 15px/1.35 var(--font-body);color:var(--text-strong);text-align:right">Let’s Encrypt</dd></div>
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid var(--border-default)"><dt style="flex:none;font:var(--type-body-sm);color:var(--text-muted)">CDN</dt><dd style="margin:0;font:600 15px/1.35 var(--font-body);color:var(--text-strong);text-align:right">Cloudflare</dd></div>
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 0 0;border-top:1px solid var(--border-default)"><dt style="flex:none;font:var(--type-body-sm);color:var(--text-muted)">Monitoring</dt><dd style="margin:0;font:600 15px/1.35 var(--font-body);color:var(--text-strong);text-align:right">New Relic · 24/7</dd></div>
+</dl>
+</figure>
+</sc-if>
+</div>
+</div>
+</section>
+<section id="consultation" data-screen-label="Consultation" style="margin:var(--hc-sec,96px) 0;scroll-margin-top:calc(var(--header-cover,76px) + 16px)">
+<div style="max-width:var(--container-max);margin:0 auto;padding:0 var(--container-pad);box-sizing:border-box">
+<div style="display:grid;grid-template-columns:var(--hc-cons-cols,minmax(0,1fr) 1px minmax(0,1fr));gap:var(--hc-cons-gap,0 56px);align-items:start">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:24px;min-width:0">
+<x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Eyebrow" hint-size="240px,16px">Website consultation</x-import>
+<h2 style="margin:0;font:var(--type-section-title);letter-spacing:-.025em;color:var(--text-strong);text-wrap:balance;overflow-wrap:anywhere">Know where your site stands and <span style="color:var(--text-brand);white-space:nowrap">what to do next.</span></h2>
+<p style="margin:0;max-width:30em;font:var(--type-lead);font-size:var(--hc-lead-fs,20px);color:var(--text-muted);text-wrap:pretty">A practical conversation about your website and what your business needs next.</p>
+<div style="display:flex;flex-direction:column;align-items:flex-start;align-self:var(--hc-pp-self,auto);gap:14px;margin-top:8px">
+<x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Button" href="/consultation#enquiry" size="lg" icon-right="arrow-right" block="{{ L.pairBlock }}" hint-size="250px,52px">Book a consultation</x-import>
+<p style="margin:0;font:var(--type-body-sm);color:var(--text-muted)">First consultation free.</p>
+</div>
+</div>
+<span aria-hidden="true" style="display:var(--hc-cons-rule,block);align-self:stretch;background:var(--border-default)"></span>
+<div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+<h3 style="margin:0;font:700 20px/1.3 var(--font-display);letter-spacing:var(--ls-tight);color:var(--text-strong);text-wrap:balance">What we can work through</h3>
+<ol style="list-style:none;margin:0;padding:0">
+<li style="display:grid;grid-template-columns:var(--hc-num-col,72px) minmax(0,1fr);column-gap:16px;align-items:start;padding:12px 0 22px"><span aria-hidden="true" style="font:600 var(--hc-num-fs,36px)/1 var(--font-display);letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--text-brand)">01</span><div style="display:flex;flex-direction:column;gap:6px;min-width:0"><h4 style="margin:0;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong);text-wrap:balance;overflow-wrap:anywhere">Website analysis</h4><p style="margin:0;max-width:40ch;font:var(--type-body);line-height:1.5;color:var(--text-muted);text-wrap:pretty;overflow-wrap:anywhere">Review how the site looks, performs and gets found today.</p></div></li>
+<li style="display:grid;grid-template-columns:var(--hc-num-col,72px) minmax(0,1fr);column-gap:16px;align-items:start;padding:22px 0;border-top:1px solid var(--border-default)"><span aria-hidden="true" style="font:600 var(--hc-num-fs,36px)/1 var(--font-display);letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--text-brand)">02</span><div style="display:flex;flex-direction:column;gap:6px;min-width:0"><h4 style="margin:0;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong);text-wrap:balance;overflow-wrap:anywhere">Business planning</h4><p style="margin:0;max-width:40ch;font:var(--type-body);line-height:1.5;color:var(--text-muted);text-wrap:pretty;overflow-wrap:anywhere">Work out what the site needs to do for the business.</p></div></li>
+<li style="display:grid;grid-template-columns:var(--hc-num-col,72px) minmax(0,1fr);column-gap:16px;align-items:start;padding:22px 0;border-top:1px solid var(--border-default)"><span aria-hidden="true" style="font:600 var(--hc-num-fs,36px)/1 var(--font-display);letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--text-brand)">03</span><div style="display:flex;flex-direction:column;gap:6px;min-width:0"><h4 style="margin:0;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong);text-wrap:balance;overflow-wrap:anywhere">Recommendations for your goals</h4><p style="margin:0;max-width:40ch;font:var(--type-body);line-height:1.5;color:var(--text-muted);text-wrap:pretty;overflow-wrap:anywhere">Identify specific changes matched to those goals.</p></div></li>
+<li style="display:grid;grid-template-columns:var(--hc-num-col,72px) minmax(0,1fr);column-gap:16px;align-items:start;padding:22px 0 0;border-top:1px solid var(--border-default)"><span aria-hidden="true" style="font:600 var(--hc-num-fs,36px)/1 var(--font-display);letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--text-brand)">04</span><div style="display:flex;flex-direction:column;gap:6px;min-width:0"><h4 style="margin:0;font:var(--type-h4);letter-spacing:var(--ls-tight);color:var(--text-strong);text-wrap:balance;overflow-wrap:anywhere">Growth roadmap</h4><p style="margin:0;max-width:40ch;font:var(--type-body);line-height:1.5;color:var(--text-muted);text-wrap:pretty;overflow-wrap:anywhere">Explain what to do next and what can wait.</p></div></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="about" data-screen-label="Accountability" style="position:relative;overflow:hidden;padding:var(--hc-acc-y,88px) 0;background:var(--surface-sunken);scroll-margin-top:var(--header-cover,76px)">
+<sc-if value="{{ motifs }}" hint-placeholder-val="{{ true }}">
+<img src="{{ img.curl }}" alt="" aria-hidden="true" style="display:var(--hc-curl,block);position:absolute;right:-40px;bottom:-56px;width:clamp(420px,46vw,640px);height:auto;pointer-events:none">
+</sc-if>
+<div style="position:relative;max-width:var(--container-max);margin:0 auto;padding:0 var(--container-pad);box-sizing:border-box">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:24px;max-width:620px">
+<x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Eyebrow" hint-size="230px,16px">One point of contact</x-import>
+<h2 style="margin:0;font:var(--type-section-title);letter-spacing:-.025em;color:var(--text-strong);text-wrap:balance;overflow-wrap:anywhere">One person, accountable for your site.</h2>
+<p style="margin:0;max-width:27em;font:var(--type-lead);font-size:var(--hc-lead-fs,20px);color:var(--text-body);text-wrap:pretty">Lakefront Digital is run by Henry Perkins in Chicago. Henry is your point of contact for planning, delivery, and ongoing care, so the person you speak with at the start stays connected to the work.</p>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin-top:8px">
+<p style="margin:0;font:700 20px/1.3 var(--font-display);letter-spacing:var(--ls-tight);color:var(--text-strong)">Henry Perkins</p>
+<p style="margin:0;display:flex;align-items:center;flex-wrap:wrap;gap:4px 10px;font:var(--type-body-sm);color:var(--text-muted)"><span>Lakefront Digital</span><span aria-hidden="true" style="width:4px;height:4px;border-radius:50%;background:currentColor"></span><span>Chicago</span></p>
+</div>
+<a href="/about" style="display:inline-flex;align-items:center;gap:10px;padding:2px 0 5px;border-bottom:1.5px solid currentColor;border-radius:2px;font:700 16px/1.2 var(--font-display);color:var(--hc-al,var(--text-link));text-decoration:none;outline:none;transition:color var(--dur-fast) var(--ease-current)" style-hover="--hc-al:var(--text-link-hover);--hc-aa:translateX(3px)" style-focus-visible="box-shadow:var(--ring-focus)">About Henry<span style="display:inline-flex;transform:var(--hc-aa,none);transition:transform var(--dur-base) var(--ease-current)"><x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="arrow-right" size="{{ 18 }}" hint-size="18px,18px"></x-import></span></a>
+</div>
+</div>
+</section>
+<section data-theme="night" data-screen-label="Call to action" style="position:relative;overflow:hidden;padding:var(--hc-close-y,80px) 0 var(--hc-close-pb,80px);background:var(--surface-canvas);color:var(--text-body)">
+<sc-if value="{{ motifs }}" hint-placeholder-val="{{ true }}">
+<img src="{{ img.lines }}" alt="" aria-hidden="true" style="position:absolute;right:0;bottom:0;width:var(--hc-lines-w,48%);height:var(--hc-lines-h,100%);pointer-events:none">
+</sc-if>
+<div style="position:relative;max-width:var(--container-max);margin:0 auto;padding:0 var(--container-pad);box-sizing:border-box">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:20px;max-width:var(--hc-close-max,600px)">
+<h2 style="margin:0;font:var(--type-section-title);letter-spacing:-.025em;color:var(--text-strong);text-wrap:balance;overflow-wrap:anywhere">Hand your site to someone who’ll look after it.</h2>
+<p style="margin:0;max-width:34em;font:var(--type-lead);font-size:var(--hc-lead-fs,20px);color:var(--text-body);text-wrap:pretty">Book a free first consultation to talk it through, or start a project if you already know what you need. Either way, we reply by email.</p>
+<div style="display:flex;flex-direction:var(--hc-pp-dir,row);flex-wrap:wrap;align-self:var(--hc-pp-self,auto);gap:12px 16px;margin-top:8px">
+<x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Button" href="/consultation#enquiry" size="lg" icon-right="arrow-right" block="{{ L.pairBlock }}" hint-size="250px,52px">Book a consultation</x-import>
+<x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Button" href="/contact#enquiry" variant="outline" size="lg" block="{{ L.pairBlock }}" hint-size="190px,52px">Start a project</x-import>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer data-screen-label="Footer" style="background:var(--surface-canvas)">
+<div style="max-width:var(--container-max);margin:0 auto;padding:var(--hc-foot-pad,48px var(--container-pad) 32px);box-sizing:border-box">
+<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px 48px;padding-bottom:28px;border-bottom:1px solid var(--border-default)">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:12px">
+<x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Logo" variant="horizontal" height="{{ 44 }}" href="/" hint-size="210px,44px"></x-import>
+<p style="margin:0;display:flex;align-items:baseline;flex-wrap:nowrap;gap:10px;font:var(--type-body-sm);color:var(--text-muted)"><span style="flex:none">Chicago</span><span aria-hidden="true" style="flex:none;width:4px;height:4px;border-radius:50%;background:currentColor;transform:translateY(-.14em)"></span><span style="min-width:0">Serving small businesses across the US</span></p>
+</div>
+<nav aria-label="Footer">
+<ul role="list" style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 40px">
+<li><a href="/services" style="display:inline-flex;padding:6px 0;border-radius:4px;font:600 15px/1.3 var(--font-display);color:var(--text-link);text-decoration:none;text-underline-offset:4px;outline:none" style-hover="color:var(--text-link-hover);text-decoration:underline" style-focus-visible="box-shadow:var(--ring-focus)">Services</a></li>
+<li><a href="/hosting" style="display:inline-flex;padding:6px 0;border-radius:4px;font:600 15px/1.3 var(--font-display);color:var(--text-link);text-decoration:none;text-underline-offset:4px;outline:none" style-hover="color:var(--text-link-hover);text-decoration:underline" style-focus-visible="box-shadow:var(--ring-focus)">Hosting</a></li>
+<li><a href="/services#seo" style="display:inline-flex;padding:6px 0;border-radius:4px;font:600 15px/1.3 var(--font-display);color:var(--text-link);text-decoration:none;text-underline-offset:4px;outline:none" style-hover="color:var(--text-link-hover);text-decoration:underline" style-focus-visible="box-shadow:var(--ring-focus)">Growth</a></li>
+<li><a href="#about" style="display:inline-flex;padding:6px 0;border-radius:4px;font:600 15px/1.3 var(--font-display);color:var(--text-link);text-decoration:none;text-underline-offset:4px;outline:none" style-hover="color:var(--text-link-hover);text-decoration:underline" style-focus-visible="box-shadow:var(--ring-focus)">About</a></li>
+</ul>
+</nav>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px 32px;padding-top:12px">
+<div style="display:flex;align-items:center;flex-wrap:wrap;gap:0 24px">
+<p style="margin:0;padding:6px 0;font:var(--type-body-sm);color:var(--text-muted)">© {{ year }} Lakefront Digital</p>
+<a href="/terms" style="display:inline-flex;padding:6px 0;border-radius:4px;font:var(--type-body-sm);color:var(--text-muted);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;outline:none" style-hover="color:var(--text-link);text-decoration-color:currentColor" style-focus-visible="box-shadow:var(--ring-focus)">Terms and Conditions</a>
+<a href="/privacy" style="display:inline-flex;padding:6px 0;border-radius:4px;font:var(--type-body-sm);color:var(--text-muted);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;outline:none" style-hover="color:var(--text-link);text-decoration-color:currentColor" style-focus-visible="box-shadow:var(--ring-focus)">Privacy Policy</a>
+</div>
+<div style="display:flex;align-items:center;flex-wrap:wrap;gap:0 24px">
+<a href="mailto:hello@lakefrontdigital.io" style="display:inline-flex;padding:6px 0;border-radius:4px;font:var(--type-body-sm);color:var(--text-muted);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;outline:none" style-hover="color:var(--text-link);text-decoration-color:currentColor" style-focus-visible="box-shadow:var(--ring-focus)">hello@lakefrontdigital.io</a>
+<a href="tel:+17732318020" style="display:inline-flex;padding:6px 0;border-radius:4px;font:var(--type-body-sm);color:var(--text-muted);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;outline:none" style-hover="color:var(--text-link);text-decoration-color:currentColor" style-focus-visible="box-shadow:var(--ring-focus)">(773) 231-8020</a>
+<a href="#top" style="display:inline-flex;align-items:center;gap:6px;padding:6px 0;border-radius:4px;font:600 15px/1.3 var(--font-display);color:var(--text-link);text-decoration:none;outline:none" style-hover="color:var(--text-link-hover)" style-focus-visible="box-shadow:var(--ring-focus)">Back to top<x-import component-from-global-scope="LakefrontDigitalDesignSystem_95ba62.Icon" name="arrow-up" size="{{ 16 }}" hint-size="16px,16px"></x-import></a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;heroEdge&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;wave&quot;,&quot;frame&quot;],&quot;default&quot;:&quot;wave&quot;,&quot;tsType&quot;:&quot;'wave' | 'frame'&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;heroPhoto&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ripple&quot;,&quot;shore&quot;,&quot;workspace&quot;],&quot;default&quot;:&quot;ripple&quot;,&quot;tsType&quot;:&quot;'ripple' | 'shore' | 'workspace'&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;showExample&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hosting&quot;},&quot;showWaveMotifs&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Lower sections&quot;}}">
+class Component extends DCLogic {
+  state = { w: typeof window === 'undefined' ? 1280 : window.innerWidth };
+  // The concept's navigation (Services · Hosting · Growth · About). A stable array, so the header's overflow observer isn't rebuilt on every render.
+  nav = [
+    { label: 'Services', href: '/services' },
+    { label: 'Hosting', href: '/hosting' },
+    { label: 'Growth', href: '/services#seo' },
+    { label: 'About', href: '#about' },
+  ];
+  // The width can still be settling when the class is built (an iframe sized after load), so it is measured again on
+  // mount, on the next frame and whenever the root box changes size.
+  componentDidMount() {
+    this.onResize = () => {
+      this.applyVars();
+      if (window.innerWidth !== this.state.w) this.setState({ w: window.innerWidth });
+    };
+    window.addEventListener('resize', this.onResize);
+    if (typeof ResizeObserver !== 'undefined') {
+      this.ro = new ResizeObserver(this.onResize);
+      this.ro.observe(document.documentElement);
+    }
+    this.raf = requestAnimationFrame(this.onResize);
+    this.onResize();
+  }
+  componentDidUpdate() {
+    this.applyVars();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    if (this.ro) this.ro.disconnect();
+    cancelAnimationFrame(this.raf);
+  }
+  // Layout custom properties go straight onto the wrapper; the template reads each through var(--hc-…, desktop value),
+  // so the page paints at its desktop layout before this runs.
+  varsRef = (el) => {
+    this.varsEl = el;
+    this.applyVars();
+  };
+  applyVars() {
+    if (!this.varsEl) return;
+    const vars = this.layoutVars(window.innerWidth);
+    for (const k in vars) this.varsEl.style.setProperty(k, vars[k]);
+  }
+  asset(p) {
+    const s = document.querySelector('script[src*="_ds_bundle"]');
+    return (s && s.src ? s.src.replace(/_ds_bundle[^/]*$/, '') : '../../') + p;
+  }
+  hero() {
+    const ph = (n) => this.asset('assets/photography/' + n);
+    const heroes = {
+      ripple: { src: ph('pexels-36229964.jpg'), alt: 'Rippling teal water in soft daylight', pos: '50% 50%' },
+      shore: { src: ph('pexels-4321815.jpg'), alt: 'Aerial view of turquoise water breaking on a sandy shore', pos: '50% 38%' },
+      workspace: { src: ph('pexels-12663192.jpg'), alt: 'Someone working on a laptop at a desk overlooking the water', pos: '74% 50%' },
+    };
+    return heroes[this.props.heroPhoto] || heroes.ripple;
+  }
+  layoutVars(w) {
+    const wave = this.props.heroEdge !== 'frame';
+    const panel = this.props.showExample ?? true;
+    const motifs = this.props.showWaveMotifs ?? true;
+    const phone = w <= 600, small = w <= 760, stack = w <= 900, split = w <= 960, wide = w > 1000;
+    const pair = w <= 480, heroPair = pair || (w > 900 && w <= 1000);
+    const pad = split ? 32 : 40;
+    return {
+      '--hc-sec': small ? 'var(--section-y-sm)' : 'var(--section-y)',
+      '--hc-head-mb': small ? '32px' : '48px',
+      '--hc-lead-fs': phone ? '18px' : '20px',
+      // Hero: copy beside a photo that bleeds to the page edge behind the wave; stacked, the photo is a strip above the copy.
+      '--hc-hero-cols': stack ? 'var(--container-pad) minmax(0,1fr) var(--container-pad)' : 'minmax(var(--container-pad),1fr) minmax(0,540px) minmax(0,580px) minmax(var(--container-pad),1fr)',
+      '--hc-hero-mb': small ? '56px' : '72px',
+      '--hc-copy-row': stack ? '2' : '1',
+      '--hc-copy-pad': stack ? (wave ? '8px 0 0' : '28px 0 0') : '64px 32px 48px 0',
+      '--hc-photo-col': stack ? (wave ? '1 / -1' : '2') : (wave ? '3 / 5' : '3 / 4'),
+      '--hc-photo-minh': stack ? '0px' : (wave ? '600px' : '520px'),
+      '--hc-photo-h': stack ? 'clamp(200px,46vw,340px)' : 'auto',
+      '--hc-photo-m': wave ? '0px' : (stack ? '8px 0 0' : '24px 0 24px 16px'),
+      '--hc-photo-rad': wave ? '0px' : 'var(--radius-2xl)',
+      '--hc-wave-v': !stack && wave ? 'block' : 'none',
+      '--hc-wave-h': stack && wave ? 'block' : 'none',
+      '--hc-hero-pos': this.hero().pos,
+      '--hc-pair-dir': heroPair ? 'column' : 'row',
+      '--hc-pair-self': heroPair ? 'stretch' : 'auto',
+      '--hc-note-basis': heroPair ? 'auto' : '100%',
+      // Starting points: two by two with rules that stop short of the crossing; one column of rows on small screens.
+      '--hc-paths-cols': small ? 'minmax(0,1fr)' : 'repeat(2,minmax(0,1fr))',
+      '--hc-ic': small ? '56px' : split ? '64px' : '80px',
+      '--hc-ic-gap': split ? '20px' : '28px',
+      '--hc-txt-pt': small ? '2px' : split ? '6px' : '10px',
+      '--hc-p1': small ? '0 0 24px' : `8px ${pad}px ${pad}px 0`,
+      '--hc-p2': small ? '24px 0' : `8px 0 ${pad}px ${pad}px`,
+      '--hc-p3': small ? '24px 0' : `${pad}px ${pad}px 8px 0`,
+      '--hc-p4': small ? '24px 0 0' : `${pad}px 0 8px ${pad}px`,
+      '--hc-vl': small ? 'none' : 'block',
+      '--hc-hl-in': small ? '0px' : '16px',
+      '--hc-hl3': small ? 'block' : 'none',
+      // Hosting: the example setup sits beside the copy, and straight after the actions once stacked.
+      '--hc-host-cols': split || !panel ? 'minmax(0,1fr)' : 'minmax(0,1fr) minmax(0,400px)',
+      '--hc-host-gap': split ? '40px' : '40px 72px',
+      '--hc-checks-cols': phone ? 'minmax(0,1fr)' : 'repeat(2,minmax(0,1fr))',
+      '--hc-checks-rows': phone ? 'none' : 'repeat(3,auto)',
+      '--hc-checks-flow': phone ? 'row' : 'column',
+      '--hc-pp-dir': pair ? 'column' : 'row',
+      '--hc-pp-align': pair ? 'flex-start' : 'center',
+      '--hc-pp-self': pair ? 'stretch' : 'auto',
+      '--hc-panel-pad': phone ? '20px' : '28px',
+      '--hc-panel-max': split ? '560px' : 'none',
+      // Consultation: copy | rule | the four activities, stacked at 960px and below.
+      '--hc-cons-cols': split ? 'minmax(0,1fr)' : 'minmax(0,1fr) 1px minmax(0,1fr)',
+      '--hc-cons-gap': split ? '40px' : '0 56px',
+      '--hc-cons-rule': split ? 'none' : 'block',
+      '--hc-num-col': phone ? '52px' : '72px',
+      '--hc-num-fs': phone ? '30px' : '36px',
+      // Accountability: the curl sits beside the copy and drops out at 1000px and below, before it can reach the words.
+      '--hc-acc-y': small ? '64px' : '88px',
+      '--hc-curl': wide ? 'block' : 'none',
+      // Closing band: the lines fill the right half; stacked, they run along the bottom under the buttons.
+      '--hc-close-y': small ? '56px' : '80px',
+      '--hc-close-pb': stack && motifs ? (small ? '144px' : '160px') : (small ? '56px' : '80px'),
+      '--hc-close-max': stack ? 'none' : '600px',
+      '--hc-lines-w': stack ? '100%' : '48%',
+      '--hc-lines-h': stack ? (small ? '104px' : '120px') : '100%',
+      '--hc-foot-pad': small ? '40px var(--container-pad) 28px' : '48px var(--container-pad) 32px',
+    };
+  }
+  renderVals() {
+    const w = typeof window === 'undefined' ? this.state.w : window.innerWidth;
+    const pair = w <= 480;
+    return {
+      varsRef: this.varsRef,
+      nav: this.nav,
+      noSearch: null,
+      tagline: ['Chicago', 'Websites', 'Hosting', 'Growth'],
+      hero: this.hero(),
+      // Button pairs run full width where they stack: phones, and the hero's narrow two-column range (901-1000px).
+      L: { heroBlock: pair || (w > 900 && w <= 1000), pairBlock: pair, icon: w <= 760 ? 24 : w <= 960 ? 28 : 32 },
+      showExample: this.props.showExample ?? true,
+      motifs: this.props.showWaveMotifs ?? true,
+      year: new Date().getFullYear(),
+      img: {
+        waveV: this.asset('assets/brand/wave-edge-vertical.svg'),
+        waveH: this.asset('assets/brand/wave-edge-horizontal.svg'),
+        curl: this.asset('assets/brand/wave-curl-outline.svg'),
+        lines: this.asset('assets/brand/wave-lines.svg'),
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

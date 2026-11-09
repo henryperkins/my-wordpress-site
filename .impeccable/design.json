@@ -1,0 +1,861 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-29T18:01:53.478Z",
+  "title": "Design System: Lakefront Digital",
+  "extensions": {
+    "colorMeta": {
+      "lake-navy": {
+        "role": "primary",
+        "displayName": "Lake Navy",
+        "canonical": "#082A3A",
+        "oklch": "oklch(27.0% 0.048 233.3)",
+        "tonalRamp": [
+          "#05202C",
+          "#082A3A",
+          "#0E394C",
+          "#17495E",
+          "#4E6F82",
+          "#779AAD",
+          "#A2C6DB",
+          "#DDF2FF"
+        ]
+      },
+      "deep-water": {
+        "role": "primary",
+        "displayName": "Deep Water",
+        "canonical": "#075459",
+        "oklch": "oklch(40.7% 0.067 202.1)",
+        "tonalRamp": [
+          "#075459",
+          "#1B7880",
+          "#278891",
+          "#4E9DA8",
+          "#73AFBC",
+          "#A3CAD4",
+          "#C1DCE4",
+          "#E6F1F4"
+        ]
+      },
+      "current-teal": {
+        "role": "primary",
+        "displayName": "Current Teal",
+        "canonical": "#278891",
+        "oklch": "oklch(57.6% 0.087 204.2)",
+        "tonalRamp": [
+          "#075459",
+          "#1B7880",
+          "#278891",
+          "#4E9DA8",
+          "#73AFBC",
+          "#A3CAD4",
+          "#C1DCE4",
+          "#E6F1F4"
+        ]
+      },
+      "foam-aqua": {
+        "role": "primary",
+        "displayName": "Foam Aqua",
+        "canonical": "#73AFBC",
+        "oklch": "oklch(71.8% 0.065 212.8)",
+        "tonalRamp": [
+          "#075459",
+          "#1B7880",
+          "#278891",
+          "#4E9DA8",
+          "#73AFBC",
+          "#A3CAD4",
+          "#C1DCE4",
+          "#E6F1F4"
+        ]
+      },
+      "lake-mist": {
+        "role": "primary",
+        "displayName": "Lake Mist",
+        "canonical": "#C1DCE4",
+        "oklch": "oklch(87.7% 0.031 217.5)",
+        "tonalRamp": [
+          "#075459",
+          "#1B7880",
+          "#278891",
+          "#4E9DA8",
+          "#73AFBC",
+          "#A3CAD4",
+          "#C1DCE4",
+          "#E6F1F4"
+        ]
+      },
+      "foam-white": {
+        "role": "neutral",
+        "displayName": "Foam White",
+        "canonical": "#F7FAF9",
+        "oklch": "oklch(98.3% 0.003 174.5)",
+        "tonalRamp": [
+          "#082A3A",
+          "#34505D",
+          "#4A6370",
+          "#5B707A",
+          "#7A8E98",
+          "#A9B8BF",
+          "#D3DEE2",
+          "#F7FAF9"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White",
+        "canonical": "#FFFFFF",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#082A3A",
+          "#34505D",
+          "#4A6370",
+          "#5B707A",
+          "#7A8E98",
+          "#A9B8BF",
+          "#D3DEE2",
+          "#FFFFFF"
+        ]
+      },
+      "sunset-coral": {
+        "role": "secondary",
+        "displayName": "Sunset Coral",
+        "canonical": "#F26B5B",
+        "oklch": "oklch(69.0% 0.170 29.0)",
+        "tonalRamp": [
+          "#1F0000",
+          "#450000",
+          "#6F0001",
+          "#B8392B",
+          "#EE5E4D",
+          "#F26B5B",
+          "#F7A196",
+          "#FDE7E3"
+        ]
+      },
+      "coral-600": {
+        "role": "secondary",
+        "displayName": "Coral 600 (primary hover)",
+        "canonical": "#EE5E4D",
+        "oklch": "oklch(66.5% 0.181 29.5)",
+        "tonalRamp": [
+          "#1F0000",
+          "#450000",
+          "#6F0001",
+          "#B8392B",
+          "#EE5E4D",
+          "#F26B5B",
+          "#F7A196",
+          "#FDE7E3"
+        ]
+      },
+      "coral-700": {
+        "role": "tertiary",
+        "displayName": "Coral 700 (error text)",
+        "canonical": "#B8392B",
+        "oklch": "oklch(53.0% 0.166 29.8)",
+        "tonalRamp": [
+          "#1F0000",
+          "#450000",
+          "#6F0001",
+          "#B8392B",
+          "#EE5E4D",
+          "#F26B5B",
+          "#F7A196",
+          "#FDE7E3"
+        ]
+      },
+      "coral-300": {
+        "role": "tertiary",
+        "displayName": "Coral 300 (night error text)",
+        "canonical": "#F7A196",
+        "oklch": "oklch(79.2% 0.104 27.6)",
+        "tonalRamp": [
+          "#1F0000",
+          "#450000",
+          "#6F0001",
+          "#B8392B",
+          "#EE5E4D",
+          "#F26B5B",
+          "#F7A196",
+          "#FDE7E3"
+        ]
+      },
+      "coral-100": {
+        "role": "tertiary",
+        "displayName": "Coral 100 (error wash)",
+        "canonical": "#FDE7E3",
+        "oklch": "oklch(94.5% 0.025 29.9)",
+        "tonalRamp": [
+          "#1F0000",
+          "#450000",
+          "#6F0001",
+          "#B8392B",
+          "#EE5E4D",
+          "#F26B5B",
+          "#F7A196",
+          "#FDE7E3"
+        ]
+      },
+      "harbor-gold": {
+        "role": "tertiary",
+        "displayName": "Harbor Gold",
+        "canonical": "#D5A33A",
+        "oklch": "oklch(74.4% 0.132 82.3)",
+        "tonalRamp": [
+          "#120900",
+          "#2C1D00",
+          "#4A3400",
+          "#8A6414",
+          "#B28200",
+          "#D5A33A",
+          "#F7C45E",
+          "#F7EDD6"
+        ]
+      },
+      "gold-700": {
+        "role": "tertiary",
+        "displayName": "Gold 700 (warning text)",
+        "canonical": "#8A6414",
+        "oklch": "oklch(52.9% 0.102 80.4)",
+        "tonalRamp": [
+          "#120900",
+          "#2C1D00",
+          "#4A3400",
+          "#8A6414",
+          "#B28200",
+          "#D5A33A",
+          "#F7C45E",
+          "#F7EDD6"
+        ]
+      },
+      "gold-100": {
+        "role": "tertiary",
+        "displayName": "Gold 100 (warning wash)",
+        "canonical": "#F7EDD6",
+        "oklch": "oklch(94.8% 0.032 87.3)",
+        "tonalRamp": [
+          "#120900",
+          "#2C1D00",
+          "#4A3400",
+          "#8A6414",
+          "#B28200",
+          "#D5A33A",
+          "#F7C45E",
+          "#F7EDD6"
+        ]
+      },
+      "seafoam-green": {
+        "role": "tertiary",
+        "displayName": "Seafoam Green",
+        "canonical": "#79B89C",
+        "oklch": "oklch(73.2% 0.077 164.7)",
+        "tonalRamp": [
+          "#000F08",
+          "#002619",
+          "#003F2B",
+          "#2B7355",
+          "#569479",
+          "#79B89C",
+          "#9FD3BA",
+          "#E2F1EA"
+        ]
+      },
+      "seafoam-700": {
+        "role": "tertiary",
+        "displayName": "Seafoam 700 (success text)",
+        "canonical": "#2B7355",
+        "oklch": "oklch(50.1% 0.087 162.8)",
+        "tonalRamp": [
+          "#000F08",
+          "#002619",
+          "#003F2B",
+          "#2B7355",
+          "#569479",
+          "#79B89C",
+          "#9FD3BA",
+          "#E2F1EA"
+        ]
+      },
+      "seafoam-100": {
+        "role": "tertiary",
+        "displayName": "Seafoam 100 (success wash)",
+        "canonical": "#E2F1EA",
+        "oklch": "oklch(94.5% 0.018 166.4)",
+        "tonalRamp": [
+          "#000F08",
+          "#002619",
+          "#003F2B",
+          "#2B7355",
+          "#569479",
+          "#79B89C",
+          "#9FD3BA",
+          "#E2F1EA"
+        ]
+      },
+      "night-success-fg": {
+        "role": "tertiary",
+        "displayName": "Night Success",
+        "canonical": "#9FD3BA",
+        "oklch": "oklch(82.4% 0.064 163.8)",
+        "tonalRamp": [
+          "#000F08",
+          "#002619",
+          "#003F2B",
+          "#2B7355",
+          "#569479",
+          "#79B89C",
+          "#9FD3BA",
+          "#E2F1EA"
+        ]
+      },
+      "teal-50": {
+        "role": "neutral",
+        "displayName": "Teal 50 (sunken surface)",
+        "canonical": "#E6F1F4",
+        "oklch": "oklch(95.1% 0.012 215.8)",
+        "tonalRamp": [
+          "#075459",
+          "#1B7880",
+          "#278891",
+          "#4E9DA8",
+          "#73AFBC",
+          "#A3CAD4",
+          "#C1DCE4",
+          "#E6F1F4"
+        ]
+      },
+      "teal-200": {
+        "role": "neutral",
+        "displayName": "Teal 200 (card hover border)",
+        "canonical": "#A3CAD4",
+        "oklch": "oklch(81.4% 0.044 215.1)",
+        "tonalRamp": [
+          "#075459",
+          "#1B7880",
+          "#278891",
+          "#4E9DA8",
+          "#73AFBC",
+          "#A3CAD4",
+          "#C1DCE4",
+          "#E6F1F4"
+        ]
+      },
+      "navy-950": {
+        "role": "neutral",
+        "displayName": "Navy 950 (night well)",
+        "canonical": "#05202C",
+        "oklch": "oklch(23.0% 0.040 230.8)",
+        "tonalRamp": [
+          "#05202C",
+          "#082A3A",
+          "#0E394C",
+          "#17495E",
+          "#4E6F82",
+          "#779AAD",
+          "#A2C6DB",
+          "#DDF2FF"
+        ]
+      },
+      "navy-800": {
+        "role": "neutral",
+        "displayName": "Navy 800 (night card)",
+        "canonical": "#0E394C",
+        "oklch": "oklch(32.5% 0.057 231.6)",
+        "tonalRamp": [
+          "#05202C",
+          "#082A3A",
+          "#0E394C",
+          "#17495E",
+          "#4E6F82",
+          "#779AAD",
+          "#A2C6DB",
+          "#DDF2FF"
+        ]
+      },
+      "night-text-body": {
+        "role": "neutral",
+        "displayName": "Night Text",
+        "canonical": "#E3EEF1",
+        "oklch": "oklch(94.2% 0.012 215.8)",
+        "tonalRamp": [
+          "#060D0E",
+          "#1B2325",
+          "#333C3E",
+          "#697275",
+          "#869092",
+          "#A4AEB1",
+          "#C3CED1",
+          "#E3EEF1"
+        ]
+      },
+      "text-inverse-muted": {
+        "role": "neutral",
+        "displayName": "Night Muted Text",
+        "canonical": "#A7C3CC",
+        "oklch": "oklch(79.9% 0.033 219.2)",
+        "tonalRamp": [
+          "#000E13",
+          "#082128",
+          "#1D353C",
+          "#476169",
+          "#5E7880",
+          "#769099",
+          "#A7C3CC",
+          "#D7F4FE"
+        ]
+      },
+      "ink-600": {
+        "role": "neutral",
+        "displayName": "Ink 600 (hover border)",
+        "canonical": "#4A6370",
+        "oklch": "oklch(48.5% 0.036 231.1)",
+        "tonalRamp": [
+          "#082A3A",
+          "#34505D",
+          "#4A6370",
+          "#5B707A",
+          "#7A8E98",
+          "#A9B8BF",
+          "#D3DEE2",
+          "#E9EFF1"
+        ]
+      },
+      "ink-500": {
+        "role": "neutral",
+        "displayName": "Ink 500 (muted text)",
+        "canonical": "#5B707A",
+        "oklch": "oklch(53.2% 0.029 228.4)",
+        "tonalRamp": [
+          "#082A3A",
+          "#34505D",
+          "#4A6370",
+          "#5B707A",
+          "#7A8E98",
+          "#A9B8BF",
+          "#D3DEE2",
+          "#E9EFF1"
+        ]
+      },
+      "ink-400": {
+        "role": "neutral",
+        "displayName": "Ink 400 (strong border)",
+        "canonical": "#7A8E98",
+        "oklch": "oklch(63.4% 0.027 229.4)",
+        "tonalRamp": [
+          "#082A3A",
+          "#34505D",
+          "#4A6370",
+          "#5B707A",
+          "#7A8E98",
+          "#A9B8BF",
+          "#D3DEE2",
+          "#E9EFF1"
+        ]
+      },
+      "ink-300": {
+        "role": "neutral",
+        "displayName": "Ink 300 (disabled text)",
+        "canonical": "#A9B8BF",
+        "oklch": "oklch(77.3% 0.019 227.4)",
+        "tonalRamp": [
+          "#082A3A",
+          "#34505D",
+          "#4A6370",
+          "#5B707A",
+          "#7A8E98",
+          "#A9B8BF",
+          "#D3DEE2",
+          "#E9EFF1"
+        ]
+      },
+      "ink-200": {
+        "role": "neutral",
+        "displayName": "Ink 200 (disabled border)",
+        "canonical": "#D3DEE2",
+        "oklch": "oklch(89.3% 0.013 221.4)",
+        "tonalRamp": [
+          "#082A3A",
+          "#34505D",
+          "#4A6370",
+          "#5B707A",
+          "#7A8E98",
+          "#A9B8BF",
+          "#D3DEE2",
+          "#E9EFF1"
+        ]
+      },
+      "ink-100": {
+        "role": "neutral",
+        "displayName": "Ink 100 (disabled fill)",
+        "canonical": "#E9EFF1",
+        "oklch": "oklch(94.8% 0.007 219.6)",
+        "tonalRamp": [
+          "#082A3A",
+          "#34505D",
+          "#4A6370",
+          "#5B707A",
+          "#7A8E98",
+          "#A9B8BF",
+          "#D3DEE2",
+          "#E9EFF1"
+        ]
+      },
+      "border-subtle": {
+        "role": "neutral",
+        "displayName": "Border Subtle",
+        "canonical": "#DCE8EC",
+        "oklch": "oklch(92.3% 0.014 219.6)",
+        "tonalRamp": [
+          "#050D0F",
+          "#1A2325",
+          "#313B3E",
+          "#657073",
+          "#818C90",
+          "#9FAAAE",
+          "#BDC8CC",
+          "#DCE8EC"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The home hero headline only; closing words may switch to Current Teal."
+      },
+      "h1": {
+        "displayName": "H1",
+        "purpose": "Page intros, service-summary titles and article titles."
+      },
+      "h2": {
+        "displayName": "H2",
+        "purpose": "Section headlines, service-tab titles and the CTA band headline."
+      },
+      "h3": {
+        "displayName": "H3",
+        "purpose": "The offer headline and h2 inside article prose."
+      },
+      "h4": {
+        "displayName": "H4",
+        "purpose": "Card titles, step titles, legal section headings and search-result titles."
+      },
+      "h5": {
+        "displayName": "H5",
+        "purpose": "Feature names, the status-card head and fact values."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "The Ink 500 paragraph under a page or section headline, max 60ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Body, legal and prose text; prose capped at 720px. Card and list text steps down to 16px."
+      },
+      "body-sm": {
+        "displayName": "Body small",
+        "purpose": "Footer lists, spec rows and meta lines."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "The footer base row and post meta; 14px for field hints and errors."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Nav links and tabs; 14px for field labels and table-of-contents links."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "All buttons; 14px small, 16px large."
+      },
+      "eyebrow": {
+        "displayName": "Eyebrow",
+        "purpose": "Uppercase section wayfinding; lists tighten to 0.16em, micro labels drop to 11–12px."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-xs",
+        "value": "0 1px 2px rgba(8,42,58,.06)",
+        "purpose": "Hairline lift; rare."
+      },
+      {
+        "name": "shadow-sm",
+        "value": "0 1px 2px rgba(8,42,58,.06),0 2px 8px rgba(8,42,58,.06)",
+        "purpose": "The thumb of a segmented tab."
+      },
+      {
+        "name": "shadow-md",
+        "value": "0 2px 4px rgba(8,42,58,.05),0 10px 24px rgba(8,42,58,.09)",
+        "purpose": "Raised cards."
+      },
+      {
+        "name": "shadow-lg",
+        "value": "0 4px 10px rgba(8,42,58,.06),0 24px 48px rgba(8,42,58,.14)",
+        "purpose": "Hovered interactive cards, the header dropdown, tooltip bubbles, the video play button."
+      },
+      {
+        "name": "shadow-xl",
+        "value": "0 8px 16px rgba(8,42,58,.08),0 40px 80px rgba(8,42,58,.20)",
+        "purpose": "The night status card floating on its photograph."
+      },
+      {
+        "name": "shadow-inset",
+        "value": "inset 0 1px 2px rgba(8,42,58,.08)",
+        "purpose": "Pressed wells."
+      },
+      {
+        "name": "ring-focus",
+        "value": "0 0 0 2px var(--surface-canvas,#F7FAF9),0 0 0 4px var(--focus-ring-color,#278891)",
+        "purpose": "Keyboard focus: a double ring in canvas and Current Teal (Foam Aqua on night-water)."
+      },
+      {
+        "name": "protect-left",
+        "value": "linear-gradient(90deg,rgba(8,42,58,.94) 0%,rgba(8,42,58,.78) 38%,rgba(8,42,58,0) 78%)",
+        "purpose": "Navy protection behind text on photographs (CTA band, 404)."
+      },
+      {
+        "name": "protect-full",
+        "value": "rgba(8,42,58,.72)",
+        "purpose": "The same protection on phones (700px and below)."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-current",
+        "value": "cubic-bezier(.22,.61,.36,1)",
+        "purpose": "The water curve: smooth deceleration, no bounce. Default for every transition."
+      },
+      {
+        "name": "ease-tide",
+        "value": "cubic-bezier(.65,0,.35,1)",
+        "purpose": "Symmetric in-out for longer, tidal movements."
+      },
+      {
+        "name": "ease-exit",
+        "value": "cubic-bezier(.4,0,1,1)",
+        "purpose": "Accelerating exits."
+      },
+      {
+        "name": "dur-instant",
+        "value": "80ms",
+        "purpose": "Button press (1px drop)."
+      },
+      {
+        "name": "dur-fast",
+        "value": "140ms",
+        "purpose": "Hover colour and border changes; chevron turns."
+      },
+      {
+        "name": "dur-base",
+        "value": "220ms",
+        "purpose": "Card lifts, arrow nudges, dropdown and tooltip entrances."
+      },
+      {
+        "name": "dur-slow",
+        "value": "360ms",
+        "purpose": "Page and tab-panel entrances (fade plus 8px rise); tab ink slides."
+      },
+      {
+        "name": "dur-tide",
+        "value": "640ms",
+        "purpose": "Photo zoom (to 1.03) inside hovered cards."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "nav-collapse",
+        "value": "1080px"
+      },
+      {
+        "name": "grid-3-to-2",
+        "value": "960px"
+      },
+      {
+        "name": "hero-stack",
+        "value": "900px"
+      },
+      {
+        "name": "footer-2-col",
+        "value": "860px"
+      },
+      {
+        "name": "section-rhythm-sm",
+        "value": "760px"
+      },
+      {
+        "name": "photo-scrim-full",
+        "value": "700px"
+      },
+      {
+        "name": "single-column",
+        "value": "600px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one coral action: Lake Navy label, trailing arrow that slides 3px on hover. Every primary action on the site.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Book a consultation<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"></path><path d=\"m12 5 7 7-7 7\"></path></svg></a>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 20px;border:1.5px solid transparent;border-radius:var(--radius-md,8px);font:700 15px/1 var(--font-display,Manrope,ui-sans-serif,system-ui,sans-serif);letter-spacing:.005em;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background-color var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1)),border-color var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1)),box-shadow var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1)),transform var(--dur-instant,80ms) var(--ease-current,cubic-bezier(.22,.61,.36,1))} .ds-btn-primary svg{flex:none;transition:transform var(--dur-base,220ms) var(--ease-current,cubic-bezier(.22,.61,.36,1))} .ds-btn-primary:hover svg{transform:translateX(3px)} .ds-btn-primary:active{transform:translateY(1px)} .ds-btn-primary:focus-visible{outline:none;box-shadow:0 0 0 2px var(--surface-canvas,#F7FAF9),0 0 0 4px var(--focus-ring-color,#278891)} .ds-btn-primary{background:var(--action-primary-bg,#F26B5B);color:var(--action-primary-fg,#082A3A)} .ds-btn-primary:hover{background:var(--action-primary-bg-hover,#EE5E4D);color:var(--action-primary-fg,#082A3A)}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Lake Navy with a Foam White label; the side action in a section head. Inverts to Foam White on night-water.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#\">Book a consultation<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"></path><path d=\"m12 5 7 7-7 7\"></path></svg></a>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 20px;border:1.5px solid transparent;border-radius:var(--radius-md,8px);font:700 15px/1 var(--font-display,Manrope,ui-sans-serif,system-ui,sans-serif);letter-spacing:.005em;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background-color var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1)),border-color var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1)),box-shadow var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1)),transform var(--dur-instant,80ms) var(--ease-current,cubic-bezier(.22,.61,.36,1))} .ds-btn-secondary svg{flex:none;transition:transform var(--dur-base,220ms) var(--ease-current,cubic-bezier(.22,.61,.36,1))} .ds-btn-secondary:hover svg{transform:translateX(3px)} .ds-btn-secondary:active{transform:translateY(1px)} .ds-btn-secondary:focus-visible{outline:none;box-shadow:0 0 0 2px var(--surface-canvas,#F7FAF9),0 0 0 4px var(--focus-ring-color,#278891)} .ds-btn-secondary{background:var(--action-secondary-bg,#082A3A);color:var(--action-secondary-fg,#F7FAF9)} .ds-btn-secondary:hover{background:var(--action-secondary-bg-hover,#075459);color:var(--action-secondary-fg,#F7FAF9)}"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Transparent with a 1.5px Lake Navy border; the partner to a primary button on light grounds.",
+      "html": "<a class=\"ds-btn-outline\" href=\"#\">View services</a>",
+      "css": ".ds-btn-outline{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 20px;border:1.5px solid transparent;border-radius:var(--radius-md,8px);font:700 15px/1 var(--font-display,Manrope,ui-sans-serif,system-ui,sans-serif);letter-spacing:.005em;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background-color var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1)),border-color var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1)),box-shadow var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1)),transform var(--dur-instant,80ms) var(--ease-current,cubic-bezier(.22,.61,.36,1))} .ds-btn-outline svg{flex:none;transition:transform var(--dur-base,220ms) var(--ease-current,cubic-bezier(.22,.61,.36,1))} .ds-btn-outline:hover svg{transform:translateX(3px)} .ds-btn-outline:active{transform:translateY(1px)} .ds-btn-outline:focus-visible{outline:none;box-shadow:0 0 0 2px var(--surface-canvas,#F7FAF9),0 0 0 4px var(--focus-ring-color,#278891)} .ds-btn-outline{background:transparent;color:var(--text-strong,#082A3A);border-color:var(--text-strong,#082A3A)} .ds-btn-outline:hover{background:var(--action-ghost-bg-hover,rgba(39,136,145,.10));color:var(--text-strong,#082A3A)}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Label above in Manrope 600, 'Optional' on the right, 44px white field with an Ink 400 border; focus turns the border Current Teal with a 3px teal glow.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-field__label\" for=\"ds-phone\"><span>Phone</span><span class=\"ds-field__optional\">Optional</span></label><div class=\"ds-field__control\"><span class=\"ds-field__icon\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384\"></path></svg></span><input class=\"ds-input\" id=\"ds-phone\" type=\"tel\" placeholder=\"(312) 555-0142\"></div></div>",
+      "css": ".ds-field{display:flex;flex-direction:column;gap:6px;max-width:360px} .ds-field__label{display:flex;align-items:baseline;justify-content:space-between;gap:8px;font:600 14px/1.2 var(--font-display,Manrope,ui-sans-serif,system-ui,sans-serif);color:var(--text-strong,#082A3A)} .ds-field__optional{font:400 13px/1.4 var(--font-body,'Source Sans 3',ui-sans-serif,system-ui,sans-serif);color:var(--text-muted,#5B707A)} .ds-field__control{position:relative;display:flex;align-items:center} .ds-field__icon{position:absolute;left:14px;display:inline-flex;color:var(--text-muted,#5B707A);pointer-events:none} .ds-input{display:block;width:100%;box-sizing:border-box;height:44px;margin:0;padding:0 14px 0 42px;border:1px solid var(--border-strong,#7A8E98);border-radius:var(--radius-md,8px);background:var(--surface-field,#FFFFFF);color:var(--text-strong,#082A3A);font:400 16px/1.3 var(--font-body,'Source Sans 3',ui-sans-serif,system-ui,sans-serif);transition:border-color var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1)),box-shadow var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1))} .ds-input::placeholder{color:var(--text-muted,#5B707A);opacity:1} .ds-input:hover{border-color:var(--ink-600,#4A6370)} .ds-input:focus,.ds-input:focus-visible{outline:none;border-color:var(--current-teal,#278891);box-shadow:0 0 0 3px rgba(39,136,145,.22)}"
+    },
+    {
+      "name": "Header Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Manrope 600 links with a teal wash on hover; the current page gets Deep Water text over a 2px Current Teal bar. Search icon, then the coral header button.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Primary\"><a href=\"#\" aria-current=\"page\">Services</a><a href=\"#\">Hosting</a><a class=\"ds-nav__icon\" href=\"#\" aria-label=\"Search\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m21 21-4.34-4.34\"></path><circle cx=\"11\" cy=\"11\" r=\"8\"></circle></svg></a><a class=\"ds-nav__cta\" href=\"#\">Book a consultation<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"></path><path d=\"m12 5 7 7-7 7\"></path></svg></a></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:4px;padding:18px 20px;background:rgba(247,250,249,.9);border-bottom:1px solid var(--border-default,#C1DCE4)} .ds-nav>a:not(.ds-nav__cta){position:relative;display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 14px;border-radius:var(--radius-md,8px);font:600 15px/1 var(--font-display,Manrope,ui-sans-serif,system-ui,sans-serif);color:var(--text-strong,#082A3A);text-decoration:none;transition:background-color var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1)),color var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1))} .ds-nav>a:not(.ds-nav__cta):hover{background:var(--action-ghost-bg-hover,rgba(39,136,145,.10))} .ds-nav>a:focus-visible{outline:none;box-shadow:0 0 0 2px var(--surface-canvas,#F7FAF9),0 0 0 4px var(--focus-ring-color,#278891)} .ds-nav>a[aria-current=\"page\"]{color:var(--deep-water,#075459)} .ds-nav>a[aria-current=\"page\"]::after{content:\"\";position:absolute;left:14px;right:14px;bottom:2px;height:2px;border-radius:2px;background:var(--current-teal,#278891)} .ds-nav__icon{width:40px;padding:0!important;margin-left:8px} .ds-nav__cta{display:inline-flex;align-items:center;gap:8px;height:44px;margin-left:8px;padding:0 20px;border-radius:var(--radius-md,8px);background:var(--action-primary-bg,#F26B5B);color:var(--action-primary-fg,#082A3A);font:700 15px/1 var(--font-display,Manrope,ui-sans-serif,system-ui,sans-serif);text-decoration:none;white-space:nowrap;transition:background-color var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1))} .ds-nav__cta:hover{background:var(--action-primary-bg-hover,#EE5E4D)} .ds-nav__cta svg{transition:transform var(--dur-base,220ms) var(--ease-current,cubic-bezier(.22,.61,.36,1))} .ds-nav__cta:hover svg{transform:translateX(3px)}"
+    },
+    {
+      "name": "Tool Tags",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "White pills with a Lake Mist border that name the real tools (Source Sans 3, 600). Linked tags take a Foam Aqua border and Teal 50 fill on hover; a selected tag fills Lake Navy.",
+      "html": "<div class=\"ds-tags\"><span class=\"ds-tag\">AWS</span><span class=\"ds-tag\">Cloudflare</span><span class=\"ds-tag\">Jetpack</span><a class=\"ds-tag\" href=\"#\">WooCommerce</a><span class=\"ds-tag is-selected\">WordPress</span></div>",
+      "css": ".ds-tags{display:flex;flex-wrap:wrap;gap:8px} .ds-tag{display:inline-flex;align-items:center;gap:6px;box-sizing:border-box;height:32px;padding:0 12px;border:1px solid var(--border-default,#C1DCE4);border-radius:var(--radius-full,999px);background:var(--surface-card,#FFFFFF);color:var(--text-strong,#082A3A);font:600 14px/1 var(--font-body,'Source Sans 3',ui-sans-serif,system-ui,sans-serif);white-space:nowrap;text-decoration:none;transition:background-color var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1)),border-color var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1)),color var(--dur-fast,140ms) var(--ease-current,cubic-bezier(.22,.61,.36,1))} a.ds-tag:hover{border-color:var(--teal-300,#73AFBC);background:var(--surface-sunken,#E6F1F4)} a.ds-tag:focus-visible{outline:none;box-shadow:0 0 0 2px var(--surface-canvas,#F7FAF9),0 0 0 4px var(--focus-ring-color,#278891)} .ds-tag.is-selected{background:var(--action-secondary-bg,#082A3A);border-color:var(--action-secondary-bg,#082A3A);color:var(--action-secondary-fg,#F7FAF9)}"
+    },
+    {
+      "name": "Service Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Flat white card, 1px Lake Mist border, 14px corners; icon tile, H4 title, muted text and a link-style 'Learn more'. Interactive cards rise 2px with the lg shadow and a Teal 200 border.",
+      "html": "<a class=\"ds-card\" href=\"#\"><span class=\"ds-card__tile\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m12 14 4-4\"></path><path d=\"M3.34 19a10 10 0 1 1 17.32 0\"></path></svg></span><span class=\"ds-card__title\">Website Performance Optimization</span><span class=\"ds-card__text\">Improve user experience, SEO rankings, and minimize security risks.</span><span class=\"ds-card__link\"><span>Learn more</span><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"></path><path d=\"m12 5 7 7-7 7\"></path></svg></span></a>",
+      "css": ".ds-card{display:flex;flex-direction:column;align-items:flex-start;gap:12px;box-sizing:border-box;max-width:360px;padding:24px;border:1px solid var(--border-default,#C1DCE4);border-radius:var(--radius-lg,14px);background:var(--surface-card,#FFFFFF);color:var(--text-body,#082A3A);text-decoration:none;transition:transform var(--dur-base,220ms) var(--ease-current,cubic-bezier(.22,.61,.36,1)),box-shadow var(--dur-base,220ms) var(--ease-current,cubic-bezier(.22,.61,.36,1)),border-color var(--dur-base,220ms) var(--ease-current,cubic-bezier(.22,.61,.36,1))} .ds-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg,0 4px 10px rgba(8,42,58,.06),0 24px 48px rgba(8,42,58,.14));border-color:var(--teal-200,#A3CAD4)} .ds-card:focus-visible{outline:none;box-shadow:0 0 0 2px var(--surface-canvas,#F7FAF9),0 0 0 4px var(--focus-ring-color,#278891)} .ds-card__tile{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:12px;background:var(--surface-sunken,#E6F1F4);color:var(--deep-water,#075459)} .ds-card__title{margin-top:4px;font:700 20px/1.3 var(--font-display,Manrope,ui-sans-serif,system-ui,sans-serif);letter-spacing:-.01em;color:var(--text-strong,#082A3A)} .ds-card__text{font:400 16px/1.55 var(--font-body,'Source Sans 3',ui-sans-serif,system-ui,sans-serif);color:var(--text-muted,#5B707A)} .ds-card__link{display:inline-flex;align-items:center;gap:6px;font:700 14px/1 var(--font-display,Manrope,ui-sans-serif,system-ui,sans-serif);color:var(--text-link,#075459)} .ds-card__link span{text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:.28em;text-decoration-color:color-mix(in srgb,currentColor 35%,transparent)} .ds-card__link svg{transition:transform var(--dur-base,220ms) var(--ease-current,cubic-bezier(.22,.61,.36,1))} .ds-card:hover .ds-card__link svg{transform:translateX(3px)} .ds-card:hover .ds-card__link span{text-decoration-color:currentColor}"
+    },
+    {
+      "name": "Eyebrow",
+      "kind": "custom",
+      "refersTo": "eyebrow",
+      "description": "The signature wayfinding label: Manrope 700, 13px, 0.24em, uppercase, Deep Water. A single eyebrow leads with a 28px teal rule; a list separates items with 5px coral dots.",
+      "html": "<div class=\"ds-eyebrows\"><p class=\"ds-eyebrow\"><span class=\"ds-eyebrow__rule\"></span>Services overview</p><p class=\"ds-eyebrow ds-eyebrow--list\"><span>Chicago</span><span class=\"ds-eyebrow__dot\"></span><span>Websites</span><span class=\"ds-eyebrow__dot\"></span><span>Hosting</span><span class=\"ds-eyebrow__dot\"></span><span>Growth</span></p></div>",
+      "css": ".ds-eyebrows{display:flex;flex-direction:column;gap:18px} .ds-eyebrow{display:inline-flex;align-items:center;flex-wrap:wrap;gap:14px;margin:0;font:700 13px/1.2 var(--font-display,Manrope,ui-sans-serif,system-ui,sans-serif);letter-spacing:.24em;text-transform:uppercase;color:var(--text-eyebrow,#075459)} .ds-eyebrow--list{gap:.2em .75em;letter-spacing:.16em} .ds-eyebrow__rule{display:block;flex:none;width:28px;height:2px;border-radius:2px;background:var(--rule-brand,#278891)} .ds-eyebrow__dot{display:block;flex:none;width:5px;height:5px;border-radius:50%;background:var(--sunset-coral,#F26B5B)}"
+    },
+    {
+      "name": "Night Status Card",
+      "kind": "custom",
+      "refersTo": "night-card",
+      "description": "Night-water signature: a Navy 800 card floating on the navy canvas with the xl shadow; a head row with a success badge, then label and value rows split by translucent rules.",
+      "html": "<div class=\"ds-night\"><div class=\"ds-status\"><div class=\"ds-status__head\"><span>yourbusiness.com</span><span class=\"ds-status__badge\"><span class=\"ds-status__dot\"></span>Online</span></div><dl class=\"ds-status__rows\"><div><dt>Uptime target</dt><dd>99.9%</dd></div><div><dt>SSL</dt><dd>Let's Encrypt</dd></div><div><dt>CDN and DDoS protection</dt><dd>Cloudflare</dd></div><div><dt>Monitoring</dt><dd>New Relic · 24/7</dd></div></dl></div></div>",
+      "css": ".ds-night{padding:28px;border-radius:var(--radius-2xl,28px);background:var(--lake-navy,#082A3A)} .ds-status{box-sizing:border-box;max-width:420px;padding:24px;border:1px solid rgba(193,220,228,.16);border-radius:var(--radius-lg,14px);background:var(--navy-800,#0E394C);color:#E3EEF1;box-shadow:var(--shadow-xl,0 8px 16px rgba(8,42,58,.08),0 40px 80px rgba(8,42,58,.20))} .ds-status__head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;font:700 17px/1.35 var(--font-display,Manrope,ui-sans-serif,system-ui,sans-serif);color:var(--foam-white,#F7FAF9)} .ds-status__badge{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 9px;border-radius:var(--radius-full,999px);background:rgba(121,184,156,.16);color:#9FD3BA;font:800 11px/1 var(--font-display,Manrope,ui-sans-serif,system-ui,sans-serif);letter-spacing:.08em;text-transform:uppercase} .ds-status__dot{width:6px;height:6px;border-radius:50%;background:currentColor} .ds-status__rows{margin:0} .ds-status__rows>div{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid rgba(193,220,228,.16);font:400 15px/1.5 var(--font-body,'Source Sans 3',ui-sans-serif,system-ui,sans-serif);color:#A7C3CC} .ds-status__rows>div:last-child{border-bottom:0;padding-bottom:0} .ds-status__rows dt{flex:none} .ds-status__rows dd{margin:0;font:600 15px/1.35 var(--font-body,'Source Sans 3',ui-sans-serif,system-ui,sans-serif);color:var(--foam-white,#F7FAF9);text-align:right}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Civic Lakefront",
+    "overview": "Chicago's lakefront is public infrastructure done well: orderly, open, clearly signed and built to last. This system brings that civic temperament to a business that runs other people's websites. Pages stand on a Foam White ground with Lake Navy type. Teal does the wayfinding: spaced uppercase eyebrows with a short rule, numbered steps, and a thin line of ink under the current page or tab. One warm colour, Sunset Coral, marks the action. Navy night-water sections change the pace of long pages. Tall, softly rounded photographs show three subjects only: the lake's water, the city's architecture, and real work.\n\nThe mood is crisp, technical and exact. The site shows its machinery instead of promising it: spec cards that name the real tools as tags, status panels written as label-and-value rows, numbered steps and large stat figures. Components are engineered and plainly labelled: solid buttons, crisp 1px borders, and labels that say exactly what happens. The spacing is measured. Sections breathe on a 96px rhythm inside a 1200px container, while the content inside them stays specific.\n\nSurfaces stay flat and bordered until touched. Shadows are tinted navy. Motion slows to a stop like water and never bounces. The system is explicitly not a stock WordPress theme, not startup SaaS gloss and not big-agency spectacle.",
+    "keyCharacteristics": [
+      "Foam White daylight pages with Lake Navy type; navy night-water sections pace long pages.",
+      "Teal as wayfinding: eyebrows, rules, current-state ink, step numbers and icons.",
+      "One coral signal: Sunset Coral with a Lake Navy label marks every primary action.",
+      "Two voices: Manrope names and directs; Source Sans 3 is for reading and typing.",
+      "Flat surfaces with Lake Mist borders; navy-tinted shadows appear only when something floats or is touched.",
+      "Tall photo panels with 28px corners, showing lake water, Chicago architecture and real work.",
+      "One decelerating motion curve, no bounce, and reduced motion honoured."
+    ],
+    "rules": [
+      {
+        "name": "The One Signal Rule",
+        "body": "Sunset Coral is the only action colour, and a primary button always carries a Lake Navy label on it. Outside actions, coral appears only as small signal marks and night-section stat figures. Never add a second action colour. Never use coral for surfaces, borders or body text. Never put a white label on coral, which reaches only 3:1.",
+        "section": "colors"
+      },
+      {
+        "name": "The Deep Water for Words Rule",
+        "body": "Teal text at body or label size is always Deep Water. Current Teal reaches only 3.99:1 on Foam White, so it carries large type and graphics only.",
+        "section": "colors"
+      },
+      {
+        "name": "The Crest Colours Rule",
+        "body": "The logo artwork has its own navy (#012A53), teal (#178F96) and sun yellow (#FEBE38). They exist only inside the crest; never use them in UI.",
+        "section": "colors"
+      },
+      {
+        "name": "The Wordmark Echo Rule",
+        "body": "Uppercase text is always short, set in Manrope 700–800 and widely tracked (0.08em for badges, 0.16–0.24em for eyebrows and labels), echoing the spaced D I G I T A L of the wordmark. Never set a sentence in capitals.",
+        "section": "typography"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Manrope names and directs: headings, nav, buttons, eyebrows, labels, numbers and category chips. Source Sans 3 is for reading and typing: body, leads, form fields, and the tags that name tools. Don't swap them.",
+        "section": "typography"
+      },
+      {
+        "name": "The Collapsing Margin Rule",
+        "body": "Light sections are spaced with vertical margins (96px, or 64px on phones), which collapse, so any two blocks stack cleanly without doubling up. Only night sections use padding, inside their own navy background.",
+        "section": "layout"
+      },
+      {
+        "name": "The Night Pacing Rule",
+        "body": "A night-water section (`data-theme=\"night\"`) is a pacing device. Use one wherever a long page needs a change of pace, whatever the topic. The footer is always night.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat Until Touched Rule",
+        "body": "Cards rest flat, with a Lake Mist border. Only an interactive card responds to hover: it rises 2px and takes the lg shadow; its border turns Teal 200; its photograph zooms to 1.03.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Navy Shadow Rule",
+        "body": "Every shadow, scrim and protection gradient is tinted Lake Navy. No grey, no black and no coloured glows.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Tall Panel Rule",
+        "body": "Photographs are tall panels that crop to fill: **Heights:** the hero is clamp(420px, 44vw, 580px); about 560px; service summary 600px; tab panels 520px; night media 500px. **Corners:** 28px at page scale, and 20px inside tabs and asides. **Full bleed:** only on night moments under navy protection, such as the 404 page and case-study results.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Say What Happens Rule",
+        "body": "Labels name the outcome: \"Book a consultation\", \"Request consultation\", \"View hosting details\". Primary actions carry a trailing arrow, or a send icon on a form submit. The one exception is the phone header button, which drops its arrow to fit.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do put every primary action on Sunset Coral with a Lake Navy label and a trailing arrow. Pair it with an outline button on light grounds, or a ghost button on night-water.",
+      "Do open sections with the eyebrow, headline, lead stack: an eyebrow with a 28px teal rule, then an H2, then a 20px Ink 500 lead no wider than 60ch.",
+      "Do name the machinery. Use spec cards with tool tags, label-and-value status rows, numbered steps and stat figures, set crisply and labelled plainly.",
+      "Do use a night-water section wherever a long page needs a change of pace, whatever the topic. The footer is always night.",
+      "Do choose photography from three subjects: lake-water textures, Chicago architecture, and real work. Real work means people working and, on /work, real client sites shown as screenshots.",
+      "Do space light sections with the collapsing 96px/64px margins, and pad only night sections.",
+      "Do tint every shadow and scrim Lake Navy, and keep cards flat unless they're interactive and hovered.",
+      "Do keep motion on the water curve, cubic-bezier(.22,.61,.36,1): 140ms for hovers; 220ms for lifts and panels; 360ms for page and panel entrances with an 8px rise. Honour reduced motion.",
+      "Do keep every no-JavaScript path working: tabs stack, forms post, dropdowns open on hover or focus, and the legal table of contents is a plain list."
+    ],
+    "donts": [
+      "Don't add a second action colour, or use coral for surfaces, borders or body text. Never put a white label on coral.",
+      "Don't set Current Teal text at body or label size. Use Deep Water.",
+      "Don't use the crest's artwork colours (#012A53, #178F96, #FEBE38) in UI.",
+      "Don't let it look like a stock WordPress theme: no template layouts, stock handshake photos, walls of icons or sliders.",
+      "Don't add startup SaaS gloss: no purple gradients, glowing blobs, frosted-glass cards or dashboard screenshots as the hero. The sticky header's light blur is the only translucent surface.",
+      "Don't reach for big-agency spectacle: no oversized type stunts, scroll-jacking, heavy or bouncy motion, or theatrical case-study reveals.",
+      "Don't use grey or black shadows, or coloured glows.",
+      "Don't present generated or stock images as client work. Client sites appear only as real screenshots, used with permission.",
+      "Don't set sentences in capitals. Uppercase is for short Manrope labels only.",
+      "Don't hard-code colours or sizes. Use the tokens, and retheme through `src/styles/theme.css`."
+    ]
+  }
+}
