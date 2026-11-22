@@ -2002,7 +2002,7 @@
 							"layout": "columns",
 							"cards": [
 								{
-									"icon": "panels-top-left",
+									"icon": "layout-template",
 									"title": "A new website or store",
 									"text": "WordPress and WooCommerce, with hosting and ongoing care.",
 									"link_label": "Plan a new site",

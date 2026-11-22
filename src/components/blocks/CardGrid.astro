@@ -10,7 +10,7 @@ import { href } from "../../lib/text";
 
 type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_card_grid" }>>;
 
-const { value } = Astro.props;
+const { value, blockKey } = Astro.props;
 const cards = value.cards ?? [];
 // Rows read like signage: a situation, what we do about it, and where to go next. Each row's link
 // names only its destination and stretches over the row; the row's heading gives it context.
@@ -40,10 +40,12 @@ const grid = cards.length === 2 || cards.length === 4 ? "lfw-grid2" : "lfw-grid3
 						const url = href(card.link_url);
 						// The link names only its destination and stretches over the route, so the whole route is the target
 						const go = url && card.link_label ? url : undefined;
+						// Existing copies of the home starting points used a different website glyph.
+						const icon = blockKey === "home-services" && card.icon === "panels-top-left" ? "layout-template" : card.icon;
 						return (
 							<li class:list={["lfw-path", go && "lfw-path--go"]}>
 								<span class="lfw-path__icon" aria-hidden="true">
-									<Icon name={card.icon} size={32} />
+									<Icon name={icon} size={32} />
 								</span>
 								<div class="lfw-path__copy">
 									<h3 class="lfw-path__title">{card.title}</h3>

@@ -9,6 +9,7 @@ interface Props {
 	photo?: string | null;
 	fallback?: string;
 	priority?: boolean;
+	decorative?: boolean;
 	class?: string;
 	/** Layout slot and cover crop (lib/photos); defaults to the consultation panel. */
 	layout?: PhotoLayout;
@@ -16,20 +17,20 @@ interface Props {
 	sizes?: string;
 }
 
-const { image, photo, fallback = "shore", priority = false, class: className, layout = "product", sizes } = Astro.props;
+const { image, photo, fallback = "shore", priority = false, decorative = false, class: className, layout = "product", sizes } = Astro.props;
 const bundled = photoFor(photo, fallback);
 const responsiveSizes = sizes ?? sizesFor(layout, image ?? bundled);
 ---
 
 {
 	image ? (
-		<Image image={image} class={className} priority={priority} sizes={responsiveSizes} />
+		<Image image={image} alt={decorative ? "" : undefined} class={className} priority={priority} sizes={responsiveSizes} />
 	) : (
 		<img
 			src={bundled.src}
 			srcset={srcsetFor(bundled)}
 			sizes={responsiveSizes}
-			alt={bundled.alt}
+			alt={decorative ? "" : bundled.alt}
 			width={bundled.width}
 			height={bundled.height}
 			class={className}

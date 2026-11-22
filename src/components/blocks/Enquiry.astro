@@ -194,7 +194,7 @@ const asideItems = value.aside ? (value.aside_items ?? []) : [];
 				value.aside && (
 					<aside class="lfw-aside" aria-label={value.aside_eyebrow || "Other ways to start"}>
 						<div class="lfw-aside__img">
-							<Photo image={value.image} photo={value.photo} fallback="dock" layout="aside" />
+							<Photo image={value.image} photo={value.photo} fallback="dock" decorative={!value.image} layout="aside" />
 						</div>
 						{value.aside_eyebrow && <Eyebrow rule="leading">{value.aside_eyebrow}</Eyebrow>}
 						{asideItems.length > 0 && (

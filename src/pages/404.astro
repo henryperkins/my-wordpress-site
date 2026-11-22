@@ -21,7 +21,7 @@ await cachePage(Astro, { maxAge: 60 });
 
 <Base title="Page not found" robots="noindex">
 	<section class="lfw-404" data-theme="night">
-		<img class="lfw-404__img" src={photo.src} srcset={srcsetFor(photo)} sizes={SIZES.viewport} alt={photo.alt} width={photo.width} height={photo.height} fetchpriority="high" decoding="async" style={photo.position ? `object-position:${photo.position}` : undefined} />
+		<img class="lfw-404__img" src={photo.src} srcset={srcsetFor(photo)} sizes={SIZES.viewport} alt="" width={photo.width} height={photo.height} fetchpriority="high" decoding="async" style={photo.position ? `object-position:${photo.position}` : undefined} />
 		<div class="lfw-404__shade"></div>
 		<div class="lfw-container lfw-404__in">
 			<Eyebrow rule="leading">Error 404</Eyebrow>

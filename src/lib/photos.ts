@@ -21,10 +21,15 @@ export const PHOTOS: Record<string, BundledPhoto> = {
 	"brick-lane": { src: "/images/brick-lane.jpg", alt: "Red-brick townhouse lane in Chicago with a coral-red gate in the foreground", width: 1280, height: 1600, position: "50% 58%" },
 	"alley-night": { src: "/images/alley-night.jpg", alt: "An empty Chicago alley under a dark teal sky", width: 1800, height: 1200, position: "60% 50%" },
 	"alley-dusk": { src: "/images/alley-dusk.jpg", alt: "A Chicago service alley between brick buildings at dusk", width: 1800, height: 1800 },
+	"on-page-example": { src: "/images/on-page-example.webp", alt: "Example for a bike repair page. The title tag says Bike repair in Chicago | Example Cycle Shop. The visible H1 says Bike repair in Chicago.", width: 1200, height: 630 },
 };
 
 export const photoFor = (key?: string | null, fallback = "shore"): BundledPhoto =>
 	PHOTOS[key ?? ""] ?? PHOTOS[fallback] ?? PHOTOS.shore;
+
+/** Use the worked example in place of the article's original bundled fallback. */
+export const postPhotoKey = (slug: string | null, photo?: string | null): string =>
+	slug === "on-page-optimization" && (!photo || photo === "window") ? "on-page-example" : photo || "window";
 
 // Cloudflare Image Transformations resizes the originals at the edge and sends AVIF or WebP to browsers that take them.
 // pages/cdn-cgi/image/[...path].ts answers the same URLs locally, where there is no resizer.

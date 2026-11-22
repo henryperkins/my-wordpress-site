@@ -5,6 +5,7 @@ import Ctas from "../Ctas.astro";
 import Eyebrow from "../Eyebrow.astro";
 import Icon from "../Icon.astro";
 import Photo from "../Photo.astro";
+import ServiceExample from "../ServiceExample.astro";
 import { cta, pad2, pairs, slugify } from "../../lib/text";
 
 // Each panel's id is its anchor, so /services#seo opens the SEO tab (scripts/tabs.ts).
@@ -13,11 +14,21 @@ type Props = BlockComponentProps<Extract<PageContentBlock, { _type: "lf_service_
 const { value, blockKey } = Astro.props;
 const uid = `tabs-${slugify(blockKey || "services")}`;
 const seen = new Set<string>();
+const examplePhotos = {
+	performance: "glass",
+	social: "window",
+	analytics: "ripple",
+	seo: "shore",
+	content: "wave",
+} as const;
 const services = (value.services ?? []).map((service, i) => {
 	let id = slugify(service.slug || service.tab_label || `service-${i + 1}`);
 	if (seen.has(id)) id = `${id}-${i + 1}`;
 	seen.add(id);
-	return { ...service, id, features: pairs(service.features) };
+	// Give the original bundled panels examples. Editor-selected replacements still take priority.
+	const variant = Object.hasOwn(examplePhotos, id) ? id as keyof typeof examplePhotos : undefined;
+	const example = variant && !service.image && (!service.photo || service.photo === examplePhotos[variant]) ? variant : undefined;
+	return { ...service, id, example, features: pairs(service.features) };
 });
 const tabbed = services.length > 1;
 const total = pad2(services.length);
@@ -81,9 +92,13 @@ const total = pad2(services.length);
 						)}
 						<Ctas primary={cta(service.primary_cta_label, service.primary_cta_url)} secondary={cta(service.secondary_cta_label, service.secondary_cta_url)} />
 					</div>
-					<div class="lfw-panel__media">
-						<Photo image={service.image} photo={service.photo} fallback="glass" layout="service" />
-					</div>
+					{service.example
+						? <ServiceExample variant={service.example} />
+						: (
+							<div class="lfw-panel__media">
+								<Photo image={service.image} photo={service.photo} fallback="glass" layout="service" />
+							</div>
+						)}
 				</div>
 			))
 		}

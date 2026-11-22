@@ -100,9 +100,9 @@ const cta = itemsOf(menus.header_cta)[0];
 			<main id="main" class="lfw-page" tabindex="-1">
 				<slot />
 			</main>
+			<AlexWidget />
 			<Footer siteTitle={siteTitle} logo={logo} tagline={tagline} items={primary} legal={itemsOf(menus.footer_legal)} contact={itemsOf(menus.footer_contact)} />
 		</div>
 		<EmDashBodyEnd page={pageCtx} />
-		<AlexWidget />
 	</body>
 </html>

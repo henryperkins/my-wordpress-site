@@ -8,7 +8,7 @@ import Icon from "../../components/Icon.astro";
 import Photo from "../../components/Photo.astro";
 import PostCard from "../../components/PostCard.astro";
 import { linkAttrs } from "../../lib/menus";
-import { photoFor } from "../../lib/photos";
+import { photoFor, postPhotoKey } from "../../lib/photos";
 import { BLOG_PATH, categoryPath, initials, readingTime } from "../../lib/posts";
 import { formatDate } from "../../lib/text";
 import { cachePage } from "../../lib/cache";
@@ -45,7 +45,8 @@ const related = [...others.filter(shares), ...others.filter((entry) => !shares(e
 const cta = ctaResult.data?.items?.[0];
 const siteTitle = settings?.title || "Lakefront Digital";
 const image = post.data.featured_image;
-const ogImage = image?.src ? new URL(image.src, Astro.url.origin).href : new URL(photoFor(post.data.photo, "window").src, Astro.url.origin).href;
+const photo = postPhotoKey(post.data.slug, post.data.photo);
+const ogImage = new URL(image?.src || photoFor(photo, "window").src, Astro.url.origin).href;
 const seo = getSeoMeta(post, {
 	siteTitle,
 	siteUrl: Astro.url.origin,
@@ -107,7 +108,7 @@ await cachePage(Astro);
 		</header>
 		<div class="lfw-container">
 			<div class="lfw-article__hero" {...post.edit.featured_image}>
-				<Photo image={image} photo={post.data.photo} fallback="window" priority layout="article" />
+				<Photo image={image} photo={photo} fallback="window" priority layout="article" />
 			</div>
 		</div>
 		<div class="lfw-section lfw-article__main">

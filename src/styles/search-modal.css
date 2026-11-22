@@ -17,7 +17,8 @@
 /* A panel floating under the header. It enters like a dropdown, rising 8px on the water curve. */
 .modal-container,.modal-container.open{transform:none}
 .modal-container{top:calc(var(--header-h) + var(--space-6));right:0;left:0;width:min(600px,calc(100% - 2 * var(--container-pad)));max-width:none;max-height:calc(100vh - var(--header-h) - var(--space-12));max-height:calc(100dvh - var(--header-h) - var(--space-12));margin-inline:auto;overflow:hidden}
-.modal-container.open{animation:lfw-enter var(--dur-slow) var(--ease-current)}
+/* Make the field focusable as soon as the panel opens. The entrance animates opacity and position. */
+.modal-container.open{visibility:visible;transition-property:opacity;animation:lfw-enter var(--dur-slow) var(--ease-current)}
 @keyframes lfw-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 /* The search row. While the field has focus, its rule turns Current Teal, like a field's focus border. */

@@ -28,10 +28,10 @@ for (const [width, density] of [[390, 1], [700, 1], [930, 1], [1440, 1], [930, 2
 		for (const [path, selectors] of [
 			// The home concept has one photo, the hero's; its other sections are photo-free variants.
 			["/", [".lfw-hero img"]],
-			["/services", [".lfw-panel.is-active .lfw-panel__media img"]],
+			["/services#wordpress", [".lfw-panel.is-active .lfw-panel__media img"]],
 			["/consultation", [".lfw-product__media img"]],
 			["/contact", [".lfw-aside__img img"]],
-			["/blog", [".lfw-featured__media img", ".lfw-postcard .lf-card__media img", ".lfw-band img"]],
+			["/blog", [".lfw-featured__media img", ".lfw-postcard .lf-card__media img"]],
 		] as const) {
 			// Isolate the HTTP cache: another layout can need a wider copy of the same photo.
 			const context = await browser.newContext({ viewport: { width, height: 900 }, deviceScaleFactor: density, reducedMotion: "reduce" });
@@ -41,6 +41,9 @@ for (const [width, density] of [[390, 1], [700, 1], [930, 1], [1440, 1], [930, 2
 				await page.evaluate(() => document.fonts.ready);
 				for (const selector of selectors) await expectSuitableSource(page.locator(selector).first());
 				if (path === "/blog") {
+					// A CTA band is optional CMS content on the listing.
+					const band = page.locator(".lfw-band img").first();
+					if (await band.count()) await expectSuitableSource(band);
 					const article = await page.locator(".lfw-featured").getAttribute("href");
 					await page.goto(`${baseURL}${article}`);
 					await expectSuitableSource(page.locator(".lfw-article__hero img"));
@@ -70,9 +73,30 @@ for (const javaScriptEnabled of [true, false]) {
 				await expect(image).toHaveAttribute("src", /^\/brand\/lakefront-(crest|wordmark)\.svg$/);
 				await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true);
 			}
+			await expect.poll(() => images[0].evaluate((image: HTMLImageElement) => image.currentSrc)).toMatch(/\/brand\/lakefront-crest-44(?:@2x)?\.webp$/);
 			await expect(footer.getByRole("link", { name: /home/ })).toBeVisible();
 		} finally {
 			await context.close();
 		}
 	});
 }
+
+test("decorative hero and thumbnail images have empty alt text", async ({ page }) => {
+	await page.goto("/");
+	await expect(page.locator(".lfw-hero--wave img")).toHaveAttribute("alt", "");
+
+	await page.goto("/blog");
+	await expect(page.locator(".lfw-postcard img").first()).toHaveAttribute("alt", "");
+	await expect(page.locator(".lfw-featured__media img")).toHaveAttribute("alt", "");
+
+	await page.goto("/missing-visual-test-page");
+	await expect(page.locator(".lfw-404__img")).toHaveAttribute("alt", "");
+});
+
+test("the on-page optimization guide shares and renders its worked example", async ({ page }) => {
+	await page.goto("/blog/on-page-optimization");
+	const cover = page.getByRole("img", { name: /The title tag says Bike repair in Chicago/ });
+	await expect(cover).toBeVisible();
+	await expectSuitableSource(cover);
+	await expect(page.locator('meta[property="og:image"]')).toHaveAttribute("content", /\/images\/on-page-example\.webp$/);
+});

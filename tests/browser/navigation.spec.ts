@@ -99,6 +99,25 @@ test("consultation explanation precedes its photo and preparation follows the fo
 	await expect(page.getByText("Sample White Papers", { exact: true })).toHaveCount(0);
 });
 
+test("the Home starting point matches the WordPress icon on Services", async ({ page }) => {
+	await page.goto("/");
+	const card = page.locator(".lfw-path").filter({ has: page.getByRole("heading", { name: "A new website or store" }) });
+	await expect(card.locator(".lfw-path__icon [data-icon]")).toHaveAttribute("data-icon", "layout-template");
+	await page.goto("/services");
+	await expect(page.getByRole("tab", { name: "WordPress", exact: true }).locator("[data-icon]")).toHaveAttribute("data-icon", "layout-template");
+});
+
+test("service links reveal accessible Analytics and SEO examples", async ({ page }) => {
+	await page.setViewportSize({ width: 390, height: 844 });
+	await page.goto("/services#analytics");
+	await expect(page.getByRole("table", { name: "Sample data" })).toBeVisible();
+	await expect(page.getByRole("row", { name: /Organic search.*45%/ })).toBeVisible();
+
+	await page.getByRole("combobox", { name: "Services", exact: true }).selectOption("seo");
+	await expect(page.getByText("Sample title tag")).toBeVisible();
+	await expect(page.getByText("Bike repair in Chicago | Example Cycle Shop")).toBeVisible();
+});
+
 test("all six services are available in the mobile selector and keep deep links", async ({ page }) => {
 	await page.setViewportSize({ width: 390, height: 844 });
 	await page.goto("/services#seo");

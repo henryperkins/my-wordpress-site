@@ -1,0 +1,347 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+	variant: "performance" | "social" | "analytics" | "seo" | "content";
+}
+
+const { variant } = Astro.props;
+
+const captions = {
+	performance: { title: "Performance review checklist", icon: "gauge" },
+	social: { title: "Social features by page location", icon: "share-2" },
+	analytics: { title: "Website traffic sources", icon: "activity" },
+	seo: { title: "Page title for search", icon: "search" },
+	content: { title: "Service page outline", icon: "file-text" },
+};
+const { title, icon } = captions[variant];
+
+const performanceChecks = [
+	{ label: "Mobile loading", detail: "Measure when the main content appears." },
+	{ label: "Images", detail: "Check that photos are sized for their display." },
+	{ label: "Page stability", detail: "Look for content that shifts as the page loads." },
+];
+
+const socialPlacements = [
+	{ label: "Profile link", detail: "Site footer · Find the business’s social profile." },
+	{ label: "Share link", detail: "Blog post footer · Share the current article." },
+	{ label: "Social feed", detail: "Home page · See a preview of recent posts." },
+];
+
+const trafficSources = [
+	{ label: "Organic search", share: 45 },
+	{ label: "Direct", share: 30 },
+	{ label: "Referral", share: 15 },
+	{ label: "Social", share: 10 },
+];
+
+const titleParts = {
+	service: "Bike repair",
+	location: "Chicago",
+	business: "Example Cycle Shop",
+};
+const pageTitle = `${titleParts.service} in ${titleParts.location} | ${titleParts.business}`;
+const titleNotes = [
+	{ label: "Service", text: titleParts.service },
+	{ label: "Location", text: titleParts.location },
+	{ label: "Business name", text: titleParts.business },
+];
+
+const contentSections = [
+	{ label: "Repairs we offer", detail: "List common fixes like flat tires and brake adjustments." },
+	{ label: "What to bring", detail: "Tell riders what to bring to the appointment." },
+	{ label: "Book a repair", detail: "Give riders a clear way to schedule." },
+];
+---
+
+<figure class="service-example">
+	<figcaption class="caption">
+		<span class="caption-icon"><Icon name={icon} size={22} /></span>
+		<span>
+			<span class="example-label">Illustrative example</span>
+			<strong class="example-title">{title}</strong>
+		</span>
+	</figcaption>
+
+	<div class="body">
+		{variant === "performance" && (
+			<ul class="rows" role="list">
+				{performanceChecks.map(({ label, detail }) => (
+					<li class="row check-row">
+						<span class="check-box" aria-hidden="true"></span>
+						<div>
+							<strong>{label}</strong>
+							<p>{detail}</p>
+						</div>
+					</li>
+				))}
+			</ul>
+		)}
+
+		{variant === "social" && (
+			<dl class="rows">
+				{socialPlacements.map(({ label, detail }) => (
+					<div class="row">
+						<dt>{label}</dt>
+						<dd>{detail}</dd>
+					</div>
+				))}
+			</dl>
+		)}
+
+		{variant === "analytics" && (
+			<table class="traffic">
+				<caption>Sample data</caption>
+				<thead>
+					<tr>
+						<th scope="col">Source</th>
+						<th scope="col">Share of visits</th>
+					</tr>
+				</thead>
+				<tbody>
+					{trafficSources.map(({ label, share }) => (
+						<tr>
+							<th scope="row">{label}</th>
+							<td>
+								<div class="traffic-value">
+									<span class="traffic-track" aria-hidden="true">
+										<span class="traffic-bar" style={`--share: ${share}%`}></span>
+									</span>
+									<span class="traffic-share">{share}%</span>
+								</div>
+							</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+		)}
+
+		{variant === "seo" && (
+			<>
+				<div class="sample">
+					<p class="sample-label">Sample title tag</p>
+					<p class="sample-title">{pageTitle}</p>
+				</div>
+				<dl class="rows title-notes">
+					{titleNotes.map(({ label, text }) => (
+						<div class="row title-note">
+							<dt>{label}</dt>
+							<dd>{text}</dd>
+						</div>
+					))}
+				</dl>
+			</>
+		)}
+
+		{variant === "content" && (
+			<>
+				<div class="sample">
+					<p class="sample-label">Page heading</p>
+					<p class="sample-title">Bike repair</p>
+				</div>
+				<ol class="outline">
+					{contentSections.map(({ label, detail }) => (
+						<li class="row">
+							<strong>{label}</strong>
+							<p>{detail}</p>
+						</li>
+					))}
+				</ol>
+			</>
+		)}
+	</div>
+</figure>
+
+<style>
+	.service-example {
+		--example-padding: clamp(var(--space-4), 5%, var(--space-6));
+		min-inline-size: 0;
+		margin: 0;
+		border: 1px solid var(--lake-mist);
+		border-radius: var(--radius-xl);
+		background: var(--foam-white);
+		color: var(--lake-navy);
+		font: var(--type-body-sm);
+		overflow-wrap: anywhere;
+	}
+
+	.caption {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		align-items: center;
+		gap: var(--space-3);
+		padding: var(--example-padding);
+		border-radius: calc(var(--radius-xl) - 1px) calc(var(--radius-xl) - 1px) 0 0;
+		background: var(--lake-navy);
+		color: var(--foam-white);
+	}
+
+	.caption-icon {
+		display: grid;
+		place-items: center;
+		inline-size: var(--space-10);
+		block-size: var(--space-10);
+		border: 1px solid var(--border-inverse-strong);
+		border-radius: var(--radius-md);
+		background: var(--navy-800);
+		color: var(--foam-aqua);
+	}
+
+	.example-label,
+	.example-title {
+		display: block;
+	}
+
+	.example-label,
+	.sample-label {
+		font: var(--type-eyebrow);
+		letter-spacing: var(--ls-caps);
+	}
+
+	.example-label {
+		margin-block-end: var(--space-1);
+		color: var(--foam-aqua);
+	}
+
+	.example-title {
+		font: var(--type-h5);
+	}
+
+	.body {
+		padding: var(--space-3) var(--example-padding) var(--space-4);
+	}
+
+	.body :is(p, dd),
+	.rows,
+	.outline {
+		margin: 0;
+	}
+
+	.rows {
+		padding: 0;
+		list-style: none;
+	}
+
+	.row {
+		padding-block: var(--space-3);
+	}
+
+	.row + .row,
+	.traffic td,
+	.traffic tbody th {
+		border-block-start: 1px solid var(--lake-mist);
+	}
+
+	.row :is(strong, dt) {
+		font-weight: var(--fw-bold);
+	}
+
+	.row :is(p, dd) {
+		color: var(--ink-600);
+	}
+
+	.check-row {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: var(--space-3);
+	}
+
+	.check-box {
+		inline-size: 0.875rem;
+		block-size: 0.875rem;
+		margin-block-start: 0.25em;
+		border: 1px solid var(--deep-water);
+		border-radius: var(--radius-xs);
+		background: var(--teal-50);
+	}
+
+	.traffic {
+		inline-size: 100%;
+		border-collapse: collapse;
+		text-align: start;
+	}
+
+	.traffic caption {
+		padding-block: var(--space-2);
+		text-align: start;
+		color: var(--ink-600);
+	}
+
+	.traffic :is(th, td) {
+		padding: var(--space-2) 0;
+		text-align: start;
+	}
+
+	.traffic th:first-child {
+		padding-inline-end: var(--space-3);
+	}
+
+	.traffic td {
+		inline-size: 58%;
+	}
+
+	.traffic-value {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
+	.traffic-track {
+		display: block;
+		border-radius: var(--radius-full);
+		background: var(--lake-mist);
+	}
+
+	.traffic-bar {
+		display: block;
+		inline-size: var(--share);
+		border-block-end: 0.5rem solid var(--deep-water);
+		border-radius: inherit;
+	}
+
+	.traffic-share {
+		min-inline-size: 4ch;
+		text-align: end;
+		font-weight: var(--fw-bold);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.sample {
+		margin-block-start: var(--space-2);
+		padding: var(--space-3);
+		border-inline-start: 3px solid var(--current-teal);
+		border-radius: var(--radius-xs);
+		background: var(--teal-50);
+	}
+
+	.sample .sample-label {
+		margin-block-end: var(--space-1);
+		color: var(--deep-water);
+	}
+
+	.sample-title {
+		font: var(--type-h5);
+	}
+
+	.title-notes,
+	.outline {
+		margin-block-start: var(--space-1);
+	}
+
+	.title-note {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 0 var(--space-3);
+	}
+
+	.outline {
+		padding-inline-start: 1.5em;
+	}
+
+	.outline li::marker {
+		color: var(--deep-water);
+		font-weight: var(--fw-bold);
+	}
+</style>

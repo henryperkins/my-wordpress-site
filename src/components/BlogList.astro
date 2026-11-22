@@ -5,6 +5,7 @@ import Eyebrow from "./Eyebrow.astro";
 import Icon from "./Icon.astro";
 import Photo from "./Photo.astro";
 import PostCard from "./PostCard.astro";
+import { postPhotoKey } from "../lib/photos";
 import { BLOG_PATH, categoryPath, postPath, readingTime } from "../lib/posts";
 
 // The blog listing shared by /blog and /blog/category/[slug]: category chips, an optional featured post, the grid and paging.
@@ -57,7 +58,7 @@ const chips = categories.filter((term) => term.count === undefined || term.count
 			featured && (
 				<a class="lfw-featured" href={postPath(featured.id)}>
 					<div class="lfw-featured__media">
-						<Photo image={featured.data.featured_image} photo={featured.data.photo} fallback="window" priority layout="featured" />
+						<Photo image={featured.data.featured_image} photo={postPhotoKey(featured.data.slug, featured.data.photo)} fallback="window" decorative priority layout="featured" />
 					</div>
 					<div class="lfw-featured__copy">
 						{featuredTerms.length > 0 && <Eyebrow items={featuredTerms.map((term) => term.label)} />}

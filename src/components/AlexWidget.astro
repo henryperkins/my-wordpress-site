@@ -2,13 +2,97 @@
 import { alexAgentId } from "../lib/elevenlabs";
 ---
 
-<elevenlabs-convai agent-id={alexAgentId}></elevenlabs-convai>
-<script is:inline async src="https://elevenlabs.io/convai-widget/index.js"></script>
+<section id="talk-with-alex" class="lfw-alex" aria-labelledby="lfw-alex-title" tabindex="-1">
+	<div class="lfw-container lfw-alex__in">
+		<div>
+			<h2 id="lfw-alex-title" class="lfw-card-title">Talk with Alex</h2>
+			<p class="lfw-p">Alex is Lakefront Digital’s AI assistant. You can also <a href="/contact#enquiry">use the contact form</a>.</p>
+			<p role="status" class="lfw-alex-status" data-alex-status></p>
+		</div>
+		<elevenlabs-convai agent-id={alexAgentId} avatar-image-url="/favicon.png" variant="compact"></elevenlabs-convai>
+	</div>
+</section>
+
+<script>
+	const section = document.querySelector("#talk-with-alex");
+	const widget = section?.querySelector("elevenlabs-convai");
+	const status = section?.querySelector("[data-alex-status]");
+	let loader: HTMLScriptElement | undefined;
+
+	if (section && widget && status) {
+		const load = () => {
+			if (loader) return;
+			status.textContent = "";
+			const script = document.createElement("script");
+			script.src = "https://elevenlabs.io/convai-widget/index.js";
+			script.addEventListener("error", () => {
+				status.textContent = "Alex is temporarily unavailable.";
+				script.remove();
+				loader = undefined;
+			}, { once: true });
+			loader = script;
+			document.head.appendChild(script);
+		};
+
+		// The vendor applies a floating shadow and pulses the image in response to audio.
+		void customElements.whenDefined("elevenlabs-convai").then(() => {
+			const style = document.createElement("style");
+			style.textContent = `
+				[class^="_box_"] { box-shadow: none !important; }
+				@media (prefers-reduced-motion: reduce) {
+					[class^="_avatarImage_"] { transform: none !important; opacity: 1 !important; transition: none !important; }
+				}
+			`;
+			widget.shadowRoot?.appendChild(style);
+		});
+
+		document.querySelector("[data-alex-trigger]")?.addEventListener("click", load);
+		const observer = new IntersectionObserver(([entry]) => {
+			if (!entry?.isIntersecting) return;
+			observer.disconnect();
+			load();
+		});
+		observer.observe(section);
+	}
+</script>
 
 <style>
+	.lfw-alex {
+		scroll-margin-block-start: calc(var(--header-cover) + 8px);
+		border-block: 1px solid var(--border-default);
+		background: var(--surface-sunken);
+	}
+	.lfw-alex__in {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		align-items: center;
+		gap: 16px;
+		padding-block: 24px;
+	}
+	.lfw-alex__in .lfw-p {
+		margin-top: 6px;
+	}
+	.lfw-alex__in :global(elevenlabs-convai:defined) {
+		display: block;
+		position: static;
+	}
+	.lfw-alex__in :global(elevenlabs-convai:not(:defined)) {
+		display: none;
+	}
+	.lfw-alex-status {
+		margin: 0;
+	}
+	@media (max-width: 700px) {
+		.lfw-alex__in {
+			grid-template-columns: minmax(0, 1fr);
+		}
+		.lfw-alex__in :global(elevenlabs-convai:defined) {
+			justify-self: start;
+		}
+	}
 	@media print {
-		elevenlabs-convai {
-			display: none !important;
+		.lfw-alex, :global(.lfw-alex-trigger) {
+			display: none;
 		}
 	}
 </style>

@@ -93,6 +93,9 @@ if (cta && ctaAttrs && isCurrent(cta.url, Astro.url)) {
 				</Button>
 			)
 		}
+		<Button href="#talk-with-alex" variant="outline" size="sm" iconLeft="phone" class="lfw-alex-trigger" aria-label="Talk with Alex" title="Talk with Alex" data-alex-trigger>
+			Talk with Alex
+		</Button>
 		<button type="button" class="lf-iconbtn lf-iconbtn--outline lfw-menu" aria-expanded="false" aria-controls="lfw-mobile-nav" aria-label="Open menu" data-menu-toggle>
 			<Icon name="menu" class="lfw-menu__open" />
 			<Icon name="x" class="lfw-menu__close" />
@@ -164,3 +167,19 @@ if (cta && ctaAttrs && isCurrent(cta.url, Astro.url)) {
 	import "../scripts/ai-search-compat";
 	import "../scripts/header";
 </script>
+
+<style>
+	:global(.lfw-alex-trigger) {
+		flex: none;
+		min-height: 44px;
+	}
+	@media (max-width: 600px) {
+		:global(.lfw-alex-trigger) {
+			width: 44px;
+			padding-inline: 0;
+		}
+		:global(.lfw-alex-trigger .lf-btn__label) {
+			display: none;
+		}
+	}
+</style>

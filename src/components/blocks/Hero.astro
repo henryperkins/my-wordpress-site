@@ -53,7 +53,7 @@ const lead = value.lead?.replace(/(\S)—(?=\S)/g, "$1⁠—");
 				}
 			</div>
 			<div class="lfw-hero__bleed">
-				<Photo image={value.image} photo={value.photo} fallback="shore" priority={index === 0} layout="heroWave" />
+				<Photo image={value.image} photo={value.photo} fallback="shore" priority={index === 0} decorative={!value.image} layout="heroWave" />
 				<Wave name="wave-edge-vertical" class="lfw-hero__edge lfw-hero__edge--v" />
 				<Wave name="wave-edge-horizontal" class="lfw-hero__edge lfw-hero__edge--h" />
 			</div>

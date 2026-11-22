@@ -16,6 +16,8 @@ interface Props {
 const { height = 44, tone = "color", logo, alt = "Lakefront Digital", loading = "eager" } = Astro.props;
 const wordHeight = Math.round(height * 0.5);
 const suffix = tone === "reversed" ? "-reversed" : "";
+const crest = `/brand/lakefront-crest${suffix}`;
+const useCrestWebp = height === 40 || height === 44;
 const forced =
 	tone === "reversed"
 		? { media: "(forced-colors: active) and (prefers-color-scheme: light)", suffix: "" }
@@ -29,7 +31,10 @@ const forced =
 		<span class:list={["lf-logo", "lf-logo--horizontal", tone === "reversed" && "lf-logo--reversed"]} style={`gap:${Math.round(height * 0.3)}px`}>
 			<picture>
 				<source media={forced.media} srcset={`/brand/lakefront-crest${forced.suffix}.svg`} />
-				<img src={`/brand/lakefront-crest${suffix}.svg`} alt="" width={Math.round((805 / 797) * height)} height={height} style={`height:${height}px`} loading={loading} />
+				{useCrestWebp && (
+					<source type="image/webp" media="not all and (forced-colors: active)" srcset={`${crest}-${height}.webp 1x, ${crest}-${height}@2x.webp 2x`} />
+				)}
+				<img src={`${crest}.svg`} alt="" width={Math.round((805 / 797) * height)} height={height} style={`height:${height}px;aspect-ratio:805/797`} loading={loading} />
 			</picture>
 			<span class="lf-logo__rule" aria-hidden="true" style={`height:${Math.round(height * 0.72)}px`} />
 			<picture>
