@@ -42,6 +42,10 @@ pnpm dev
 
 Open http://localhost:4321/_emdash/admin and complete the setup wizard. Choose to include sample content to get Home, Services, Hosting, Contact, Website Consultation, the blog intro page, four guides, Terms and Privacy Policy with the copy-book text; skip it to start from the schema, menus and blocks only.
 
+## Database migrations in production
+
+The production Worker checks for pending migrations at startup. Build the site and run `pnpm exec emdash migrate --status --wrangler-config wrangler.jsonc` to inspect the production D1 target. When migrations are pending, follow the [upgrade work order](.emdash/UPGRADE.md) for the maintenance window, backup, migration and deployment sequence. Local development still applies migrations automatically.
+
 ## Enquiry email (Cloudflare Email Sending)
 
 1. Onboard `lakefrontdigital.io` to Email Sending (dashboard: Email Service > Email Sending > Onboard Domain, or `pnpm wrangler email sending enable lakefrontdigital.io`). It adds DNS records on `cf-bounce.lakefrontdigital.io` plus DKIM, and leaves the domain's MX records alone. Don't enable Email Routing on the domain: it replaces the MX records, and the domain's mail is on Google Workspace.

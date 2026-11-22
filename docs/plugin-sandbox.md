@@ -21,9 +21,17 @@ content, taxonomy and comment writes ([#4394](https://github.com/emdash-cms/emda
 The runner creates it inside `invokeRoute()` and `invokeHook()`, beneath the
 adapter, and the adapter forwards the runner's other options unchanged.
 
-The Cloudflare runner defaults to 10 subrequests per plugin invocation. EmDash
-1.0.1 does not pass resource limits when it creates the runner, so raising the
-parent Worker's `limits.subrequests` does not change that plugin budget.
+Retained for the upgrade to 1.5.0. The Cloudflare runner now defaults to 30
+subrequests per invocation and still accepts the adapter's explicit override.
+The proposal for configuring limits through the Astro integration (#3383)
+closed unmerged, and audit-log's Block Kit issue (#3616) is still open. The
+1.5.0 database changes include shared plugin KV storage and scoped unique
+indexes. Follow the [upgrade work order](../.emdash/UPGRADE.md) for deployment.
+
+EmDash 1.0.1 set a default of 10 subrequests in the Cloudflare runner and
+passed no resource limits to its factory. Raising the parent Worker's
+`limits.subrequests` leaves the sandbox's per-invocation budget at the runner's
+configured limit.
 
 `astro.config.mjs` points to `src/lib/plugin-sandbox.ts` using an absolute path,
 because EmDash imports the runner from a generated virtual module. The adapter

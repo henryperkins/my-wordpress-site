@@ -33,6 +33,8 @@ export default defineConfig({
 			// coalesce (experimental) batches SELECTs started together into one D1 round trip. A write started in
 			// the same turn as a read may run first, so await any read a write depends on before issuing the write.
 			database: d1({ binding: "DB", session: "auto", coalesce: true }),
+			// Apply and review production migrations before serving traffic or running plugin jobs.
+			migrations: { runtime: "check" },
 			storage: r2({ binding: "MEDIA" }),
 			sandboxRunner,
 			// Site search: Cloudflare AI Search through the AI_SEARCH namespace binding in wrangler.jsonc.
