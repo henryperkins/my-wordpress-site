@@ -11,8 +11,9 @@ if (!slug) return Astro.rewrite("/404");
 if (slug === "home") return Astro.redirect("/", 301);
 
 const { entry: page, cacheHint } = await getEmDashEntry("pages", slug);
-if (!page) return Astro.rewrite("/404");
+// A miss hint is the pages collection tag. Set it before rewriting so a cached 404 is purged when the page is published.
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+if (!page) return Astro.rewrite("/404");
 
 const settings = await getSiteSettings();
 const seo = getSeoMeta(page, {

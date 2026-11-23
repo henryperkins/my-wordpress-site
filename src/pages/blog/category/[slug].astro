@@ -9,7 +9,11 @@ import { cachePage } from "../../../lib/cache";
 const slug = decodeSlug(Astro.params.slug);
 const termsResult = await getTaxonomyTermsWithCacheHint("category", { includeCounts: true });
 const term: any = slug ? termsResult.data.find((item: any) => item.slug === slug) : null;
-if (!term) return Astro.rewrite("/404");
+if (!term) {
+	// The taxonomy tag lets a newly saved category purge this cached 404.
+	if (Astro.cache?.enabled) Astro.cache.set(termsResult.cacheHint);
+	return Astro.rewrite("/404");
+}
 
 const cursor = Astro.url.searchParams.get("cursor") || undefined;
 const list = await getEmDashCollection("posts", { where: { category: term.slug }, orderBy: { published_at: "desc" }, limit: PAGE_SIZE, cursor });
