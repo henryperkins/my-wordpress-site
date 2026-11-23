@@ -5,6 +5,7 @@ import BlogList from "../../../components/BlogList.astro";
 import PageIntro from "../../../components/PageIntro.astro";
 import { categoryPath, PAGE_SIZE } from "../../../lib/posts";
 import { cachePage } from "../../../lib/cache";
+import { rewriteNotFound } from "../../../lib/content-response";
 
 const slug = decodeSlug(Astro.params.slug);
 const termsResult = await getTaxonomyTermsWithCacheHint("category", { includeCounts: true });
@@ -12,7 +13,7 @@ const term: any = slug ? termsResult.data.find((item: any) => item.slug === slug
 if (!term) {
 	// The taxonomy tag lets a newly saved category purge this cached 404.
 	if (Astro.cache?.enabled) Astro.cache.set(termsResult.cacheHint);
-	return Astro.rewrite("/404");
+	return rewriteNotFound(Astro);
 }
 
 const cursor = Astro.url.searchParams.get("cursor") || undefined;

@@ -12,14 +12,16 @@ import { photoFor, postPhotoKey } from "../../lib/photos";
 import { BLOG_PATH, categoryPath, initials, readingTime } from "../../lib/posts";
 import { formatDate } from "../../lib/text";
 import { cachePage } from "../../lib/cache";
+import { contentUnavailable, rewriteNotFound } from "../../lib/content-response";
 
 const slug = decodeSlug(Astro.params.slug);
-if (!slug) return Astro.rewrite("/404");
+if (!slug) return rewriteNotFound(Astro);
 
-const { entry: post, cacheHint } = await getEmDashEntry("posts", slug);
+const { entry: post, cacheHint, error } = await getEmDashEntry("posts", slug);
+if (error) return contentUnavailable(Astro, error);
 // A miss hint is the posts collection tag. Set it before rewriting so a cached 404 is purged when the post is published.
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
-if (!post) return Astro.rewrite("/404");
+if (!post) return rewriteNotFound(Astro);
 
 const [recent, ctaResult, settings] = await Promise.all([
 	getEmDashCollection("posts", { orderBy: { published_at: "desc" }, limit: 7 }),

@@ -350,7 +350,7 @@ The target package adds these core migrations:
 
 Do not apply migrations until the application changes compile and the target build has generated `.emdash/migrations.json`. Before starting or deploying the upgraded build, follow [Backups and recovery](https://docs.emdashcms.com/guides/backups/) to create a restorable database backup, back up media storage separately, and retain the `EMDASH_ENCRYPTION_KEY` rotation list. A JSON backup is not a recovery point. Apply migrations from the same build artifact that will be deployed.
 
-Build the upgraded project and inspect the exact database target. This site's D1 database is `my-dash-site` (binding `DB` in `wrangler.jsonc`); EmDash 1.6 does not read a Wrangler config in the project root unless it is named, so every `migrate` command below passes `--wrangler-config wrangler.jsonc`:
+Build the upgraded project and inspect the exact database target. Export `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` in the shell running EmDash. The token needs access to the site's D1 database. Each command explicitly selects `wrangler.jsonc`, where the `DB` binding names `my-dash-site`.
 
 ```sh
 pnpm build
@@ -369,7 +369,7 @@ Deploy sequence — do not deploy the 1.6.0 Worker before applying `098_user_las
    ```
 
    The command shows the target and asks for confirmation. In a non-interactive shell, add `--expected-target-fingerprint` with the target fingerprint that the status command printed for the reviewed database.
-5. Deploy the same build artifact with the project's deployment workflow, without rebuilding it. On Cloudflare Workers, run `wrangler deploy`.
+5. From the project root, run `pnpm exec wrangler deploy` to publish the build from step 2. Wrangler follows the generated configuration in `.wrangler/deploy/config.json`. The ordinary `pnpm deploy` script starts a fresh build.
 6. Verify the deployed database against that artifact:
 
    ```sh

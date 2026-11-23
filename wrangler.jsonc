@@ -10,6 +10,12 @@
 	"observability": { "enabled": true, "head_sampling_rate": 1 },
 	// Smart Placement was turned on in the dashboard; a deploy without this key turns it off again.
 	"placement": { "mode": "smart" },
+	"previews": {
+		"kv_namespaces": [{ "binding": "SESSION", "id": "2a7726785c554fc6b7e70531777b3917" }],
+		"d1_databases": [{ "binding": "DB", "database_name": "my-wordpress-site-preview", "database_id": "be3c437e-2604-4589-a20e-cc2ee74eae64" }],
+		"r2_buckets": [{ "binding": "MEDIA", "bucket_name": "my-wordpress-site-preview-media" }],
+		"worker_loaders": [{ "binding": "LOADER" }],
+	},
 	"d1_databases": [
 		{
 			"binding": "DB",
