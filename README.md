@@ -46,7 +46,7 @@ Open http://localhost:4321/_emdash/admin and complete the setup wizard. Choose t
 
 The production Worker checks for pending migrations at startup. Set `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` in the shell, build the site, and run `pnpm exec emdash migrate --status --wrangler-config wrangler.jsonc` to inspect the production D1 target. Follow the [upgrade work order](.emdash/UPGRADE.md) for backup, migration and deployment. After migrating, `pnpm exec wrangler deploy` publishes the existing build. Local development applies migrations automatically.
 
-Cloudflare branch previews share the sample D1 database `my-wordpress-site-preview`, the R2 bucket `my-wordpress-site-preview-media`, and a dedicated `SESSION` KV namespace. The preview bindings are configured under `previews` in `wrangler.jsonc`. Apply future core migrations to the preview database before testing an upgraded branch.
+Cloudflare branch previews share the sample D1 database `my-wordpress-site-preview`, the R2 bucket `my-wordpress-site-preview-media`, and a dedicated `SESSION` KV namespace. The bindings are configured under `previews` in `wrangler.jsonc`. After building an upgraded branch, inspect the preview target with `pnpm exec emdash migrate --status --d1 my-wordpress-site-preview`. Apply any pending migrations with `pnpm exec emdash migrate --d1 my-wordpress-site-preview` and verify with `pnpm exec emdash migrate --check --d1 my-wordpress-site-preview` before testing. EmDash 1.6.0 requires `098_user_last_login`.
 
 ## Enquiry email (Cloudflare Email Sending)
 
