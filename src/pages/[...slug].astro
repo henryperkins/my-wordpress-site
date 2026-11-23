@@ -4,15 +4,18 @@ import Base from "../layouts/Base.astro";
 import LegalPage from "../components/LegalPage.astro";
 import PageBlocks from "../components/PageBlocks.astro";
 import { cachePage } from "../lib/cache";
+import { contentUnavailable, rewriteNotFound } from "../lib/content-response";
 
 // Every page in the "pages" collection, at /{slug}. Layout "blocks" renders Lakefront blocks; "legal" the legal layout.
 const slug = decodeSlug(Astro.params.slug);
-if (!slug) return Astro.rewrite("/404");
+if (!slug) return rewriteNotFound(Astro);
 if (slug === "home") return Astro.redirect("/", 301);
 
-const { entry: page, cacheHint } = await getEmDashEntry("pages", slug);
-if (!page) return Astro.rewrite("/404");
+const { entry: page, cacheHint, error } = await getEmDashEntry("pages", slug);
+if (error) return contentUnavailable(Astro, error);
+// A miss hint is the pages collection tag. Set it before rewriting so a cached 404 is purged when the page is published.
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+if (!page) return rewriteNotFound(Astro);
 
 const settings = await getSiteSettings();
 const seo = getSeoMeta(page, {

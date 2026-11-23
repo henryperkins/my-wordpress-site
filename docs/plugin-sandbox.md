@@ -28,6 +28,11 @@ closed unmerged, and audit-log's Block Kit issue (#3616) is still open. The
 1.5.0 database changes include shared plugin KV storage and scoped unique
 indexes. Follow the [upgrade work order](../.emdash/UPGRADE.md) for deployment.
 
+Retained for the upgrade to 1.6.0. The Cloudflare runner still defaults to 30
+subrequests per invocation, and the Astro integration still creates that runner
+without limits. The local override stays. Follow the [upgrade work order](../.emdash/UPGRADE.md)
+for the added `098_user_last_login` migration.
+
 EmDash 1.0.1 set a default of 10 subrequests in the Cloudflare runner and
 passed no resource limits to its factory. Raising the parent Worker's
 `limits.subrequests` leaves the sandbox's per-invocation budget at the runner's

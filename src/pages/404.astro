@@ -15,7 +15,7 @@ const [primary, cta] = await Promise.all([getMenuWithCacheHint("primary"), getMe
 const links = [{ label: "Home", url: "/" }, ...(primary.data?.items ?? []), ...(cta.data?.items ?? []).slice(0, 1)];
 const photo = photoFor("alley-night");
 
-// A page published at this address later wouldn't purge a cached 404, so the edge keeps it for a minute only.
+// Content misses pass their collection or taxonomy tag before rewriting here, so publishing that entry or term purges the cached 404. Other missing addresses have no such tag, so the edge keeps them for a minute only.
 await cachePage(Astro, { maxAge: 60 });
 ---
 

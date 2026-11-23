@@ -5,37 +5,37 @@
       "source": "emdash-cms/skills",
       "sourceType": "github",
       "skillPath": "skills/building-emdash-site/SKILL.md",
-      "computedHash": "0f0880469514ce807d90534b7d4e6e903b43264f71ee07e4fbd7c3d79eb2662b"
+      "computedHash": "b1f9ffbcc892c6631ffdb58301259135600b459c5c5e07f867962cb13b77a186"
     },
     "creating-plugins": {
       "source": "emdash-cms/skills",
       "sourceType": "github",
       "skillPath": "skills/creating-plugins/SKILL.md",
-      "computedHash": "5981ac747ee2246deeae2aa80c05035d717bc9c1e1e28b7e76ddcb85eaa52945"
+      "computedHash": "c49a59bdd9f34f725b69fc06f09cb8a218c3dd79f8523b14e5ecee318765dfcc"
     },
     "emdash-cli": {
       "source": "emdash-cms/skills",
       "sourceType": "github",
       "skillPath": "skills/emdash-cli/SKILL.md",
-      "computedHash": "7845cea18e9dc9ebca05d7ae0b57cfed87c17b34e70451ec47a399ab254fced9"
+      "computedHash": "2fcd42699acee79b1ecb0a51b1db0c3fd68a121b422ddf14b192a12bdbb89f8a"
     },
     "upgrading-emdash": {
       "source": "emdash-cms/skills",
       "sourceType": "github",
       "skillPath": "skills/upgrading-emdash/SKILL.md",
-      "computedHash": "49600bfd83609a8caa40501ed511dac5c0731138bcff51eb5257281dfe3ac8fb"
+      "computedHash": "1dd97988a98012d1be2e284294cfc7e93bd2f537f155babc32467c2f8b64c438"
     },
     "wordpress-plugin-to-emdash": {
       "source": "emdash-cms/skills",
       "sourceType": "github",
       "skillPath": "skills/wordpress-plugin-to-emdash/SKILL.md",
-      "computedHash": "4fd76aa05baad0372561d8a8e80fb0bf837d6300e4b96f09e7735fabd6670b02"
+      "computedHash": "331f7123c05bc1cd8a8556f660b5a8db3971cc9d6e77453d5b6f5520f4544f9b"
     },
     "wordpress-theme-to-emdash": {
       "source": "emdash-cms/skills",
       "sourceType": "github",
       "skillPath": "skills/wordpress-theme-to-emdash/SKILL.md",
-      "computedHash": "4d1a6b9e3a28456755674555359698b240836cfca60a8651288d1371c5708879"
+      "computedHash": "1f32c98025938376b716b528413d0cd2b320c6dece87a86bfd3482dc3cc505a5"
     }
   }
 }

@@ -8,11 +8,14 @@ import { formsPlugin } from "@emdash-cms/plugin-forms";
 import { defineConfig, fontProviders } from "astro/config";
 import emdash from "emdash/astro";
 
+// Virtual modules import these files by absolute path. Forward slashes keep Rolldown from
+// treating a Windows path as an unresolved specifier.
+const modulePath = (relativePath) =>
+	fileURLToPath(new URL(relativePath, import.meta.url)).replaceAll("\\", "/");
+
 // EmDash imports this from a virtual module, so a relative path will not resolve.
 // Preserve sandbox()'s check that the LOADER binding is configured.
-const sandboxRunner = sandbox()
-	? fileURLToPath(new URL("./src/lib/plugin-sandbox.ts", import.meta.url))
-	: undefined;
+const sandboxRunner = sandbox() ? modulePath("./src/lib/plugin-sandbox.ts") : undefined;
 
 export default defineConfig({
 	output: "server",
@@ -42,7 +45,7 @@ export default defineConfig({
 			plugins: [
 				{
 					...formsPlugin(),
-					entrypoint: fileURLToPath(new URL("./src/lib/forms-plugin.ts", import.meta.url)),
+					entrypoint: modulePath("./src/lib/forms-plugin.ts"),
 					componentsEntry: undefined,
 					capabilities: ["email:send"],
 					allowedHosts: [],
