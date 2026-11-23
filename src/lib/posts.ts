@@ -10,14 +10,14 @@ const CJK_PER_MINUTE = 500;
 const CJK = /\p{Script=Han}|\p{Script=Hangul}|\p{Script=Hiragana}|\p{Script=Katakana}/gu;
 
 /** Plain text of a Portable Text document, including list items. */
-export const plainText = (blocks: PortableTextBlock[] = []): string =>
-	blocks
+export const plainText = (blocks?: PortableTextBlock[] | null): string =>
+	(blocks ?? [])
 		.filter((block: any) => block?._type === "block" && Array.isArray(block.children))
 		.map((block: any) => block.children.map((child: any) => (typeof child?.text === "string" ? child.text : "")).join(""))
 		.join(" ");
 
 /** Reading time in whole minutes (at least 1). */
-export const readingTime = (blocks?: PortableTextBlock[]): number => {
+export const readingTime = (blocks?: PortableTextBlock[] | null): number => {
 	const text = plainText(blocks);
 	const cjk = text.match(CJK)?.length ?? 0;
 	const words = text.replace(CJK, " ").split(/\s+/).filter(Boolean).length;
