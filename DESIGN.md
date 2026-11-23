@@ -107,11 +107,66 @@ typography:
     fontWeight: 700
     lineHeight: 1.2
     letterSpacing: "0.24em"
+  lead-sm:
+    fontFamily: "Source Sans 3, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "18px"
+    fontWeight: 400
+    lineHeight: 1.5
+  card-text:
+    fontFamily: "Source Sans 3, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "16px"
+    fontWeight: 400
+    lineHeight: 1.55
+  field:
+    fontFamily: "Source Sans 3, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "16px"
+    fontWeight: 400
+    lineHeight: 1.5
+  hint:
+    fontFamily: "Source Sans 3, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "14px"
+    fontWeight: 400
+    lineHeight: 1.4
+  label-sm:
+    fontFamily: "Manrope, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "14px"
+    fontWeight: 600
+    lineHeight: 1.2
+  button-sm:
+    fontFamily: "Manrope, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "14px"
+    fontWeight: 700
+    lineHeight: 1
+    letterSpacing: "0.005em"
+  button-lg:
+    fontFamily: "Manrope, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "16px"
+    fontWeight: 700
+    lineHeight: 1
+    letterSpacing: "0.005em"
+  micro-lg:
+    fontFamily: "Manrope, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "12px"
+    fontWeight: 700
+    lineHeight: 1.2
+    letterSpacing: "0.16em"
+  micro:
+    fontFamily: "Manrope, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "11px"
+    fontWeight: 700
+    lineHeight: 1.2
+    letterSpacing: "0.16em"
 rounded:
+  hairline: "1px"
+  rule: "2px"
   xs: "4px"
+  check: "5px"
   sm: "6px"
   md: "8px"
+  tray: "10px"
+  tile: "12px"
   lg: "14px"
+  tile-lg: "16px"
   xl: "20px"
   2xl: "28px"
   full: "999px"
@@ -172,17 +227,18 @@ components:
     padding: "0 20px"
     height: "44px"
   button-lg:
-    typography: "{typography.button}"
+    typography: "{typography.button-lg}"
     padding: "0 26px"
     height: "52px"
   button-sm:
+    typography: "{typography.button-sm}"
     rounded: "{rounded.sm}"
     padding: "0 14px"
     height: "36px"
   input:
     backgroundColor: "{colors.white}"
     textColor: "{colors.lake-navy}"
-    typography: "{typography.body}"
+    typography: "{typography.field}"
     rounded: "{rounded.md}"
     padding: "0 14px"
     height: "44px"
@@ -214,7 +270,7 @@ components:
   icon-tile:
     backgroundColor: "{colors.teal-50}"
     textColor: "{colors.deep-water}"
-    rounded: "12px"
+    rounded: "{rounded.tile}"
     size: "48px"
   nav-link:
     textColor: "{colors.lake-navy}"
@@ -364,10 +420,11 @@ The palette follows a water-texture progression, from Lake Navy through Deep Wat
 - **Body small** (400, 15px, 1.5): footer lists, spec rows and meta lines.
 - **Caption** (400, 13px, 1.4): the footer base row and post meta. Field hints and errors use it at 14px.
 - **Label** (Manrope, 600, 15px, 1.2): nav links and tabs. Field labels and table-of-contents links use it at 14px.
-- **Button** (Manrope, 700, 15px, 1, 0.005em): 14px on small buttons and 16px on large ones.
+- **Button** (Manrope, 700, 15px, 1, 0.005em): 14px on small buttons and 16px on large ones (the `button-sm` and `button-lg` steps).
 - **Eyebrow** (Manrope, 700, 13px, 0.24em, uppercase): section wayfinding.
   - Lists of eyebrow items tighten to 0.16em.
   - Micro labels use Manrope 700 at 11–12px and 0.16em, uppercase: footer headings, the "Built on" label, "Benefit" labels and the table-of-contents label.
+- **Step-downs:** the sizes between the roles above are steps of the scale, not one-offs. Each is in the token list: `lead-sm` (18px), `card-text` and `field` (16px), `hint` and `label-sm` (14px), `micro-lg` (12px) and `micro` (11px).
 
 ### Named Rules
 **The Wordmark Echo Rule.** Uppercase text is always short, set in Manrope 700–800 and widely tracked (0.08em for badges, 0.16–0.24em for eyebrows and labels), echoing the spaced D I G I T A L of the wordmark. Never set a sentence in capitals.
@@ -399,8 +456,9 @@ The page is a single 1200px column, padded clamp(20px, 4vw, 40px) at the sides. 
 **The header:**
 - A sticky 76px bar.
 - Anything scrolled to below the pinned bar stops clear of it: a focused control 8px under it, the enquiry form 16px, legal and article headings 24px, and a tab panel 72px. The bar's own controls carry no offset, so focusing one never scrolls the page.
+- A section an editor has anchored follows the same rule, whichever block it is. A light section stops 16px under the bar. A block that pads inside its own box (a night band, an intro or a hero) stops flush against it, so its own padding gives the space.
 - On short screens (480px tall or less, such as a landscape phone or 400% zoom) the header scrolls with the page instead of pinning, because a pinned bar would cover a fifth to a third of the view.
-- At 1080px, or whenever its menu would overflow, the links collapse into a menu button and the coral header button leaves the bar.
+- At 1080px, or whenever its menu would overflow, the links collapse into a menu button, and the coral header button and the assistant's button leave the bar.
 - The collapsed bar keeps the full logo and the menu button. Booking becomes an ordinary menu link; the page owns the primary action.
 - Without JavaScript the menu panel is always open, so the header scrolls with the page instead of pinning it.
 
@@ -443,12 +501,16 @@ Photographs that carry text sit under navy protection, measured from the copy ra
 ## Shapes
 
 The system is structured and softly rounded, and the corner radius grows with the size of the element:
+- **1px and 2px:** the rounded ends of thin rules and bars: the logo's divider (1px), and the eyebrow rule, the current-page underline and go-link focus (2px).
 - **4px:** link focus and highlight marks.
+- **5px:** checkboxes.
 - **6px:** small buttons, and the focus on a tab.
-- **8px:** buttons, inputs, nav items and tooltips.
+- **8px:** buttons, inputs, nav items and tooltips, and the sample well in a service example.
+- **10px:** the segmented-tab tray.
 - **12px:** icon tiles, and the numbered tiles in prose lists.
 - **14px:** cards, dropdowns, benefit boxes and choice cards, the example status card, and the focus ring around a whole route column.
-- **20px:** photos in tab panels and asides, and images in prose.
+- **16px:** the 64px icon tile on the offer.
+- **20px:** photos in tab panels and asides, images in prose, and service examples.
 - **28px:** hero, about and service-summary photos, the CTA band, and featured-post and article-hero images.
 - **Full pill:** tags, chips, badges, switches and round icon buttons.
 
@@ -496,6 +558,7 @@ Components are engineered and plainly labelled. Every control looks built rather
 - **Outline:** transparent, with a 1.5px Deep Water border and label (Foam White on night-water), and a teal wash on hover. It's the partner to a primary button on light grounds, and on night-water in the closing invitation.
 - **Ghost:** transparent, with Deep Water text (Foam Aqua on night). It's the secondary action in night sections over a photograph, including the photo CTA band.
 - **Link:** a label with a 1.5px underline at 35% opacity that fills in on hover, plus a trailing arrow. It's used for "Learn more" on cards.
+  - Stretched over a route row or a card, it doesn't drop 1px when pressed. The drop is a transform, which would shrink the stretched target to the link itself in the middle of a click.
 - **Go link:** a text action for the home concept. A Manrope 700 label at 16px in the link colour, underlined by a 1.5px rule in its own colour, with an 18px trailing arrow 10px away.
   - It darkens on hover (Deep Water to Lake Navy, or Foam Aqua to Foam White on night-water) while the arrow moves 3px. Under reduced motion the arrow stays put.
   - Its focus ring takes 2px corners.
@@ -541,6 +604,8 @@ Components are engineered and plainly labelled. Every control looks built rather
   - An H4 title.
   - Text in Ink 500 at 16px.
   - Either a "Benefit" micro label above a Border Subtle rule, or a link-style "Learn more →".
+- **The whole card is the target:** a linked card is a container, not a link. Its link-style action stretches over the card, so a tap anywhere follows it while its accessible name stays the short destination ("Book a consultation"). A linked card without an action label links its title instead.
+  - On hover the card lifts as the Flat Until Touched Rule sets out, the action's underline fills in and its arrow slides 3px. Keyboard focus rings the whole card, once.
 - **On phones** (600px and below), the tile sits beside the title, in a 48px column with a 16px gap, and everything else runs full width below. A card with a badge keeps the stacked anatomy. "Learn more →" stays: on touch it's the only sign that the whole card is a link.
 
 ### Inputs / Fields
@@ -565,24 +630,26 @@ Components are engineered and plainly labelled. Every control looks built rather
 ### Navigation
 - **Header:**
   - A sticky 76px bar at 90% Foam White with a light blur, or solid Foam White where the browser can't blur. A Lake Mist hairline appears once the page scrolls.
-  - The order runs: the 40px horizontal logo, the links, then the coral header button.
+  - The order runs: the 40px horizontal logo, the links, the coral header button, then the assistant's button.
+  - The assistant's button ("Talk with Alex") is the coral button's outline partner: a small outline button with a 16px phone icon, 44px tall. It jumps to the assistant band above the footer and asks for the assistant to load (see Assistant Band).
   - There's no search button (owner's choice, 2026-11-05): Cmd/Ctrl+K opens search from anywhere, and the footer links to /search.
   - Signed-in editors also get an admin icon before the coral button.
   - The logo takes the bar's free space, so whatever follows it keeps to the right edge: the links and the button, the admin icon, or the menu button.
 - **Links:**
   - Manrope 600 at 15px, 40px tall, with 14px sides and 8px corners, and a teal wash on hover.
   - The current page shows Deep Water text over a 2px Current Teal bar, sitting 2px above the bottom and inset 14px.
-  - A link to part of a page (a URL with a #fragment, such as Growth → /services#seo or About → /#about) is never marked as the current page.
+  - A link to part of a page (a URL with a #fragment, such as Growth → /services#growth or About → /#about) is never marked as the current page.
 - **Groups:**
   - A button with a chevron that turns 180° when open.
   - The dropdown is a White panel at least 220px wide, with 14px corners, a Lake Mist border and the lg shadow. It rises 8px as it enters.
   - The current item takes a Teal 50 fill and Deep Water text.
 - **Mobile, at 1080px or whenever the menu would overflow:**
-  - The links collapse into an outline menu button that toggles between menu and close icons. The coral header action leaves the bar.
+  - The links collapse into an outline menu button that toggles between menu and close icons. The coral header action leaves the bar, and so does the assistant's button.
   - A panel of links in Manrope 700 at 18px, on a solid Foam White ground.
   - The current page is Deep Water, underlined by a 2px Current Teal line 6px below the text.
   - Child links indent 16px behind a 2px Lake Mist rule.
   - The consultation action is an ordinary text link. On its destination page it uses a fragment link, preserving query parameters and entered enquiry details.
+  - "Talk with Alex" follows it as the panel's last link. Without JavaScript the assistant can't run, so neither its button nor its link is shown.
   - The panel closes on Escape, on a tap or click outside it, when focus leaves the header, and when search opens over the page. The tap that closes it does nothing else: closing moves the page under the finger, so a tap let through could land on the wrong link.
   - Closing it while the header is pinned keeps the page where it was, and a menu taller than the screen scrolls inside its panel.
 - **Phones, at 600px and below:**
@@ -611,6 +678,26 @@ Components are engineered and plainly labelled. Every control looks built rather
   - **Touch:** on touch screens, and at 1080px and below, each footer link grows to a 44px target with its type unchanged. Wrapped rows then sit 44px apart.
   - **Forced colours:** links take the system link colour and show their underline. The dot takes the text colour.
   - **Content:** menus and Site Settings supply every link and line; "Back to top" is the only fixed label. Print hides the footer.
+
+### Assistant Band
+The band above the footer, on every page, where a visitor can talk with Alex, Lakefront's AI assistant (an ElevenLabs voice agent). The header's button and the menu's link lead to it. The owner set its place, label and loading on 2026-11-23.
+- **Band:** a full-width Teal 50 band between 1px Lake Mist rules, with 24px of padding above and below, inside the 1200px container. It sits outside the page's main content, before the footer.
+- **Copy:** an H4 title, "Talk with Alex", over one sentence in body ink that says Alex is an AI assistant and links to the contact form. The sentence is the disclosure: keep it wherever the band's wording changes.
+- **Slot:** 266 × 118px, the size of the vendor's compact widget, to the right of the copy. At 700px and below it sits under the copy, left-aligned. It holds an outline button with a phone icon, "Talk with Alex", centred in its height.
+- **Loading on request:** nothing loads from ElevenLabs until a visitor presses the band's button, the header's button or the menu's link. The widget then takes the button's place inside the slot, so neither the band nor the footer moves.
+- **States:**
+  - Loading: the button reads "Loading Alex…" at 72% opacity with a progress cursor, and screen readers hear the same.
+  - Ready: the widget replaces the button. A visitor who asked from the keyboard lands on the widget's own start button.
+  - Slow: after ten seconds, "Alex is taking longer than usual to load." appears under the sentence.
+  - Failed: "Alex is temporarily unavailable." appears under the sentence and the button returns, so the visitor can try again or use the contact form.
+- **The vendor's widget:** its palette is set in ElevenLabs by `scripts/elevenlabs-widget.mjs`: a Foam White box with a Lake Mist border, a coral start button with a Lake Navy label and 8px corners, and a Deep Water focus ring. Inside it the site also:
+  - sets buttons in Manrope 700 and other text in Source Sans 3, following the Two Voices Rule;
+  - removes the vendor's floating shadow, following the Flat Until Touched Rule;
+  - shows the attribution, and any feedback prompt, at full strength rather than the vendor's 50%;
+  - makes anything the vendor has only faded out inert, so hidden controls leave the tab order and the accessibility tree;
+  - stills the avatar's pulse under reduced motion.
+- **Rank:** the assistant is a third way to get in touch, after the two forms. Its entry points are outline buttons and plain links, never coral; coral appears only on the vendor's start button, once a visitor has asked for the assistant.
+- **Without JavaScript** the band isn't shown, and print hides it.
 
 ### Search
 Cmd/Ctrl+K opens search in a modal over the page. When it closes, focus returns to whatever had it. If nothing did, or that control is now hidden, focus goes to a visible header control: the menu button while the menu is collapsed, otherwise the logo's home link. It's Cloudflare's search component, restyled from inside (see `docs/plugin-ai-search.md`). Without JavaScript, the footer's Search link leads to /search.
@@ -730,6 +817,18 @@ The CTA band without its photo ("Leave out the photo"): a full-width navy band t
 - **600px:** the paragraph drops to 18px.
 - **480px:** the pair stacks full width.
 - Use it as a page's last section, before the footer, where the page ends on a decision. The photo band remains for pages that want a photograph, such as the blog.
+
+### Service Examples
+A worked example that stands where a service tab's photo would, for the five bundled services (performance, social media, analytics, SEO and content). It shows the kind of thing the service produces, and it always says it's an example.
+- **Frame:** a figure on Foam White with a 1px Lake Mist border and 20px corners, like the photo it replaces. It has no shadow. An editor's own image or a different bundled photo replaces it.
+- **Caption:** a Lake Navy band across the top. A 40px tile (Navy 800, 8px corners, a translucent border and a 22px Foam Aqua glyph) sits beside the label "Illustrative example" in the eyebrow type, Foam Aqua, over an H5 title in Foam White.
+- **Body:** body small (15px) in Lake Navy, with supporting lines in Ink 600. Rows are split by 1px Lake Mist rules, without boxes.
+  - A checklist (performance): a 14px Teal 50 box with a Deep Water border and 4px corners beside each check and its sentence. The boxes are drawn empty: it's a list of what gets checked, not a result.
+  - Label-and-detail rows (social media).
+  - A table (analytics) captioned "Sample data": a source column, then an 8px Deep Water bar on a Lake Mist track beside its share in tabular figures. The bar is drawn with a border, so it survives forced colours.
+  - A sample well (SEO and content): a Teal 50 box with 8px corners holding a small Deep Water label and the sample in H5. It has no side stripe; the tint sets it apart. Notes or a numbered outline follow, with Deep Water markers.
+- **Honesty:** every example is labelled as one, and its data is invented and plainly so ("Example Cycle Shop"). Never show a figure that could read as a client's result or a measured number.
+- **Small screens:** the padding scales with the figure's width (16px to 24px), and long words wrap inside it.
 
 ### Numbered Steps
 - Steps are numbered 01 to 05 in Manrope 800 at 13px, spaced 0.16em, in the eyebrow colour: Deep Water, or Foam Aqua on night-water.
