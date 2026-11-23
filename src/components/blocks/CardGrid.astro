@@ -19,6 +19,8 @@ const rows = value.layout === "rows";
 // stop short of every crossing. Each route's padding and rules follow its place in the grid (site.css), so any number
 // of cards works, and an odd last card sits alone in the left column. Badges and benefits aren't shown here.
 const columns = value.layout === "columns";
+// Cards follow the same rule as rows and columns: a linked card's link names only its destination (its label, or the
+// card's title when it has none) and stretches over the card, so the whole card is the target.
 const roomy = cards.length <= 2;
 const grid = cards.length === 2 || cards.length === 4 ? "lfw-grid2" : "lfw-grid3";
 ---
@@ -96,9 +98,8 @@ const grid = cards.length === 2 || cards.length === 4 ? "lfw-grid2" : "lfw-grid3
 							{
 								cards.map((card) => {
 									const url = href(card.link_url);
-									const Card = url ? "a" : "div";
 									return (
-										<Card href={url} class:list={["lf-card", roomy && "lf-card--pad-lg", url && "lf-card--interactive"]}>
+										<div class:list={["lf-card", roomy && "lf-card--pad-lg", url && "lf-card--interactive"]}>
 											<div class:list={["lf-card__body", !card.badge && "lfw-iconcard"]}>
 												<div class="lfw-spechead">
 													<span class="lfw-tile">
@@ -106,7 +107,7 @@ const grid = cards.length === 2 || cards.length === 4 ? "lfw-grid2" : "lfw-grid3
 													</span>
 													{card.badge && <Badge>{card.badge}</Badge>}
 												</div>
-												<h3 class="lfw-card-title">{card.title}</h3>
+												<h3 class="lfw-card-title">{url && !card.link_label ? <a class="lfw-card-go" href={url}>{card.title}</a> : card.title}</h3>
 												{card.text && <p class="lfw-card-text">{card.text}</p>}
 												{card.benefit && (
 													<p class="lfw-card-benefit">
@@ -115,13 +116,13 @@ const grid = cards.length === 2 || cards.length === 4 ? "lfw-grid2" : "lfw-grid3
 													</p>
 												)}
 												{url && card.link_label && (
-													<span class="lf-btn lf-btn--link lf-btn--sm">
+													<a class="lf-btn lf-btn--link lf-btn--sm lfw-card-go" href={url}>
 														<span class="lf-btn__label">{card.link_label}</span>
 														<Icon name="arrow-right" size={16} class="lf-btn__icon-r" />
-													</span>
+													</a>
 												)}
 											</div>
-										</Card>
+										</div>
 									);
 								})
 							}

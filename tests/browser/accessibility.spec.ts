@@ -347,6 +347,55 @@ test("search failures say what happened and offer a way on", async ({ page, cont
 	await expect(dialog.getByRole("grid").getByRole("row")).toHaveCount(2);
 });
 
+// Route rows stretch their link over the whole row. Pressing a button-style link drops it 1px with a transform, which
+// would shrink that stretched target to the link itself mid-click, so a row must answer a click on its title or text.
+test("a route row follows its link from anywhere on the row", async ({ page }) => {
+	await page.setViewportSize({ width: 1440, height: 900 });
+	await page.emulateMedia({ reducedMotion: "reduce" });
+	for (const part of [".lfw-route__title", ".lfw-route__text"]) {
+		await page.goto("/services");
+		const row = page.locator(".lfw-route").filter({ has: page.locator(".lfw-route__go") }).first();
+		const destination = new URL((await row.locator(".lfw-route__go").getAttribute("href"))!, page.url());
+		await row.scrollIntoViewIfNeeded();
+		const box = (await row.locator(part).boundingBox())!;
+		await page.mouse.click(box.x + 6, box.y + box.height / 2);
+		await expect(page, `a click on the row's ${part}`).toHaveURL(destination.href);
+	}
+});
+
+// A linked card's link names where it goes; the card around it is only the bigger target. A screen reader then hears
+// "Book a consultation", not the whole card read out as one link.
+test("linked cards keep a short link name and the whole card as the target", async ({ page }) => {
+	await page.setViewportSize({ width: 1440, height: 900 });
+	await page.emulateMedia({ reducedMotion: "reduce" });
+	await page.goto("/services");
+	const cards = page.locator("main .lf-card--interactive").filter({ has: page.locator(".lfw-card-title") });
+	const count = await cards.count();
+	expect(count).toBeGreaterThan(0);
+	for (let index = 0; index < count; index++) {
+		const card = cards.nth(index);
+		const link = card.getByRole("link");
+		await expect(link).toHaveCount(1);
+		const label = card.locator(".lf-btn__label");
+		const name = ((await label.count()) ? await label.innerText() : await card.locator(".lfw-card-title").innerText()).trim();
+		await expect(link).toHaveAccessibleName(name);
+	}
+
+	// From the keyboard the ring goes around the whole card, drawn once.
+	const card = cards.first();
+	const link = card.getByRole("link");
+	await link.focus();
+	await expect(link).toBeFocused();
+	await expect(card).not.toHaveCSS("box-shadow", "none");
+	await expect(link).toHaveCSS("box-shadow", "none");
+
+	// A click on the card's text, away from the link's own label, follows the link.
+	const destination = new URL((await link.getAttribute("href"))!, page.url());
+	const text = (await card.locator(".lfw-card-text").boundingBox())!;
+	await page.mouse.click(text.x + 6, text.y + 6);
+	await expect(page).toHaveURL(destination.href);
+});
+
 for (const width of [390, 1440]) {
 	test(`legal section jumps move keyboard focus at ${width}px`, async ({ page }) => {
 		await page.setViewportSize({ width, height: 900 });

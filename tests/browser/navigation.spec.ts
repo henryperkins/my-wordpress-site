@@ -31,6 +31,40 @@ test("menu links to part of a page are never marked as the current page", async 
 	}
 });
 
+// Editors can give any block an anchor, and menus and buttons link to it (Growth goes to /services#growth). However the
+// link is followed, the section's eyebrow and heading must stop below the pinned header, not under it.
+for (const width of [390, 1440]) {
+	test(`anchored sections stop clear of the pinned header at ${width}px`, async ({ page }) => {
+		await page.setViewportSize({ width, height: 844 });
+		await page.emulateMedia({ reducedMotion: "reduce" });
+		const landing = (id: string) => page.evaluate((target) => {
+			const header = document.querySelector<HTMLElement>("[data-header]")!;
+			const covered = getComputedStyle(header).position === "sticky" ? header.getBoundingClientRect().bottom : 0;
+			const section = document.getElementById(target)!;
+			const lead = section.querySelector<HTMLElement>(".lf-eyebrow, h1, h2, h3") ?? section;
+			const top = lead.getBoundingClientRect().top;
+			return { clear: top >= covered, inView: top < innerHeight };
+		}, id);
+		let anchors = 0;
+		for (const path of ["/", "/services", "/hosting"]) {
+			await page.goto(path);
+			const ids = await page.locator("main section[id]").evaluateAll((sections) => sections.map((section) => section.id));
+			for (const id of ids) {
+				anchors++;
+				// Following a link on the page itself.
+				await page.goto(path);
+				await page.evaluate((target) => { location.hash = target; }, id);
+				await expect.poll(() => landing(id), { message: `${path}#${id} followed on the page` }).toEqual({ clear: true, inView: true });
+				// Arriving from another page, as from the header menu.
+				await page.goto("about:blank");
+				await page.goto(`${path}#${id}`);
+				await expect.poll(() => landing(id), { message: `${path}#${id} opened from another page` }).toEqual({ clear: true, inView: true });
+			}
+		}
+		expect(anchors).toBeGreaterThan(0);
+	});
+}
+
 test("pages without their own image share the built-in card", async ({ page, request }) => {
 	for (const path of ["/", "/contact", "/search"]) {
 		await page.goto(path);

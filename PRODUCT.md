@@ -48,13 +48,20 @@ lakefrontdigital.io is the marketing site for Lakefront Digital (Lakefront Digit
 
 ## Operating Context
 
-- **Two ways to get in touch:**
+- **Three ways to get in touch: two forms and an assistant.**
   - "Book a consultation" goes to `/consultation#enquiry`. It is a desktop header button and an ordinary mobile menu link; the page owns the primary mobile action.
   - "Start a project" goes to `/contact#enquiry`. The home hero and closing band pair it with "Book a consultation"; those buttons go straight to each form's `#enquiry`. Each form carries its own heading, so the jump lands on it; /contact has no separate intro. Since the November 2026 home concept it's no longer in the main menu.
   - Service pages link to `/contact?service=<slug>#enquiry`, which pre-ticks that need. On the home page, "Move your site to us" and the app route's "Talk about your app" use `?service=hosting`.
   - Under the home hero's buttons, a note says the first consultation is free, sends visitors with a clear brief to "Start a project", and says we reply by email.
   - The footer also lists the email address and phone number.
-- **Main menu:** Services · Hosting · Growth · About (owner-approved 2026-11-05, from the home concept). Growth goes to `/services#seo`. About goes to the home page's accountability section (`/#about`) until an /about page exists.
+  - "Talk with Alex" opens an AI voice assistant, an ElevenLabs agent. The owner set its place, label and loading on 2026-11-23.
+    - It is an outline button beside the coral button in the header on wide screens, an ordinary menu link at 1080px and below, and a band above the footer on every page.
+    - Nothing loads from ElevenLabs until a visitor presses "Talk with Alex". The assistant needs JavaScript; without it, it isn't offered and the two forms remain.
+    - The band's sentence says Alex is Lakefront Digital's AI assistant. Keep that disclosure wherever the wording changes.
+    - The agent asks about the project and, when a visitor gives them, notes a name, business email, phone number, company, project type and budget range (its configuration on 2026-11-23).
+    - **Open:** the agent's spoken greeting calls Alex "your consultation assistant" and its prompt calls Lakefront "a web design studio". Neither says it's an AI, and neither is edited in this repo.
+    - **Open:** how a conversation reaches the founder isn't written down.
+- **Main menu:** Services · Hosting · Growth · About (owner-approved 2026-11-05, from the home concept). Growth goes to `/services#growth`, the growth services section of /services (the live menu on 2026-11-23; it went to `/services#seo` when the menu was approved). About goes to the home page's accountability section (`/#about`) until an /about page exists.
 - **The consultation form** asks for name, work email, an optional phone number and notes.
 - **The project form** asks for:
   - current website
@@ -108,7 +115,11 @@ lakefrontdigital.io is the marketing site for Lakefront Digital (Lakefront Digit
 - **Server-rendered** with Astro and EmDash on Cloudflare Workers. The site itself isn't WordPress.
 - **Privacy:**
   - The site runs Cloudflare Web Analytics, which is cookieless and injected by Cloudflare.
-  - It uses no advertising cookies.
+  - It sets no advertising cookies.
+  - The live pages also load a Google Tag Manager container (GTM-W43HM55V). It isn't in this repo: it's added at Cloudflare's edge and served from the site's own domain under `/ex7s/`. On 2026-11-23 it defined no tags, set no cookies, wrote a `_gcl_ls` entry to the browser's local storage and contacted www.googletagmanager.com.
+    - **Open:** whether it stays. It was left alone in the 2026-11-23 audit fixes, at the owner's direction.
+  - The Alex assistant is run by ElevenLabs. A call's audio is recorded, recordings and transcripts have no expiry date, and no notice or consent step comes before a call (the agent's settings on 2026-11-23).
+  - **Open:** the Privacy Policy (effective September 29, 2026) names neither Google Tag Manager nor the assistant, and says the site's analytics uses no local storage. A draft that adds the assistant (what a conversation collects, and ElevenLabs as its provider) was staged in the CMS on 2026-11-23 and is unpublished.
   - Check what the site actually runs before writing any privacy or cookie claim.
 - **Terminology:**
   - "Website Consultation" is the named offer, in title case.
@@ -178,6 +189,7 @@ lakefrontdigital.io is the marketing site for Lakefront Digital (Lakefront Digit
   - Tabs stack.
   - The enquiry forms post normally.
   - The legal table-of-contents links work.
+  - The assistant is the exception: it needs JavaScript, so without it the assistant isn't offered at all.
 - **Keep what's already in place:**
   - a skip link
   - visible keyboard focus, never hidden under the pinned header

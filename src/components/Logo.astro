@@ -32,7 +32,7 @@ const forced =
 			<picture>
 				<source media={forced.media} srcset={`/brand/lakefront-crest${forced.suffix}.svg`} />
 				{useCrestWebp && (
-					<source type="image/webp" media="not all and (forced-colors: active)" srcset={`${crest}-${height}.webp 1x, ${crest}-${height}@2x.webp 2x`} />
+					<source type="image/webp" media="not all and (forced-colors: active)" srcset={`${crest}-${height}.webp 1x, ${crest}-${height}-2x.webp 2x`} />
 				)}
 				<img src={`${crest}.svg`} alt="" width={Math.round((805 / 797) * height)} height={height} style={`height:${height}px;aspect-ratio:805/797`} loading={loading} />
 			</picture>

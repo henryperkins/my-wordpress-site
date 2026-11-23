@@ -73,7 +73,7 @@ for (const javaScriptEnabled of [true, false]) {
 				await expect(image).toHaveAttribute("src", /^\/brand\/lakefront-(crest|wordmark)\.svg$/);
 				await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true);
 			}
-			await expect.poll(() => images[0].evaluate((image: HTMLImageElement) => image.currentSrc)).toMatch(/\/brand\/lakefront-crest-44(?:@2x)?\.webp$/);
+			await expect.poll(() => images[0].evaluate((image: HTMLImageElement) => image.currentSrc)).toMatch(/\/brand\/lakefront-crest-44(?:-2x)?\.webp$/);
 			await expect(footer.getByRole("link", { name: /home/ })).toBeVisible();
 		} finally {
 			await context.close();

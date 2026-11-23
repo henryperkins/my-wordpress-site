@@ -14,6 +14,8 @@ import type { MenuItem, SiteLogo } from "../lib/types";
 // The modal's close button, icons and popular searches (the search_popular menu) wait in #lfw-ai-search-parts until
 // scripts/ai-search-compat.ts copies them into the modal's shadow root.
 // On phones the page owns the primary action; the header keeps ordinary navigation links.
+// The assistant's launcher ("Talk with Alex") follows the coral button's rule: an outline button beside it while the links
+// fit, an ordinary menu link once they collapse. Both jump to the band in AlexWidget.astro, which loads the assistant.
 // Menu links that point at part of a page (/#about, /services#seo) are never marked as the current page.
 // The modal sits after <header>: the header's backdrop-filter would confine its fixed overlay to the bar.
 interface Props {
@@ -93,7 +95,7 @@ if (cta && ctaAttrs && isCurrent(cta.url, Astro.url)) {
 				</Button>
 			)
 		}
-		<Button href="#talk-with-alex" variant="outline" size="sm" iconLeft="phone" class="lfw-alex-trigger" aria-label="Talk with Alex" title="Talk with Alex" data-alex-trigger>
+		<Button href="#talk-with-alex" variant="outline" size="sm" iconLeft="phone" class="lfw-alex-trigger" data-alex-trigger>
 			Talk with Alex
 		</Button>
 		<button type="button" class="lf-iconbtn lf-iconbtn--outline lfw-menu" aria-expanded="false" aria-controls="lfw-mobile-nav" aria-label="Open menu" data-menu-toggle>
@@ -127,6 +129,7 @@ if (cta && ctaAttrs && isCurrent(cta.url, Astro.url)) {
 				</a>
 			)
 		}
+		<a href="#talk-with-alex" data-alex-trigger>Talk with Alex</a>
 	</nav>
 </header>
 
@@ -173,13 +176,17 @@ if (cta && ctaAttrs && isCurrent(cta.url, Astro.url)) {
 		flex: none;
 		min-height: 44px;
 	}
-	@media (max-width: 600px) {
-		:global(.lfw-alex-trigger) {
-			width: 44px;
-			padding-inline: 0;
-		}
-		:global(.lfw-alex-trigger .lf-btn__label) {
+	/* Like the coral button, the launcher leaves the bar when the links collapse into the menu, which carries its link. */
+	:global(.lfw-header[data-collapsed] .lfw-alex-trigger) {
+		display: none;
+	}
+	@media (max-width: 1080px) {
+		:global(.lfw-header .lfw-alex-trigger) {
 			display: none;
 		}
+	}
+	/* The assistant needs JavaScript, so without it neither the launcher nor the menu link is offered. */
+	:global(html:not(.js) [data-alex-trigger]) {
+		display: none;
 	}
 </style>

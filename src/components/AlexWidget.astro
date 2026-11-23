@@ -1,5 +1,11 @@
 ---
+import Button from "./Button.astro";
 import { alexAgentId } from "../lib/elevenlabs";
+
+// The band every page ends on: the assistant's start button, and the vendor's widget once a visitor asks for it.
+// Nothing loads from ElevenLabs before then. The header's launcher and the menu's link (Header.astro) jump here and
+// ask too. The slot is the size of the vendor's compact widget from the start, so neither the band nor the footer
+// moves when the widget takes the button's place. The assistant needs JavaScript; without it the band is not shown.
 ---
 
 <section id="talk-with-alex" class="lfw-alex" aria-labelledby="lfw-alex-title" tabindex="-1">
@@ -7,52 +13,126 @@ import { alexAgentId } from "../lib/elevenlabs";
 		<div>
 			<h2 id="lfw-alex-title" class="lfw-card-title">Talk with Alex</h2>
 			<p class="lfw-p">Alex is Lakefront Digital’s AI assistant. You can also <a href="/contact#enquiry">use the contact form</a>.</p>
-			<p role="status" class="lfw-alex-status" data-alex-status></p>
+			<p role="status" class="lfw-alex-status lfw-vh" data-alex-status></p>
 		</div>
-		<elevenlabs-convai agent-id={alexAgentId} avatar-image-url="/favicon.png" variant="compact"></elevenlabs-convai>
+		<div class="lfw-alex__slot">
+			<Button variant="outline" iconLeft="phone" class="lfw-alex__start" data-alex-start>Talk with Alex</Button>
+			<elevenlabs-convai agent-id={alexAgentId} avatar-image-url="/favicon.png" variant="compact"></elevenlabs-convai>
+		</div>
 	</div>
 </section>
 
 <script>
-	const section = document.querySelector("#talk-with-alex");
-	const widget = section?.querySelector("elevenlabs-convai");
-	const status = section?.querySelector("[data-alex-status]");
-	let loader: HTMLScriptElement | undefined;
+	const section = document.querySelector<HTMLElement>("#talk-with-alex");
+	const widget = section?.querySelector<HTMLElement>("elevenlabs-convai");
+	const status = section?.querySelector<HTMLElement>("[data-alex-status]");
+	const start = section?.querySelector<HTMLButtonElement>("[data-alex-start]");
 
-	if (section && widget && status) {
+	if (section && widget && status && start) {
+		const label = start.querySelector<HTMLElement>(".lf-btn__label");
+		const idleLabel = label?.textContent ?? "";
+		let state: "idle" | "loading" | "ready" = "idle";
+		let slow = 0;
+
+		// Progress is for screen readers, which can't see the button change; a failure is for everyone.
+		const say = (message: string, visible = false) => {
+			status.textContent = message;
+			status.classList.toggle("lfw-vh", !visible);
+		};
+		const busy = (on: boolean) => {
+			if (on) start.setAttribute("aria-busy", "true");
+			else start.removeAttribute("aria-busy");
+			if (label) label.textContent = on ? "Loading Alex…" : idleLabel;
+		};
+
 		const load = () => {
-			if (loader) return;
-			status.textContent = "";
+			if (state !== "idle") return;
+			state = "loading";
+			busy(true);
+			say("Loading Alex…");
 			const script = document.createElement("script");
 			script.src = "https://elevenlabs.io/convai-widget/index.js";
 			script.addEventListener("error", () => {
-				status.textContent = "Alex is temporarily unavailable.";
+				window.clearTimeout(slow);
 				script.remove();
-				loader = undefined;
+				state = "idle";
+				busy(false);
+				say("Alex is temporarily unavailable.", true);
 			}, { once: true });
-			loader = script;
 			document.head.appendChild(script);
+			slow = window.setTimeout(() => say("Alex is taking longer than usual to load.", true), 10000);
 		};
 
-		// The vendor applies a floating shadow and pulses the image in response to audio.
+		const ready = (root: ShadowRoot) => {
+			state = "ready";
+			window.clearTimeout(slow);
+			const hadFocus = document.activeElement === start;
+			section.dataset.alexReady = "";
+			start.hidden = true;
+			busy(false);
+			say("Alex is ready. Press Talk with Alex to start.");
+			// A visitor who asked from the keyboard carries on at the widget's own start button.
+			if (!hadFocus) return;
+			const first = [...root.querySelectorAll<HTMLElement>("button")].find((button) => button.getClientRects().length > 0 && !button.closest("[inert]"));
+			first?.focus();
+		};
+
 		void customElements.whenDefined("elevenlabs-convai").then(() => {
+			const root = widget.shadowRoot;
+			if (!root) return;
+
+			// The vendor applies a floating shadow, sets its text in system fonts, prints its attribution and its
+			// feedback row at half strength, and pulses the image in response to audio.
 			const style = document.createElement("style");
 			style.textContent = `
 				[class^="_box_"] { box-shadow: none !important; }
+				[class^="_wrapper_"] { font-family: var(--font-body) !important; }
+				[class^="_btn_"] { font-family: var(--font-display) !important; font-weight: 700 !important; letter-spacing: .005em !important; }
+				[class^="_poweredBy_"] :is(a, span), [class^="_feedback_"][class*="_show_"] { opacity: 1 !important; }
 				@media (prefers-reduced-motion: reduce) {
 					[class^="_avatarImage_"] { transform: none !important; opacity: 1 !important; transition: none !important; }
 				}
 			`;
-			widget.shadowRoot?.appendChild(style);
+			root.appendChild(style);
+
+			// The vendor hides parts of the widget, such as its feedback buttons, by fading them out. That leaves them in
+			// the tab order and the accessibility tree, so whatever is fully transparent is made inert until it shows.
+			// Opacity is read rather than the vendor's class names, which change with its builds.
+			const controls = "a[href], button, input, select, textarea, [tabindex]";
+			let queued = false;
+			const sync = () => {
+				queued = false;
+				const faded = new Set<Element>();
+				for (const control of root.querySelectorAll(controls)) {
+					for (let element: Element | null = control; element; element = element.parentElement) {
+						if (getComputedStyle(element).opacity === "0") faded.add(element);
+					}
+				}
+				for (const element of root.querySelectorAll("[data-lfw-faded]")) {
+					if (faded.has(element)) continue;
+					element.removeAttribute("data-lfw-faded");
+					element.removeAttribute("inert");
+				}
+				for (const element of faded) {
+					element.setAttribute("data-lfw-faded", "");
+					element.setAttribute("inert", "");
+				}
+				// The widget draws itself a moment after its script runs; it takes the start button's place once it has.
+				if (state !== "ready" && root.querySelector("button")) ready(root);
+			};
+			const queue = () => {
+				if (queued) return;
+				queued = true;
+				requestAnimationFrame(sync);
+			};
+			// State changes arrive as class changes and re-renders; a fade reaches or leaves zero on its own schedule.
+			new MutationObserver(queue).observe(root, { subtree: true, childList: true, attributes: true, attributeFilter: ["class", "hidden"] });
+			for (const type of ["transitionrun", "transitionstart", "transitionend", "transitioncancel"]) root.addEventListener(type, queue);
+			queue();
 		});
 
-		document.querySelector("[data-alex-trigger]")?.addEventListener("click", load);
-		const observer = new IntersectionObserver(([entry]) => {
-			if (!entry?.isIntersecting) return;
-			observer.disconnect();
-			load();
-		});
-		observer.observe(section);
+		start.addEventListener("click", load);
+		for (const trigger of document.querySelectorAll("[data-alex-trigger]")) trigger.addEventListener("click", load);
 	}
 </script>
 
@@ -72,22 +152,45 @@ import { alexAgentId } from "../lib/elevenlabs";
 	.lfw-alex__in .lfw-p {
 		margin-top: 6px;
 	}
-	.lfw-alex__in :global(elevenlabs-convai:defined) {
-		display: block;
+	/* The vendor's compact widget is 266 by 118px (256px wide on a 320px screen), with room above its box for a
+	   feedback row it shows after a call. The slot keeps that size from the start. */
+	.lfw-alex__slot {
+		display: grid;
+		align-content: center;
+		justify-items: end;
+		inline-size: 266px;
+		max-inline-size: 100%;
+		min-block-size: 118px;
+	}
+	.lfw-alex__slot :global(elevenlabs-convai) {
+		display: none;
 		position: static;
 	}
-	.lfw-alex__in :global(elevenlabs-convai:not(:defined)) {
+	.lfw-alex[data-alex-ready] .lfw-alex__slot :global(elevenlabs-convai) {
+		display: block;
+	}
+	/* The button class sets its own display, which outranks the hidden attribute. */
+	.lfw-alex[data-alex-ready] :global(.lfw-alex__start) {
 		display: none;
 	}
-	.lfw-alex-status {
-		margin: 0;
+	.lfw-alex__slot :global([aria-busy="true"]) {
+		opacity: 0.72;
+		cursor: progress;
+	}
+	.lfw-alex-status:not(.lfw-vh) {
+		margin: 6px 0 0;
+	}
+	:global(html:not(.js)) .lfw-alex {
+		display: none;
 	}
 	@media (max-width: 700px) {
+		/* Stacked, the slot's own spare room separates the text from the button. */
 		.lfw-alex__in {
 			grid-template-columns: minmax(0, 1fr);
+			row-gap: 0;
 		}
-		.lfw-alex__in :global(elevenlabs-convai:defined) {
-			justify-self: start;
+		.lfw-alex__slot {
+			justify-items: start;
 		}
 	}
 	@media print {
