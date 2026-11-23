@@ -27,7 +27,6 @@ const [recent, ctaResult, settings] = await Promise.all([
 	getSiteSettings(),
 ]);
 if (Astro.cache?.enabled) {
-	Astro.cache.set(cacheHint);
 	Astro.cache.set(recent.cacheHint);
 	Astro.cache.set(ctaResult.cacheHint);
 }

@@ -350,28 +350,33 @@ The target package adds these core migrations:
 
 Do not apply migrations until the application changes compile and the target build has generated `.emdash/migrations.json`. Before starting or deploying the upgraded build, follow [Backups and recovery](https://docs.emdashcms.com/guides/backups/) to create a restorable database backup, back up media storage separately, and retain the `EMDASH_ENCRYPTION_KEY` rotation list. A JSON backup is not a recovery point. Apply migrations from the same build artifact that will be deployed.
 
-Build the upgraded project and inspect the exact database target:
+Build the upgraded project and inspect the exact database target. This site's D1 database is `my-dash-site` (binding `DB` in `wrangler.jsonc`); EmDash 1.6 does not read a Wrangler config in the project root unless it is named, so every `migrate` command below passes `--wrangler-config wrangler.jsonc`:
 
 ```sh
 pnpm build
-pnpm exec emdash migrate --status
+pnpm exec emdash migrate --status --wrangler-config wrangler.jsonc
 ```
 
-After a human has reviewed the target and backup, apply pending migrations:
+Deploy sequence — do not deploy the 1.6.0 Worker before applying `098_user_last_login`: `astro.config.mjs` sets `migrations: { runtime: "check" }`, so the upgraded Worker fails its migration check against an unmigrated database. Apply in this order:
 
-```sh
-pnpm exec emdash migrate
-```
+1. Create and verify a restorable D1 backup of `my-dash-site`, back up R2 media separately, and retain the `EMDASH_ENCRYPTION_KEY` rotation list (see above).
+2. `pnpm build` (regenerates `.emdash/migrations.json`, ending at `098_user_last_login`).
+3. `pnpm exec emdash migrate --status --wrangler-config wrangler.jsonc` — review the target fingerprint and confirm it names `my-dash-site` with only `098_user_last_login` pending.
+4. Apply pending migrations (after a human has reviewed the target and backup):
 
-The command shows the target and asks for confirmation. In a non-interactive shell, add `--expected-target-fingerprint` with the target fingerprint that the status command printed for the reviewed database.
+   ```sh
+   pnpm exec emdash migrate --wrangler-config wrangler.jsonc
+   ```
 
-Deploy the same build artifact with the project's deployment workflow, without rebuilding it. On Cloudflare Workers, run `wrangler deploy`.
+   The command shows the target and asks for confirmation. In a non-interactive shell, add `--expected-target-fingerprint` with the target fingerprint that the status command printed for the reviewed database.
+5. Deploy the same build artifact with the project's deployment workflow, without rebuilding it. On Cloudflare Workers, run `wrangler deploy`.
+6. Verify the deployed database against that artifact:
 
-Verify the deployed database against that artifact:
+   ```sh
+   pnpm exec emdash migrate --check --wrangler-config wrangler.jsonc
+   ```
 
-```sh
-pnpm exec emdash migrate --check
-```
+7. Run the Change 3 post-upgrade repair against the upgraded instance, or **Used in** stays wrong for files linked by their `/_emdash/api/media/file/` URL: `npx emdash media repair-usage --all` (use `--url` to select the site).
 
 Do not run migration `down()` functions or delete migration records to roll back. Restore the matching pre-migration database, media, keys, and application artifact together if recovery is required.
 
@@ -380,4 +385,6 @@ Do not run migration `down()` functions or delete migration records to roll back
 1. Assess every release entry above and make the project changes it requires.
 2. Run the project's format, tests, typecheck, and build commands.
 3. Inspect the migration target and pending names before applying them.
-4. Verify the public site, admin sign-in, content editing, media reads, and encrypted plugin settings after deployment.
+4. Follow the deploy sequence above (backup → build → `migrate --status` → apply → deploy the same artifact → `migrate --check`), then run `npx emdash media repair-usage --all` against the upgraded instance (Change 3).
+5. Verify the cache-purge fix (Changes 10/29) on a populated instance: request a missing post, page, and category (each returns 404), publish or create each, then re-request and confirm 200 without waiting out the 60 s miss lifetime.
+6. Verify the public site, admin sign-in, content editing, media reads, and encrypted plugin settings after deployment.
